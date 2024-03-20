@@ -1,0 +1,25 @@
+server:
+  port: 8080
+spring:
+  # eureka 서버에 아래 name으로 서비스 명을 등록.
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: login-service
+          predicates:
+            - Path=/login-service/**
+          filters:
+            - StripPrefix=1
+          uri: lb://login-service
+eureka:
+  client:
+    servieUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    hostname: localhost
+jwt:
+  expiration: 30 # 30?
+  secretKey: mysecret # ??? ?
