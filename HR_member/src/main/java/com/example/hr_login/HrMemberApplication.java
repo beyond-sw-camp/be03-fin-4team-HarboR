@@ -1,13 +1,13 @@
-package com.teat6.harbor;
+package com.example.hr_login;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class HarboRApplication {
+public class HrMemberApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(HarboRApplication.class, args);
+        SpringApplication.run(HrMemberApplication.class, args);
     }
 
 }
