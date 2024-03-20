@@ -51,3 +51,7 @@
 ## aws 아키텍처
 <img width="727" alt="스크린샷 2024-03-18 오후 4 08 06" src="https://github.com/beyond-sw-camp/be03-fin-HarboR/assets/90543205/5b77d6bf-d5d2-40ab-aad6-509583b58068">
 
+## WBS
+<a href= "https://docs.google.com/spreadsheets/d/1VWcKfrer7uPG9SLIzj5LipWOVl53_diq0vEJ3clBmNU/edit#gid=176614884">WBS 바로가기</a>
+
+
