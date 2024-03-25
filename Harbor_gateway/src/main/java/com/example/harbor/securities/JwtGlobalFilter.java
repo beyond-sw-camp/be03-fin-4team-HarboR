@@ -1,4 +1,4 @@
-package com.example.ordering.securities;
+package com.example.harbor.securities;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
