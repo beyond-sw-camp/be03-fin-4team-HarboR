@@ -12,6 +12,6 @@ public class testController {
     @GetMapping("/test")
     public String test() {
         System.out.println("여기까지 들어옴");
-        return "ok";
+        return "ok1";
     }
 }
