@@ -1,11 +1,13 @@
 package com.example.harbor_salary.entity;
 
+import com.example.harbor_salary.domain.SalaryTable;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-
-public class Salary{
+@Entity
+@Table(name = "HR_salary")
+public class salary{
     //PK
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
