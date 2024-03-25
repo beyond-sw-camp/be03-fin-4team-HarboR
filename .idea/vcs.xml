@@ -2,6 +2,9 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/HR_member" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Harbor_Login" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Harbor_employee" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Harbor_salary" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Harbor_total" vcs="Git" />
   </component>
 </project>

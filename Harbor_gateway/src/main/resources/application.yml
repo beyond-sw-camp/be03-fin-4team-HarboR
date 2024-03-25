@@ -1,25 +1,38 @@
 server:
-  port: 8080
-spring:
-  # eureka 서버에 아래 name으로 서비스 명을 등록.
-  application:
-    name: api-gateway
-  cloud:
-    gateway:
-      routes:
-        - id: login-service
-          predicates:
-            - Path=/login-service/**
-          filters:
-            - StripPrefix=1
-          uri: lb://login-service
+  port: 8000
+  error:
+    include-binding-errors: always
+    include-message: always
+
 eureka:
   client:
-    servieUrl:
-      defaultZone: http://localhost:8761/eureka/
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka # 다른걸로 ??
+    enabled: true
   instance:
-    prefer-ip-address: true
-    hostname: localhost
-jwt:
-  expiration: 30 # 30?
-  secretKey: mysecret # ??? ?
+    instance-id: ${spring.application.name}:${random.value}
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      default-filters:
+        - name: GlobalFilter
+          args:
+            baseMessage: gateway filter
+            preLogger: true
+            postLogger: true
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:3000"
+              - "http://localhost:3100"
+            allowedHeaders: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+
