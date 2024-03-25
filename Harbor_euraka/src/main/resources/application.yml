@@ -1,0 +1,19 @@
+server:
+  port: 8761
+  error:
+    include-binding-errors: always
+    include-message: always
+
+eureka:
+  client:
+    register-with-eureka: false #eureka server를 registry에 등록할지 여부
+    fetch-registry: false       #registry에 있는 정보들을 가져올지 여부
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
+
+spring:
+  application:
+    name: eureka
+
+
+
