@@ -1,4 +1,4 @@
-package com.example.harbor_salary.service.service;
+package com.example.harbor_salary.service;
 
 public class SalaryService {
 }

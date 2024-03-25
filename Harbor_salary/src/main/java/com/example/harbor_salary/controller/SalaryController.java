@@ -1,2 +1,4 @@
-package com.example.harbor_salary.controller;public class SalaryController {
+package com.example.harbor_salary.controller;
+
+public class SalaryController {
 }
