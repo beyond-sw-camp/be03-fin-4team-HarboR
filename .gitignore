@@ -25,7 +25,7 @@
 .idea/**/sqlDataSources.xml
 .idea/**/dynamic.xml
 .idea/**/dbnavigator.xml
-
+.DS_Store
 # Gradle
 .idea/**/gradle.xml
 .idea/**/libraries
