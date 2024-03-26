@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 @Entity
 @Table(name = "HR_salary")
-public class salary{
+public class Salary{
     //PK
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
