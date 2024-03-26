@@ -13,19 +13,18 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "HR_Login")
 public class Login {
-
     @Id
+    @Column(nullable = false, length = 20)
     private String email;
     @Column(nullable = false, length = 8)
     private int employeeId;
-    @Column(nullable = false, length = 6)
+    @Column(nullable = false, length = 10)
     private String name;
-    @Column(nullable = false, length = 12)
-    private int password;
+    @Column(nullable = false, length = 20)
+    private String password;
     private boolean delYn;
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate
     private LocalDateTime updatedAt;
-
 }

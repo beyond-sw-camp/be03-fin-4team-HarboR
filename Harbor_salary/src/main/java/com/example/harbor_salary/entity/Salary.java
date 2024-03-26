@@ -7,30 +7,26 @@ import javax.persistence.*;
 import java.time.LocalDate;
 @Entity
 @Table(name = "HR_salary")
-public class salary{
+public class Salary{
     //PK
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long annual_id;
+    private Long salaryId;
 
-    //직위
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
+    //직위(코드 번호)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "code_num", nullable = false)
     private SalaryTable salaryTable;
+
     //사원 번호
     @Column(nullable = false)
-    private int employee_id;
+    private int employeeId;
 
     //해당년월
     @CreationTimestamp
-    private LocalDate salary_month_of_year;
-    //기본급
+    private LocalDate salaryMonthOfYear;
+    //실수령 급여
     @Column(nullable = false)
-    private int salary_base;
-    //초과근무수당(포괄)
-    @Column(nullable = false)
-    private int salary_overtime;
-    //통상 시급
-    @Column(nullable = false)
-    private int salary_wage;
+    private int salaryBase;
+
 }
