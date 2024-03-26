@@ -1,11 +1,12 @@
-package com.example.harbor_salary.entity;
+package com.example.harbor_salary.domain;
 
-import com.example.harbor_salary.domain.SalaryTable;
+import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 @Entity
+@Getter
 @Table(name = "HR_salary")
 public class Salary{
     //PK
