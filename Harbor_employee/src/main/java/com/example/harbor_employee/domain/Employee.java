@@ -40,7 +40,7 @@ import java.util.List;
 public class Employee {
     @Id
     @Column(nullable = false, length = 8)
-    private Integer employeeId;
+    private Long employeeId;
     @Column(nullable = false, length = 10)
     private String teamCode;
     @Column(nullable = false, length = 10)
@@ -65,7 +65,7 @@ public class Employee {
     private String socialSecurityNumber;
     private String birthDate;
     private String address;
-    private String yearMonth;
+    private String careerYMD;
     private String joinDate;
     private String leavingDate;
     private String updateDate;
@@ -77,10 +77,10 @@ public class Employee {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "employee", orphanRemoval = true)
+    @OneToMany(mappedBy = "employee")
     private List<Eworks> eworks = new ArrayList<>();
 
-    @OneToMany(mappedBy = "employee", orphanRemoval = true)
+    @OneToMany(mappedBy = "employee")
     private List<PersonnelAppointment> personnelAppointmentList = new ArrayList<>();
 
     //Todo: 생성자 형식 찾아서 추가해두기

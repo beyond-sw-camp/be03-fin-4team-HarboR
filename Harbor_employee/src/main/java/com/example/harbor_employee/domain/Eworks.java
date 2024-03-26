@@ -22,7 +22,7 @@ import javax.persistence.*;
 public class Eworks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer payId;
+    private Long payId;
 
     @Column(nullable = false, length = 10)
     private String payStatusCode;

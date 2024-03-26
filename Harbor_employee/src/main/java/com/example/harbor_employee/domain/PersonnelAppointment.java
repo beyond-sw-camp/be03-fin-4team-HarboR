@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class PersonnelAppointment {
     @Id
     @Column(nullable = false, length = 8)
-    private Integer appointmentId;
+    private Long appointmentId;
 
     private String updateDutyCode;
     private String beforeDepartmentCode;
