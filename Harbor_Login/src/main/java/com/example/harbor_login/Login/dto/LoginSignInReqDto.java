@@ -1,16 +1,13 @@
-package com.example.harbor_login.dto;
+package com.example.harbor_login.Login.dto;
 
 import lombok.Data;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
-public class MemberCreateReqDto {
-    @NotEmpty(message = "name is essential")
-    private String name;
+public class LoginSignInReqDto {
     @NotEmpty(message = "email is essential")
     @Email(message = "email is not valid")
     private String email;
@@ -18,4 +15,7 @@ public class MemberCreateReqDto {
     @Size(min = 4, message = "minimum length is 4")
     private String password;
 
+    /*@NotEmpty(message = "password is essential")
+    @Size(min = 6, message = "minimum length is 6")
+    private String employeeId;*/
 }
