@@ -1,6 +1,5 @@
-package com.example.harbor_salary.entity;
+package com.example.harbor_salary.domain;
 
-import com.example.harbor_salary.domain.SalaryTable;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
