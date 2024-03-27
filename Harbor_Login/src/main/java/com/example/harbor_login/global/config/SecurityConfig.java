@@ -1,7 +1,7 @@
-package com.example.harbor_login.config;
+package com.example.harbor_login.global.config;
 
 
-import com.example.harbor_login.filter.JwtAuthFilter;
+import com.example.harbor_login.global.filter.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

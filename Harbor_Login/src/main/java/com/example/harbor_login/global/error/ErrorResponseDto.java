@@ -1,4 +1,4 @@
-package com.example.harbor_login.common;
+package com.example.harbor_login.global.error;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
