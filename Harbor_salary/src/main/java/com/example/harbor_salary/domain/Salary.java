@@ -1,6 +1,9 @@
 package com.example.harbor_salary.domain;
 
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -8,6 +11,8 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @Table(name = "HR_salary")
+
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Salary{
     //PK
     @Id
@@ -30,4 +35,22 @@ public class Salary{
     @Column(nullable = false)
     private int salaryBase;
 
+    @Builder
+    public Salary(Long salaryId, SalaryCode salaryCode, int employeeId, LocalDate salaryMonthOfYear, int salaryBase) {
+        this.salaryId = salaryId;
+        this.salaryCode = salaryCode;
+        this.employeeId = employeeId;
+        this.salaryMonthOfYear = salaryMonthOfYear;
+        this.salaryBase = salaryBase;
+    }
+
+    public static Salary createSalary(Long salaryId, SalaryCode salaryCode, int employeeId, LocalDate salaryMonthOfYear, int salaryBase) {
+      return Salary.builder()
+              .salaryId(salaryId)
+              .salaryCode(salaryCode)
+              .employeeId(employeeId)
+              .salaryMonthOfYear(salaryMonthOfYear)
+              .salaryBase(salaryBase)
+              .build();
+    }
 }
