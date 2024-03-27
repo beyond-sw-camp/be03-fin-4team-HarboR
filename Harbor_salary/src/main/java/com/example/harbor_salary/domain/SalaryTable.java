@@ -23,6 +23,7 @@ public class SalaryTable {
     private int salaryWage;
     //고정연장수당
     @Column
+
     private int salaryOvertime;
 
 }
