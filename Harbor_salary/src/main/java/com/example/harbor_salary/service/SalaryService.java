@@ -1,14 +1,9 @@
 package com.example.harbor_salary.service;
 
 import com.example.harbor_salary.domain.Salary;
-import com.example.harbor_salary.domain.SalaryTable;
 import com.example.harbor_salary.dto.request.MySalaryRequest;
 import com.example.harbor_salary.repository.SalaryRepository;
 import org.springframework.stereotype.Service;
-
-import javax.persistence.EntityNotFoundException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,7 +30,6 @@ public class SalaryService {
                         .employeeId(salary.getEmployeeId())
                         .salaryMonthOfYear(salary.getSalaryMonthOfYear())
                         .salaryBase(salary.getSalaryBase())
-                        .position(salary.getSalaryTable().getPosition())
                         .build()
         ).collect(Collectors.toList());
     }
