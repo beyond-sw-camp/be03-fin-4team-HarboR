@@ -1,3 +1,9 @@
+spring:
+  profiles:
+    group:
+      "local" : "local, mail"
+    active : local
+---
 server:
   port: 8001
 spring:
