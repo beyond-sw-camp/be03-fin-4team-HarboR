@@ -10,6 +10,7 @@ import com.example.harbor_login.global.common.CommonResponse;
 import com.example.harbor_login.global.config.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -54,13 +55,5 @@ public class LoginController {
         member_info.put("email", member.getEmail());
         member_info.put("token", jwtToken);
         return new ResponseEntity<>(new CommonResponse("member successfully logined", member_info), HttpStatus.OK);
-    }
-
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/active/{email}")
-    public ResponseEntity<CommonResponse> mailConfirm(@PathVariable(value = "email") String email) {
-        emailService.sendEmail(email);
-
-        return new ResponseEntity<>(new CommonResponse("Employee number transmitted successfully", email), HttpStatus.OK);
     }
 }

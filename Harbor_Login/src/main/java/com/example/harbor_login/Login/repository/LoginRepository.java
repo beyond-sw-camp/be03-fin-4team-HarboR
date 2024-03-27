@@ -1,6 +1,9 @@
 package com.example.harbor_login.Login.repository;
 
 import com.example.harbor_login.Login.domain.Login;
+import lombok.extern.java.Log;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,4 +19,6 @@ public interface LoginRepository extends JpaRepository<Login,String> {
     Optional<Login> findByEmployeeId(String employeeId);
     @Query("SELECT MAX(l.employeeId) FROM Login l")
     String findMaxEmployeeNumber();
+
+    Page<Login> findAllByDelYnNotOrderByCreatedAt(Boolean delYn, Pageable pageable);
 }
