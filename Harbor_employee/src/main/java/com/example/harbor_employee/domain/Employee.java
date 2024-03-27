@@ -1,11 +1,15 @@
 package com.example.harbor_employee.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +41,9 @@ import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "HR_Employee")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Employee {
     @Id
     @Column(nullable = false, length = 20)
@@ -88,10 +95,5 @@ public class Employee {
 
     @OneToMany(mappedBy = "employee")
     private List<PersonnelAppointment> personnelAppointmentList = new ArrayList<>();
-
-    //Todo: 생성자 형식 찾아서 추가해두기
-    public static void CreateEmployee(){
-
-    }
 }
 

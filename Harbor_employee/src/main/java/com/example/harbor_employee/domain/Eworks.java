@@ -1,6 +1,9 @@
 package com.example.harbor_employee.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -19,6 +22,9 @@ import javax.persistence.*;
 @Getter
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "HR_Eworks")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Eworks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

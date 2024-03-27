@@ -1,6 +1,9 @@
 package com.example.harbor_employee.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -15,6 +18,9 @@ import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "HR_Department")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Department {
     @Id
     private String departmentCode;
