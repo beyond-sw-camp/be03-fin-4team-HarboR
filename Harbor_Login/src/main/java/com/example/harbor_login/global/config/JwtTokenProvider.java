@@ -1,4 +1,4 @@
-package com.example.harbor_login.config;
+package com.example.harbor_login.global.config;
 
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
