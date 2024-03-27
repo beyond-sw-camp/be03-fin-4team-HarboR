@@ -1,9 +1,8 @@
-package com.example.harbor_login.common;
+package com.example.harbor_login.global.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
-import org.springframework.http.HttpStatus;
 
 import java.io.Serializable;
 

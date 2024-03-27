@@ -12,7 +12,7 @@ import java.util.List;
 
 /*
 * Entity 구성
-* employeeId: 사원번호(PK)
+* employeeId: 사원번호(PK), 8자리
 * teamCode: 소속팀(코드)
 * positionCode: 직위(코드)
 * statusCode: 업무 상태(코드)
@@ -39,43 +39,49 @@ import java.util.List;
 @Table(name = "HR_Employee")
 public class Employee {
     @Id
-    @Column(nullable = false, length = 8)
+    @Column(nullable = false, length = 20)
     private Long employeeId;
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 20)
     private String teamCode;
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 20)
     private String positionCode;
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 20)
     private String statusCode;
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 20)
     private String genderCode;
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 20)
     private String dutyCode;
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 20)
     private String bankCode;
 
     private String profileImage;
     @Column(nullable = false, length = 50)
     private String email;
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 20)
     private String name;
-    @Column(nullable = false, length = 15)
+    @Column(nullable = false, length = 20)
     private String phone;
-    @Column(nullable = false, length = 14)
+    @Column(nullable = false, length = 20)
     private String socialSecurityNumber;
+    @Column(nullable = false, length = 20)
     private String birthDate;
     private String address;
     private String careerYMD;
     private String joinDate;
     private String leavingDate;
     private String updateDate;
-    @Column(nullable = false, length = 500)
+    @Column(nullable = false)
     private String reasonForResignation;
+    @Column(nullable = false, length = 50)
     private String accountNumber;
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "department_code")
+    private Department department;
 
     @OneToMany(mappedBy = "employee")
     private List<Eworks> eworks = new ArrayList<>();

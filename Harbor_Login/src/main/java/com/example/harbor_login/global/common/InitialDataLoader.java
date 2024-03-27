@@ -1,14 +1,11 @@
-package com.example.harbor_login.common;
+package com.example.harbor_login.global.common;
 
 import com.example.harbor_login.Login.domain.Login;
 import com.example.harbor_login.Login.repository.LoginRepository;
-import lombok.extern.java.Log;
+import com.example.harbor_login.global.support.Role;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class InitialDataLoader implements CommandLineRunner {

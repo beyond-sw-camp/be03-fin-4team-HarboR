@@ -1,18 +1,15 @@
 package com.example.harbor_login.Login.domain;
 
-import com.example.harbor_login.common.Role;
+import com.example.harbor_login.global.support.Role;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.extern.java.Log;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.Pattern;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
