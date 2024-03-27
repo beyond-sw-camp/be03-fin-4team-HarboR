@@ -1,4 +1,4 @@
-package com.example.harbor_login.filter;
+package com.example.harbor_login.global.filter;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

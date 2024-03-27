@@ -1,4 +1,4 @@
-package com.example.harbor_login.config;
+package com.example.harbor_login.global.config;
 
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class JwtTokenProvider {
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + expiration*60*1000L))//30분
-                .signWith(SignatureAlgorithm.HS256, "mysecret")
+                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
     public boolean validateToken(String token) {

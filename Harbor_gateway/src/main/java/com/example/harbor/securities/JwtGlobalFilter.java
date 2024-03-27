@@ -22,7 +22,7 @@
 //    @Value("${jwt.secretKey}")
 //    private String secretKey;
 //
-//    private final List<String> allowUrl = Arrays.asList("/admin/login", "/admin/signup");
+//    private final List<String> allowUrl = Arrays.asList("/admin/l,,<ogin", "/admin/signup");
 //
 //    @Override
 //    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {

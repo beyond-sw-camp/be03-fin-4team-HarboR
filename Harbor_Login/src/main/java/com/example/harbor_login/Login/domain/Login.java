@@ -1,17 +1,15 @@
 package com.example.harbor_login.Login.domain;
 
+import com.example.harbor_login.global.support.Role;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.extern.java.Log;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.Pattern;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
@@ -23,8 +21,7 @@ public class Login{
 
     @Id
     private String email;
-    @Column(nullable = false, length = 8)
-    private int employeeId;
+    private String employeeId;
     @Column(nullable = false, length = 6)
     private String name;
     private String password;
@@ -35,14 +32,18 @@ public class Login{
     @LastModifiedDate
     private LocalDateTime updatedAt;
     private Boolean delYn = false;
-    private Boolean role = false;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Builder
-    public Login(String email, String name, String password,String birth) {
+    public Login(String email, String name, String password,String birth, Role role, String employeeId, boolean delYn) {
         this.email = email;
         this.name = name;
         this.password = password;
         this.birth = birth;
+        this.role = role;
+        this.employeeId = employeeId;
+        this.delYn = delYn;
     }
 
     public static Login createLogin(String email, String password, String name,String birth) {
@@ -50,7 +51,15 @@ public class Login{
                 .email(email)
                 .name(name)
                 .password(password)
+                .role(Role.USER)
                 .birth(birth)
                 .build();
     }
+
+    public void UpdateDelYn() {
+        this.delYn = true;
+    }
+
+    public void UpdateEmployeeId(String employeeId) {
+        this.employeeId = employeeId;}
 }

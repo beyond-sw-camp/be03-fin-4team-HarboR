@@ -15,7 +15,7 @@ public class LoginSignInReqDto {
     @Size(min = 4, message = "minimum length is 4")
     private String password;
 
-    /*@NotEmpty(message = "password is essential")
-    @Size(min = 6, message = "minimum length is 6")
-    private String employeeId;*/
+    @NotEmpty(message = "employeeId is essential")
+    @Size(min = 6, message = "minimum length is 8")
+    private String employeeId;
 }
