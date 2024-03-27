@@ -1,6 +1,7 @@
 package com.example.harbor_salary.service;
 
 import com.example.harbor_salary.domain.Salary;
+import com.example.harbor_salary.domain.SalaryTable;
 import com.example.harbor_salary.dto.request.MySalaryRequest;
 import com.example.harbor_salary.repository.SalaryRepository;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,7 @@ public class SalaryService {
                         .employeeId(salary.getEmployeeId())
                         .salaryMonthOfYear(salary.getSalaryMonthOfYear())
                         .salaryBase(salary.getSalaryBase())
+                        .position(salary.getSalaryTable().getPosition())
                         .build()
         ).collect(Collectors.toList());
     }
