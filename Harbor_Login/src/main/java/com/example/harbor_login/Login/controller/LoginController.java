@@ -2,8 +2,10 @@ package com.example.harbor_login.Login.controller;
 
 
 import com.example.harbor_login.Login.domain.Login;
+import com.example.harbor_login.Login.dto.JoinRequest;
 import com.example.harbor_login.Login.dto.LoginSignInReqDto;
 import com.example.harbor_login.Login.dto.LoginSignUpReqDto;
+import com.example.harbor_login.Login.service.EmailService;
 import com.example.harbor_login.Login.service.LoginService;
 import com.example.harbor_login.common.CommonResponse;
 import com.example.harbor_login.config.JwtTokenProvider;
@@ -12,12 +14,10 @@ import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.naming.Binding;
 import javax.validation.Valid;
@@ -31,6 +31,8 @@ import java.util.Map;
 public class LoginController {
     private final LoginService loginService;
     private final JwtTokenProvider jwtTokenProvider;
+    private final EmailService emailService;
+
 
     @PostMapping("/signup")
     public ResponseEntity<CommonResponse> signup(@Valid @RequestBody LoginSignUpReqDto loginSignUpReqDto, BindingResult bindingResult) throws BindException {
@@ -55,5 +57,13 @@ public class LoginController {
         member_info.put("email", member.getEmail());
         member_info.put("token", jwtToken);
         return new ResponseEntity<>(new CommonResponse("member successfully logined", member_info), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/active/{email}")
+    public ResponseEntity<CommonResponse> mailConfirm(@PathVariable(value = "email") String email) {
+        emailService.sendEmail(email);
+
+        return new ResponseEntity<>(new CommonResponse("Employee number transmitted successfully", email), HttpStatus.OK);
     }
 }
