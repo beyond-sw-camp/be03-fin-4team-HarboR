@@ -36,7 +36,7 @@ public class Login{
     private Role role;
 
     @Builder
-    public Login(String email, String name, String password,String birth, Role role, String employeeId, boolean delYn) {
+    public Login(String email, String name, String password,String birth, Role role, String employeeId, boolean delYn, LocalDateTime createdAt) {
         this.email = email;
         this.name = name;
         this.password = password;
@@ -44,6 +44,7 @@ public class Login{
         this.role = role;
         this.employeeId = employeeId;
         this.delYn = delYn;
+        this.createdAt = createdAt;
     }
 
     public static Login createLogin(String email, String password, String name,String birth) {

@@ -3,8 +3,11 @@ package com.example.harbor_login.Login.service;
 import com.example.harbor_login.Login.domain.Login;
 import com.example.harbor_login.Login.dto.LoginSignInReqDto;
 import com.example.harbor_login.Login.dto.LoginSignUpReqDto;
+import com.example.harbor_login.Login.dto.LoginMemberResDto;
 import com.example.harbor_login.Login.repository.LoginRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,5 +61,17 @@ public class LoginService {
         }
         // 다 통과
         return member;
+    }
+
+    public Page<LoginMemberResDto> findAll(Pageable pageable) {
+
+        return loginRepository.findAllByDelYnNotOrderByCreatedAt(true, pageable).map(LoginMemberResDto::mapToMemberResDto);
+    }
+
+    public String delete(String employeeId) {
+        Login login = loginRepository.findByEmployeeId(employeeId).orElseThrow(() -> new EntityNotFoundException("없는 회원 번호입니다."));
+
+        loginRepository.delete(login);
+        return login.getEmployeeId();
     }
 }
