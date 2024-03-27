@@ -15,7 +15,7 @@ public class Salary{
     //직위(코드 번호)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "code_num", nullable = false)
-    private SalaryTable salaryTable;
+    private SalaryCode salaryCode;
 
     //사원 번호
     @Column(nullable = false)

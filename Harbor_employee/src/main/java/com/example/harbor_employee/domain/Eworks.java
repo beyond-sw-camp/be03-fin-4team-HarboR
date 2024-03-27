@@ -24,10 +24,9 @@ public class Eworks {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long payId;
 
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 20)
     private String payStatusCode;
     private String approvalDate;
-    @Column(nullable = false)
     private Integer firstSignId;
     private Integer secondSignId;
     private Integer thirdSignId;
