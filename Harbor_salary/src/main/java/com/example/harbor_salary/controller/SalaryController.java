@@ -1,5 +1,6 @@
 package com.example.harbor_salary.controller;
 
+import com.example.harbor_salary.domain.Salary;
 import com.example.harbor_salary.dto.request.MySalaryRequest;
 import com.example.harbor_salary.service.SalaryService;
 import org.springframework.stereotype.Controller;
@@ -17,12 +18,18 @@ public class SalaryController {
 
     public SalaryController(SalaryService salaryService) {
         this.salaryService = salaryService;
-
-
     }
+
     // 개인 급여 목록 조회
     @GetMapping("/mysalary")
-        public List<MySalaryRequest> findMySalary(){
-            return salaryService.findMySalary();
-        }
+    public List<MySalaryRequest> findMySalary() {
+        return salaryService.findMySalary();
+    }
+    // 급여 제공
+    @GetMapping("/create")
+    public Salary createSalary() {
+        return salaryService.createSalary();
+    }
+
+
 }
