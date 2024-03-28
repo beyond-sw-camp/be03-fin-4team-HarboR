@@ -1,6 +1,9 @@
 package com.example.harbor_total.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -17,6 +20,9 @@ import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "HR_Employee")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Employee {
     @Id
     @Column(length = 20)

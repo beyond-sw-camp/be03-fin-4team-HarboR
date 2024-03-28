@@ -59,6 +59,20 @@ public class LoginController {
         return new ResponseEntity<>(new CommonResponse("member successfully logined", member_info), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/active/{email}")
+    public ResponseEntity<CommonResponse> mailConfirm(@PathVariable(value = "email") String email) {
+        emailService.sendEmail(email);
+
+        return new ResponseEntity<>(new CommonResponse("Employee number transmitted successfully", email), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/login/{email}/detail")
+    public ResponseEntity<CommonResponse> getUserDetail(@PathVariable(name = "email") String email){
+        Login login = loginService.getUserInfo(email);
+        return new ResponseEntity<>(new CommonResponse("member successfully logined", login), HttpStatus.OK);
+    }
+
     @GetMapping("/myinfo")
     public ResponseEntity<CommonResponse> findMyInfo() {
         return new ResponseEntity<>(new CommonResponse("member successfully logined", loginService.findMyInfo()), HttpStatus.OK);

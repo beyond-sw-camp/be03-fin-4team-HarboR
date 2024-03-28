@@ -1,6 +1,9 @@
 package com.example.harbor_total.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -19,6 +22,9 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "HR_Commute")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Commute {
     @Id
     private Long commuteId;

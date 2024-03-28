@@ -51,8 +51,6 @@ public class SalaryService {
         public double calculateRetirement(double averageSalary, int totalWorkingDays) {
             return averageSalary * (totalWorkingDays / 365.0);
         }
-
-
     }
 
     //테스트 사원번호

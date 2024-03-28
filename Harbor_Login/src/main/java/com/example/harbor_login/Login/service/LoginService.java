@@ -84,4 +84,8 @@ public class LoginService {
         Login login = loginRepository.findByEmail(email).orElseThrow(EntityNotFoundException::new);
         return LoginMemberResDto.mapToMemberResDto(login);
     }
+
+    public Login getUserInfo(String email) {
+        return loginRepository.findByEmail(email).orElseThrow(IllegalArgumentException::new);
+    }
 }
