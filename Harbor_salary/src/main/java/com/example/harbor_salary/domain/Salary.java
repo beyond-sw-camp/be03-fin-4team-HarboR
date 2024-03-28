@@ -36,7 +36,7 @@ public class Salary{
     private int salaryGross;
 
     @Builder
-    public Salary(Long salaryId, SalaryCode salaryCode, int employeeId, LocalDate salaryMonthOfYear, int salaryBase) {
+    public Salary(Long salaryId, SalaryCode salaryCode, int employeeId, LocalDate salaryMonthOfYear, int salaryGross) {
         this.salaryId = salaryId;
         this.salaryCode = salaryCode;
         this.employeeId = employeeId;
@@ -44,13 +44,13 @@ public class Salary{
         this.salaryGross = salaryGross;
     }
 
-    public static Salary createSalary(Long salaryId, SalaryCode salaryCode, int employeeId, LocalDate salaryMonthOfYear, int salaryBase) {
+    public static Salary createSalary(Long salaryId, SalaryCode salaryCode, int employeeId, LocalDate salaryMonthOfYear, int salaryGross) {
       return Salary.builder()
               .salaryId(salaryId)
               .salaryCode(salaryCode)
               .employeeId(employeeId)
               .salaryMonthOfYear(salaryMonthOfYear)
-              .salaryBase(salaryGross)
+              .salaryGross(salaryGross)
               .build();
     }
 }
