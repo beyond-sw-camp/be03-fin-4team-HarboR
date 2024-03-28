@@ -2,6 +2,7 @@ package com.example.harbor_login.Login.controller;
 
 
 import com.example.harbor_login.Login.domain.Login;
+import com.example.harbor_login.Login.dto.LoginMemberResponseDto;
 import com.example.harbor_login.Login.dto.LoginSignInReqDto;
 import com.example.harbor_login.Login.dto.LoginSignUpReqDto;
 import com.example.harbor_login.Login.service.EmailService;
@@ -54,6 +55,17 @@ public class LoginController {
         Map<String, Object> member_info = new HashMap<>();
         member_info.put("email", member.getEmail());
         member_info.put("token", jwtToken);
+        member_info.put("role", member.getRole().name());
         return new ResponseEntity<>(new CommonResponse("member successfully logined", member_info), HttpStatus.OK);
     }
+
+    @GetMapping("/myinfo")
+    public ResponseEntity<CommonResponse> findMyInfo() {
+        return new ResponseEntity<>(new CommonResponse("member successfully logined", loginService.findMyInfo()), HttpStatus.OK);
+
+    }
+//    @GetMapping("/myinfo")
+//    public ResponseEntity<CommonResponse> findMyInfo(@RequestHeader("myEmail") String email) {
+//        return new ResponseEntity<>(new CommonResponse("member successfully logined", loginService.findMyInfo(email)), HttpStatus.OK);
+//    }
 }

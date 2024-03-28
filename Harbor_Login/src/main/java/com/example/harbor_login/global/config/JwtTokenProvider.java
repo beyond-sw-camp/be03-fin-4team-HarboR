@@ -23,6 +23,7 @@ public class JwtTokenProvider {
         //기본
         Claims claims = Jwts.claims().setSubject(email);
         claims.put("role", role);
+        claims.put("myEmail", email);
         Date now = new Date();
 
         return Jwts.builder()
@@ -43,6 +44,7 @@ public class JwtTokenProvider {
     }
 
     /**
+     *
      *
      * @param token jwt token
      * @return Claims Information
