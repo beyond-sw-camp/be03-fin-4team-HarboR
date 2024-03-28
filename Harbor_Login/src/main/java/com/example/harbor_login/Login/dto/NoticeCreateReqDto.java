@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 @Data
-public class NoticeUpdateReq {
+public class NoticeCreateReqDto {
 
     private int noticeId;
 
@@ -23,6 +23,4 @@ public class NoticeUpdateReq {
     private String filePath;
 
     private LocalDateTime createdAt;
-
-
 }
