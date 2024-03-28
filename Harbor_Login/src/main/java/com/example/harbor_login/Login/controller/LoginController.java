@@ -63,4 +63,10 @@ public class LoginController {
 
         return new ResponseEntity<>(new CommonResponse("Employee number transmitted successfully", email), HttpStatus.OK);
     }
+
+    @GetMapping(value = "/login/{email}/detail")
+    public ResponseEntity<CommonResponse> getUserDetail(@PathVariable(name = "email") String email){
+        Login login = loginService.getUserInfo(email);
+        return new ResponseEntity<>(new CommonResponse("member successfully logined", login), HttpStatus.OK);
+    }
 }

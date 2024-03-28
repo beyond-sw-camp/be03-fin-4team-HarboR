@@ -59,4 +59,8 @@ public class LoginService {
         // 다 통과
         return member;
     }
+
+    public Login getUserInfo(String email) {
+        return loginRepository.findByEmail(email).orElseThrow(IllegalArgumentException::new);
+    }
 }
