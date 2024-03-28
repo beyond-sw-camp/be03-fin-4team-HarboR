@@ -1,6 +1,7 @@
 package com.example.harbor_login.Login.service;
 
 import com.example.harbor_login.Login.domain.Login;
+import com.example.harbor_login.Login.dto.LoginMemberResponseDto;
 import com.example.harbor_login.Login.dto.LoginSignInReqDto;
 import com.example.harbor_login.Login.dto.LoginSignUpReqDto;
 import com.example.harbor_login.Login.dto.LoginMemberResDto;
@@ -8,6 +9,8 @@ import com.example.harbor_login.Login.repository.LoginRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,5 +76,12 @@ public class LoginService {
 
         loginRepository.delete(login);
         return login.getEmployeeId();
+    }
+
+    public LoginMemberResDto findMyInfo() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        Login login = loginRepository.findByEmail(email).orElseThrow(EntityNotFoundException::new);
+        return LoginMemberResDto.mapToMemberResDto(login);
     }
 }
