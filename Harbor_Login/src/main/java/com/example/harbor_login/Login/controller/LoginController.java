@@ -2,6 +2,7 @@ package com.example.harbor_login.Login.controller;
 
 
 import com.example.harbor_login.Login.domain.Login;
+import com.example.harbor_login.Login.dto.GetUsersResponse;
 import com.example.harbor_login.Login.dto.LoginMemberResponseDto;
 import com.example.harbor_login.Login.dto.LoginSignInReqDto;
 import com.example.harbor_login.Login.dto.LoginSignUpReqDto;
@@ -20,7 +21,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -67,10 +70,14 @@ public class LoginController {
         return new ResponseEntity<>(new CommonResponse("Employee number transmitted successfully", email), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/login/{email}/detail")
-    public ResponseEntity<CommonResponse> getUserDetail(@PathVariable(name = "email") String email){
-        Login login = loginService.getUserInfo(email);
-        return new ResponseEntity<>(new CommonResponse("member successfully logined", login), HttpStatus.OK);
+    @GetMapping(value = "/detail/{id}")
+    public ResponseEntity<CommonResponse> getUserDetail(@PathVariable(name = "id") String id){
+        System.out.println(id);
+        Login login = loginService.getUserInfo(id);
+        GetUsersResponse getUsersResponse = new GetUsersResponse();
+        GetUsersResponse.Result result = new GetUsersResponse.Result(login.getName(), login.getBirth());
+        getUsersResponse.getResults().add(result);
+        return new ResponseEntity<>(new CommonResponse("member successfully logined", getUsersResponse), HttpStatus.OK);
     }
 
     @GetMapping("/myinfo")

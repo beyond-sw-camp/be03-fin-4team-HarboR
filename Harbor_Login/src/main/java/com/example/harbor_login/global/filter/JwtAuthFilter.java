@@ -38,6 +38,7 @@ public class JwtAuthFilter extends GenericFilter {
                 }
                 String token= bearerToken.substring(7);
 
+                System.out.println("토큰 검사 실행");
 
                 Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
                 //Authentication 객체를 생성하기 위한 UserDetails 생성

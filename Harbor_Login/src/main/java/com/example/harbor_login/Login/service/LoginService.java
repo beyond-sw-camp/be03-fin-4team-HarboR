@@ -85,7 +85,7 @@ public class LoginService {
         return LoginMemberResDto.mapToMemberResDto(login);
     }
 
-    public Login getUserInfo(String email) {
-        return loginRepository.findByEmail(email).orElseThrow(IllegalArgumentException::new);
+    public Login getUserInfo(String id) {
+        return loginRepository.findByEmployeeId(id).orElseThrow(IllegalArgumentException::new);
     }
 }
