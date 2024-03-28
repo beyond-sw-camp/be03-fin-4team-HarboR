@@ -1,5 +1,6 @@
 package com.example.harbor_login.global.filter;
 
+import com.example.harbor_login.global.config.CustomUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,15 +41,20 @@ public class JwtAuthFilter extends GenericFilter {
 
 
                 Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+                String employeeId = claims.get("employeeId").toString();
                 //Authentication 객체를 생성하기 위한 UserDetails 생성
-                List<GrantedAuthority> authorities= new ArrayList<>();
-                authorities.add(new SimpleGrantedAuthority("ROLE_"+claims.get("role")));
-                UserDetails userDetails = new User(claims.getSubject(),"",authorities);
+                CustomUserDetails customUserDetails = CustomUserDetails.builder()
+                        .role(claims.get("role").toString())
+                        .username(claims.getSubject())
+                        .password("")
+                        .employeeId(employeeId)
+                        .build();
 
-                Authentication authentication = new UsernamePasswordAuthenticationToken(
-                        userDetails, "",
-                        userDetails.getAuthorities());
+                customUserDetails.getAuthorities().add(new SimpleGrantedAuthority("ROLE_" + claims.get("role")));
 
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                        customUserDetails, null, customUserDetails.getAuthorities()
+                );
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
             chain.doFilter(request, response);
