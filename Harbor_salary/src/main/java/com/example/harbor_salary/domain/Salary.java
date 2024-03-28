@@ -33,24 +33,24 @@ public class Salary{
     private LocalDate salaryMonthOfYear;
     //실수령 급여
     @Column(nullable = false)
-    private int salaryBase;
+    private int salaryGross;
 
     @Builder
-    public Salary(Long salaryId, SalaryCode salaryCode, int employeeId, LocalDate salaryMonthOfYear, int salaryBase) {
+    public Salary(Long salaryId, SalaryCode salaryCode, int employeeId, LocalDate salaryMonthOfYear, int salaryGross) {
         this.salaryId = salaryId;
         this.salaryCode = salaryCode;
         this.employeeId = employeeId;
         this.salaryMonthOfYear = salaryMonthOfYear;
-        this.salaryBase = salaryBase;
+        this.salaryGross = salaryGross;
     }
 
-    public static Salary createSalary(Long salaryId, SalaryCode salaryCode, int employeeId, LocalDate salaryMonthOfYear, int salaryBase) {
+    public static Salary createSalary(Long salaryId, SalaryCode salaryCode, int employeeId, LocalDate salaryMonthOfYear, int salaryGross) {
       return Salary.builder()
               .salaryId(salaryId)
               .salaryCode(salaryCode)
               .employeeId(employeeId)
               .salaryMonthOfYear(salaryMonthOfYear)
-              .salaryBase(salaryBase)
+              .salaryGross(salaryGross)
               .build();
     }
 }
