@@ -1,6 +1,5 @@
 package com.example.harbor_salary.service;
-
-import com.example.harbor_salary.repository.SalaryTableRepository;
+import com.example.harbor_salary.repository.SalaryRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -9,9 +8,9 @@ import java.time.LocalDateTime;
 @Service
 public class SalaryService {
 
-    private final SalaryTableRepository repository;
+    private final SalaryRepository repository;
 
-    public SalaryService(SalaryTableRepository repository) {
+    public SalaryService(SalaryRepository repository) {
         this.repository = repository;
     }
 

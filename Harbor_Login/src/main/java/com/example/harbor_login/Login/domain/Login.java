@@ -62,5 +62,6 @@ public class Login{
     }
 
     public void UpdateEmployeeId(String employeeId) {
-        this.employeeId = employeeId;}
+        this.employeeId = employeeId;
+    }
 }

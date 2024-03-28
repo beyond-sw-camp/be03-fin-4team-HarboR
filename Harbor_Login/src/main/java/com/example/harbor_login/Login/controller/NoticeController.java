@@ -10,5 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/login/notice")
 @RequiredArgsConstructor
 public class NoticeController {
+    public
 
 }
