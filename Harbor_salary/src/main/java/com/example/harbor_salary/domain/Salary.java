@@ -1,21 +1,21 @@
 package com.example.harbor_salary.domain;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-@Getter
-@EntityListeners(AuditingEntityListener.class)
+
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "HR_Salary")
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Salary{
     //PK
     @Id
@@ -38,4 +38,13 @@ public class Salary{
     @Column(nullable = false)
     private int salaryBase;
 
+    public static Salary createSalary(Long salaryId, SalaryCode salaryCode, int employeeId, LocalDate salaryMonthOfYear, int salaryBase) {
+      return Salary.builder()
+              .salaryId(salaryId)
+              .salaryCode(salaryCode)
+              .employeeId(employeeId)
+              .salaryMonthOfYear(salaryMonthOfYear)
+              .salaryBase(salaryBase)
+              .build();
+    }
 }
