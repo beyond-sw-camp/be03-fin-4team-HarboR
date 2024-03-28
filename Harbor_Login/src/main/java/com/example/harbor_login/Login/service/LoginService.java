@@ -1,10 +1,7 @@
 package com.example.harbor_login.Login.service;
 
 import com.example.harbor_login.Login.domain.Login;
-import com.example.harbor_login.Login.dto.LoginMemberResponseDto;
-import com.example.harbor_login.Login.dto.LoginSignInReqDto;
-import com.example.harbor_login.Login.dto.LoginSignUpReqDto;
-import com.example.harbor_login.Login.dto.LoginMemberResDto;
+import com.example.harbor_login.Login.dto.*;
 import com.example.harbor_login.Login.repository.LoginRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -85,7 +82,16 @@ public class LoginService {
         return LoginMemberResDto.mapToMemberResDto(login);
     }
 
-    public Login getUserInfo(String id) {
-        return loginRepository.findByEmployeeId(id).orElseThrow(IllegalArgumentException::new);
+    public GetUsersResponse getUserInfo(String id) {
+        try{
+            Login login = loginRepository.findByEmployeeId(id).orElseThrow(IllegalArgumentException::new);
+            GetUsersResponse getUsersResponse = new GetUsersResponse();
+            getUsersResponse.getResults().add(new GetUsersResponse.Result(login.getName(), login.getBirth()));
+            System.out.println(getUsersResponse.getResults().get(0).getName());
+            return getUsersResponse;
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 }

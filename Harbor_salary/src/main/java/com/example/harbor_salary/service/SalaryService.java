@@ -60,21 +60,19 @@ public class SalaryService {
     }
 
     //급여목록조회
-    public List<MySalaryRequest> findMySalary(String employeeId) {
+    public MySalaryRequest findMySalary(String employeeId) {
         // 현재 로그인한 사원의 급여 정보 조회
-        List<Salary> salaries = salaryRepository.findByEmployeeId(employeeId);
-        log.info("1");
+        Salary salary = salaryRepository.findByEmployeeId(employeeId);
         GetUsersResponse getUsersResponse = salaryClient.getUsers(employeeId);
+        MySalaryRequest mySalaryRequest = MySalaryRequest.builder()
+                .employeeId(salary.getEmployeeId())
+                .salaryMonthOfYear(salary.getSalaryMonthOfYear())
+                .salaryBase(salary.getSalaryGross())
+                .birth(getUsersResponse.getResults().get(0).getBirth())
+                .name(getUsersResponse.getResults().get(0).getName())
+                .build();
         log.info(getUsersResponse.getResults().get(0).getBirth());
-        return salaries.stream().map(salary ->
-                MySalaryRequest.builder()
-                        .employeeId(salary.getEmployeeId())
-                        .salaryMonthOfYear(salary.getSalaryMonthOfYear())
-                        .salaryBase(salary.getSalaryGross())
-                        .birth(getUsersResponse.getResults().get(0).getBirth())
-                        .name(getUsersResponse.getResults().get(0).getName())
-                        .build()
-        ).collect(Collectors.toList());
+        return mySalaryRequest;
     }
 }
 
