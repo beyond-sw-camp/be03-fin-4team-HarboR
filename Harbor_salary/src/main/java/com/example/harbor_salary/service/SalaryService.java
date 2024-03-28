@@ -1,17 +1,23 @@
 package com.example.harbor_salary.service;
 
+import com.example.harbor_salary.domain.Salary;
+import com.example.harbor_salary.dto.request.MySalaryRequest;
 import com.example.harbor_salary.repository.SalaryRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class SalaryService {
 
     private final SalaryRepository salaryRepository;
+
+    public SalaryService(SalaryRepository salaryRepository) {
+        this.salaryRepository = salaryRepository;
+    }
 
     private final double NATIONAL_PENSION_RATE = 0.045; // 국민연금료 비율
     private final double HEALTH_INSURANCE_RATE = 0.03545; // 건강보험료 비율
@@ -45,7 +51,26 @@ public class SalaryService {
         public double calculateRetirement(double averageSalary, int totalWorkingDays) {
             return averageSalary * (totalWorkingDays / 365.0);
         }
+    }
 
+    //테스트 사원번호
+    public int getCurrentEmployeeId() {
+        return 123; // 예시 사원번호
+    }
+
+    //급여목록조회
+    public List<MySalaryRequest> findMySalary() {
+        int employeeId = getCurrentEmployeeId();
+
+        // 현재 로그인한 사원의 급여 정보 조회
+        List<Salary> salaries = salaryRepository.findByEmployeeId(employeeId);
+        return salaries.stream().map(salary ->
+                MySalaryRequest.builder()
+                        .employeeId(salary.getEmployeeId())
+                        .salaryMonthOfYear(salary.getSalaryMonthOfYear())
+                        .salaryBase(salary.getSalaryGross())
+                        .build()
+        ).collect(Collectors.toList());
     }
 }
 

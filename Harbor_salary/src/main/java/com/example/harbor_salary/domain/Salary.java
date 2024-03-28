@@ -1,15 +1,13 @@
 package com.example.harbor_salary.domain;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
+@Getter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "HR_Salary")
@@ -37,6 +35,7 @@ public class Salary{
     //실수령 급여
     @Column(nullable = false)
     private int salaryBase;
+    private int salaryGross;
 
     public static Salary createSalary(Long salaryId, SalaryCode salaryCode, int employeeId, LocalDate salaryMonthOfYear, int salaryBase) {
       return Salary.builder()
