@@ -29,4 +29,7 @@ public class Notice {
         this.title = title;
         this.contents = contents;
     }
+    public void deleteNotice(){ // notice 삭제 시 호출
+        this.delYn = "Y";
+    }
 }
