@@ -18,18 +18,18 @@ public class JwtTokenProvider {
     private Long expiration;
 
     //사용자 이메일과 롤
-    public String createToken(String email, String role){
-        //claims : 클레임은 토큰 사용자에 대한 속성이나 데이터포함, 주로 페이로드를 의미.
-        //기본
+    public String createToken(String email, String role, String employeeId){
         Claims claims = Jwts.claims().setSubject(email);
         claims.put("role", role);
         claims.put("myEmail", email);
+        claims.put("employeeId", employeeId); // 직원 ID 추가
+
         Date now = new Date();
 
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + expiration*60*1000L))//30분
+                .setExpiration(new Date(now.getTime() + expiration*60*1000L))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
@@ -51,6 +51,10 @@ public class JwtTokenProvider {
      */
     private Claims getClaims(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+    }
+    public String getEmployeeId(String token) {
+        Claims claims = getClaims(token);
+        return (String) claims.get("employeeId");
     }
 }
 

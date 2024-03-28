@@ -1,6 +1,9 @@
 package com.example.harbor_employee.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -15,10 +18,14 @@ import javax.persistence.*;
 * positionCode: 직위 코드
 * issueDate: 발령 날짜
 * */
+
 @Getter
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "HR_PA")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class PersonnelAppointment {
     @Id
     private Long appointmentId;

@@ -1,12 +1,20 @@
 package com.example.harbor_salary.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.*;
+
+@Getter
+@EntityListeners(AuditingEntityListener.class)
 @Entity
-@Table(name="HR_salaryTable")
+@Table(name = "HR_SalaryCode")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class SalaryCode {
     //코드번호
     @Id

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface SalaryRepository extends JpaRepository<Salary, Long > {
-        List<Salary> findByEmployeeId(int  employeeId);
+public interface SalaryRepository extends JpaRepository<Salary, Long> {
+        List<Salary> findAllByEmployeeId(String employeeId);
+
+        Salary findByEmployeeId(String employeeId);
 }

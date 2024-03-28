@@ -1,17 +1,18 @@
 package com.example.harbor_salary.domain;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-@Entity
-@Getter
-@Table(name = "HR_salary")
 
+@Getter
+@Entity
+@EntityListeners(AuditingEntityListener.class)
+@Table(name = "HR_Salary")
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Salary{
     //PK
@@ -26,31 +27,23 @@ public class Salary{
 
     //사원 번호
     @Column(nullable = false)
-    private int employeeId;
+    private String employeeId;
 
     //해당년월
     @CreationTimestamp
     private LocalDate salaryMonthOfYear;
     //실수령 급여
     @Column(nullable = false)
+    private int salaryBase;
     private int salaryGross;
 
-    @Builder
-    public Salary(Long salaryId, SalaryCode salaryCode, int employeeId, LocalDate salaryMonthOfYear, int salaryGross) {
-        this.salaryId = salaryId;
-        this.salaryCode = salaryCode;
-        this.employeeId = employeeId;
-        this.salaryMonthOfYear = salaryMonthOfYear;
-        this.salaryGross = salaryGross;
-    }
-
-    public static Salary createSalary(Long salaryId, SalaryCode salaryCode, int employeeId, LocalDate salaryMonthOfYear, int salaryGross) {
+    public static Salary createSalary(Long salaryId, SalaryCode salaryCode, String employeeId, LocalDate salaryMonthOfYear, int salaryBase) {
       return Salary.builder()
               .salaryId(salaryId)
               .salaryCode(salaryCode)
               .employeeId(employeeId)
               .salaryMonthOfYear(salaryMonthOfYear)
-              .salaryGross(salaryGross)
+              .salaryBase(salaryBase)
               .build();
     }
 }

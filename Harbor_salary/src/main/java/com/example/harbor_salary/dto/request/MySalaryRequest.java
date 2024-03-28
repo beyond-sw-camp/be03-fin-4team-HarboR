@@ -8,7 +8,9 @@ import java.time.LocalDate;
 @Data
 @Builder
 public class MySalaryRequest {
-    private int employeeId;
+    private String employeeId;
     private LocalDate salaryMonthOfYear;
     private int salaryBase;
+    private String name;
+    private String birth;
 }
