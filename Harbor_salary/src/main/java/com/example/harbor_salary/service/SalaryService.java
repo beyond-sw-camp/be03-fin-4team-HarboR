@@ -1,6 +1,6 @@
 package com.example.harbor_salary.service;
 
-import com.example.harbor_salary.repository.SalaryTableRepository;
+import com.example.harbor_salary.repository.SalaryRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -9,10 +9,10 @@ import java.time.LocalDateTime;
 @Service
 public class SalaryService {
 
-    private final SalaryTableRepository repository;
+    private final SalaryRepository salaryRepository;
 
-    public SalaryService(SalaryTableRepository repository) {
-        this.repository = repository;
+    public SalaryService(SalaryRepository salaryRepository) {
+        this.salaryRepository = salaryRepository;
     }
 
     private final double NATIONAL_PENSION_RATE = 0.045; // 국민연금료 비율
