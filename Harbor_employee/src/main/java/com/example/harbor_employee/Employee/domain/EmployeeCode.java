@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Getter
 @EntityListeners(AuditingEntityListener.class)
 @Entity
-@Table(name = "HR_EmployeeCode")
+@Table(name = "HR_Code")
 public class EmployeeCode {
     @Id
     @Column(nullable = false, length = 20)
