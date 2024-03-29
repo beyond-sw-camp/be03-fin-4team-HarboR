@@ -1,4 +1,4 @@
-package com.example.harbor_employee.domain;
+package com.example.harbor_employee.Employee.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,28 +46,28 @@ import java.util.List;
 public class Employee {
     @Id
     @Column(nullable = false, length = 20)
-    private Long employeeId;
-    @Column(nullable = false, length = 20)
+    private String employeeId;
+    @Column(length = 20)
     private String teamCode;
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private String positionCode;
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private String statusCode;
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private String genderCode;
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private String dutyCode;
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private String bankCode;
-
+    @Column(length = 1000)
     private String profileImage;
     @Column(nullable = false, length = 50)
     private String email;
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 50)
     private String name;
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private String phone;
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private String socialSecurityNumber;
     @Column(nullable = false, length = 20)
     private String birthDate;
@@ -77,9 +76,8 @@ public class Employee {
     private String joinDate;
     private String leavingDate;
     private String updateDate;
-    @Column(nullable = false)
     private String reasonForResignation;
-    @Column(nullable = false, length = 50)
+    @Column(length = 50)
     private String accountNumber;
     @CreatedDate
     private LocalDateTime createdAt;

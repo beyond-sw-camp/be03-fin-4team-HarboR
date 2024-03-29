@@ -1,4 +1,4 @@
-package com.example.harbor_employee.domain;
+package com.example.harbor_employee.Employee.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

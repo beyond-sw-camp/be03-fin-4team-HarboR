@@ -1,7 +1,7 @@
-package com.example.harbor_login.global.config;
+package com.example.harbor_employee.global.config;
 
 
-import com.example.harbor_login.global.filter.JwtAuthFilter;
+import com.example.harbor_employee.global.filter.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/**","/login/account/**","/login/internal/**")
+                .antMatchers("/**")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()

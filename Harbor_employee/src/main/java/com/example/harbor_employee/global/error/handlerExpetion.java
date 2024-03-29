@@ -1,4 +1,4 @@
-package com.example.harbor_login.global.error;
+package com.example.harbor_employee.global.error;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;

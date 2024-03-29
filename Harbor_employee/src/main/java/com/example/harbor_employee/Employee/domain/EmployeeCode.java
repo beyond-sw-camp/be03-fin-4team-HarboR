@@ -1,4 +1,4 @@
-package com.example.harbor_employee.domain;
+package com.example.harbor_employee.Employee.domain;
 
 import lombok.Getter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class EmployeeCode {
     @Id
     @Column(nullable = false, length = 20)
-    private String codeNum;
+    private String code;
     @Column(nullable = false, length = 20)
-    private String codeName;
+    private String description;
 }

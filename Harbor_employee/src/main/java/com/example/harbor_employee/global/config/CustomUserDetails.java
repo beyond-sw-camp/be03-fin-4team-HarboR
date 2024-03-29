@@ -1,4 +1,4 @@
-package com.example.harbor_login.global.config;
+package com.example.harbor_employee.global.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
