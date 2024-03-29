@@ -1,21 +1,18 @@
 package com.example.harbor_salary.controller;
 
-import com.example.harbor_salary.client.GetUsersResponse;
+import com.example.harbor_salary.domain.Salary;
 import com.example.harbor_salary.client.SalaryClient;
 import com.example.harbor_salary.dto.request.MySalaryRequest;
 import com.example.harbor_salary.service.SalaryService;
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.Console;
-import java.util.List;
+import java.security.Principal;
 
 @RestController
 @Slf4j
@@ -31,10 +28,17 @@ public class SalaryController {
         this.salaryClient = salaryClient;
     }
 
+    // 급여 제공
+    @GetMapping("/create")
+    public Salary createSalary() {
+        return salaryService.createSalary();
+    }
+
+
     // 개인 급여 목록 조회
-    @GetMapping("/mysalary/{id}")
-    public MySalaryRequest findMySalary(@PathVariable String id){
-        return salaryService.findMySalary(id);
+    @GetMapping("/mysalary")
+    public MySalaryRequest findMySalary(Principal principal){
+        return salaryService.findMySalary(principal.getName());
     }
 
     @GetMapping("/ping")

@@ -1,0 +1,21 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+    <symbol xmlns="http://www.w3.org/2000/svg" id="grid-view" viewBox="0 0 24 24">
+        <path fill="currentcolor" d="M3 11H11V3H3M5 5H9V9H5M13 21H21V13H13M15 15H19V19H15M3 21H11V13H3M5 15H9V19H5M13 3V11H21V3M19 9H15V5H19Z" />
+    </symbol>
+    
+    <symbol id="widget-outline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path fill="currentcolor" d="M16.7 4.5L19.5 7.3L16.7 10.1L13.9 7.3L16.7 4.5M9 5V9H5V5H9M19 15V19H15V15H19M16.7 1.7L11 7.3L16.7 13H13V21H21V13H16.7L22.3 7.3L16.7 1.7M11 3H3V11H11V3M9 15V19H5V15H9M11 13H3V21H11V13Z" />
+    </symbol>
+
+    <symbol viewBox="0 0 24 24" id="web-outline">
+        <path fill="currentcolor" d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2M4 9h10.5v3.5H4zm0 5.5h10.5V18H4zM20 18h-3.5V9H20z"></path>
+    </symbol>
+
+    <symbol viewBox="0 0 24 24" id="layer-twotone">
+        <path fill="currentcolor" d="M6.26 9 12 13.47 17.74 9 12 4.53z" opacity=".3"></path>
+        <path fill="currentcolor" d="m19.37 12.8-7.38 5.74-7.37-5.73L3 14.07l9 7 9-7zM12 2 3 9l1.63 1.27L12 16l7.36-5.73L21 9zm0 11.47L6.26 9 12 4.53 17.74 9z"></path>
+    </symbol>
+
+</svg>
