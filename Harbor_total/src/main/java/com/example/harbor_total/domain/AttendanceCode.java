@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Getter
 @EntityListeners(AuditingEntityListener.class)
 @Entity
-@Table(name = "HR_Attendance_Code")
+@Table(name = "HR_Code")
 public class AttendanceCode {
     @Id
     private String codeNum;

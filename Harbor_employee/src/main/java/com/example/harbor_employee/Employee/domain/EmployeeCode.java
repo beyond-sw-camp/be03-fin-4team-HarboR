@@ -1,4 +1,4 @@
-package com.example.harbor_employee.domain;
+package com.example.harbor_employee.Employee.domain;
 
 import lombok.Getter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -12,11 +12,11 @@ import javax.persistence.*;
 @Getter
 @EntityListeners(AuditingEntityListener.class)
 @Entity
-@Table(name = "HR_EmployeeCode")
+@Table(name = "HR_Code")
 public class EmployeeCode {
     @Id
     @Column(nullable = false, length = 20)
-    private String codeNum;
+    private String code;
     @Column(nullable = false, length = 20)
-    private String codeName;
+    private String description;
 }

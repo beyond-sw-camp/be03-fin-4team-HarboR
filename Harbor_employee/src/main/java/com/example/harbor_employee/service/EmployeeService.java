@@ -1,8 +1,6 @@
 package com.example.harbor_employee.service;
 
-import com.example.harbor_employee.domain.Employee;
 import com.example.harbor_employee.dto.LoginMemberResDto;
-import com.example.harbor_employee.repository.EmployeeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
