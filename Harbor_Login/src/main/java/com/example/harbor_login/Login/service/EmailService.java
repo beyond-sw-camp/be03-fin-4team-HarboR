@@ -3,6 +3,7 @@ package com.example.harbor_login.Login.service;
 import com.example.harbor_login.Login.domain.Login;
 import com.example.harbor_login.Login.repository.LoginRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +14,7 @@ import java.util.Calendar;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class EmailService {
     private final LoginRepository loginRepository;
     private final JavaMailSender javaMailSender;  // 의존성 주입을 통해 필요한 객체를 가져옴
@@ -28,7 +30,7 @@ public class EmailService {
         // 올해 년도
         int year = Calendar.getInstance().get(Calendar.YEAR);
         String maxEmployeeNumber = loginRepository.findMaxEmployeeNumber();
-        System.out.println(maxEmployeeNumber);
+        log.info("신규 입사자 Emplyoee id : " + maxEmployeeNumber);
 
         // 만약 최대 사원번호가 없으면 HB + 올해 년도 + 0001 로 사원번호
         int nextNumber = 1;
