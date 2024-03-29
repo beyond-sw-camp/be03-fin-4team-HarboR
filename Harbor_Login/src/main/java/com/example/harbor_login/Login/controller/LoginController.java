@@ -2,7 +2,7 @@ package com.example.harbor_login.Login.controller;
 
 
 import com.example.harbor_login.Login.domain.Login;
-import com.example.harbor_login.Login.dto.LoginMemberResponseDto;
+import com.example.harbor_login.Login.dto.GetUsersResponse;
 import com.example.harbor_login.Login.dto.LoginSignInReqDto;
 import com.example.harbor_login.Login.dto.LoginSignUpReqDto;
 import com.example.harbor_login.Login.repository.LoginRepository;
@@ -25,7 +25,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,7 +36,6 @@ public class LoginController {
     private final LoginService loginService;
     private final JwtTokenProvider jwtTokenProvider;
     private final EmailService emailService;
-    private final LoginRepository loginRepository;
 
 
     @PostMapping("/signup")
@@ -63,7 +61,7 @@ public class LoginController {
             throw new BindException(bindingResult);
         }
         Login member = loginService.signin(loginSignInReqDto);
-        String jwtToken = jwtTokenProvider.createToken(member.getEmail(), member.getRole().toString(),member.getEmployeeId());
+        String jwtToken = jwtTokenProvider.createToken(member.getEmail(), member.getRole().toString(), member.getEmployeeId());
         Map<String, Object> member_info = new HashMap<>();
         member_info.put("email", member.getEmail());
         member_info.put("token", jwtToken);
@@ -82,10 +80,12 @@ public class LoginController {
         return new ResponseEntity<>(new CommonResponse("Employee number transmitted successfully", email), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/login/{email}/detail")
-    public ResponseEntity<CommonResponse> getUserDetail(@PathVariable(name = "email") String email){
-        Login login = loginService.getUserInfo(email);
-        return new ResponseEntity<>(new CommonResponse("member successfully logined", login), HttpStatus.OK);
+    @GetMapping(value = "/detail/{id}")
+    public ResponseEntity<GetUsersResponse> getUserDetail(@PathVariable(name = "id") String id){
+        System.out.println(id);
+        GetUsersResponse login = loginService.getUserInfo(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(login);
     }
 
     @GetMapping("/myinfo")

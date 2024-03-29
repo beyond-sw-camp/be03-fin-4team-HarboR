@@ -1,27 +1,23 @@
 package com.example.harbor_salary.service;
 
+import com.example.harbor_salary.client.GetUsersResponse;
+import com.example.harbor_salary.client.SalaryClient;
 import com.example.harbor_salary.domain.Salary;
 import com.example.harbor_salary.domain.SalaryCode;
 import com.example.harbor_salary.dto.request.MySalaryRequest;
 import com.example.harbor_salary.repository.SalaryCodeRepository;
 import com.example.harbor_salary.repository.SalaryRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class SalaryService {
 
     private final SalaryRepository salaryRepository;
     private final SalaryCodeRepository salaryCodeRepository;
-
-    public SalaryService(SalaryRepository salaryRepository, SalaryCodeRepository salaryCodeRepository) {
-        this.salaryRepository = salaryRepository;
-        this.salaryCodeRepository = salaryCodeRepository;
-    }
+    private final SalaryClient salaryClient;
 
     private final double NATIONAL_PENSION_RATE = 0.045; // 국민연금료 비율
     private final double HEALTH_INSURANCE_RATE = 0.03545; // 건강보험료 비율
@@ -52,8 +48,8 @@ public class SalaryService {
     }
 
     //테스트 사원번호
-    public int getCurrentEmployeeId() {
-        return 123; // 예시 사원번호
+    public String getCurrentEmployeeId() {
+        return "123"; // 예시 사원번호
     }
     //테스트 직위번호
     public String getCurrentPositionCode() {
@@ -62,7 +58,7 @@ public class SalaryService {
     //급여 생성
     public Salary createSalary(){
         // SalaryCode 에서 baseSalary 코드를 받아오는 과정
-        int employeeId = getCurrentEmployeeId();
+        String employeeId = getCurrentEmployeeId();
         String positionCode = getCurrentPositionCode();
         SalaryCode salaryCodes = salaryCodeRepository.findByCodeNum(positionCode);
         int baseSalary = salaryCodes.getBaseSalary();
@@ -75,18 +71,19 @@ public class SalaryService {
         return salaryRepository.save(salary);
     }
     //급여목록조회
-    public List<MySalaryRequest> findMySalary() {
-        int employeeId = getCurrentEmployeeId();
-
+    public MySalaryRequest findMySalary(String employeeId) {
         // 현재 로그인한 사원의 급여 정보 조회
-        List<Salary> salaries = salaryRepository.findByEmployeeId(employeeId);
-        return salaries.stream().map(salary ->
-                MySalaryRequest.builder()
-                        .employeeId(salary.getEmployeeId())
-                        .salaryMonthOfYear(salary.getSalaryMonthOfYear())
-                        .salaryBase(salary.getSalaryGross())
-                        .build()
-        ).collect(Collectors.toList());
+        Salary salary = salaryRepository.findByEmployeeId(employeeId);
+        GetUsersResponse getUsersResponse = salaryClient.getUsers(employeeId);
+        MySalaryRequest mySalaryRequest = MySalaryRequest.builder()
+                .employeeId(salary.getEmployeeId())
+                .salaryMonthOfYear(salary.getSalaryMonthOfYear())
+                .salaryBase(salary.getSalaryGross())
+                .birth(getUsersResponse.getResults().get(0).getBirth())
+                .name(getUsersResponse.getResults().get(0).getName())
+                .build();
+        log.info(getUsersResponse.getResults().get(0).getBirth());
+        return mySalaryRequest;
     }
 }
 

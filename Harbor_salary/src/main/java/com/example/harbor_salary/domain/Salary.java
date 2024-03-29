@@ -27,7 +27,7 @@ public class Salary{
 
     //사원 번호
     @Column(nullable = false)
-    private int employeeId;
+    private String employeeId;
 
     //해당년월
     @CreationTimestamp
@@ -36,13 +36,4 @@ public class Salary{
     @Column(nullable = false)
     private int salaryGross;
 
-//    public static Salary createSalary(Long salaryId, SalaryCode salaryCode, int employeeId, LocalDate salaryMonthOfYear, int salaryBase) {
-//      return Salary.builder()
-//              .salaryId(salaryId)
-//              .salaryCode(salaryCode)
-//              .employeeId(employeeId)
-//              .salaryMonthOfYear(salaryMonthOfYear)
-//              .salaryBase(salaryBase)
-//              .build();
-//    }
 }
