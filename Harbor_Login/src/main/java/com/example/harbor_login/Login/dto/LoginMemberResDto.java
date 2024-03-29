@@ -20,6 +20,7 @@ public class LoginMemberResDto {
     private LocalDate createdAt;
     private Boolean delYn;
     private Role role;
+    private String EmployeeId;
 
     public static LoginMemberResDto mapToMemberResDto(Login member) {
         return LoginMemberResDto.builder()
@@ -29,6 +30,7 @@ public class LoginMemberResDto {
                 .createdAt(LocalDate.from(member.getCreatedAt()))
                 .delYn(member.getDelYn())
                 .role(Role.USER)
+                .EmployeeId(member.getEmployeeId())
                 .build();
     }
 }

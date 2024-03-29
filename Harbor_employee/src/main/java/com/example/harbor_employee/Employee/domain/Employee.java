@@ -1,14 +1,12 @@
 package com.example.harbor_employee.Employee.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +40,7 @@ import java.util.List;
 @Table(name = "HR_Employee")
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Employee {
     @Id
     @Column(nullable = false, length = 20)
@@ -93,5 +91,14 @@ public class Employee {
 
     @OneToMany(mappedBy = "employee")
     private List<PersonnelAppointment> personnelAppointmentList = new ArrayList<>();
+
+    public static Employee createLogin(String email, String birth, String name,String employeeId) {
+        return Employee.builder()
+                .email(email)
+                .birthDate(birth)
+                .name(name)
+                .employeeId(employeeId)
+                .build();
+    }
 }
 
