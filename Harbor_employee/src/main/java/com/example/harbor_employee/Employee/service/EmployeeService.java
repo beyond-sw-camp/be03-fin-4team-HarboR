@@ -6,9 +6,12 @@ import com.example.harbor_employee.Employee.dto.request.EmployeeSearchDto;
 import com.example.harbor_employee.Employee.dto.response.EmployeeResDto;
 import com.example.harbor_employee.Employee.repository.EmployeeCodeRepository;
 import com.example.harbor_employee.Employee.repository.EmployeeRepository;
+import com.example.harbor_employee.client.dto.LoginMemberResDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +25,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@Slf4j
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final EmployeeCodeRepository employeeCodeRepository;
@@ -76,5 +80,22 @@ public class EmployeeService {
                         .name(e.getName())
                         .build()).collect(Collectors.toList());
         return employeeResDtos;
+    }
+
+    public HttpStatus createBasicEmployee(LoginMemberResDto loginMemberResDto) {
+
+        log.info(" basicEmployee 객체 생성");
+        System.out.println("loginMemberResDto = " + loginMemberResDto.getBirth());
+        System.out.println("loginMemberResDto = " + loginMemberResDto.getName());
+        System.out.println("loginMemberResDto = " + loginMemberResDto.getEmail());
+        System.out.println("loginMemberResDto = " + loginMemberResDto.getEmployeeId());
+        Employee basicEmployee = Employee.createLogin(
+                loginMemberResDto.getEmail(),
+                loginMemberResDto.getBirth(),
+                loginMemberResDto.getName(),
+                loginMemberResDto.getEmployeeId()
+        );
+        employeeRepository.save(basicEmployee);
+        return HttpStatus.OK;
     }
 }
