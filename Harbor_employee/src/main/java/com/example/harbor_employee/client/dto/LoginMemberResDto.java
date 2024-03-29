@@ -1,6 +1,6 @@
-package com.example.harbor_employee.dto;
+package com.example.harbor_employee.client.dto;
 
-import com.example.harbor_employee.support.Role;
+import com.example.harbor_employee.global.support.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
