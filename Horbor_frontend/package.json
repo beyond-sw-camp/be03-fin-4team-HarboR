@@ -4,7 +4,7 @@
   "private": true,
   "author": "CodedThemes",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 3000",
     "build": "vue-tsc --noEmit && vite build",
     "build-stage": "vue-tsc --noEmit && vite build --base=/vue/free/stage/",
     "build-prod": "vue-tsc --noEmit && vite build --base=/vue/free/",
