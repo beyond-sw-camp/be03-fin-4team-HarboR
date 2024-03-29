@@ -16,8 +16,8 @@ public class HarborLoginApplication {
 		SpringApplication.run(HarborLoginApplication.class, args);
 	}
 
-	@Bean
-	public Logger.Level feignLoggerLevel(){
-		return Logger.Level.FULL;
-	}
+//	@Bean
+//	public Logger.Level feignLoggerLevel(){
+//		return Logger.Level.FULL;
+//	}
 }
