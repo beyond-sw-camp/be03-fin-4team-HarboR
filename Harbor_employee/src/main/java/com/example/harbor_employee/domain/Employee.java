@@ -1,9 +1,7 @@
 package com.example.harbor_employee.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.example.harbor_employee.support.Role;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -15,50 +13,50 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
-* Entity 구성
-* employeeId: 사원번호(PK), 8자리
-* teamCode: 소속팀(코드)
-* positionCode: 직위(코드)
-* statusCode: 업무 상태(코드)
-* genderCode: 성별(코드)
-* dutyCode: 직무(코드)
-* bankCode: 은행(코드)
-* profile_image: 사진 url
-* email: 이메일
-* name: 이름
-* phone: 전화번호
-* socialSecurityNumber: 주민등록번호
-* birthDate: 생년월일
-* address: 주소
-* year: 년차
-* joinDate: 입사날짜
-* leavingDate: 퇴사날짜
-* updateDate: 수정날짜
-* reasonForResignation: 퇴사사유
-* account: 계좌번호
-* */
+ * Entity 구성
+ * employeeId: 사원번호(PK), 8자리
+ * teamCode: 소속팀(코드)
+ * positionCode: 직위(코드)
+ * statusCode: 업무 상태(코드)
+ * genderCode: 성별(코드)
+ * dutyCode: 직무(코드)
+ * bankCode: 은행(코드)
+ * profile_image: 사진 url
+ * email: 이메일
+ * name: 이름
+ * phone: 전화번호
+ * socialSecurityNumber: 주민등록번호
+ * birthDate: 생년월일
+ * address: 주소
+ * year: 년차
+ * joinDate: 입사날짜
+ * leavingDate: 퇴사날짜
+ * updateDate: 수정날짜
+ * reasonForResignation: 퇴사사유
+ * account: 계좌번호
+ * */
 @Getter
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "HR_Employee")
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Employee {
     @Id
     @Column(nullable = false, length = 20)
-    private Long employeeId;
-    @Column(nullable = false, length = 20)
+    private String employeeId;
+    @Column(length = 20)
     private String teamCode;
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private String positionCode;
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private String statusCode;
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private String genderCode;
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private String dutyCode;
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private String bankCode;
 
     private String profileImage;
@@ -66,9 +64,9 @@ public class Employee {
     private String email;
     @Column(nullable = false, length = 20)
     private String name;
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private String phone;
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private String socialSecurityNumber;
     @Column(nullable = false, length = 20)
     private String birthDate;
@@ -77,9 +75,9 @@ public class Employee {
     private String joinDate;
     private String leavingDate;
     private String updateDate;
-    @Column(nullable = false)
+    @Column()
     private String reasonForResignation;
-    @Column(nullable = false, length = 50)
+    @Column(length = 50)
     private String accountNumber;
     @CreatedDate
     private LocalDateTime createdAt;
@@ -95,5 +93,15 @@ public class Employee {
 
     @OneToMany(mappedBy = "employee")
     private List<PersonnelAppointment> personnelAppointmentList = new ArrayList<>();
+
+    public static Employee createLogin(String email, String birth, String name,String employeeId) {
+        return Employee.builder()
+                .email(email)
+                .birthDate(birth)
+                .name(name)
+                .employeeId(employeeId)
+                .build();
+    }
+
 }
 
