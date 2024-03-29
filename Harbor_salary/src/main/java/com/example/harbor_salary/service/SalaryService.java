@@ -1,12 +1,9 @@
 package com.example.harbor_salary.service;
-<<<<<<< HEAD
-=======
 
 import com.example.harbor_salary.client.GetUsersResponse;
 import com.example.harbor_salary.client.SalaryClient;
 import com.example.harbor_salary.domain.Salary;
 import com.example.harbor_salary.dto.request.MySalaryRequest;
->>>>>>> 8fd54693c419aab7d130d671d06cf55406d76a65
 import com.example.harbor_salary.repository.SalaryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,24 +13,25 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class SalaryService {
 
     private final SalaryRepository repository;
-
-    public SalaryService(SalaryRepository repository) {
-        this.repository = repository;
-
     private final SalaryRepository salaryRepository;
     private final SalaryClient salaryClient;
 
-    private final double NATIONAL_PENSION_RATE = 0.045; // 국민연금료 비율
-    private final double HEALTH_INSURANCE_RATE = 0.03545; // 건강보험료 비율
-    private final double LONG_TERM_CARE_INSURANCE_RATE = 0.004591; // 장기요양보험료 비율
-    private final double EMPLOYMENT_INSURANCE_RATE = 0.009; // 고용보험료 비율
-    private final double INCOME_TAX = 32380; // 근로소득세
-    private final double LOCAL_INCOME_TAX_RATE = 0.1; // 지방소득세 비율
+    public SalaryService(SalaryRepository repository, SalaryRepository salaryRepository, SalaryClient salaryClient) {
+        this.repository = repository;
+        this.salaryRepository = salaryRepository;
+        this.salaryClient = salaryClient;
+    }
+
+        private final double NATIONAL_PENSION_RATE = 0.045; // 국민연금료 비율
+        private final double HEALTH_INSURANCE_RATE = 0.03545; // 건강보험료 비율
+        private final double LONG_TERM_CARE_INSURANCE_RATE = 0.004591; // 장기요양보험료 비율
+        private final double EMPLOYMENT_INSURANCE_RATE = 0.009; // 고용보험료 비율
+        private final double INCOME_TAX = 32380; // 근로소득세
+        private final double LOCAL_INCOME_TAX_RATE = 0.1; // 지방소득세 비율
 
 
     //월급 계산

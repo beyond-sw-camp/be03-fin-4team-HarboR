@@ -27,28 +27,34 @@ public class Notice {
     @Column(nullable = false, length = 3000)
     private String contents;
 
-    @Column(nullable = false)
+    @Column
     private String fileName;
 
-    @Column(nullable = false)
+    @Column
     private String filePath;
 
 
     @CreatedDate
     private LocalDateTime createdAt;
 
-    private String delYn="N"; // notice 삭제 유무
+    @Builder.Default
+    private boolean delYn= false; // notice 삭제 유무
 
 
 
-    public void updateNotice(String title, String contents, String fileName, String filePath){
+    public void updateNotice(String title, String contents, String fileName){
 
         this.title = title;
         this.contents = contents;
         this.fileName = fileName;
-        this.filePath = filePath;
+
     }
     public void deleteNotice(){ // notice 삭제 시 호출
-        this.delYn = "Y";
+        this.delYn = true;
+    }
+    public void setImagePath(String filePath){
+        this.filePath = filePath;
+
+
     }
 }

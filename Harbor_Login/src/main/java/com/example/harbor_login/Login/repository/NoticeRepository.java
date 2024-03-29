@@ -15,14 +15,13 @@ import java.util.Optional;
 public interface NoticeRepository extends JpaRepository<Notice,String> {
 
 
-        Optional<Notice> findByEmail(String email);
+//    Optional<Notice> findByEmail(String email);
 
-        Optional<Notice> findByNoticeId(int noticeId);
+    Optional<Notice> findByNoticeId(int noticeId);
+    Page<Notice> findAll(Pageable pageable);
 
-        Page<Notice> findAll(String employeeId, Pageable pageable);
+    Page<Notice> findAllByDelYnOrderByCreatedAt(Boolean delYn, Pageable pageable);
 
-        Page<Notice> findAllByDelYnOrderByCreatedAt(Boolean delYn, Pageable pageable);
 
-        List<Notice> findAll();
-    }
+}
 

@@ -2,6 +2,7 @@ package com.example.harbor_login.Login.dto;
 
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -12,7 +13,6 @@ import java.time.LocalDateTime;
 @Data
 public class NoticeCreateReqDto {
 
-    private int noticeId;
 
     private String title;
 
@@ -20,7 +20,5 @@ public class NoticeCreateReqDto {
 
     private String fileName;
 
-    private String filePath;
-
-    private LocalDateTime createdAt;
+    private MultipartFile filePath;
 }
