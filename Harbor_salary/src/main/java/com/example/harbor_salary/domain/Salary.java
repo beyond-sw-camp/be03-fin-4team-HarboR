@@ -34,16 +34,6 @@ public class Salary{
     private LocalDate salaryMonthOfYear;
     //실수령 급여
     @Column(nullable = false)
-    private int salaryBase;
     private int salaryGross;
 
-    public static Salary createSalary(Long salaryId, SalaryCode salaryCode, String employeeId, LocalDate salaryMonthOfYear, int salaryBase) {
-      return Salary.builder()
-              .salaryId(salaryId)
-              .salaryCode(salaryCode)
-              .employeeId(employeeId)
-              .salaryMonthOfYear(salaryMonthOfYear)
-              .salaryBase(salaryBase)
-              .build();
-    }
 }

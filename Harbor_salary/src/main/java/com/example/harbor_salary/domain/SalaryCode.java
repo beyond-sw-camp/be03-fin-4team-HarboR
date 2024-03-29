@@ -19,7 +19,7 @@ public class SalaryCode {
     //코드번호
     @Id
     @Column(length = 20)
-    private String code_num;
+    private String codeNum;
 
     //급여
     @Column(nullable = false)
@@ -27,11 +27,5 @@ public class SalaryCode {
     //직위
     @Column(nullable = false, length = 10)
     private String position;
-    //통상 시급
-    @Column(nullable = false)
-    private int salaryWage;
-    //고정연장수당
-    @Column(nullable = false)
-    private int salaryOvertime;
 
 }

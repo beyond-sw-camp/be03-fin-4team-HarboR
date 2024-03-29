@@ -11,16 +11,5 @@
         <module name="Harbor_employee.main" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="11">
-      <module name="HR_salary" target="17" />
-      <module name="HR_salary.main" target="17" />
-      <module name="HR_salary.test" target="17" />
-      <module name="HR_total" target="17" />
-      <module name="HR_total.main" target="17" />
-      <module name="HR_total.test" target="17" />
-      <module name="login" target="17" />
-      <module name="login.main" target="17" />
-      <module name="login.test" target="17" />
-    </bytecodeTargetLevel>
   </component>
 </project>
