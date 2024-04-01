@@ -7,11 +7,9 @@ import com.example.harbor_salary.domain.SalaryCode;
 import com.example.harbor_salary.dto.request.MySalaryRequest;
 import com.example.harbor_salary.repository.SalaryCodeRepository;
 import com.example.harbor_salary.repository.SalaryRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class SalaryService {
 
@@ -19,10 +17,16 @@ public class SalaryService {
     private final SalaryCodeRepository salaryCodeRepository;
     private final SalaryClient salaryClient;
 
-    private final double NATIONAL_PENSION_RATE = 0.045; // 국민연금료 비율
-    private final double HEALTH_INSURANCE_RATE = 0.03545; // 건강보험료 비율
-    private final double LONG_TERM_CARE_INSURANCE_RATE = 0.004591; // 장기요양보험료 비율
-    private final double EMPLOYMENT_INSURANCE_RATE = 0.009; // 고용보험료 비율
+    public SalaryService(SalaryRepository salaryRepository, SalaryCodeRepository salaryCodeRepository, SalaryClient salaryClient) {
+        this.salaryRepository = salaryRepository;
+        this.salaryCodeRepository = salaryCodeRepository;
+        this.salaryClient = salaryClient;
+    }
+
+        private final double NATIONAL_PENSION_RATE = 0.045; // 국민연금료 비율
+        private final double HEALTH_INSURANCE_RATE = 0.03545; // 건강보험료 비율
+        private final double LONG_TERM_CARE_INSURANCE_RATE = 0.004591; // 장기요양보험료 비율
+        private final double EMPLOYMENT_INSURANCE_RATE = 0.009; // 고용보험료 비율
 
 
     //월급 계산
@@ -42,6 +46,7 @@ public class SalaryService {
 
     //퇴직금 계산서비스
     public class RetirementService {
+
         public double calculateRetirement(double averageSalary, int totalWorkingDays) {
             return averageSalary * (totalWorkingDays / 365.0);
         }
