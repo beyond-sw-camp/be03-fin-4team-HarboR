@@ -5,7 +5,7 @@ spring:
     name: salary
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/harbor
+    url: jdbc:mariadb://localhost:3306/harbor_salary
     username: root
     password: 1234
   jpa:
@@ -26,4 +26,8 @@ eureka:
 logging:
   level:
     root: info
+    com.example.harbor_login.client: DEBUG
+jwt:
+  secretKey: CE254B51A873FD7C90C9338C534787FFCDEA4DC217B49AF2CB7DA54661418349
+
 url: "http://localhost:8000"

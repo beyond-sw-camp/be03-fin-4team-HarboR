@@ -1,0 +1,100 @@
+version: '3.8'
+
+services:
+  mariadb:
+    image: mariadb:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: harbor_db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3306:3306"
+    networks:
+      - harbor_network
+    volumes:
+      - image-path:/tmp
+
+  harbor_employee:
+    build:
+      context: .
+      dockerfile: DockerFile.harbor_employee
+    ports:
+      - "8004:8004"
+    networks:
+      - harbor_network
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/harbor_employee
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 1234
+    depends_on:
+      - mariadb
+
+  harbor_login:
+    build:
+      context: .
+      dockerfile: DockerFile.harbor_login
+    ports:
+      - "8001:8001"
+    networks:
+      - harbor_network
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/harbor_login
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 1234
+    depends_on:
+      - mariadb
+
+  harbor_salary:
+    build:
+      context: .
+      dockerfile: DockerFile.harbor_salary
+    ports:
+      - "8002:8002"
+    networks:
+      - harbor_network
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/harbor_salary
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 1234
+    depends_on:
+      - mariadb
+
+  harbor_total:
+    build:
+      context: .
+      dockerfile: DockerFile.harbor_total
+    ports:
+      - "8004:8004"
+    networks:
+      - harbor_network
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/harbor_total
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 1234
+    depends_on:
+      - mariadb
+
+  gateway:
+    build:
+      context: .
+      dockerfile: DockerFile.gateway
+    ports:
+      - "8000:8000"
+    networks:
+      - harbor_network
+    environment:
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka:8761/eureka
+
+  eureka:
+    build:
+      context: .
+      dockerfile: DockerFile.eureka
+    ports:
+      - "8761:8761"
+    networks:
+      - harbor_network
+
+networks:
+  harbor_network:
