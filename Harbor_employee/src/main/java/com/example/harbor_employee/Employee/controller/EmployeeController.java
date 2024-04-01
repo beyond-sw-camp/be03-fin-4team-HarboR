@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.Path;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -41,15 +42,15 @@ public class EmployeeController {
      *      ]
      * }
      */
-    @GetMapping("/getlist")
+    @GetMapping("/get/list")
     public ResponseEntity<CommonResponse> getList(EmployeeSearchDto employeeSearchDto, Pageable pageable){
         List<EmployeeResDto> employees = employeeService.findAll(employeeSearchDto, pageable);
         return new ResponseEntity<>(new CommonResponse("요청이 정상적으로 실행되었습니다.", employees), HttpStatus.OK);
     }
 
-    @GetMapping("/getDetail/{employeeId}")
-    public ResponseEntity<CommonResponse> getDetail(@PathVariable("employeeId") String employeeId){
-        return new ResponseEntity<>(new CommonResponse("요청이 정상적으로 실행되었습니다.", employeeService.findByEmployeeId(employeeId)), HttpStatus.OK);
+    @GetMapping("/get/detail")
+    public ResponseEntity<CommonResponse> getDetail(Principal principal){
+        return new ResponseEntity<>(new CommonResponse("요청이 정상적으로 실행되었습니다.", employeeService.findByEmployeeId(principal.getName())), HttpStatus.OK);
     }
 
     @PostMapping("/create")

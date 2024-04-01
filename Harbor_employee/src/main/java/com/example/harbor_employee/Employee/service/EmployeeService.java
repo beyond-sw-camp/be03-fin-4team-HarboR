@@ -2,6 +2,7 @@ package com.example.harbor_employee.Employee.service;
 
 import com.example.harbor_employee.Employee.domain.Employee;
 import com.example.harbor_employee.Employee.dto.request.EmployeeSearchDto;
+import com.example.harbor_employee.Employee.dto.response.EmployeeDetailResDto;
 import com.example.harbor_employee.Employee.dto.response.EmployeeResDto;
 import com.example.harbor_employee.Employee.repository.EmployeeRepository;
 import com.example.harbor_employee.Employee.utils.EmployeeSpecification;
@@ -65,7 +66,29 @@ public class EmployeeService {
         return HttpStatus.OK;
     }
 
-    public Employee findByEmployeeId(String employeeId) {
-        return employeeRepository.findByEmployeeId(employeeId);
+    public EmployeeDetailResDto findByEmployeeId(String employeeId) {
+        Employee employee = employeeRepository.findByEmployeeId(employeeId);
+        return EmployeeDetailResDto.builder()
+                .employeeId(employeeId)
+                .name(employee.getName())
+                .email(employee.getEmail())
+                .phone(employee.getPhone())
+                .gender(employee.getGenderCode().getDescription())
+                .birthDate(employee.getBirthDate())
+                .socialSecurityNumber(employee.getSocialSecurityNumber())
+                .address(employee.getAddress())
+                .duty(employee.getDutyCode().getDescription())
+                .position(employee.getPositionCode().getDescription())
+                .team(employee.getTeamCode().getDescription())
+                .department(employee.getDepartment().getDepartmentName())
+                .status(employee.getStatusCode().getDescription())
+                .careerYMD(employee.getCareerYMD())
+                .joinDate(employee.getJoinDate())
+                .bank(employee.getBankCode().getDescription())
+                .accountNumber(employee.getAccountNumber())
+                .profileImagePath(employee.getProfileImage())
+                .leavingDate(employee.getLeavingDate())
+                .reasonForResignation(employee.getReasonForResignation())
+                .build();
     }
 }
