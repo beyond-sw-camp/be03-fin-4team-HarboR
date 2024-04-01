@@ -58,7 +58,7 @@ public class SalaryService {
     //급여 생성
     public Salary createSalary(){
         // SalaryCode 에서 baseSalary 코드를 받아오는 과정
-        String employeeId = getCurrentEmployeeId();
+        GetUsersResponse getUsersResponse = salaryClient.getUsers(employeeId);
         String positionCode = getCurrentPositionCode();
         SalaryCode salaryCodes = salaryCodeRepository.findByCodeNum(positionCode);
         int baseSalary = salaryCodes.getBaseSalary();
