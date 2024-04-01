@@ -13,4 +13,6 @@ import java.util.List;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     List<Employee> findAll(Specification<Employee> specification, Pageable pageable);
+
+    Employee findByEmployeeId(String employeeId);
 }

@@ -3,7 +3,6 @@ package com.example.harbor_employee.Employee.service;
 import com.example.harbor_employee.Employee.domain.Employee;
 import com.example.harbor_employee.Employee.dto.request.EmployeeSearchDto;
 import com.example.harbor_employee.Employee.dto.response.EmployeeResDto;
-import com.example.harbor_employee.Employee.repository.EmployeeCodeRepository;
 import com.example.harbor_employee.Employee.repository.EmployeeRepository;
 import com.example.harbor_employee.Employee.utils.EmployeeSpecification;
 import com.example.harbor_employee.client.dto.LoginMemberResDto;
@@ -13,7 +12,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,5 +63,9 @@ public class EmployeeService {
         );
         employeeRepository.save(basicEmployee);
         return HttpStatus.OK;
+    }
+
+    public Employee findByEmployeeId(String employeeId) {
+        return employeeRepository.findByEmployeeId(employeeId);
     }
 }
