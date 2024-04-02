@@ -3,6 +3,7 @@ package com.example.harbor_employee.Employee.service;
 import com.example.harbor_employee.Employee.domain.Employee;
 import com.example.harbor_employee.Employee.dto.request.EmployeeSearchDto;
 import com.example.harbor_employee.Employee.dto.response.EmployeeResDto;
+import com.example.harbor_employee.Employee.dto.response.GetEmployResponse;
 import com.example.harbor_employee.Employee.repository.EmployeeCodeRepository;
 import com.example.harbor_employee.Employee.repository.EmployeeRepository;
 import com.example.harbor_employee.Employee.utils.EmployeeSpecification;
@@ -66,4 +67,18 @@ public class EmployeeService {
         employeeRepository.save(basicEmployee);
         return HttpStatus.OK;
     }
+
+    public GetEmployResponse getUserPosition(String employeeId) {
+        try{
+            Employee employee = employeeRepository.findByEmployeeId(employeeId).orElseThrow(IllegalArgumentException::new);
+            GetEmployResponse getEmployResponse = new GetEmployResponse();
+            getEmployResponse.getResults().add(new GetEmployResponse.Result(employee.getPositionCode()));
+            log.info(getEmployResponse.getResults().get(0).getPositionCode());
+            return getEmployResponse;
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
 }

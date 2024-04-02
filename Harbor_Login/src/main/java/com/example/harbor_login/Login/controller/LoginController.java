@@ -84,7 +84,6 @@ public class LoginController {
     public ResponseEntity<GetUsersResponse> getUserDetail(@PathVariable(name = "id") String id){
         System.out.println(id);
         GetUsersResponse login = loginService.getUserInfo(id);
-
         return ResponseEntity.status(HttpStatus.OK).body(login);
     }
 

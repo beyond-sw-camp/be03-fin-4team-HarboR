@@ -30,10 +30,8 @@ public class AdminController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/active/{email}")
     public ResponseEntity<CommonResponse> mailConfirm(@PathVariable(value = "email") String email, @AuthenticationPrincipal CustomUserDetails userDetails) {
-
         emailService.sendEmail(email);
         loginService.findByEmail(email);
-
         return new ResponseEntity<>(new CommonResponse("Employee number transmitted successfully", email), HttpStatus.OK);
     }
     @PreAuthorize("hasRole('ADMIN')")

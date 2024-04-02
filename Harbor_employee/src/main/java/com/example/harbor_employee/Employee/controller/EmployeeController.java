@@ -2,6 +2,7 @@ package com.example.harbor_employee.Employee.controller;
 
 import com.example.harbor_employee.Employee.dto.request.EmployeeSearchDto;
 import com.example.harbor_employee.Employee.dto.response.EmployeeResDto;
+import com.example.harbor_employee.Employee.dto.response.GetEmployResponse;
 import com.example.harbor_employee.client.dto.LoginMemberResDto;
 import com.example.harbor_employee.global.common.CommonResponse;
 import com.example.harbor_employee.Employee.service.EmployeeService;
@@ -32,4 +33,17 @@ public class EmployeeController {
         log.info(" 호출 시작 : ");
         return employeeService.createBasicEmployee(loginMemberResDto);
     }
+    @GetMapping("/admin")
+    public ResponseEntity<String> healthCheck(){
+        System.out.println("접근 성공");
+        return ResponseEntity.status(HttpStatus.OK).body("pong");
+    }
+    @GetMapping("/{employeeId}/positionCode")
+    public ResponseEntity<GetEmployResponse> getPositionCodeByEmployeeId(@PathVariable("employeeId") String employeeId){
+        log.info("퐁");
+        GetEmployResponse positionCode = employeeService.getUserPosition(employeeId);
+        log.info("돌려줌");
+        return ResponseEntity.status(HttpStatus.OK).body(positionCode);
+    }
+
 }
