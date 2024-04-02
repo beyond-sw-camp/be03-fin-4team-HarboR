@@ -3,7 +3,7 @@ package com.example.harbor_login.Login.service;
 import com.example.harbor_login.Login.domain.Login;
 import com.example.harbor_login.Login.dto.*;
 import com.example.harbor_login.Login.repository.LoginRepository;
-import com.example.harbor_login.client.LoginToEmplyoeeClient;
+import com.example.harbor_login.client.LoginToEmployeeClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -25,7 +25,7 @@ import java.util.Optional;
 public class LoginService {
     private final LoginRepository loginRepository;
     private final PasswordEncoder passwordEncoder;
-    private final LoginToEmplyoeeClient loginToEmplyoeeClient;
+    private final LoginToEmployeeClient loginToEmployeeClient;
     public void signup(LoginSignUpReqDto loginCreateReqDto) {
         Optional<Login> findMember = loginRepository.findByEmail(loginCreateReqDto.getEmail());
         if (findMember.isPresent()) {
@@ -105,8 +105,8 @@ public class LoginService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않은 이메일입니다."));
         LoginMemberResDto loginMemberResDto = LoginMemberResDto.mapToMemberResDto(member);
         log.info("member basic dto 생성 전 호출");
-        HttpStatus emplyoee = loginToEmplyoeeClient.createEmplyoee(loginMemberResDto);
+        HttpStatus employee = loginToEmployeeClient.createEmployee(loginMemberResDto);
 
-        log.info("Member basic Dto  생성" + emplyoee);
+        log.info("Member basic Dto  생성" + employee);
     }
 }
