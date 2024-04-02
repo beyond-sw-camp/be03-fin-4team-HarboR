@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -28,7 +29,7 @@ public class PersonnelAppointmentService {
 
     private final PersonnelAppointmentRepository parepository;
     private final EmployeeRepository employeeRepository;
-    private final EmployeeCodeService employeeCodeService;
+    private EmployeeCodeRepository employeeCodeRepository;
     private final RedisUtil redisUtil;
     private static final int EMPLOYEE_ID_COLUMN_INDEX = 0;
     private static final int BEFORE_DEPARTMENT_CODE_COLUMN_INDEX = 1;
@@ -37,10 +38,11 @@ public class PersonnelAppointmentService {
     private static final int ISSUE_DATE_COLUMN_INDEX = 4;
     private static final int UPDATE_DUTY_CODE_COLUMN_INDEX = 5;
 
-    public PersonnelAppointmentService(PersonnelAppointmentRepository parepository, EmployeeRepository employeeRepository, EmployeeCodeService employeeCodeService, RedisUtil redisUtil) {
+
+    public PersonnelAppointmentService(PersonnelAppointmentRepository parepository, EmployeeRepository employeeRepository, EmployeeCodeRepository employeeCodeRepository, RedisUtil redisUtil) {
         this.parepository = parepository;
         this.employeeRepository = employeeRepository;
-        this.employeeCodeService = employeeCodeService;
+        this.employeeCodeRepository = employeeCodeRepository;
         this.redisUtil = redisUtil;
     }
 
@@ -112,7 +114,11 @@ public class PersonnelAppointmentService {
                     codes.add(excelDataDto.getAfterDepartmentCode());
                     codes.add(excelDataDto.getPositionCode());
                     codes.add(excelDataDto.getUpdateDutyCode());
-                    List<EmployeeCode> employeeCodes = employeeCodeService.getCodes(codes);
+                    List<EmployeeCode> employeeCodes = codes.stream()
+                            .map(e -> employeeCodeRepository.findByCode(e)
+                                    .orElseThrow(IllegalArgumentException::new))
+                            .collect(Collectors.toList());
+                    System.out.println(employeeCodes.get(0).getDescription());
                     PersonnelAppointment personnelAppointment = PersonnelAppointment.CreatePA(
                             employee,
                             employeeCodes.get(0),
@@ -121,7 +127,10 @@ public class PersonnelAppointmentService {
                             excelDataDto.getIssueDate(),
                             employeeCodes.get(3)
                             );
-
+                    System.out.println("personnelAppointment = " + personnelAppointment.getPositionCode().getCode());
+                    System.out.println("personnelAppointment = " + personnelAppointment.getUpdateDutyCode().getCode());
+                    System.out.println("personnelAppointment = " + personnelAppointment.getBeforeDepartmentCode().getCode());
+                    System.out.println("personnelAppointment = " + personnelAppointment.getAfterDepartmentCode().getCode());
                     parepository.save(personnelAppointment);
 //                    key : 날짜 , value : PA_id
                     if (personnelAppointment.getIssueDate() != null) {
