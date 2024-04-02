@@ -1,5 +1,6 @@
 package com.example.harbor_employee.Employee.domain;
 
+import com.example.harbor_employee.Employee.utils.EmployeeSpecification;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -11,28 +12,28 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-* Entity 구성
-* employeeId: 사원번호(PK), 8자리
-* teamCode: 소속팀(코드)
-* positionCode: 직위(코드)
-* statusCode: 업무 상태(코드)
-* genderCode: 성별(코드)
-* dutyCode: 직무(코드)
-* bankCode: 은행(코드)
-* profile_image: 사진 url
-* email: 이메일
-* name: 이름
-* phone: 전화번호
-* socialSecurityNumber: 주민등록번호
-* birthDate: 생년월일
-* address: 주소
-* year: 년차
-* joinDate: 입사날짜
-* leavingDate: 퇴사날짜
-* updateDate: 수정날짜
-* reasonForResignation: 퇴사사유
-* account: 계좌번호
+/**
+* @Entity 구성
+* @employeeId: 사원번호(PK), 8자리
+* @teamCode: 소속팀(코드)
+* @positionCode: 직위(코드)
+* @statusCode: 업무 상태(코드)
+* @genderCode: 성별(코드)
+* @dutyCode: 직무(코드)
+* @bankCode: 은행(코드)
+* @profile_image: 사진 url
+* @email: 이메일
+* @name: 이름
+* @phone: 전화번호
+* @socialSecurityNumber: 주민등록번호
+* @birthDate: 생년월일
+* @address: 주소
+* @year: 년차
+* @joinDate: 입사날짜
+* @leavingDate: 퇴사날짜
+* @updateDate: 수정날짜
+* @reasonForResignation: 퇴사사유
+* @account: 계좌번호
 * */
 @Getter
 @EntityListeners(AuditingEntityListener.class)
@@ -45,18 +46,24 @@ public class Employee {
     @Id
     @Column(nullable = false, length = 20)
     private String employeeId;
-    @Column(length = 20)
-    private String teamCode;
-    @Column(length = 20)
-    private String positionCode;
-    @Column(length = 20)
-    private String statusCode;
-    @Column(length = 20)
-    private String genderCode;
-    @Column(length = 20)
-    private String dutyCode;
-    @Column(length = 20)
-    private String bankCode;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_code")
+    private EmployeeCode teamCode;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "position_code")
+    private EmployeeCode positionCode;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "status_code")
+    private EmployeeCode statusCode;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "gender_code")
+    private EmployeeCode genderCode;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "duty_code")
+    private EmployeeCode dutyCode;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "bank_code")
+    private EmployeeCode bankCode;
     @Column(length = 1000)
     private String profileImage;
     @Column(nullable = false, length = 50)
@@ -82,7 +89,7 @@ public class Employee {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "department_code")
     private Department department;
 
