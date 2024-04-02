@@ -1,5 +1,6 @@
 package com.example.harbor_employee.Employee.domain;
 
+import com.example.harbor_employee.Eworks.domain.Eworks;
 import com.example.harbor_employee.PersonnelAppointment.domain.PersonnelAppointment;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;

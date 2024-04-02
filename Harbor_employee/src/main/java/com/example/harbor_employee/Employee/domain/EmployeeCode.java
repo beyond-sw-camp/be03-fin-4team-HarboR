@@ -19,9 +19,4 @@ public class EmployeeCode {
     private String code;
     @Column(nullable = false, length = 20)
     private String description;
-
-    public String getCode(String description){
-        if(description.equals(this.description)) return this.code;
-        return null;
-    }
 }

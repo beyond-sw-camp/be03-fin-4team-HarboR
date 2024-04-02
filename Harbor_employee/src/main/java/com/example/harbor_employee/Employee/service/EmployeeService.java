@@ -97,7 +97,7 @@ public class EmployeeService {
         try{
             Employee employee = employeeRepository.findByEmployeeId(employeeId).orElseThrow(IllegalArgumentException::new);
             GetEmployResponse getEmployResponse = new GetEmployResponse();
-            getEmployResponse.setPositionCode(employee.getPositionCode().getDescription());
+//            getEmployResponse.setPositionCode(employee.getPositionCode().getDescription());
             return getEmployResponse;
         } catch(Exception e){
             System.out.println(e.getMessage());
