@@ -4,8 +4,9 @@ import com.example.harbor_employee.Employee.domain.Employee;
 import com.example.harbor_employee.Employee.dto.request.EmployeeSearchDto;
 import com.example.harbor_employee.Employee.dto.response.EmployeeDetailResDto;
 import com.example.harbor_employee.Employee.dto.response.EmployeeResDto;
+import com.example.harbor_employee.Employee.dto.response.GetEmployResponse;
 import com.example.harbor_employee.Employee.repository.EmployeeRepository;
-import com.example.harbor_employee.Employee.utils.EmployeeSpecification;
+import com.example.harbor_employee.global.util.EmployeeSpecification;
 import com.example.harbor_employee.client.dto.LoginMemberResDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -67,7 +68,7 @@ public class EmployeeService {
     }
 
     public EmployeeDetailResDto findByEmployeeId(String employeeId) {
-        Employee employee = employeeRepository.findByEmployeeId(employeeId);
+        Employee employee = employeeRepository.findByEmployeeId(employeeId).orElseThrow(IllegalArgumentException::new);
         return EmployeeDetailResDto.builder()
                 .employeeId(employeeId)
                 .name(employee.getName())
@@ -91,4 +92,17 @@ public class EmployeeService {
                 .reasonForResignation(employee.getReasonForResignation())
                 .build();
     }
+
+    public GetEmployResponse getUserPosition(String employeeId) {
+        try{
+            Employee employee = employeeRepository.findByEmployeeId(employeeId).orElseThrow(IllegalArgumentException::new);
+            GetEmployResponse getEmployResponse = new GetEmployResponse();
+            getEmployResponse.setPositionCode(employee.getPositionCode().getDescription());
+            return getEmployResponse;
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
 }

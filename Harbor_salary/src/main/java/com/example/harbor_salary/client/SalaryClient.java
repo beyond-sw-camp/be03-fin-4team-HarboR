@@ -12,4 +12,6 @@ public interface SalaryClient {
 
     @GetMapping(value = "/login/account/detail/{id}")
     GetUsersResponse getUsers(@PathVariable("id") String id);
+
+
 }

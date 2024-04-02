@@ -1,13 +1,12 @@
 package com.example.harbor_employee.Employee.domain;
 
-import com.example.harbor_employee.Employee.utils.EmployeeSpecification;
+import com.example.harbor_employee.PersonnelAppointment.domain.PersonnelAppointment;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -106,6 +105,13 @@ public class Employee {
                 .name(name)
                 .employeeId(employeeId)
                 .build();
+    }
+
+    public void updatePA(PersonnelAppointment pa, Department department){
+        this.dutyCode = pa.getUpdateDutyCode();
+        this.positionCode = pa.getPositionCode();
+        this.joinDate = pa.getIssueDate();
+        this.department = department;
     }
 }
 

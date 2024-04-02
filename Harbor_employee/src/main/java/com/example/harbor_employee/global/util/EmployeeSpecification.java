@@ -1,4 +1,4 @@
-package com.example.harbor_employee.Employee.utils;
+package com.example.harbor_employee.global.util;
 
 import com.example.harbor_employee.Employee.domain.Department;
 import com.example.harbor_employee.Employee.domain.Employee;
