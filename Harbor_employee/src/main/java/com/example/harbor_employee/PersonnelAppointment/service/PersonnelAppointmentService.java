@@ -1,8 +1,11 @@
 package com.example.harbor_employee.PersonnelAppointment.service;
 
 import com.example.harbor_employee.Employee.domain.Employee;
+import com.example.harbor_employee.Employee.domain.EmployeeCode;
 import com.example.harbor_employee.Employee.dto.response.ExcelDataDto;
+import com.example.harbor_employee.Employee.repository.EmployeeCodeRepository;
 import com.example.harbor_employee.Employee.repository.EmployeeRepository;
+import com.example.harbor_employee.Employee.service.EmployeeCodeService;
 import com.example.harbor_employee.PersonnelAppointment.domain.PersonnelAppointment;
 import com.example.harbor_employee.PersonnelAppointment.repository.PersonnelAppointmentRepository;
 import com.example.harbor_employee.global.util.RedisUtil;
@@ -17,10 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -28,6 +28,7 @@ public class PersonnelAppointmentService {
 
     private final PersonnelAppointmentRepository parepository;
     private final EmployeeRepository employeeRepository;
+    private final EmployeeCodeService employeeCodeService;
     private final RedisUtil redisUtil;
     private static final int EMPLOYEE_ID_COLUMN_INDEX = 0;
     private static final int BEFORE_DEPARTMENT_CODE_COLUMN_INDEX = 1;
@@ -36,9 +37,10 @@ public class PersonnelAppointmentService {
     private static final int ISSUE_DATE_COLUMN_INDEX = 4;
     private static final int UPDATE_DUTY_CODE_COLUMN_INDEX = 5;
 
-    public PersonnelAppointmentService(PersonnelAppointmentRepository parepository, EmployeeRepository employeeRepository, RedisUtil redisUtil) {
+    public PersonnelAppointmentService(PersonnelAppointmentRepository parepository, EmployeeRepository employeeRepository, EmployeeCodeService employeeCodeService, RedisUtil redisUtil) {
         this.parepository = parepository;
         this.employeeRepository = employeeRepository;
+        this.employeeCodeService = employeeCodeService;
         this.redisUtil = redisUtil;
     }
 
@@ -105,14 +107,20 @@ public class PersonnelAppointmentService {
                     if (cell6 != null)
                         excelDataDto.setUpdateDutyCode(cell6.getStringCellValue());
 
+                    List<String> codes = new ArrayList<>();
+                    codes.add(excelDataDto.getBeforeDepartmentCode());
+                    codes.add(excelDataDto.getAfterDepartmentCode());
+                    codes.add(excelDataDto.getPositionCode());
+                    codes.add(excelDataDto.getUpdateDutyCode());
+                    List<EmployeeCode> employeeCodes = employeeCodeService.getCodes(codes);
                     PersonnelAppointment personnelAppointment = PersonnelAppointment.CreatePA(
                             employee,
-                            excelDataDto.getBeforeDepartmentCode(),
-                            excelDataDto.getAfterDepartmentCode(),
-                            excelDataDto.getPositionCode(),
+                            employeeCodes.get(0),
+                            employeeCodes.get(1),
+                            employeeCodes.get(2),
                             excelDataDto.getIssueDate(),
-                            excelDataDto.getUpdateDutyCode()
-                    );
+                            employeeCodes.get(3)
+                            );
 
                     parepository.save(personnelAppointment);
 //                    key : 날짜 , value : PA_id

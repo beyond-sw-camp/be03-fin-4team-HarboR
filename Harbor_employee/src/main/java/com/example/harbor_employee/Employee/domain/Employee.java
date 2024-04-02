@@ -1,7 +1,6 @@
 package com.example.harbor_employee.Employee.domain;
 
 import com.example.harbor_employee.PersonnelAppointment.domain.PersonnelAppointment;
-import com.example.harbor_employee.Employee.utils.EmployeeSpecification;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

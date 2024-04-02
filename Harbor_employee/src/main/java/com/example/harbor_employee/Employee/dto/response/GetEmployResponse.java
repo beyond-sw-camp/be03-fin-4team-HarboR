@@ -12,12 +12,5 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetEmployResponse {
-    private List<Result> results = new ArrayList<>();
-
-    @Getter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class Result {
-        private String positionCode;
-    }
+    private String positionCode;
 }

@@ -24,7 +24,6 @@ public class EmployeeDetailResDto {
    private String birthDate;
    private String careerYMD;
    private String joinDate;
-   private String updateDate;
     // 퇴사날짜 및 퇴사사유 : 위의 status에서 퇴사 여부 확인 후 퇴사자의 경우에만 확인할 수 있도록
    private String leavingDate;
    private String reasonForResignation;

@@ -1,6 +1,8 @@
 package com.example.harbor_employee.PersonnelAppointment.domain;
 
+import com.example.harbor_employee.Employee.domain.Department;
 import com.example.harbor_employee.Employee.domain.Employee;
+import com.example.harbor_employee.Employee.domain.EmployeeCode;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -27,14 +29,18 @@ public class PersonnelAppointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long appointmentId;
 
-    @Column(length = 20)
-    private String updateDutyCode;
-    @Column(length = 20)
-    private String beforeDepartmentCode;
-    @Column(length = 20)
-    private String afterDepartmentCode;
-    @Column(length = 20)
-    private String positionCode;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "update_duty_code")
+    private EmployeeCode updateDutyCode;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "before_department_code")
+    private EmployeeCode beforeDepartmentCode;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "after_department_code")
+    private EmployeeCode afterDepartmentCode;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "position_code")
+    private EmployeeCode positionCode;
 
     private String issueDate;
 
@@ -44,7 +50,7 @@ public class PersonnelAppointment {
 
     private Boolean delYn = false;
 
-    public PersonnelAppointment(Employee employee, String beforeDepartmentCode, String afterDepartmentCode, String positionCode, String issueDate, String updateDutyCode) {
+    public PersonnelAppointment(Employee employee, EmployeeCode beforeDepartmentCode, EmployeeCode afterDepartmentCode, EmployeeCode positionCode, String issueDate, EmployeeCode updateDutyCode) {
         this.employee = employee;
         this.beforeDepartmentCode =beforeDepartmentCode;
         this.afterDepartmentCode = afterDepartmentCode;
@@ -53,10 +59,10 @@ public class PersonnelAppointment {
         this.updateDutyCode =updateDutyCode;
     }
 
-    public static PersonnelAppointment CreatePA(Employee employee, String beforeDepartmentCode, String afterDepartmentCode, String positionCode, String issueDate, String updateDutyCode) {
+    public static PersonnelAppointment CreatePA(Employee employee, EmployeeCode beforeDepartmentCode, EmployeeCode afterDepartmentCode, EmployeeCode positionCode, String issueDate, EmployeeCode updateDutyCode) {
         return new PersonnelAppointment(employee, beforeDepartmentCode, afterDepartmentCode, positionCode, issueDate, updateDutyCode);
     }
-    public void before_to_After(String beforeDepartmentCode) {
+    public void before_to_After(EmployeeCode beforeDepartmentCode) {
         this.afterDepartmentCode = beforeDepartmentCode;
     }
 }

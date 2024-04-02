@@ -1,4 +1,4 @@
-package com.example.harbor_employee.Employee.utils;
+package com.example.harbor_employee.global.util;
 
 import com.example.harbor_employee.Employee.domain.Department;
 import com.example.harbor_employee.Employee.domain.Employee;
@@ -25,7 +25,6 @@ public class EmployeeSpecification {
             );
         };
     }
-
     /**
      * @description like 조건문 생성
      * @param employeeId {String} 조건값
@@ -41,7 +40,6 @@ public class EmployeeSpecification {
             );
         };
     }
-
     /**
      * @description 코드 테이블 join 후 equal 조건문 생성
      * @param department {String} 조건값
@@ -56,7 +54,6 @@ public class EmployeeSpecification {
             }
         };
     }
-
     /**
      * @description 코드 테이블 join 후 equal 조건문 생성
      * @param teamName {String} 조건값

@@ -2,11 +2,11 @@ package com.example.harbor_employee.Employee.service;
 
 import com.example.harbor_employee.Employee.domain.Employee;
 import com.example.harbor_employee.Employee.dto.request.EmployeeSearchDto;
+import com.example.harbor_employee.Employee.dto.response.EmployeeDetailResDto;
 import com.example.harbor_employee.Employee.dto.response.EmployeeResDto;
 import com.example.harbor_employee.Employee.dto.response.GetEmployResponse;
-import com.example.harbor_employee.Employee.repository.EmployeeCodeRepository;
 import com.example.harbor_employee.Employee.repository.EmployeeRepository;
-import com.example.harbor_employee.Employee.utils.EmployeeSpecification;
+import com.example.harbor_employee.global.util.EmployeeSpecification;
 import com.example.harbor_employee.client.dto.LoginMemberResDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +14,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,12 +67,37 @@ public class EmployeeService {
         return HttpStatus.OK;
     }
 
+    public EmployeeDetailResDto findByEmployeeId(String employeeId) {
+        Employee employee = employeeRepository.findByEmployeeId(employeeId).orElseThrow(IllegalArgumentException::new);
+        return EmployeeDetailResDto.builder()
+                .employeeId(employeeId)
+                .name(employee.getName())
+                .email(employee.getEmail())
+                .phone(employee.getPhone())
+                .gender(employee.getGenderCode().getDescription())
+                .birthDate(employee.getBirthDate())
+                .socialSecurityNumber(employee.getSocialSecurityNumber())
+                .address(employee.getAddress())
+                .duty(employee.getDutyCode().getDescription())
+                .position(employee.getPositionCode().getDescription())
+                .team(employee.getTeamCode().getDescription())
+                .department(employee.getDepartment().getDepartmentName())
+                .status(employee.getStatusCode().getDescription())
+                .careerYMD(employee.getCareerYMD())
+                .joinDate(employee.getJoinDate())
+                .bank(employee.getBankCode().getDescription())
+                .accountNumber(employee.getAccountNumber())
+                .profileImagePath(employee.getProfileImage())
+                .leavingDate(employee.getLeavingDate())
+                .reasonForResignation(employee.getReasonForResignation())
+                .build();
+    }
+
     public GetEmployResponse getUserPosition(String employeeId) {
         try{
             Employee employee = employeeRepository.findByEmployeeId(employeeId).orElseThrow(IllegalArgumentException::new);
             GetEmployResponse getEmployResponse = new GetEmployResponse();
-            getEmployResponse.getResults().add(new GetEmployResponse.Result(employee.getPositionCode()));
-            log.info(getEmployResponse.getResults().get(0).getPositionCode());
+            getEmployResponse.setPositionCode(employee.getPositionCode().getDescription());
             return getEmployResponse;
         } catch(Exception e){
             System.out.println(e.getMessage());
