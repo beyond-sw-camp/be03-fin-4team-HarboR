@@ -9,14 +9,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
-/*
-* appointmentId: 인사발령 번호(PK)
-* employeeId: 사원번호(FK)
-* updateDutyCode: 변경된 직무
-* beforeDepartmentCode: 변경 전 부서 코드
-* afterDepartmentCode: 변경 후 부서 코드
-* positionCode: 직위 코드
-* issueDate: 발령 날짜
+/**
+* @appointmentId: 인사발령 번호(PK)
+* @employeeId: 사원번호(FK)
+* @updateDutyCode: 변경된 직무
+* @beforeDepartmentCode: 변경 전 부서 코드
+* @afterDepartmentCode: 변경 후 부서 코드
+* @positionCode: 직위 코드
+* @issueDate: 발령 날짜
 * */
 
 @Getter
