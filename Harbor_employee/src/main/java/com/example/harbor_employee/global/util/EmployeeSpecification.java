@@ -1,5 +1,7 @@
 package com.example.harbor_employee.global.util;
 
+import com.example.harbor_employee.Employee.domain.Code;
+import com.example.harbor_employee.Employee.domain.Department;
 import com.example.harbor_employee.Employee.domain.Employee;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
@@ -54,15 +56,14 @@ public class EmployeeSpecification {
     }
     /**
      * @description 코드 테이블 join 후 equal 조건문 생성
-     * @param teamName {String} 조건값
+     * @param teamCode {String} 조건값
      * @return {Specification<Employee>} Specification 객체
      */
-    public static Specification<Employee> equalTeamName(final String teamName) {
+    public static Specification<Employee> equalTeamName(final String teamCode) {
         return (root, query, criteriaBuilder) -> {
-            if(!StringUtils.hasText(teamName)) return null;
+            if(!StringUtils.hasText(teamCode)) return null;
             else {
-                Join<Employee, EmployeeCode> teamJoin = root.join("teamCode", JoinType.INNER);
-                return criteriaBuilder.equal(teamJoin.get("description"), teamName);
+                return criteriaBuilder.equal(root.get("teamCode"), teamCode);
             }
         };
     }
