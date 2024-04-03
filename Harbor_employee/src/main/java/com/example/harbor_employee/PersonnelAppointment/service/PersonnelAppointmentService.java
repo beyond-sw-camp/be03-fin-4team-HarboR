@@ -26,7 +26,6 @@ public class PersonnelAppointmentService {
 
     private final PersonnelAppointmentRepository parepository;
     private final EmployeeRepository employeeRepository;
-    private EmployeeCodeRepository employeeCodeRepository;
     private final RedisUtil redisUtil;
     private static final int EMPLOYEE_ID_COLUMN_INDEX = 0;
     private static final int BEFORE_DEPARTMENT_CODE_COLUMN_INDEX = 1;
@@ -36,10 +35,9 @@ public class PersonnelAppointmentService {
     private static final int UPDATE_DUTY_CODE_COLUMN_INDEX = 5;
 
 
-    public PersonnelAppointmentService(PersonnelAppointmentRepository parepository, EmployeeRepository employeeRepository, EmployeeCodeRepository employeeCodeRepository, RedisUtil redisUtil) {
+    public PersonnelAppointmentService(PersonnelAppointmentRepository parepository, EmployeeRepository employeeRepository, RedisUtil redisUtil) {
         this.parepository = parepository;
         this.employeeRepository = employeeRepository;
-        this.employeeCodeRepository = employeeCodeRepository;
         this.redisUtil = redisUtil;
     }
 
@@ -130,17 +128,17 @@ public class PersonnelAppointmentService {
 //                    System.out.println("personnelAppointment = " + personnelAppointment.getUpdateDutyCode().getCode());
 //                    System.out.println("personnelAppointment = " + personnelAppointment.getBeforeDepartmentCode().getCode());
 //                    System.out.println("personnelAppointment = " + personnelAppointment.getAfterDepartmentCode().getCode());
-                    parepository.save(personnelAppointment);
-//                    key : 날짜 , value : PA_id
-                    if (personnelAppointment.getIssueDate() != null) {
-                        String data = redisUtil.getData(excelDataDto.getIssueDate());
-//                        이미 있는경우 꺼내와서 + 해서 넣기
-                        if (data == null || !data.contains(personnelAppointment.getAppointmentId() + "_")) {
-                            data = (data == null) ? personnelAppointment.getAppointmentId() + "_" : data + personnelAppointment.getAppointmentId() + "_";
-                            redisUtil.setDataExpire(personnelAppointment.getIssueDate(), data);
-                        }
-                    }
-                    dataList.add(excelDataDto);
+//                    parepository.save(personnelAppointment);
+////                    key : 날짜 , value : PA_id
+//                    if (personnelAppointment.getIssueDate() != null) {
+//                        String data = redisUtil.getData(excelDataDto.getIssueDate());
+////                        이미 있는경우 꺼내와서 + 해서 넣기
+//                        if (data == null || !data.contains(personnelAppointment.getAppointmentId() + "_")) {
+//                            data = (data == null) ? personnelAppointment.getAppointmentId() + "_" : data + personnelAppointment.getAppointmentId() + "_";
+//                            redisUtil.setDataExpire(personnelAppointment.getIssueDate(), data);
+//                        }
+//                    }
+//                    dataList.add(excelDataDto);
                 }
             }
             return dataList;
