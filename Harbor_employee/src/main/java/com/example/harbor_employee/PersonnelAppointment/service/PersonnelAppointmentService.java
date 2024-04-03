@@ -127,10 +127,6 @@ public class PersonnelAppointmentService {
                             excelDataDto.getIssueDate(),
                             employeeCodes.get(3)
                             );
-                    System.out.println("personnelAppointment = " + personnelAppointment.getPositionCode().getCode());
-                    System.out.println("personnelAppointment = " + personnelAppointment.getUpdateDutyCode().getCode());
-                    System.out.println("personnelAppointment = " + personnelAppointment.getBeforeDepartmentCode().getCode());
-                    System.out.println("personnelAppointment = " + personnelAppointment.getAfterDepartmentCode().getCode());
                     parepository.save(personnelAppointment);
 //                    key : 날짜 , value : PA_id
                     if (personnelAppointment.getIssueDate() != null) {
