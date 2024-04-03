@@ -3,7 +3,7 @@ package com.example.harbor_login.Login.service;
 import com.example.harbor_login.Login.domain.Login;
 import com.example.harbor_login.Login.dto.*;
 import com.example.harbor_login.Login.repository.LoginRepository;
-import com.example.harbor_login.client.LoginToEmplyoeeClient;
+import com.example.harbor_login.client.LoginToEmployeeClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -29,7 +29,7 @@ import java.util.Optional;
 public class LoginService {
     private final LoginRepository loginRepository;
     private final PasswordEncoder passwordEncoder;
-    private final LoginToEmplyoeeClient loginToEmplyoeeClient;
+    private final LoginToEmployeeClient loginToEmployeeClient;
     private final EmailService emailService;
     private JavaMailSender mailSender;
     private static final String FROM_ADDRESS = "본인의 이메일 주소를 입력하세요!";
@@ -96,13 +96,13 @@ public class LoginService {
     }
 
     public GetUsersResponse getUserInfo(String id) {
-        try {
+        try{
             Login login = loginRepository.findByEmployeeId(id).orElseThrow(IllegalArgumentException::new);
             GetUsersResponse getUsersResponse = new GetUsersResponse();
             getUsersResponse.getResults().add(new GetUsersResponse.Result(login.getName(), login.getBirth()));
             System.out.println(getUsersResponse.getResults().get(0).getName());
             return getUsersResponse;
-        } catch (Exception e) {
+        } catch(Exception e){
             System.out.println(e.getMessage());
         }
         return null;
@@ -113,9 +113,9 @@ public class LoginService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않은 이메일입니다."));
         LoginMemberResDto loginMemberResDto = LoginMemberResDto.mapToMemberResDto(member);
         log.info("member basic dto 생성 전 호출");
-        HttpStatus emplyoee = loginToEmplyoeeClient.createEmplyoee(loginMemberResDto);
+        HttpStatus employee = loginToEmployeeClient.createEmployee(loginMemberResDto);
 
-        log.info("Member basic Dto  생성" + emplyoee);
+        log.info("Member basic Dto  생성" + employee);
     }
 
     public Map<String, String> findEmployeeId(FindIdReqDto findIdReqDto) {
@@ -146,7 +146,6 @@ public class LoginService {
         System.out.println("성공");
         // 위의 조건들을 모두 통과했다면, 이메일 전송
         emailService.sendEmailPw("이메일이 전송되었습니다.");
-
     }
 
     public void PwChange(ChargeRequestDto chargeRequestDto) {
@@ -162,10 +161,7 @@ public class LoginService {
             // 임시 비밀번호와 다른 경우에는 예외를 던져서 처리
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Temporary password does not match");
         }
-
     }
-
-
 }
 
 

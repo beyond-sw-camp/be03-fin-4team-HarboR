@@ -1,38 +1,39 @@
 package com.example.harbor_employee.Employee.domain;
 
+import com.example.harbor_employee.Eworks.domain.Eworks;
+import com.example.harbor_employee.PersonnelAppointment.domain.PersonnelAppointment;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-* Entity 구성
-* employeeId: 사원번호(PK), 8자리
-* teamCode: 소속팀(코드)
-* positionCode: 직위(코드)
-* statusCode: 업무 상태(코드)
-* genderCode: 성별(코드)
-* dutyCode: 직무(코드)
-* bankCode: 은행(코드)
-* profile_image: 사진 url
-* email: 이메일
-* name: 이름
-* phone: 전화번호
-* socialSecurityNumber: 주민등록번호
-* birthDate: 생년월일
-* address: 주소
-* year: 년차
-* joinDate: 입사날짜
-* leavingDate: 퇴사날짜
-* updateDate: 수정날짜
-* reasonForResignation: 퇴사사유
-* account: 계좌번호
+/**
+* @Entity 구성
+* @employeeId: 사원번호(PK), 8자리
+* @teamCode: 소속팀(코드)
+* @positionCode: 직위(코드)
+* @statusCode: 업무 상태(코드)
+* @genderCode: 성별(코드)
+* @dutyCode: 직무(코드)
+* @bankCode: 은행(코드)
+* @profile_image: 사진 url
+* @email: 이메일
+* @name: 이름
+* @phone: 전화번호
+* @socialSecurityNumber: 주민등록번호
+* @birthDate: 생년월일
+* @address: 주소
+* @year: 년차
+* @joinDate: 입사날짜
+* @leavingDate: 퇴사날짜
+* @updateDate: 수정날짜
+* @reasonForResignation: 퇴사사유
+* @account: 계좌번호
 * */
 @Getter
 @EntityListeners(AuditingEntityListener.class)
@@ -57,6 +58,7 @@ public class Employee {
     private String dutyCode;
     @Column(length = 20)
     private String bankCode;
+
     @Column(length = 1000)
     private String profileImage;
     @Column(nullable = false, length = 50)
@@ -82,9 +84,6 @@ public class Employee {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "department_code")
-    private Department department;
 
     @OneToMany(mappedBy = "employee")
     private List<Eworks> eworks = new ArrayList<>();
@@ -100,5 +99,14 @@ public class Employee {
                 .employeeId(employeeId)
                 .build();
     }
+
+//    스트링으로 바뀜
+
+//    public void updatePA(PersonnelAppointment pa, Department department){
+//        this.dutyCode = pa.getUpdateDutyCode();
+//        this.positionCode = pa.getPositionCode();
+//        this.joinDate = pa.getIssueDate();
+//        this.department = department;
+//    }
 }
 

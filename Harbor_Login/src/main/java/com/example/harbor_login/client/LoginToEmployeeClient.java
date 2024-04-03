@@ -7,12 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "Emplyoee", url = "http://localhost:8004")
-public interface LoginToEmplyoeeClient {
+@FeignClient(name = "Employee", url = "http://localhost:8004")
+public interface LoginToEmployeeClient {
 
 //    @GetMapping(value = "/api/")
 //    GetUsersResponse getUsers(@RequestParam("nat") String nation);
 
     @PostMapping("empyloee/create")
-    HttpStatus createEmplyoee(@RequestBody LoginMemberResDto request);
+    HttpStatus createEmployee(@RequestBody LoginMemberResDto request);
 }

@@ -19,10 +19,9 @@ public class JwtTokenProvider {
 
     //사용자 이메일과 롤
     public String createToken(String email, String role, String employeeId){
-        Claims claims = Jwts.claims().setSubject(email);
+        Claims claims = Jwts.claims().setSubject(employeeId);
         claims.put("role", role);
         claims.put("myEmail", email);
-        claims.put("employeeId", employeeId); // 직원 ID 추가
 
         Date now = new Date();
 

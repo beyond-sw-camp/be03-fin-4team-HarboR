@@ -45,7 +45,7 @@ public class EmailService {
         // 올해 년도        member.updatePassword(passwordEncoder.encode(tempPassword);
         int year = Calendar.getInstance().get(Calendar.YEAR);
         String maxEmployeeNumber = loginRepository.findMaxEmployeeNumber();
-        log.info("신규 입사자 Emplyoee id : " + maxEmployeeNumber);
+        log.info("신규 입사자 Employee id : " + maxEmployeeNumber);
 
         // 만약 최대 사원번호가 없으면 HB + 올해 년도 + 0001 로 사원번호
         int nextNumber = 1;

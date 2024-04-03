@@ -10,7 +10,8 @@ import java.time.LocalDate;
 public class MySalaryRequest {
     private String employeeId;
     private LocalDate salaryMonthOfYear;
-    private int salaryBase;
+    private int salaryGross;
     private String name;
     private String birth;
+
 }

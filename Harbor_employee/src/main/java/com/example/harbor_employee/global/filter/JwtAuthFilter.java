@@ -36,13 +36,13 @@ public class JwtAuthFilter extends GenericFilter {
                 System.out.println("토큰 검사 실행");
 
                 Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
-                String employeeId = claims.get("employeeId").toString();
+                String email = claims.get("myEmail").toString();
                 //Authentication 객체를 생성하기 위한 UserDetails 생성
                 CustomUserDetails customUserDetails = CustomUserDetails.builder()
                         .role(claims.get("role").toString())
                         .username(claims.getSubject())
                         .password("")
-                        .employeeId(employeeId)
+                        .email(email)
                         .build();
 
                 customUserDetails.getAuthorities().add(new SimpleGrantedAuthority("ROLE_" + claims.get("role")));
