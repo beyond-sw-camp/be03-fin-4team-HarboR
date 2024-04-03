@@ -1,4 +1,4 @@
-package com.example.harbor_employee.Employee.dto.response;
+package com.example.harbor_login.Login.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmployeeResDto {
+public class ChargeRequestDto {
+
     private String employeeId;
-    private String department;
-    private String position;
-    private String team;
-    private String name;
+    private String tempPassword;
+    private String changePw;
+
 }

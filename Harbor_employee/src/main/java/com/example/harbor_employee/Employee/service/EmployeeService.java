@@ -42,9 +42,9 @@ public class EmployeeService {
         employeeResDtos = employeeList.stream()
                 .map(e-> EmployeeResDto.builder()
                         .employeeId(e.getEmployeeId())
-                        .department(e.getDepartment().getDepartmentName())
-                        .team(e.getTeamCode().getDescription())
-                        .position(e.getPositionCode().getDescription())
+//                        .department(e.getDepartment().getDepartmentName())
+//                        .team(e.getTeamCode().getDescription())
+//                        .position(e.getPositionCode().getDescription())
                         .name(e.getName())
                         .build()).collect(Collectors.toList());
         return employeeResDtos;

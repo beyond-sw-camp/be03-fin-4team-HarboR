@@ -1,13 +1,10 @@
 package com.example.harbor_employee.PersonnelAppointment.domain;
 
-import com.example.harbor_employee.Employee.domain.Department;
 import com.example.harbor_employee.Employee.domain.Employee;
-import com.example.harbor_employee.Employee.domain.EmployeeCode;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 /*
 * appointmentId: 인사발령 번호(PK)
@@ -29,18 +26,11 @@ public class PersonnelAppointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long appointmentId;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "update_duty_code")
-    private EmployeeCode updateDutyCode;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "before_department_code")
-    private EmployeeCode beforeDepartmentCode;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "after_department_code")
-    private EmployeeCode afterDepartmentCode;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "position_code")
-    private EmployeeCode positionCode;
+
+    private String updateDutyCode;
+    private String beforeDepartmentCode;
+    private String afterDepartmentCode;
+    private String positionCode;
 
     private String issueDate;
 
@@ -50,14 +40,14 @@ public class PersonnelAppointment {
 
     private Boolean delYn = false;
 
-    public PersonnelAppointment(Employee employee, EmployeeCode beforeDepartmentCode, EmployeeCode afterDepartmentCode, EmployeeCode positionCode, String issueDate, EmployeeCode updateDutyCode) {
-        this.employee = employee;
-        this.beforeDepartmentCode =beforeDepartmentCode;
-        this.afterDepartmentCode = afterDepartmentCode;
-        this.positionCode = positionCode;
-        this.issueDate = issueDate;
-        this.updateDutyCode =updateDutyCode;
-    }
+//    public PersonnelAppointment(Employee employee, EmployeeCode beforeDepartmentCode, EmployeeCode afterDepartmentCode, EmployeeCode positionCode, String issueDate, EmployeeCode updateDutyCode) {
+//        this.employee = employee;
+//        this.beforeDepartmentCode =beforeDepartmentCode;
+//        this.afterDepartmentCode = afterDepartmentCode;
+//        this.positionCode = positionCode;
+//        this.issueDate = issueDate;
+//        this.updateDutyCode =updateDutyCode;
+//    }
 
     public static PersonnelAppointment CreatePA(Employee employee, EmployeeCode beforeDepartmentCode, EmployeeCode afterDepartmentCode, EmployeeCode positionCode, String issueDate, EmployeeCode updateDutyCode) {
         return new PersonnelAppointment(employee, beforeDepartmentCode, afterDepartmentCode, positionCode, issueDate, updateDutyCode);

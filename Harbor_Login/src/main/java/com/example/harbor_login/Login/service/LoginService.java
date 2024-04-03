@@ -9,13 +9,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -26,6 +30,10 @@ public class LoginService {
     private final LoginRepository loginRepository;
     private final PasswordEncoder passwordEncoder;
     private final LoginToEmployeeClient loginToEmployeeClient;
+    private final EmailService emailService;
+    private JavaMailSender mailSender;
+    private static final String FROM_ADDRESS = "본인의 이메일 주소를 입력하세요!";
+
     public void signup(LoginSignUpReqDto loginCreateReqDto) {
         Optional<Login> findMember = loginRepository.findByEmail(loginCreateReqDto.getEmail());
         if (findMember.isPresent()) {
@@ -109,4 +117,51 @@ public class LoginService {
 
         log.info("Member basic Dto  생성" + employee);
     }
+
+    public Map<String, String> findEmployeeId(FindIdReqDto findIdReqDto) {
+        Login user = loginRepository.findByEmailAndName(findIdReqDto.getEmail(), findIdReqDto.getName())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
+        Map<String, String> result = new HashMap<>();
+        result.put("EmployeeId", user.getEmployeeId());
+        return result;
+    }
+
+
+    public void userCheck(FindPasswordReq findPasswordReq) {
+        Optional<Login> userOptional = loginRepository.findByEmployeeId(findPasswordReq.getEmployeeId());
+
+        // 사용자가 존재하지 않는 경우 예외 처리
+        if (!userOptional.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+
+        Login user = userOptional.get();
+
+        // 사용자 이름이 요청된 이름과 일치하지 않는 경우 예외 처리
+        if (!user.getName().equals(findPasswordReq.getName())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+
+        System.out.println("성공");
+        // 위의 조건들을 모두 통과했다면, 이메일 전송
+        emailService.sendEmailPw("이메일이 전송되었습니다.");
+    }
+
+    public void PwChange(ChargeRequestDto chargeRequestDto) {
+        Login user = loginRepository.findByEmployeeId(chargeRequestDto.getEmployeeId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+        System.out.println(user.getPassword());
+        System.out.println(passwordEncoder.encode(chargeRequestDto.getTempPassword()));
+        // 기존 비밀번호가 임시 비밀번호와 동일한지 확인
+        if (passwordEncoder.matches(chargeRequestDto.getTempPassword(), user.getPassword())) {
+            // 임시 비밀번호와 변경할 비밀번호가 동일하면 업데이트 수행
+            String newPw = passwordEncoder.encode(chargeRequestDto.getChangePw());
+            user.updatePassword(newPw);
+        } else {
+            // 임시 비밀번호와 다른 경우에는 예외를 던져서 처리
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Temporary password does not match");
+        }
+    }
 }
+
+
