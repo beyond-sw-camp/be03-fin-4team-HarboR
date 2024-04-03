@@ -10,7 +10,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableFeignClients
 @EnableJpaAuditing
 @EnableScheduling
-public class HarborEmployeeApplication {
+public class
+HarborEmployeeApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(HarborEmployeeApplication.class, args);

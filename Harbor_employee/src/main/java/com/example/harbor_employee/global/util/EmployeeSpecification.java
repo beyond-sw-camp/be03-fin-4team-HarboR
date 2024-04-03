@@ -1,8 +1,6 @@
 package com.example.harbor_employee.global.util;
 
-import com.example.harbor_employee.Employee.domain.Department;
 import com.example.harbor_employee.Employee.domain.Employee;
-import com.example.harbor_employee.Employee.domain.EmployeeCode;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 

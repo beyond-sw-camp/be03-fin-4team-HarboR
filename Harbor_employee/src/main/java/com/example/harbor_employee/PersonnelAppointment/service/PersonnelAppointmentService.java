@@ -1,11 +1,8 @@
 package com.example.harbor_employee.PersonnelAppointment.service;
 
 import com.example.harbor_employee.Employee.domain.Employee;
-import com.example.harbor_employee.Employee.domain.EmployeeCode;
 import com.example.harbor_employee.Employee.dto.response.ExcelDataDto;
-import com.example.harbor_employee.Employee.repository.EmployeeCodeRepository;
 import com.example.harbor_employee.Employee.repository.EmployeeRepository;
-import com.example.harbor_employee.Employee.service.EmployeeCodeService;
 import com.example.harbor_employee.PersonnelAppointment.domain.PersonnelAppointment;
 import com.example.harbor_employee.PersonnelAppointment.repository.PersonnelAppointmentRepository;
 import com.example.harbor_employee.global.util.RedisUtil;
@@ -114,23 +111,25 @@ public class PersonnelAppointmentService {
                     codes.add(excelDataDto.getAfterDepartmentCode());
                     codes.add(excelDataDto.getPositionCode());
                     codes.add(excelDataDto.getUpdateDutyCode());
-                    List<EmployeeCode> employeeCodes = codes.stream()
-                            .map(e -> employeeCodeRepository.findByCode(e)
-                                    .orElseThrow(IllegalArgumentException::new))
-                            .collect(Collectors.toList());
-                    System.out.println(employeeCodes.get(0).getDescription());
-                    PersonnelAppointment personnelAppointment = PersonnelAppointment.CreatePA(
-                            employee,
-                            employeeCodes.get(0),
-                            employeeCodes.get(1),
-                            employeeCodes.get(2),
-                            excelDataDto.getIssueDate(),
-                            employeeCodes.get(3)
-                            );
-                    System.out.println("personnelAppointment = " + personnelAppointment.getPositionCode().getCode());
-                    System.out.println("personnelAppointment = " + personnelAppointment.getUpdateDutyCode().getCode());
-                    System.out.println("personnelAppointment = " + personnelAppointment.getBeforeDepartmentCode().getCode());
-                    System.out.println("personnelAppointment = " + personnelAppointment.getAfterDepartmentCode().getCode());
+
+
+//                    List<EmployeeCode> employeeCodes = codes.stream()
+//                            .map(e -> employeeCodeRepository.findByCode(e)
+//                                    .orElseThrow(IllegalArgumentException::new))
+//                            .collect(Collectors.toList());
+//                    System.out.println(employeeCodes.get(0).getDescription());
+//                    PersonnelAppointment personnelAppointment = PersonnelAppointment.CreatePA(
+//                            employee,
+//                            employeeCodes.get(0),
+//                            employeeCodes.get(1),
+//                            employeeCodes.get(2),
+//                            excelDataDto.getIssueDate(),
+//                            employeeCodes.get(3)
+//                            );
+//                    System.out.println("personnelAppointment = " + personnelAppointment.getPositionCode().getCode());
+//                    System.out.println("personnelAppointment = " + personnelAppointment.getUpdateDutyCode().getCode());
+//                    System.out.println("personnelAppointment = " + personnelAppointment.getBeforeDepartmentCode().getCode());
+//                    System.out.println("personnelAppointment = " + personnelAppointment.getAfterDepartmentCode().getCode());
                     parepository.save(personnelAppointment);
 //                    key : 날짜 , value : PA_id
                     if (personnelAppointment.getIssueDate() != null) {

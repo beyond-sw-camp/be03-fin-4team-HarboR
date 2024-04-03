@@ -46,24 +46,19 @@ public class Employee {
     @Id
     @Column(nullable = false, length = 20)
     private String employeeId;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "team_code")
-    private EmployeeCode teamCode;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "position_code")
-    private EmployeeCode positionCode;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "status_code")
-    private EmployeeCode statusCode;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "gender_code")
-    private EmployeeCode genderCode;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "duty_code")
-    private EmployeeCode dutyCode;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "bank_code")
-    private EmployeeCode bankCode;
+    @Column(length = 20)
+    private String teamCode;
+    @Column(length = 20)
+    private String positionCode;
+    @Column(length = 20)
+    private String statusCode;
+    @Column(length = 20)
+    private String genderCode;
+    @Column(length = 20)
+    private String dutyCode;
+    @Column(length = 20)
+    private String bankCode;
+
     @Column(length = 1000)
     private String profileImage;
     @Column(nullable = false, length = 50)
@@ -89,9 +84,6 @@ public class Employee {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_code")
-    private Department department;
 
     @OneToMany(mappedBy = "employee")
     private List<Eworks> eworks = new ArrayList<>();
@@ -108,11 +100,13 @@ public class Employee {
                 .build();
     }
 
-    public void updatePA(PersonnelAppointment pa, Department department){
-        this.dutyCode = pa.getUpdateDutyCode();
-        this.positionCode = pa.getPositionCode();
-        this.joinDate = pa.getIssueDate();
-        this.department = department;
-    }
+//    스트링으로 바뀜
+
+//    public void updatePA(PersonnelAppointment pa, Department department){
+//        this.dutyCode = pa.getUpdateDutyCode();
+//        this.positionCode = pa.getPositionCode();
+//        this.joinDate = pa.getIssueDate();
+//        this.department = department;
+//    }
 }
 
