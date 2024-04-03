@@ -64,4 +64,13 @@ public class Login{
     public void UpdateEmployeeId(String employeeId) {
         this.employeeId = employeeId;
     }
+
+    public void setPassword(String encryptedPassword) {
+
+    }
+    public void updatePassword(String password){
+        this.password = password;
+
+
+    }
 }

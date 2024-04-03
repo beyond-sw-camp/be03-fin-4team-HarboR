@@ -10,8 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class FindMailDto {
+public class MailDto {
+
     private String email;
     private String title;
     private String contents;
+    private String message;
 }

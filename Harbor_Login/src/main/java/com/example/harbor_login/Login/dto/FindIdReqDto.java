@@ -5,16 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FindReqDto {
+public class FindIdReqDto {
 
     private String email;
-    private String employeeId;
     private String name;
-    private String password;
 }
