@@ -10,7 +10,7 @@ public class EmployeeSearchDto {
     // 이름
     private String name;
     // 부서
-    private String departmentName;
+    private String departmentCode;
     // 소속팀
     private String teamCode;
 }

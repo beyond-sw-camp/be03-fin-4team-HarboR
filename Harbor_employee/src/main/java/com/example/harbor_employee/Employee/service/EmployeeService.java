@@ -35,10 +35,11 @@ public class EmployeeService {
         Specification<Employee> specification =
                 EmployeeSpecification.likeName(employeeSearchDto.getName())
                         .and(EmployeeSpecification.likeEmployeeId(employeeSearchDto.getEmployeeId()))
-                        .and(EmployeeSpecification.equalDepartment(employeeSearchDto.getDepartmentName()))
+                        .and(EmployeeSpecification.equalDepartment(employeeSearchDto.getDepartmentCode()))
                         .and(EmployeeSpecification.equalTeamName(employeeSearchDto.getTeamCode()));
 
-        Page<Employee> employeeList = employeeRepository.findAll(specification, pageable);
+        Page<Employee> employeePage = employeeRepository.findAll(specification, pageable);
+        List<Employee> employeeList = employeePage.getContent();
         List<EmployeeResDto> employeeResDtos = new ArrayList<>();
         employeeResDtos = employeeList.stream()
                 .map(e-> EmployeeResDto.builder()

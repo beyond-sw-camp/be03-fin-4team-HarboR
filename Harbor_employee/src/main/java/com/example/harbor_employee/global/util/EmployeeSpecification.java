@@ -42,15 +42,15 @@ public class EmployeeSpecification {
     }
     /**
      * @description 코드 테이블 join 후 equal 조건문 생성
-     * @param department {String} 조건값
+     * @param departmentCode {String} 조건값
      * @return {Specification<Employee>} Specification 객체
      */
-    public static Specification<Employee> equalDepartment(final String department) {
+    public static Specification<Employee> equalDepartment(final String departmentCode) {
         return (root, query, criteriaBuilder) -> {
-            if(!StringUtils.hasText(department)) return null;
+            if(!StringUtils.hasText(departmentCode)) return null;
             else {
                 Join<Employee, Department> departmentJoin = root.join("department", JoinType.INNER);
-                return criteriaBuilder.equal(departmentJoin.get("departmentName"), department);
+                return criteriaBuilder.equal(departmentJoin.get("departmentCode"), departmentCode);
             }
         };
     }

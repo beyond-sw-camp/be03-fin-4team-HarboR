@@ -150,4 +150,13 @@ public enum Code {
     Code(String message) {
         this.message = message;
     }
+
+    public static Code getCodeByMessage(String message) {
+        for (Code code : Code.values()) {
+            if (code.message.equals(message)) {
+                return code;
+            }
+        }
+        throw new IllegalArgumentException("등록되지 않은 코드입니다.");
+    }
 }
