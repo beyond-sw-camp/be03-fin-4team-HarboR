@@ -17,5 +17,5 @@ import java.util.Optional;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     Optional<Employee> findByEmployeeId(String employeeId);
-    List<Employee> findAll(Specification<Employee> specification, Pageable pageable);
+    Page<Employee> findAll(Specification<Employee> specification, Pageable pageable);
 }

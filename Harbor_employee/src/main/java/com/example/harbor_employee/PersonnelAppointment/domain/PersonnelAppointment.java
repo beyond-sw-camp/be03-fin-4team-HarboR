@@ -49,10 +49,10 @@ public class PersonnelAppointment {
 //        this.updateDutyCode =updateDutyCode;
 //    }
 
-    public static PersonnelAppointment CreatePA(Employee employee, EmployeeCode beforeDepartmentCode, EmployeeCode afterDepartmentCode, EmployeeCode positionCode, String issueDate, EmployeeCode updateDutyCode) {
-        return new PersonnelAppointment(employee, beforeDepartmentCode, afterDepartmentCode, positionCode, issueDate, updateDutyCode);
-    }
-    public void before_to_After(EmployeeCode beforeDepartmentCode) {
-        this.afterDepartmentCode = beforeDepartmentCode;
-    }
+//    public static PersonnelAppointment CreatePA(Employee employee, EmployeeCode beforeDepartmentCode, EmployeeCode afterDepartmentCode, EmployeeCode positionCode, String issueDate, EmployeeCode updateDutyCode) {
+//        return new PersonnelAppointment(employee, beforeDepartmentCode, afterDepartmentCode, positionCode, issueDate, updateDutyCode);
+//    }
+//    public void before_to_After(EmployeeCode beforeDepartmentCode) {
+//        this.afterDepartmentCode = beforeDepartmentCode;
+//    }
 }
