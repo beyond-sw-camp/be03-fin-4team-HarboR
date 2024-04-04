@@ -11,6 +11,7 @@ import com.example.harbor_salary.dto.response.MySalaryDetailResponse;
 import com.example.harbor_salary.repository.SalaryCodeRepository;
 import com.example.harbor_salary.repository.SalaryRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ public class SalaryService {
     private final SalaryCodeRepository salaryCodeRepository;
     private final SalaryClient salaryClient;
     private final SalaryEmployeeClient salaryEmployeeClient;
+
 
     public SalaryService(SalaryRepository salaryRepository, SalaryCodeRepository salaryCodeRepository, SalaryClient salaryClient, SalaryEmployeeClient salaryEmployeeClient) {
         this.salaryRepository = salaryRepository;
@@ -60,11 +62,28 @@ public class SalaryService {
 
 
     //퇴직금 계산서비스
-    public class RetirementService {
+    public List<Salary> getRecentSalariesByEmployeeId(String employeeId) {
+        // SalaryRepository에서 직원의 최근 3개의 급여 정보를 가져옵니다.
+        List<Salary> recentSalaries = salaryRepository.findTop3ByEmployeeIdOrderBySalaryMonthOfYearDesc(employeeId);
+        return recentSalaries;
+    }
 
-        public double calculateRetirement(double averageSalary, int totalWorkingDays) {
-            return averageSalary * (totalWorkingDays / 365.0);
+
+    public int severancepay(String employeeId) {
+        // 직원의 최근 3개월치 월급 정보를 가져옵니다.
+        List<Salary> recentSalaries = getRecentSalariesByEmployeeId(employeeId);
+
+        // 최근 3개월치 월급의 총합 계산
+        int totalSalary = 0;
+        for (Salary salary : recentSalaries) {
+            totalSalary += salary.getSalaryGross();
         }
+
+        // 평균 월급 계산
+        int averageSalary = totalSalary / recentSalaries.size();
+
+        // 퇴직금으로 반환 (평균 월급을 사용)
+        return averageSalary;
     }
     //급여 생성
     public Salary createSalary(String employeeId){

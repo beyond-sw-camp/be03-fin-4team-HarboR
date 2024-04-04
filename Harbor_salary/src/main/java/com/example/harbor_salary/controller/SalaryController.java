@@ -58,8 +58,9 @@ public class SalaryController {
     // 개인 급여 목록 조회
     @GetMapping("/mysalarys")
     public ResponseEntity<List<MySalaryRequest>> findAllSalarys(@AuthenticationPrincipal CustomUserDetails userDetails, Pageable pageable) {
-        return new ResponseEntity<>(salaryService.findAllSalarys(userDetails.getEmployeeId(),pageable), HttpStatus.OK);
+        return new ResponseEntity<>(salaryService.findAllSalarys(userDetails.getEmployeeId(), pageable), HttpStatus.OK);
     }
+
     @GetMapping("/mysalary/{salaryId}")
     public ResponseEntity<MySalaryDetailResponse> findMySalary(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable("salaryId") Long salaryId) {
         System.out.println("userDetails = " + userDetails.getEmployeeId());
@@ -68,24 +69,31 @@ public class SalaryController {
     }
 
 
-
     @GetMapping("/ping")
-    public String ping(){
-        try{
+    public String ping() {
+        try {
             return salaryClient.adminPing();
-        } catch(FeignException e){
+        } catch (FeignException e) {
             System.out.println(e.getMessage());
         }
         return "1";
     }
+
     //employee 핑퐁 확인
     @GetMapping("/employeeping")
-    public String employeePing(){
-        try{
+    public String employeePing() {
+        try {
             return salaryEmployeeClient.employeePing();
-        } catch(FeignException e){
+        } catch (FeignException e) {
             System.out.println(e.getMessage());
         }
         return "1";
+    }
+
+    @GetMapping("/severance/{employeeId}")
+    public ResponseEntity<Integer> calculateRetirementBenefit(@PathVariable String employeeId) {
+        // RetirementService를 사용하여 퇴직금 계산
+        int retirementBenefit = salaryService.severancepay(employeeId);
+        return new ResponseEntity<>(retirementBenefit, HttpStatus.OK);
     }
 }
