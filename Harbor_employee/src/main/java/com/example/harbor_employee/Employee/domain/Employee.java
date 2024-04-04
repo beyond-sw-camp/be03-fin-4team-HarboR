@@ -84,9 +84,7 @@ public class Employee {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_code")
-    private Department department;
+    private String departmentCode;
 
     @OneToMany(mappedBy = "employee")
     private List<Eworks> eworks = new ArrayList<>();
@@ -105,11 +103,11 @@ public class Employee {
 
 //    스트링으로 바뀜
 
-//    public void updatePA(PersonnelAppointment pa, Department department){
-//        this.dutyCode = pa.getUpdateDutyCode();
-//        this.positionCode = pa.getPositionCode();
-//        this.joinDate = pa.getIssueDate();
-//        this.department = department;
-//    }
+    public void updatePA(PersonnelAppointment pa){
+        this.dutyCode = pa.getUpdateDutyCode();
+        this.positionCode = pa.getPositionCode();
+        this.joinDate = pa.getIssueDate();
+        this.departmentCode = pa.getAfterDepartmentCode();
+    }
 }
 

@@ -26,7 +26,6 @@ public class PersonnelAppointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long appointmentId;
 
-
     private String updateDutyCode;
     private String beforeDepartmentCode;
     private String afterDepartmentCode;
@@ -40,18 +39,23 @@ public class PersonnelAppointment {
 
     private Boolean delYn = false;
 
-//    public PersonnelAppointment(Employee employee, EmployeeCode beforeDepartmentCode, EmployeeCode afterDepartmentCode, EmployeeCode positionCode, String issueDate, EmployeeCode updateDutyCode) {
-//        this.employee = employee;
-//        this.beforeDepartmentCode =beforeDepartmentCode;
-//        this.afterDepartmentCode = afterDepartmentCode;
-//        this.positionCode = positionCode;
-//        this.issueDate = issueDate;
-//        this.updateDutyCode =updateDutyCode;
-//    }
+    public PersonnelAppointment(Employee employee, String updateDutyCode, String beforeDepartmentCode, String afterDepartmentCode, String positionCode, String issueDate) {
+        this.employee =employee;
+        this.updateDutyCode = updateDutyCode;
+        this.beforeDepartmentCode =beforeDepartmentCode;
+        this.afterDepartmentCode = afterDepartmentCode;
+        this.positionCode = positionCode;
+        this.issueDate = issueDate;
 
-//    public static PersonnelAppointment CreatePA(Employee employee, EmployeeCode beforeDepartmentCode, EmployeeCode afterDepartmentCode, EmployeeCode positionCode, String issueDate, EmployeeCode updateDutyCode) {
-//        return new PersonnelAppointment(employee, beforeDepartmentCode, afterDepartmentCode, positionCode, issueDate, updateDutyCode);
-//    }
+    }
+
+    public static PersonnelAppointment CreatePA(Employee employee, String beforeDepartmentCode, String afterDepartmentCode, String positionCode, String issueDate, String updateDutyCode) {
+        return new PersonnelAppointment(employee, beforeDepartmentCode, afterDepartmentCode, positionCode, issueDate, updateDutyCode);
+    }
+
+    public void updateAfterDepartment(String beforeDepartmentCode) {
+        this.afterDepartmentCode = beforeDepartmentCode;
+    }
 //    public void before_to_After(EmployeeCode beforeDepartmentCode) {
 //        this.afterDepartmentCode = beforeDepartmentCode;
 //    }

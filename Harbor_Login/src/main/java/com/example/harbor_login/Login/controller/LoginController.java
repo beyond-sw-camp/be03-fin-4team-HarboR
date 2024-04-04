@@ -68,13 +68,13 @@ public class LoginController {
         return new ResponseEntity<>(new CommonResponse("member successfully logined", member_info), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/active/{email}")
-    public ResponseEntity<CommonResponse> mailConfirm(@PathVariable(value = "email") String email) {
-        emailService.sendEmail(email);
-
-        return new ResponseEntity<>(new CommonResponse("Employee number transmitted successfully", email), HttpStatus.OK);
-    }
+//    @PreAuthorize("hasRole('ADMIN')")
+//    @PostMapping("/active/{email}")
+//    public ResponseEntity<CommonResponse> mailConfirm(@PathVariable(value = "email") String email) {
+//        emailService.sendEmail(email);
+//
+//        return new ResponseEntity<>(new CommonResponse("Employee number transmitted successfully", email), HttpStatus.OK);
+//    }
 
     @GetMapping(value = "/detail/{id}")
     public ResponseEntity<GetUsersResponse> getUserDetail(@PathVariable(name = "id") String id) {

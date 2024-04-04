@@ -1,5 +1,6 @@
 package com.example.harbor_employee.PersonnelAppointment.service;
 
+import com.example.harbor_employee.Employee.domain.Code;
 import com.example.harbor_employee.Employee.domain.Employee;
 import com.example.harbor_employee.Employee.dto.response.ExcelDataDto;
 import com.example.harbor_employee.Employee.repository.EmployeeRepository;
@@ -75,7 +76,6 @@ public class PersonnelAppointmentService {
                     Cell cell1 = row.getCell(EMPLOYEE_ID_COLUMN_INDEX);
                     if (cell1 != null)
                         excelDataDto.setEmployeeId(cell1.getStringCellValue());
-
                     Employee employee = employeeRepository.findByEmployeeId(excelDataDto.getEmployeeId()).orElseThrow(() -> new IllegalArgumentException(" 없는 회원 입니다."));
 
                     Cell cell2 = row.getCell(BEFORE_DEPARTMENT_CODE_COLUMN_INDEX);
@@ -104,41 +104,26 @@ public class PersonnelAppointmentService {
                     if (cell6 != null)
                         excelDataDto.setUpdateDutyCode(cell6.getStringCellValue());
 
-                    List<String> codes = new ArrayList<>();
-                    codes.add(excelDataDto.getBeforeDepartmentCode());
-                    codes.add(excelDataDto.getAfterDepartmentCode());
-                    codes.add(excelDataDto.getPositionCode());
-                    codes.add(excelDataDto.getUpdateDutyCode());
-
-
-//                    List<EmployeeCode> employeeCodes = codes.stream()
-//                            .map(e -> employeeCodeRepository.findByCode(e)
-//                                    .orElseThrow(IllegalArgumentException::new))
-//                            .collect(Collectors.toList());
-//                    System.out.println(employeeCodes.get(0).getDescription());
-//                    PersonnelAppointment personnelAppointment = PersonnelAppointment.CreatePA(
-//                            employee,
-//                            employeeCodes.get(0),
-//                            employeeCodes.get(1),
-//                            employeeCodes.get(2),
-//                            excelDataDto.getIssueDate(),
-//                            employeeCodes.get(3)
-//                            );
-//                    System.out.println("personnelAppointment = " + personnelAppointment.getPositionCode().getCode());
-//                    System.out.println("personnelAppointment = " + personnelAppointment.getUpdateDutyCode().getCode());
-//                    System.out.println("personnelAppointment = " + personnelAppointment.getBeforeDepartmentCode().getCode());
-//                    System.out.println("personnelAppointment = " + personnelAppointment.getAfterDepartmentCode().getCode());
-//                    parepository.save(personnelAppointment);
+                    PersonnelAppointment personnelAppointment = PersonnelAppointment.CreatePA(
+                            employee,
+                            excelDataDto.getUpdateDutyCode(),
+                            excelDataDto.getBeforeDepartmentCode(),
+                            excelDataDto.getAfterDepartmentCode(),
+                            excelDataDto.getPositionCode(),
+                            excelDataDto.getIssueDate()
+                            );
+                    parepository.save(personnelAppointment);
+                    log.info("personnelAppointment {}", "personnelAppointment");
 ////                    key : 날짜 , value : PA_id
-//                    if (personnelAppointment.getIssueDate() != null) {
-//                        String data = redisUtil.getData(excelDataDto.getIssueDate());
-////                        이미 있는경우 꺼내와서 + 해서 넣기
-//                        if (data == null || !data.contains(personnelAppointment.getAppointmentId() + "_")) {
-//                            data = (data == null) ? personnelAppointment.getAppointmentId() + "_" : data + personnelAppointment.getAppointmentId() + "_";
-//                            redisUtil.setDataExpire(personnelAppointment.getIssueDate(), data);
-//                        }
-//                    }
-//                    dataList.add(excelDataDto);
+                    if (personnelAppointment.getIssueDate() != null) {
+                        String data = redisUtil.getData(excelDataDto.getIssueDate());
+//                        이미 있는경우 꺼내와서 + 해서 넣기
+                        if (data == null || !data.contains(personnelAppointment.getAppointmentId() + "_")) {
+                            data = (data == null) ? personnelAppointment.getAppointmentId() + "_" : data + personnelAppointment.getAppointmentId() + "_";
+                            redisUtil.setDataExpire(personnelAppointment.getIssueDate(), data);
+                        }
+                    }
+                    dataList.add(excelDataDto);
                 }
             }
             return dataList;
