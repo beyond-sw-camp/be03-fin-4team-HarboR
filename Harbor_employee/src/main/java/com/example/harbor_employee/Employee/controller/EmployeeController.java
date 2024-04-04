@@ -72,6 +72,7 @@ public class EmployeeController {
     public ResponseEntity<GetEmployResponse> getPositionCodeByEmployeeId(@PathVariable("employeeId") String employeeId){
         log.info("퐁");
         GetEmployResponse positionCode = employeeService.getUserPosition(employeeId);
+        System.out.println("positionCode = " + positionCode);
         log.info("돌려줌");
         return ResponseEntity.status(HttpStatus.OK).body(positionCode);
     }

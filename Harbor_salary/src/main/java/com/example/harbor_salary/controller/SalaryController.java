@@ -49,23 +49,23 @@ public class SalaryController {
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/create/{getEmployeeId}")
     public Salary createSalary(@PathVariable("getEmployeeId") String getEmployeeId) {
-        log.info("핑");
+        System.out.println("getEmployeeId = " + getEmployeeId);
         Salary salary = salaryService.createSalary(getEmployeeId);
         return salary;
     }
 
 
-    // 개인 급여 목록 조회
-    @GetMapping("/mysalarys")
-    public ResponseEntity<List<MySalaryRequest>> findAllSalarys(@AuthenticationPrincipal CustomUserDetails userDetails, Pageable pageable) {
-        return new ResponseEntity<>(salaryService.findAllSalarys(userDetails.getEmployeeId(),pageable), HttpStatus.OK);
-    }
-    @GetMapping("/mysalary/{salaryId}")
-    public ResponseEntity<MySalaryDetailResponse> findMySalary(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable("salaryId") Long salaryId) {
-        System.out.println("userDetails = " + userDetails.getEmployeeId());
-        System.out.println("salaryId = " + salaryId);
-        return new ResponseEntity<>(salaryService.findMySalary(userDetails.getEmployeeId(), salaryId), HttpStatus.OK);
-    }
+//    // 개인 급여 목록 조회
+//    @GetMapping("/mysalarys")
+//    public ResponseEntity<List<MySalaryRequest>> findAllSalarys(@AuthenticationPrincipal CustomUserDetails userDetails, Pageable pageable) {
+//        return new ResponseEntity<>(salaryService.findAllSalarys(userDetails.getEmployeeId(),pageable), HttpStatus.OK);
+//    }
+//    @GetMapping("/mysalary/{salaryId}")
+//    public ResponseEntity<MySalaryDetailResponse> findMySalary(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable("salaryId") Long salaryId) {
+//        System.out.println("userDetails = " + userDetails.getEmployeeId());
+//        System.out.println("salaryId = " + salaryId);
+//        return new ResponseEntity<>(salaryService.findMySalary(userDetails.getEmployeeId(), salaryId), HttpStatus.OK);
+//    }
 
 
 

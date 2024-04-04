@@ -68,8 +68,9 @@ public class SalaryService {
     }
     //급여 생성
     public Salary createSalary(String employeeId){
+        System.out.println("employeeId = " + employeeId);
         GetEmployResponse getEmployResponse = salaryEmployeeClient.getPositionCodeByEmployeeId(employeeId);
-        log.info("salaryCodes = " + getEmployResponse.getResults().get(0).getPositionCode());
+        System.out.println("getEmployResponse = " + getEmployResponse);
         SalaryCode salaryCodes = salaryCodeRepository.findByCodeNum(getEmployResponse.getResults().get(0).getPositionCode());
         int baseSalary = salaryCodes.getBaseSalary();
         int salaryGross = calculateSalary(baseSalary);

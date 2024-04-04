@@ -1,5 +1,6 @@
 package com.example.harbor_employee.Employee.dto.response;
 
+import com.example.harbor_employee.Employee.domain.EmployeeCode;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -18,7 +19,7 @@ public class GetEmployResponse {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Result {
-        private String positionCode;
+        private EmployeeCode positionCode;
     }
 }
 
