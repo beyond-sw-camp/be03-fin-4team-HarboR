@@ -98,7 +98,7 @@ public class SalaryService {
         log.info("생년월일" + getUsersResponse.getResults().get(0).getBirth());
         return mySalaryRequest;
     }
-    //상세 급여 목록 조회
+    //상세 급여 조회
     public MySalaryDetailResponse findMySalary(String employeeId, Long salaryId) {
         System.out.println("employeeId = " + employeeId);
         System.out.println("salaryId = " + salaryId);

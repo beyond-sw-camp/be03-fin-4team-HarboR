@@ -53,7 +53,7 @@ public class EmployeeController {
      * @param principal: 인증 정보에 담긴 name을 이용(employeeId)
      * @return 인증된 사용자의 상세 정보 조회
      */
-    @GetMapping("/get/detail")
+    @GetMapping("/get/detail") 
     public ResponseEntity<CommonResponse> getDetail(Principal principal){
         return new ResponseEntity<>(new CommonResponse("요청이 정상적으로 실행되었습니다.", employeeService.findByEmployeeId(principal.getName())), HttpStatus.OK);
     }

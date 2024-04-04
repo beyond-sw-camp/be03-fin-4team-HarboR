@@ -425,6 +425,11 @@ const MainRoutes = {
       name: 'Product Listing',
       path: '/ecommerce/productlist',
       component: () => import('@/views/apps/eCommerce/ProductList.vue')
+    },
+    {
+      name: 'TestCalender',
+      path: '/testcalendar',
+      component: () => import('@/views/apps/test/TestCalendar.vue')
     }
   ]
 };
