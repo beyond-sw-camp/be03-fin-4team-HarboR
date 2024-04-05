@@ -1,4 +1,4 @@
-# 인사 관리 시스템 (HorboR)
+[api명세서 확인.pptx](https://github.com/beyond-sw-camp/be03-fin-4team-HarboR/files/14882448/api.pptx)# 인사 관리 시스템 (HorboR)
 
 ## 💻 프로젝트 소개
 💡 ***Horbor* 인사관리 서비스를 소개합니다!**
@@ -48,7 +48,10 @@
 [요구사항명세서.pdf](https://github.com/fa7271/be03-fin-4team-HarboR/files/14882357/default.pdf)
 
 ## 📄 api 명세서
-[api명세서.pdf](https://github.com/fa7271/be03-fin-4team-HarboR/files/14882346/api.pdf)
+[API명세서.pdf](https://github.com/beyond-sw-camp/be03-fin-4team-HarboR/files/14882445/API.pdf)
+[api명세서 확인.pptx](https://github.com/beyond-sw-camp/be03-fin-4team-HarboR/files/14882451/api.pptx)
+
+
 
 ## 📄 단위테스트체크리스트
 [단위테스트체크리스트.pdf](https://github.com/fa7271/be03-fin-4team-HarboR/files/14882361/default.pdf)
