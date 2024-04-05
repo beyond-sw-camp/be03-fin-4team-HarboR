@@ -1,17 +1,25 @@
 package com.example.harbor_employee.PersonnelAppointment.service;
 
-import com.example.harbor_employee.Employee.domain.Code;
 import com.example.harbor_employee.Employee.domain.Employee;
+import com.example.harbor_employee.Employee.dto.request.EmployeeSearchDto;
 import com.example.harbor_employee.Employee.dto.response.ExcelDataDto;
 import com.example.harbor_employee.Employee.repository.EmployeeRepository;
 import com.example.harbor_employee.PersonnelAppointment.domain.PersonnelAppointment;
+import com.example.harbor_employee.PersonnelAppointment.dto.response.PaResDto;
 import com.example.harbor_employee.PersonnelAppointment.repository.PersonnelAppointmentRepository;
+import com.example.harbor_employee.global.util.EmployeeSpecification;
 import com.example.harbor_employee.global.util.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,7 +27,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -132,4 +139,36 @@ public class PersonnelAppointmentService {
             throw new IOException("파일을 처리하는 도중 오류가 발생");
         }
     }
+
+    public Page<PaResDto> findAll(EmployeeSearchDto employeeSearchDto, Pageable pageable) {
+        Specification<T> specification =
+                EmployeeSpecification.likeEmployeeId_class(employeeSearchDto.getEmployeeId());
+
+        // Sort 객체를 생성하여 issueDate를 기준으로 오름차순으로 정렬
+        Sort sort = Sort.by("issueDate").ascending();
+
+        // Sort 객체를 PageRequest.of 메서드에 전달하여 정렬된 페이지 받기
+        Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+
+        Page<PersonnelAppointment> personnelAppointmentList = parepository.findAll(specification, sortedPageable);
+
+        return personnelAppointmentList.map(PaResDto::toPaDto);
+    }
+
+    public Long delete(Long appointmentId) {
+        PersonnelAppointment personnelAppointment = parepository.findById(appointmentId).orElseThrow(() -> new IllegalArgumentException(" 없는 인사발령 번호 입니다"));
+        parepository.delete(personnelAppointment);
+        log.info("personnelAppointment 삭제 완료 : {} " ,personnelAppointment);
+        return personnelAppointment.getAppointmentId();
+    }
+
+    public PaResDto detail(Long appointmentId) {
+        PersonnelAppointment personnelAppointment = parepository.findById(appointmentId).orElseThrow(() -> new IllegalArgumentException("없는 인사 발령정보입니다."));
+        return PaResDto.toPaDto(personnelAppointment);
+    }
+//    **@PostAuthorize("isAuthenticated() and (( returnObject.name == principal.name ) or hasRole('ROLE_ADMIN'))")**
+//@RequestMapping( value = "/{seq}", method = RequestMethod.GET )
+//public User getuser( @PathVariable("seq") long seq ){
+//    return userService.findOne(seq);
+//}
 }

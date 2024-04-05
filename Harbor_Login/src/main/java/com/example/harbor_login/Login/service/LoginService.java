@@ -50,31 +50,39 @@ public class LoginService {
 
     }
 
-    public Login signin(LoginSignInReqDto loginSignInReqDto) {
+    public Login emailsignin(EmailLoginReqDto emailLoginReqDto) {
         // 이메일을 기준으로 회원을 찾음
-        Login member = loginRepository.findByEmail(loginSignInReqDto.getEmail())
+        Login member = loginRepository.findByEmail(emailLoginReqDto.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않은 이메일입니다."));
 
         // 비밀번호 검증
-        if (!passwordEncoder.matches(loginSignInReqDto.getPassword(), member.getPassword())) {
+        if (!passwordEncoder.matches(emailLoginReqDto.getPassword(), member.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
-
-        // 사원 번호를 기준으로 회원을 찾음
-        Login employee = loginRepository.findByEmployeeId(loginSignInReqDto.getEmployeeId())
-                .orElse(null);
-
-        // 사원 번호가 존재하고, 회원과 일치하지 않는 경우
-        if (employee != null && !member.getEmail().equals(employee.getEmail())) {
-            throw new IllegalArgumentException("사원 번호가 올바르지 않습니다.");
-        }
-        // 회원 혹은 사원 번호가 존재하지 않는 경우
-        if (employee == null) {
-            throw new IllegalArgumentException("존재하지 않는 사원 번호입니다.");
-        }
-        // 다 통과
         return member;
     }
+
+    public Login EmployeeIdsignin(EmployeeLoginReqDto employeeLoginReqDto) {
+        Login member = loginRepository.findByEmployeeId(employeeLoginReqDto.getEmployeeId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않은 이메일입니다."));
+        if (!passwordEncoder.matches(employeeLoginReqDto.getPassword(), member.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+        return member;
+    }
+
+//        // 사원 번호를 기준으로 회원을 찾음
+//        Login employee = loginRepository.findByEmployeeId(loginSignInReqDto.getEmployeeId())
+//                .orElse(null);
+//
+//        // 사원 번호가 존재하고, 회원과 일치하지 않는 경우
+//        if (employee != null && !member.getEmail().equals(employee.getEmail())) {
+//            throw new IllegalArgumentException("사원 번호가 올바르지 않습니다.");
+//        }
+//        // 회원 혹은 사원 번호가 존재하지 않는 경우
+//        if (employee == null) {
+//            throw new IllegalArgumentException("존재하지 않는 사원 번호입니다.");
+//        }
+        // 다 통과
 
     public Page<LoginMemberResDto> findAll(Pageable pageable) {
 
