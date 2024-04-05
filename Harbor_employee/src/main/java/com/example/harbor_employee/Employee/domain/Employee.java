@@ -103,11 +103,11 @@ public class Employee {
 
 //    스트링으로 바뀜
 
-//    public void updatePA(PersonnelAppointment pa, Department department){
-//        this.dutyCode = pa.getUpdateDutyCode();
-//        this.positionCode = pa.getPositionCode();
-//        this.joinDate = pa.getIssueDate();
-//        this.department = department;
-//    }
+    public void updatePA(PersonnelAppointment pa){
+        this.dutyCode = pa.getUpdateDutyCode();
+        this.positionCode = pa.getPositionCode();
+        this.joinDate = pa.getIssueDate();
+        this.departmentCode = pa.getAfterDepartmentCode();
+    }
 }
 
