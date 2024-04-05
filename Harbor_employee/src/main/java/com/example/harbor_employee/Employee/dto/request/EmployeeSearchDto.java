@@ -13,4 +13,7 @@ public class EmployeeSearchDto {
     private String departmentName;
     // 소속팀
     private String teamCode;
+
+    //    객체
+    private String employee_id;
 }
