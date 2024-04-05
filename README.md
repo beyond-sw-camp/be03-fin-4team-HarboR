@@ -1,4 +1,4 @@
-# 인사 관리 시스템 (HorboR)
+[api명세서 확인.pptx](https://github.com/beyond-sw-camp/be03-fin-4team-HarboR/files/14882448/api.pptx)# 인사 관리 시스템 (HorboR)
 
 ## 💻 프로젝트 소개
 💡 ***Horbor* 인사관리 서비스를 소개합니다!**
@@ -45,8 +45,17 @@
 </details>
 
 ## 📄 요구사항 명세서
+[요구사항명세서.pdf](https://github.com/fa7271/be03-fin-4team-HarboR/files/14882357/default.pdf)
 
-![요구사항 명세서](./docs/image.png)
+## 📄 api 명세서
+[API명세서.pdf](https://github.com/beyond-sw-camp/be03-fin-4team-HarboR/files/14882445/API.pdf)
+[api명세서 확인.pptx](https://github.com/beyond-sw-camp/be03-fin-4team-HarboR/files/14882451/api.pptx)
+
+
+
+## 📄 단위테스트체크리스트
+[단위테스트체크리스트.pdf](https://github.com/fa7271/be03-fin-4team-HarboR/files/14882361/default.pdf)
+
 
 ## aws 아키텍처
 <img width="727" alt="스크린샷 2024-03-18 오후 4 08 06" src="https://github.com/beyond-sw-camp/be03-fin-HarboR/assets/90543205/5b77d6bf-d5d2-40ab-aad6-509583b58068">
