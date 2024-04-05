@@ -13,6 +13,6 @@ public interface LoginToEmployeeClient {
 //    @GetMapping(value = "/api/")
 //    GetUsersResponse getUsers(@RequestParam("nat") String nation);
 
-    @PostMapping("empyloee/create")
+    @PostMapping("employee/create")
     HttpStatus createEmployee(@RequestBody LoginMemberResDto request);
 }

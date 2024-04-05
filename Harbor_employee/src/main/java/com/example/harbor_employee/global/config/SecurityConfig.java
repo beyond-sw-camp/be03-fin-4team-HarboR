@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/**")
+                .antMatchers("/**","/employee/create")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
