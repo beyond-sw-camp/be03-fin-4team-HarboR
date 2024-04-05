@@ -1,5 +1,6 @@
 package com.example.harbor_employee.Employee.service;
 
+import com.example.harbor_employee.Employee.domain.Code;
 import com.example.harbor_employee.Employee.domain.Employee;
 import com.example.harbor_employee.Employee.dto.request.EmployeeSearchDto;
 import com.example.harbor_employee.Employee.dto.response.EmployeeDetailResDto;
@@ -9,6 +10,7 @@ import com.example.harbor_employee.Employee.repository.EmployeeRepository;
 import com.example.harbor_employee.global.util.EmployeeSpecification;
 import com.example.harbor_employee.client.dto.LoginMemberResDto;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
@@ -30,21 +32,20 @@ public class EmployeeService {
     }
 
     public List<EmployeeResDto> findAll(EmployeeSearchDto employeeSearchDto, Pageable pageable) {
-        log.info("DepartmentName: " + employeeSearchDto.getDepartmentName());
         Specification<Employee> specification =
                 EmployeeSpecification.likeName(employeeSearchDto.getName())
                         .and(EmployeeSpecification.likeEmployeeId(employeeSearchDto.getEmployeeId()))
                         .and(EmployeeSpecification.equalDepartment(employeeSearchDto.getDepartmentName()))
-                        .and(EmployeeSpecification.equalTeamName(employeeSearchDto.getTeamName()));
+                        .and(EmployeeSpecification.equalTeamName(employeeSearchDto.getTeamCode()));
 
-        List<Employee> employeeList = employeeRepository.findAll(specification, pageable);
+        Page<Employee> employeeList = employeeRepository.findAll(specification, pageable);
         List<EmployeeResDto> employeeResDtos = new ArrayList<>();
         employeeResDtos = employeeList.stream()
                 .map(e-> EmployeeResDto.builder()
                         .employeeId(e.getEmployeeId())
-                        .department(e.getDepartment().getDepartmentName())
-                        .team(e.getTeamCode().getDescription())
-                        .position(e.getPositionCode().getDescription())
+                        .department(Code.valueOf(e.getDepartmentCode()).getMessage())
+                        .team(Code.valueOf(e.getTeamCode()).getMessage())
+                        .position(Code.valueOf(e.getPositionCode()).getMessage())
                         .name(e.getName())
                         .build()).collect(Collectors.toList());
         return employeeResDtos;
@@ -74,18 +75,18 @@ public class EmployeeService {
                 .name(employee.getName())
                 .email(employee.getEmail())
                 .phone(employee.getPhone())
-                .gender(employee.getGenderCode().getDescription())
+                .gender(Code.valueOf(employee.getGenderCode()).getMessage())
                 .birthDate(employee.getBirthDate())
                 .socialSecurityNumber(employee.getSocialSecurityNumber())
                 .address(employee.getAddress())
-                .duty(employee.getDutyCode().getDescription())
-                .position(employee.getPositionCode().getDescription())
-                .team(employee.getTeamCode().getDescription())
-                .department(employee.getDepartment().getDepartmentName())
-                .status(employee.getStatusCode().getDescription())
+                .duty(Code.valueOf(employee.getDutyCode()).getMessage())
+                .position(Code.valueOf(employee.getPositionCode()).getMessage())
+                .team(Code.valueOf(employee.getTeamCode()).getMessage())
+                .department(Code.valueOf(employee.getDepartmentCode()).getMessage())
+                .status(Code.valueOf(employee.getStatusCode()).getMessage())
                 .careerYMD(employee.getCareerYMD())
                 .joinDate(employee.getJoinDate())
-                .bank(employee.getBankCode().getDescription())
+                .bank(Code.valueOf(employee.getBankCode()).getMessage())
                 .accountNumber(employee.getAccountNumber())
                 .profileImagePath(employee.getProfileImage())
                 .leavingDate(employee.getLeavingDate())
@@ -99,7 +100,7 @@ public class EmployeeService {
             System.out.println("employee.getPositionCode() = " + employee.getPositionCode());
             GetEmployResponse getEmployResponse = new GetEmployResponse();
             getEmployResponse.getResults().add(new GetEmployResponse.Result(employee.getPositionCode()));
-            System.out.println("getEmployResponse.getResults(). = " + getEmployResponse.getResults().);
+            System.out.println("getEmployResponse.getResults() = " + getEmployResponse.getResults());
             return getEmployResponse;
         } catch(Exception e){
             System.out.println(e.getMessage());

@@ -6,6 +6,8 @@ import com.example.harbor_employee.Employee.dto.response.GetEmployResponse;
 import com.example.harbor_employee.client.dto.LoginMemberResDto;
 import com.example.harbor_employee.global.common.CommonResponse;
 import com.example.harbor_employee.Employee.service.EmployeeService;
+import com.example.harbor_employee.kafka.KafkaTestDto;
+import com.example.harbor_employee.kafka.TestProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.Path;
 import java.security.Principal;
 import java.util.List;
 
@@ -23,7 +24,7 @@ import java.util.List;
 @RequestMapping("/employee")
 public class EmployeeController {
     private final EmployeeService employeeService;
-
+    private final TestProducer testProducer;
     /**
      *
      * @param employeeSearchDto: 검색 정보를 담은 DTO(사원 번호, 이름, 부서명, 팀명)
@@ -53,7 +54,8 @@ public class EmployeeController {
      * @param principal: 인증 정보에 담긴 name을 이용(employeeId)
      * @return 인증된 사용자의 상세 정보 조회
      */
-    @GetMapping("/get/detail") 
+
+    @GetMapping("/get/detail")
     public ResponseEntity<CommonResponse> getDetail(Principal principal){
         return new ResponseEntity<>(new CommonResponse("요청이 정상적으로 실행되었습니다.", employeeService.findByEmployeeId(principal.getName())), HttpStatus.OK);
     }
@@ -76,5 +78,13 @@ public class EmployeeController {
         log.info("돌려줌");
         return ResponseEntity.status(HttpStatus.OK).body(positionCode);
     }
-
+    @PostMapping("/kafka/test")
+    public String testKafka(){
+        KafkaTestDto kafkaTestDto = KafkaTestDto.builder()
+                .id("123123")
+                .name("테스트 이름")
+                .build();
+        testProducer.send("topic", kafkaTestDto);
+        return "ok";
+    }
 }

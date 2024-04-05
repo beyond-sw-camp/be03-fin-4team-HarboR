@@ -1,11 +1,9 @@
 package com.example.harbor_employee.PersonnelAppointment.service;
 
+import com.example.harbor_employee.Employee.domain.Code;
 import com.example.harbor_employee.Employee.domain.Employee;
-import com.example.harbor_employee.Employee.domain.EmployeeCode;
 import com.example.harbor_employee.Employee.dto.response.ExcelDataDto;
-import com.example.harbor_employee.Employee.repository.EmployeeCodeRepository;
 import com.example.harbor_employee.Employee.repository.EmployeeRepository;
-import com.example.harbor_employee.Employee.service.EmployeeCodeService;
 import com.example.harbor_employee.PersonnelAppointment.domain.PersonnelAppointment;
 import com.example.harbor_employee.PersonnelAppointment.repository.PersonnelAppointmentRepository;
 import com.example.harbor_employee.global.util.RedisUtil;
@@ -29,7 +27,6 @@ public class PersonnelAppointmentService {
 
     private final PersonnelAppointmentRepository parepository;
     private final EmployeeRepository employeeRepository;
-    private EmployeeCodeRepository employeeCodeRepository;
     private final RedisUtil redisUtil;
     private static final int EMPLOYEE_ID_COLUMN_INDEX = 0;
     private static final int BEFORE_DEPARTMENT_CODE_COLUMN_INDEX = 1;
@@ -39,10 +36,9 @@ public class PersonnelAppointmentService {
     private static final int UPDATE_DUTY_CODE_COLUMN_INDEX = 5;
 
 
-    public PersonnelAppointmentService(PersonnelAppointmentRepository parepository, EmployeeRepository employeeRepository, EmployeeCodeRepository employeeCodeRepository, RedisUtil redisUtil) {
+    public PersonnelAppointmentService(PersonnelAppointmentRepository parepository, EmployeeRepository employeeRepository, RedisUtil redisUtil) {
         this.parepository = parepository;
         this.employeeRepository = employeeRepository;
-        this.employeeCodeRepository = employeeCodeRepository;
         this.redisUtil = redisUtil;
     }
 
@@ -80,7 +76,6 @@ public class PersonnelAppointmentService {
                     Cell cell1 = row.getCell(EMPLOYEE_ID_COLUMN_INDEX);
                     if (cell1 != null)
                         excelDataDto.setEmployeeId(cell1.getStringCellValue());
-
                     Employee employee = employeeRepository.findByEmployeeId(excelDataDto.getEmployeeId()).orElseThrow(() -> new IllegalArgumentException(" 없는 회원 입니다."));
 
                     Cell cell2 = row.getCell(BEFORE_DEPARTMENT_CODE_COLUMN_INDEX);
@@ -109,30 +104,17 @@ public class PersonnelAppointmentService {
                     if (cell6 != null)
                         excelDataDto.setUpdateDutyCode(cell6.getStringCellValue());
 
-                    List<String> codes = new ArrayList<>();
-                    codes.add(excelDataDto.getBeforeDepartmentCode());
-                    codes.add(excelDataDto.getAfterDepartmentCode());
-                    codes.add(excelDataDto.getPositionCode());
-                    codes.add(excelDataDto.getUpdateDutyCode());
-                    List<EmployeeCode> employeeCodes = codes.stream()
-                            .map(e -> employeeCodeRepository.findByCode(e)
-                                    .orElseThrow(IllegalArgumentException::new))
-                            .collect(Collectors.toList());
-                    System.out.println(employeeCodes.get(0).getDescription());
                     PersonnelAppointment personnelAppointment = PersonnelAppointment.CreatePA(
                             employee,
-                            employeeCodes.get(0),
-                            employeeCodes.get(1),
-                            employeeCodes.get(2),
-                            excelDataDto.getIssueDate(),
-                            employeeCodes.get(3)
+                            excelDataDto.getUpdateDutyCode(),
+                            excelDataDto.getBeforeDepartmentCode(),
+                            excelDataDto.getAfterDepartmentCode(),
+                            excelDataDto.getPositionCode(),
+                            excelDataDto.getIssueDate()
                             );
-                    System.out.println("personnelAppointment = " + personnelAppointment.getPositionCode().getCode());
-                    System.out.println("personnelAppointment = " + personnelAppointment.getUpdateDutyCode().getCode());
-                    System.out.println("personnelAppointment = " + personnelAppointment.getBeforeDepartmentCode().getCode());
-                    System.out.println("personnelAppointment = " + personnelAppointment.getAfterDepartmentCode().getCode());
                     parepository.save(personnelAppointment);
-//                    key : 날짜 , value : PA_id
+                    log.info("personnelAppointment {}", "personnelAppointment");
+////                    key : 날짜 , value : PA_id
                     if (personnelAppointment.getIssueDate() != null) {
                         String data = redisUtil.getData(excelDataDto.getIssueDate());
 //                        이미 있는경우 꺼내와서 + 해서 넣기
