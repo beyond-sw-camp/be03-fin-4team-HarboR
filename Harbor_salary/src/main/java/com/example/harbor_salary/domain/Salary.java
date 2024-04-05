@@ -36,4 +36,5 @@ public class Salary{
     @Column(nullable = false)
     private int salaryGross;
 
+
 }

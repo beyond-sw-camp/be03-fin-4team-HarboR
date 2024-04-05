@@ -90,12 +90,12 @@ public class NoticeService {
 
     }
 
+//
+//    public Page<Notice> findAllPage(Pageable pageable) {
+////        Page<Notice> notices = noticeRepository.findAll(pageable);
+////        return notices;
+//        return null;
 
-    public Page<Notice> findAllPage(Pageable pageable) {
-//        Page<Notice> notices = noticeRepository.findAll(pageable);
-//        return notices;
-        return null;
-    }
 
     public Notice findById(int noticeId) throws EntityNotFoundException {
         Notice notice = noticeRepository.findByNoticeId(noticeId).orElseThrow(() -> new EntityNotFoundException("검색하신 ID의 Notice가 없습니다."));

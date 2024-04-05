@@ -1,21 +1,14 @@
 package com.example.harbor_login.Login.service;
 import javax.mail.internet.MimeMessage;
 import com.example.harbor_login.Login.domain.Login;
-import com.example.harbor_login.Login.dto.ChargeRequestDto;
-import com.example.harbor_login.Login.dto.FindPasswordReq;
-import com.example.harbor_login.Login.dto.MailDto;
 import com.example.harbor_login.Login.repository.LoginRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
-import javax.mail.internet.MimeMessage;
 import java.util.Calendar;
 
 @Service

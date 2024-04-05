@@ -6,6 +6,7 @@ import com.example.harbor_salary.domain.Salary;
 import com.example.harbor_salary.client.SalaryClient;
 import com.example.harbor_salary.dto.request.MySalaryRequest;
 import com.example.harbor_salary.dto.response.MySalaryDetailResponse;
+import com.example.harbor_salary.dto.response.SeveranceDetailRes;
 import com.example.harbor_salary.service.SalaryService;
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +50,7 @@ public class SalaryController {
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/create/{getEmployeeId}")
     public Salary createSalary(@PathVariable("getEmployeeId") String getEmployeeId) {
-        log.info("핑");
+        System.out.println("getEmployeeId = " + getEmployeeId);
         Salary salary = salaryService.createSalary(getEmployeeId);
         return salary;
     }
@@ -90,10 +91,15 @@ public class SalaryController {
         return "1";
     }
 
-    @GetMapping("/severance/{employeeId}")
-    public ResponseEntity<Integer> calculateRetirementBenefit(@PathVariable String employeeId) {
-        // RetirementService를 사용하여 퇴직금 계산
-        int retirementBenefit = salaryService.severancepay(employeeId);
-        return new ResponseEntity<>(retirementBenefit, HttpStatus.OK);
+    @GetMapping("/details/{employeeId}")
+    public ResponseEntity<SeveranceDetailRes> getSeveranceDetail(@PathVariable String employeeId) {
+        SeveranceDetailRes severanceDetailRes = salaryService.severanceDetail(employeeId);
+
+        // 결과가 null이 아니라면 정상적으로 반환
+        if (severanceDetailRes != null) {
+            return ResponseEntity.ok(severanceDetailRes);
+        }
+        // 결과가 null이나 잘못된 경우, NOT_FOUND 등 적절한 HTTP 상태 코드로 응답
+        return ResponseEntity.notFound().build();
     }
 }
