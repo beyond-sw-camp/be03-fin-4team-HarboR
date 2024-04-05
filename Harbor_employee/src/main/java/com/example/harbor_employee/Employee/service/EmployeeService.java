@@ -1,6 +1,6 @@
 package com.example.harbor_employee.Employee.service;
 
-import com.example.harbor_employee.Employee.domain.Code;
+import com.example.harbor_employee.global.support.Code;
 import com.example.harbor_employee.Employee.domain.Employee;
 import com.example.harbor_employee.Employee.dto.request.EmployeeSearchDto;
 import com.example.harbor_employee.Employee.dto.response.EmployeeDetailResDto;
@@ -44,7 +44,7 @@ public class EmployeeService {
         employeeResDtos = employeeList.stream()
                 .map(e-> EmployeeResDto.builder()
                         .employeeId(e.getEmployeeId())
-                        .department(Code.valueOf(e.getDepartment().getDepartmentCode()).getMessage())
+                        .department(Code.valueOf(e.getDepartmentCode()).getMessage())
                         .team(Code.valueOf(e.getTeamCode()).getMessage())
                         .position(Code.valueOf(e.getPositionCode()).getMessage())
                         .name(e.getName())
@@ -83,7 +83,7 @@ public class EmployeeService {
                 .duty(Code.valueOf(employee.getDutyCode()).getMessage())
                 .position(Code.valueOf(employee.getPositionCode()).getMessage())
                 .team(Code.valueOf(employee.getTeamCode()).getMessage())
-                .department(Code.valueOf(employee.getDepartment().getDepartmentCode()).getMessage())
+                .department(Code.valueOf(employee.getDepartmentCode()).getMessage())
                 .status(Code.valueOf(employee.getStatusCode()).getMessage())
                 .careerYMD(employee.getCareerYMD())
                 .joinDate(employee.getJoinDate())

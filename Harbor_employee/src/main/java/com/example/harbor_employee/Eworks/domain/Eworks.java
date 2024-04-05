@@ -31,15 +31,26 @@ public class Eworks {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long payId;
 
-    @Column(nullable = false, length = 20)
-    private String payStatusCode;
-    private String approvalDate;
-    private Integer firstSignId;
-    private Integer secondSignId;
-    private Integer thirdSignId;
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
+    @Column(nullable = false, length = 20)
+    private String payStatusCode;
+    private String firstSignId;
+    private String secondSignId;
+    private String thirdSignId;
+    private String firstApprovalDate;
+    private String secondApprovalDate;
+    private String thirdApprovalDate;
+
+    public static Eworks createEworks(Employee employee, String payStatusCode, String firstSignId, String secondSignId, String thirdSignId){
+        return Eworks.builder()
+                .employee(employee)
+                .payStatusCode(payStatusCode)
+                .firstSignId(firstSignId)
+                .secondSignId(secondSignId)
+                .thirdSignId(thirdSignId)
+                .build();
+    }
 }

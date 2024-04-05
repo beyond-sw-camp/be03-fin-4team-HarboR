@@ -1,6 +1,5 @@
 package com.example.harbor_employee.Employee.dto.request;
 
-import com.example.harbor_employee.Employee.domain.Code;
 import lombok.Data;
 
 @Data

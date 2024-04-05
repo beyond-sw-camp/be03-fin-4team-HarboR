@@ -84,9 +84,7 @@ public class Employee {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_code")
-    private Department department;
+    private String departmentCode;
 
     @OneToMany(mappedBy = "employee")
     private List<Eworks> eworks = new ArrayList<>();

@@ -8,7 +8,6 @@ import com.example.harbor_employee.Employee.service.EmployeeService;
 import com.example.harbor_employee.global.common.CommonResponse;
 import com.example.harbor_employee.kafka.KafkaTestDto;
 import com.example.harbor_employee.kafka.TestProducer;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -22,11 +21,16 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@RequiredArgsConstructor
 @RequestMapping("/employee")
 public class EmployeeController {
     private final EmployeeService employeeService;
     private final TestProducer testProducer;
+
+    public EmployeeController(EmployeeService employeeService, TestProducer testProducer) {
+        this.employeeService = employeeService;
+        this.testProducer = testProducer;
+    }
+
     /**
      *
      * @param employeeSearchDto: 검색 정보를 담은 DTO(사원 번호, 이름, 부서명, 팀명)
@@ -68,11 +72,16 @@ public class EmployeeController {
         log.info(" 호출 시작 : ");
         return employeeService.createBasicEmployee(loginMemberResDto);
     }
+
     @GetMapping("/admin")
     public ResponseEntity<String> healthCheck(){
         System.out.println("접근 성공");
         return ResponseEntity.status(HttpStatus.OK).body("pong");
     }
+
+    /**
+     * @FeignClient테스트
+     */
     @GetMapping("/{employeeId}/positionCode")
     public ResponseEntity<GetEmployResponse> getPositionCodeByEmployeeId(@PathVariable("employeeId") String employeeId){
         log.info("퐁");
@@ -80,6 +89,10 @@ public class EmployeeController {
         log.info("돌려줌");
         return ResponseEntity.status(HttpStatus.OK).body(positionCode);
     }
+
+    /**
+     * @kafka테스트
+     */
     @PostMapping("/kafka/test")
     public String testKafka(){
         KafkaTestDto kafkaTestDto = KafkaTestDto.builder()

@@ -1,4 +1,4 @@
-package com.example.harbor_employee.Employee.domain;
+package com.example.harbor_employee.global.support;
 
 import lombok.Getter;
 
