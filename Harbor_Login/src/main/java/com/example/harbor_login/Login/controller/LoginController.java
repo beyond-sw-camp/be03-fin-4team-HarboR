@@ -89,11 +89,11 @@ public class LoginController {
         return ResponseEntity.status(HttpStatus.OK).body(login);
     }
 
-    @GetMapping("/myinfo")
-    public ResponseEntity<CommonResponse> findMyInfo() {
-        return new ResponseEntity<>(new CommonResponse("member successfully logined", loginService.findMyInfo()), HttpStatus.OK);
-
-    }
+//    @GetMapping("/myinfo")
+//    public ResponseEntity<CommonResponse> findMyInfo() {
+//        return new ResponseEntity<>(new CommonResponse("member successfully logined", loginService.findMyInfo()), HttpStatus.OK);
+//
+//    }
 
     @GetMapping("/findId")
     public ResponseEntity<CommonResponse> findId(@RequestBody FindIdReqDto findIdReqDto) {
@@ -121,29 +121,4 @@ public class LoginController {
         return new ResponseEntity<>(new CommonResponse("Password successfully change", chargeRequestDto), HttpStatus.OK);
     }
 }
-
-
-
-//    @GetMapping("/myinfo")
-//    public ResponseEntity<CommonResponse> findMyInfo(@RequestHeader("myEmail") String email) {
-//        return new ResponseEntity<>(new CommonResponse("member successfully logined", loginService.findMyInfo(email)), HttpStatus.OK);
-//    }
-
-//    //Email과 name의 일치여부를 check하는 컨트롤러
-//    @GetMapping("/check/findPw")
-//    public @ResponseBody Map<String, Boolean> pw_find(String email, String name) {
-//        Map<String, Boolean> json = new HashMap<>();
-//        boolean pwFindCheck = loginService.userEmailCheck(email, name);
-//        System.out.println(pwFindCheck);
-//        json.put("check", pwFindCheck);
-//        return json;
-//    }
-//
-//    //등록된 이메일로 임시비밀번호를 발송하고 발송된 임시비밀번호로 사용자의 pw를 변경하는 컨트롤러
-//    @PostMapping("/check/findPw/sendEmail")
-//    public @ResponseBody void sendEmail(String email, String name) {
-//        MailDto dto = loginService.createMailAndChangePassword(email, name);
-//        loginService.mailSend(dto);
-
-//    }
 
