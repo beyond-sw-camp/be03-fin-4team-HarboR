@@ -20,17 +20,8 @@ onMounted(() => {
 
 <template>
   <v-layout>
-    <Appbar />
     <v-main class="ma-0">
       <HomeBanner />
-      <CardSection />
-      <CustomizeSection />
-      <Features />
-      <Demos />
-      <Pepole />
-      <KeyFeatures />
-      <FrameworkSection />
-      <Footer />
     </v-main>
   </v-layout>
 </template>

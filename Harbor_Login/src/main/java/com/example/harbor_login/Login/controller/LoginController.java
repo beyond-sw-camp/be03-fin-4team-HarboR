@@ -33,7 +33,6 @@ public class LoginController {
 
     @PostMapping("/signup")
     public ResponseEntity<CommonResponse> signup(@Valid @RequestBody LoginSignUpReqDto loginSignUpReqDto, BindingResult bindingResult) throws BindException {
-
         System.out.println("bindingResult = " + bindingResult);
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
@@ -43,12 +42,13 @@ public class LoginController {
         return new ResponseEntity<>(new CommonResponse("member successfully created", loginSignUpReqDto.getEmail()), HttpStatus.CREATED);
     }
 
-    @PostMapping("/EmailLogin")
+        @PostMapping("/EmailLogin")
     public ResponseEntity<CommonResponse> Emailsignin(
             @Valid @RequestBody EmailLoginReqDto emailLoginReqDto,
             BindingResult bindingResult
-
     ) throws BindException {
+            System.out.println("emailLoginReqDto.getEmail() = " + emailLoginReqDto.getEmail());
+            System.out.println("emailLoginReqDto.getPassword() = " + emailLoginReqDto.getPassword());
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
         }
@@ -69,6 +69,8 @@ public class LoginController {
             BindingResult bindingResult
 
     ) throws BindException {
+        System.out.println("emailLoginReqDto.getEmail() = " + employeeLoginReqDto.getEmployeeId());
+        System.out.println("emailLoginReqDto.getPassword() = " + employeeLoginReqDto.getPassword());
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
         }
