@@ -1,15 +1,14 @@
-package com.example.harbor_employee.kafka;
+package com.example.harbor_employee.Employee.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import javax.persistence.Column;
+import java.time.LocalDateTime;
 
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class KafkaTestDto {
+public class ExcelEmployeeDto {
     private String employeeId;
     private String teamCode;
     private String positionCode;
