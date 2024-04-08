@@ -3,13 +3,11 @@ package com.example.harbor_employee.Employee.controller;
 import com.example.harbor_employee.Employee.dto.request.EmployeeSearchDto;
 import com.example.harbor_employee.Employee.dto.request.EmployeeUpdateRequestDto;
 import com.example.harbor_employee.Employee.dto.response.EmployeeResDto;
-import com.example.harbor_employee.Employee.dto.response.ExcelDataDto;
 import com.example.harbor_employee.Employee.dto.response.ExcelEmployeeDto;
 import com.example.harbor_employee.Employee.dto.response.GetEmployResponse;
 import com.example.harbor_employee.client.dto.LoginMemberResDto;
 import com.example.harbor_employee.Employee.service.EmployeeService;
 import com.example.harbor_employee.global.common.CommonResponse;
-import com.example.harbor_employee.kafka.KafkaTestDto;
 import com.example.harbor_employee.kafka.TestProducer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.List;
 
 @RestController

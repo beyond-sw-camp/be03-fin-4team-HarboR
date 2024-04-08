@@ -50,12 +50,12 @@ public class EworksController {
 
     /**
      * 승인권자 리스트 출력 API
-     * @param departmentCode
+     * @param getAuthListReqDto
      * @return
      */
     @GetMapping("/read/authlist")
-    public ResponseEntity<CommonResponse> getAuthList(@RequestParam("departmentCode") String departmentCode){
-        return new ResponseEntity<>(new CommonResponse("요청이 정상적으로 실행되었습니다.", eworksService.getAuthList(departmentCode)), HttpStatus.OK);
+    public ResponseEntity<CommonResponse> getAuthList(@RequestBody GetAuthListReqDto getAuthListReqDto){
+        return new ResponseEntity<>(new CommonResponse("요청이 정상적으로 실행되었습니다.", eworksService.getAuthList(getAuthListReqDto)), HttpStatus.OK);
     }
 
     /**
