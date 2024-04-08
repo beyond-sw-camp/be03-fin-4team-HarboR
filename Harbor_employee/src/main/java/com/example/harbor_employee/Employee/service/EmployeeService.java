@@ -4,14 +4,17 @@ import com.example.harbor_employee.global.support.Code;
 import com.example.harbor_employee.Employee.domain.Employee;
 import com.example.harbor_employee.Employee.dto.request.EmployeeSearchDto;
 import com.example.harbor_employee.Employee.dto.request.EmployeeUpdateRequestDto;
-import com.example.harbor_employee.Employee.dto.response.EmployeeDetailResDto;
-import com.example.harbor_employee.Employee.dto.response.EmployeeResDto;
-import com.example.harbor_employee.Employee.dto.response.GetEmployResponse;
+import com.example.harbor_employee.Employee.dto.response.*;
 import com.example.harbor_employee.Employee.repository.EmployeeRepository;
+import com.example.harbor_employee.PersonnelAppointment.domain.PersonnelAppointment;
 import com.example.harbor_employee.global.util.EmployeeSpecification;
 import com.example.harbor_employee.client.dto.LoginMemberResDto;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.formula.functions.T;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -22,11 +25,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -65,10 +71,6 @@ public class EmployeeService {
     public HttpStatus createBasicEmployee(LoginMemberResDto loginMemberResDto) {
 
         log.info(" basicEmployee 객체 생성");
-        System.out.println("loginMemberResDto = " + loginMemberResDto.getBirth());
-        System.out.println("loginMemberResDto = " + loginMemberResDto.getName());
-        System.out.println("loginMemberResDto = " + loginMemberResDto.getEmail());
-        System.out.println("loginMemberResDto = " + loginMemberResDto.getEmployeeId());
         Employee basicEmployee = Employee.createLogin(
                 loginMemberResDto.getEmail(),
                 loginMemberResDto.getBirth(),
@@ -135,5 +137,99 @@ public class EmployeeService {
         }
 
         return EmployeeDetailResDto.toDto(employee);
+    }
+
+    public List<ExcelEmployeeDto> create(MultipartFile file) throws IOException {
+
+        String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+
+
+        if (!extension.equals("xlsx") && !extension.equals("xls")) {
+            throw new IllegalArgumentException("엑셀 파일만 올려주세요.");
+        }
+
+        try (InputStream inputStream = file.getInputStream()) {
+            Workbook workbook = null;
+
+            if (extension.equals("xlsx")) {
+                workbook = new XSSFWorkbook(inputStream);
+            } else if (extension.equals("xls")) {
+                workbook = new HSSFWorkbook(inputStream);
+            }
+
+            List<ExcelEmployeeDto> dataList = new ArrayList<>();
+            Sheet worksheet = workbook.getSheetAt(0);
+
+            for (int i = 1; i < worksheet.getPhysicalNumberOfRows(); i++) {
+                Row row = worksheet.getRow(i);
+                if (row != null) {
+                    ExcelEmployeeDto excelEmployeeDto = new ExcelEmployeeDto();
+                    Cell cell1 = row.getCell(0);
+                    if (cell1 != null)
+                        excelEmployeeDto.setEmployeeId(cell1.getStringCellValue());
+                    Employee employee = employeeRepository.findByEmployeeId(excelEmployeeDto.getEmployeeId()).orElseThrow(() -> new IllegalArgumentException(" 없는 회원 입니다."));
+
+                    Cell cell2 = row.getCell(1);
+                    if (cell2 != null)
+                        excelEmployeeDto.setTeamCode(cell2.getStringCellValue());
+
+                    Cell cell3 = row.getCell(2);
+                    if (cell3 != null)
+                        excelEmployeeDto.setPositionCode(cell3.getStringCellValue());
+
+                    Cell cell4 = row.getCell(3);
+                    if (cell4 != null)
+                        excelEmployeeDto.setDutyCode(cell4.getStringCellValue());
+
+                    Cell cell5 = row.getCell(4);
+                    if (cell5 != null) {
+                        excelEmployeeDto.setStatusCode(cell5.getStringCellValue());
+                    }
+
+                    Cell cell6 = row.getCell(5);
+                    if (cell6 != null)
+                        excelEmployeeDto.setGenderCode(cell6.getStringCellValue());
+
+                    Cell cell7 = row.getCell(6);
+                    if (cell7 != null)
+                        excelEmployeeDto.setBankCode(cell7.getStringCellValue());
+
+                    Cell cell8 = row.getCell(7);
+                    if (cell8 != null)
+                        excelEmployeeDto.setSocialSecurityNumber(cell8.getStringCellValue());
+
+                    Cell cell9 = row.getCell(8);
+                    if (cell9 != null)
+                        excelEmployeeDto.setAddress(cell9.getStringCellValue());
+
+                    Cell cell10 = row.getCell(9);
+                    if (cell10 != null)
+                        excelEmployeeDto.setCareerYMD(cell10.getStringCellValue());
+
+                    Cell cell11 = row.getCell(10);
+                    if (cell11 != null) {
+                        if (cell11.getCellType() == CellType.NUMERIC) {
+                            Date date = cell11.getDateCellValue();
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            excelEmployeeDto.setJoinDate(dateFormat.format(date));
+                        } else if (cell11.getCellType() == CellType.STRING) {
+                            excelEmployeeDto.setJoinDate(cell11.getStringCellValue());
+                        }
+                    }
+                    Cell cell12 = row.getCell(11);
+                    if (cell11 != null)
+                        excelEmployeeDto.setAccountNumber(cell12.getStringCellValue());
+                    Cell cell13 = row.getCell(12);
+                    if (cell11 != null)
+                        excelEmployeeDto.setDepartmentCode(cell3.getStringCellValue());
+                    dataList.add(excelEmployeeDto);
+                    employee.updateEmployee(excelEmployeeDto);
+                }
+            }
+            return dataList;
+        } catch (IOException e) {
+            // 파일 처리 중 예외 발생 시 예외를 던짐
+            throw new IOException("파일을 처리하는 도중 오류가 발생");
+        }
     }
 }

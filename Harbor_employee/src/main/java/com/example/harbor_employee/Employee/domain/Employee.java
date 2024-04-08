@@ -1,5 +1,6 @@
 package com.example.harbor_employee.Employee.domain;
 
+import com.example.harbor_employee.Employee.dto.response.ExcelEmployeeDto;
 import com.example.harbor_employee.Eworks.domain.Eworks;
 import com.example.harbor_employee.PersonnelAppointment.domain.PersonnelAppointment;
 import lombok.*;
@@ -75,7 +76,6 @@ public class Employee {
     private String careerYMD;
     private String joinDate;
     private String leavingDate;
-    private String updateDate;
     private String reasonForResignation;
     @Column(length = 50)
     private String accountNumber;
@@ -116,6 +116,21 @@ public class Employee {
 
         this.profileImage = updateimage;
         this.phone = phone;
+    }
+
+    public void updateEmployee(ExcelEmployeeDto excelEmployeeDto) {
+        this.teamCode = excelEmployeeDto.getTeamCode();
+        this.positionCode = excelEmployeeDto.getPositionCode();
+        this.dutyCode = excelEmployeeDto.getDutyCode();
+        this.statusCode = excelEmployeeDto.getStatusCode();
+        this.genderCode = excelEmployeeDto.getGenderCode();
+        this.bankCode = excelEmployeeDto.getBankCode();
+        this.socialSecurityNumber = excelEmployeeDto.getSocialSecurityNumber();
+        this.address = excelEmployeeDto.getAddress();
+        this.careerYMD = excelEmployeeDto.getCareerYMD();
+        this.joinDate = excelEmployeeDto.getJoinDate();
+        this.accountNumber = excelEmployeeDto.getAccountNumber();
+        this.departmentCode = excelEmployeeDto.getDepartmentCode();
     }
 }
 
