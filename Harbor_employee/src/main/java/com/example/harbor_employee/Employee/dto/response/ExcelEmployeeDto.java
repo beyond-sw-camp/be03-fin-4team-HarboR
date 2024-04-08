@@ -22,5 +22,7 @@ public class ExcelEmployeeDto {
     private String joinDate;
     private String accountNumber;
     private String departmentCode;
-
+    private String phone;
+    private String email;
+    private String name;
 }

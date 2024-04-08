@@ -9,6 +9,8 @@ import com.example.harbor_employee.Employee.repository.EmployeeRepository;
 import com.example.harbor_employee.PersonnelAppointment.domain.PersonnelAppointment;
 import com.example.harbor_employee.global.util.EmployeeSpecification;
 import com.example.harbor_employee.client.dto.LoginMemberResDto;
+import com.example.harbor_employee.kafka.KafkaTestDto;
+import com.example.harbor_employee.kafka.TestProducer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -42,9 +44,11 @@ import java.util.stream.Collectors;
 @Slf4j
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
+    private final TestProducer testProducer;
 
-    public EmployeeService(EmployeeRepository employeeRepository) {
+    public EmployeeService(EmployeeRepository employeeRepository, TestProducer testProducer) {
         this.employeeRepository = employeeRepository;
+        this.testProducer = testProducer;
     }
 
     public List<EmployeeResDto> findAll(EmployeeSearchDto employeeSearchDto, Pageable pageable) {
@@ -217,13 +221,37 @@ public class EmployeeService {
                         }
                     }
                     Cell cell12 = row.getCell(11);
-                    if (cell11 != null)
+                    if (cell12 != null)
                         excelEmployeeDto.setAccountNumber(cell12.getStringCellValue());
+
                     Cell cell13 = row.getCell(12);
-                    if (cell11 != null)
-                        excelEmployeeDto.setDepartmentCode(cell3.getStringCellValue());
+                    if (cell13 != null)
+                        excelEmployeeDto.setDepartmentCode(cell13.getStringCellValue());
+
+                    Cell cell14 = row.getCell(13);
+                    if (cell14 != null)
+                        excelEmployeeDto.setPhone(cell14.getStringCellValue());
                     dataList.add(excelEmployeeDto);
                     employee.updateEmployee(excelEmployeeDto);
+                    KafkaTestDto kafkaTestDto = KafkaTestDto.builder()
+                            .employeeId(employee.getEmployeeId())
+                            .teamCode(employee.getTeamCode())
+                            .positionCode(employee.getPositionCode())
+                            .dutyCode(employee.getDutyCode())
+                            .statusCode(employee.getStatusCode())
+                            .genderCode(employee.getGenderCode())
+                            .bankCode(employee.getBankCode())
+                            .socialSecurityNumber(employee.getSocialSecurityNumber())
+                            .address(employee.getAddress())
+                            .careerYMD(employee.getCareerYMD())
+                            .joinDate(employee.getJoinDate())
+                            .accountNumber(employee.getAccountNumber())
+                            .departmentCode(employee.getDepartmentCode())
+                            .phone(employee.getPhone())
+                            .name(employee.getName())
+                            .email(employee.getEmail())
+                            .build();
+                    testProducer.sendToKafka("first_create_user_data", kafkaTestDto);
                 }
             }
             return dataList;
