@@ -101,13 +101,21 @@ public class Employee {
                 .build();
     }
 
-//    스트링으로 바뀜
-
+    //    스트링으로 바뀜
+    public void setImage(String image) {
+        this.profileImage = image;
+    }
     public void updatePA(PersonnelAppointment pa){
         this.dutyCode = pa.getUpdateDutyCode();
         this.positionCode = pa.getPositionCode();
         this.joinDate = pa.getIssueDate();
         this.departmentCode = pa.getAfterDepartmentCode();
+    }
+
+    public void updateEmployee(String updateimage, String phone) {
+
+        this.profileImage = updateimage;
+        this.phone = phone;
     }
 }
 

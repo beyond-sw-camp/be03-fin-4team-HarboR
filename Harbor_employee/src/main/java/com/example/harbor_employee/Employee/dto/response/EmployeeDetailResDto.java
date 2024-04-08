@@ -1,9 +1,12 @@
 package com.example.harbor_employee.Employee.dto.response;
 
+import com.example.harbor_employee.Employee.domain.Employee;
+import com.example.harbor_employee.client.dto.LoginMemberResDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.kafka.common.security.auth.Login;
 
 @Data
 @Builder
@@ -35,4 +38,28 @@ public class EmployeeDetailResDto {
     // 은행 및 계좌번호 : 본인만 확인할 수 있도록
    private String bank;
    private String accountNumber;
+
+    public static EmployeeDetailResDto toDto(Employee employee) {
+        return EmployeeDetailResDto.builder()
+                .employeeId(employee.getEmployeeId())
+                .department(employee.getDepartmentCode())
+                .team(employee.getTeamCode())
+                .position(employee.getPositionCode())
+                .status(employee.getStatusCode())
+                .gender(employee.getGenderCode())
+                .duty(employee.getDutyCode())
+                .profileImagePath(employee.getProfileImage())
+                .email(employee.getEmail())
+                .name(employee.getName())
+                .birthDate(employee.getBirthDate())
+                .careerYMD(employee.getCareerYMD())
+                .joinDate(employee.getJoinDate())
+                .leavingDate(employee.getLeavingDate())
+                .reasonForResignation(employee.getReasonForResignation())
+                .address(employee.getAddress())
+                .phone(employee.getPhone())
+                .socialSecurityNumber(employee.getSocialSecurityNumber())
+                .bank(employee.getBankCode())
+                .build();
+    }
 }
