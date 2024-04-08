@@ -98,7 +98,7 @@ public class NoticeService {
 
 
     public Notice findById(int noticeId) throws EntityNotFoundException {
-        Notice notice = noticeRepository.findByNoticeId(noticeId).orElseThrow(() -> new EntityNotFoundException("검색하신 ID의 Notice가 없습니다."));
+            Notice notice = noticeRepository.findByNoticeId(noticeId).orElseThrow(() -> new EntityNotFoundException("검색하신 ID의 Notice가 없습니다."));
         return notice;
 
     }

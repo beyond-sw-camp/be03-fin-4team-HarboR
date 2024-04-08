@@ -1,6 +1,7 @@
 package com.example.harbor_employee.Employee.controller;
 
 import com.example.harbor_employee.Employee.domain.Code;
+import com.example.harbor_employee.Employee.dto.NameBirthDto;
 import com.example.harbor_employee.Employee.dto.request.EmployeeSearchDto;
 import com.example.harbor_employee.Employee.dto.response.EmployeeResDto;
 import com.example.harbor_employee.Employee.dto.response.GetEmployResponse;
@@ -85,5 +86,10 @@ public class EmployeeController {
                 .build();
         testProducer.send("topic", kafkaTestDto);
         return "ok";
+    }
+
+    @GetMapping("/get/{employeeId}/object")
+    public NameBirthDto getNameBirth(@PathVariable("employeeId") String employeeId){
+        return employeeService.getObject(employeeId);
     }
 }

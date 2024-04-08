@@ -6,6 +6,7 @@ import com.example.harbor_salary.client.SalaryClient;
 import com.example.harbor_salary.client.SalaryEmployeeClient;
 import com.example.harbor_salary.domain.Salary;
 import com.example.harbor_salary.domain.SalaryCode;
+import com.example.harbor_salary.dto.NameBirthDto;
 import com.example.harbor_salary.dto.request.MySalaryRequest;
 import com.example.harbor_salary.dto.response.MySalaryDetailResponse;
 import com.example.harbor_salary.dto.response.SeveranceDetailRes;
@@ -109,25 +110,25 @@ public class SalaryService {
                 .salaryMonthOfYear(salary.getSalaryMonthOfYear())
                 .salaryGross(salary.getSalaryGross())
                 .salaryCode(salary.getSalaryCode())
-                .birth(getUsersResponse.getResults().get(0).getBirth())
                 .name(getUsersResponse.getResults().get(0).getName())
                 .build();
     }
 
     //퇴직금 계산서비스
-    public List<Salary> getRecentSalariesByEmployeeId(String employeeId) {
-        // SalaryRepository에서 직원의 최근 3개의 급여 정보를 가져옵니다.
-        List<Salary> recentSalaries = salaryRepository.findTop3ByEmployeeIdOrderBySalaryMonthOfYearDesc(employeeId);
-        return recentSalaries;
-    }
+//    public List<Salary> getRecentSalariesByEmployeeId(String employeeId) {
+//        // SalaryRepository에서 직원의 최근 3개의 급여 정보를 가져옵니다.
+//        List<Salary> recentSalaries = salaryRepository.findTop3ByEmployeeIdOrderBySalaryMonthOfYearDesc(employeeId);
+//        return recentSalaries;
+//    }
 
 
     public int severancePay(String employeeId) {
-        List<Salary> recentSalaries = getRecentSalariesByEmployeeId(employeeId);
+        List<Salary> recentSalaries = salaryRepository.findTop3ByEmployeeIdOrderBySalaryMonthOfYearDesc(employeeId);
+        int count = salaryRepository.getCountByEmployeeId(employeeId);
 
         // 최근 급여 정보가 없거나, 급여를 13번 미만 받은 경우 0을 반환합니다.
-        if (recentSalaries == null || recentSalaries.isEmpty() || recentSalaries.size() < 13) {
-            return 0;
+        if (recentSalaries == null || recentSalaries.isEmpty() || count < 13) {
+            throw new IllegalArgumentException("퇴직금 대상자가 아닙니다");
         }
 
         int totalSalary = 0;
@@ -145,10 +146,15 @@ public class SalaryService {
 
 
     public SeveranceDetailRes severanceDetail(String employeeId) {
-        int severancePay = severancePay(employeeId);
-        SeveranceDetailRes severanceDetailRes = new SeveranceDetailRes();
-        severanceDetailRes.setSeverancePay(severancePay);
-        return severanceDetailRes;
+        int SP =  severancePay(employeeId);
+        NameBirthDto nameBirthDto = salaryEmployeeClient.getNameBirth(employeeId);
+        return SeveranceDetailRes.makeDetailRes(
+                employeeId,
+                nameBirthDto.getName(),
+                nameBirthDto.getBirth(),
+                nameBirthDto.getLeavingDate(),
+                SP
+        );
     }
 
 }

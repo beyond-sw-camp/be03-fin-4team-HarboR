@@ -91,10 +91,10 @@ public class SalaryController {
         return "1";
     }
 
-    @GetMapping("/details/{employeeId}")
+    @GetMapping("/svDetails/{employeeId}")
     public ResponseEntity<SeveranceDetailRes> getSeveranceDetail(@PathVariable String employeeId) {
         SeveranceDetailRes severanceDetailRes = salaryService.severanceDetail(employeeId);
-
+        System.out.println(employeeId);
         // 결과가 null이 아니라면 정상적으로 반환
         if (severanceDetailRes != null) {
             return ResponseEntity.ok(severanceDetailRes);

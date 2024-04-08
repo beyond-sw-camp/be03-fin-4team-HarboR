@@ -2,6 +2,7 @@ package com.example.harbor_employee.Employee.service;
 
 import com.example.harbor_employee.Employee.domain.Code;
 import com.example.harbor_employee.Employee.domain.Employee;
+import com.example.harbor_employee.Employee.dto.NameBirthDto;
 import com.example.harbor_employee.Employee.dto.request.EmployeeSearchDto;
 import com.example.harbor_employee.Employee.dto.response.EmployeeDetailResDto;
 import com.example.harbor_employee.Employee.dto.response.EmployeeResDto;
@@ -99,7 +100,7 @@ public class EmployeeService {
         try{
             Employee employee = employeeRepository.findByEmployeeId(employeeId).orElseThrow(IllegalArgumentException::new);
             GetEmployResponse getEmployResponse = new GetEmployResponse();
-//            getEmployResponse.setPositionCode(employee.getPositionCode().getDescription());
+            getEmployResponse.getResults().add(new GetEmployResponse.Result(employee.getPositionCode()));
             return getEmployResponse;
         } catch(Exception e){
             System.out.println(e.getMessage());
@@ -107,4 +108,11 @@ public class EmployeeService {
         return null;
     }
 
+    public NameBirthDto getObject(String employeeId) {
+        Employee employee = employeeRepository.findByEmployeeId(employeeId).orElseThrow(() -> new IllegalArgumentException("없는 회원입니다."));
+        return NameBirthDto.builder()
+                .birth(employee.getBirthDate())
+                .name(employee.getName())
+                .build();
+    }
 }

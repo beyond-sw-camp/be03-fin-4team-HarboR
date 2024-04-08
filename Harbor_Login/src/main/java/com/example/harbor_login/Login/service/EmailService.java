@@ -1,15 +1,20 @@
 package com.example.harbor_login.Login.service;
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import com.example.harbor_login.Login.domain.Login;
+import com.example.harbor_login.Login.dto.FindPasswordReq;
 import com.example.harbor_login.Login.repository.LoginRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Calendar;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,11 +34,13 @@ public class EmailService {
         MimeMessage message = createMail(email);
         javaMailSender.send(message);
     }
+
     public void sendEmailPw(String email){
         System.out.println();
         MimeMessage message = createPwMail(email);
         javaMailSender.send(message);
     }
+
     private String CreateEmployeeId() {
         // 올해 년도        member.updatePassword(passwordEncoder.encode(tempPassword);
         int year = Calendar.getInstance().get(Calendar.YEAR);
@@ -57,7 +64,7 @@ public class EmailService {
     }
 
     // 메일 양식 작성
-    public MimeMessage createMail(String mail){
+    public MimeMessage createMail(String mail) {
         Login member = loginRepository.findByEmail(mail)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않은 이메일입니다."));
         if (member.getDelYn()) {
@@ -85,13 +92,12 @@ public class EmailService {
             body += "<div align='center' style='border:1px solid black; font-family:verdana;'>";
             body += "<h1 style='color:blue'>" + number + "</h1>";
             body += "<h3>" + "감사합니다." + "</h3>";
-            message.setText(body,"UTF-8", "html");
+            message.setText(body, "UTF-8", "html");
         } catch (Exception e) {
             e.printStackTrace();
         }
         return message;
     }
-
 
 
     public MimeMessage createPwMail(String mail){
@@ -140,48 +146,6 @@ public class EmailService {
         return str;
     }
 
-//    public MailDto createMailAndChargePassword(FindPasswordReq findPasswordReq) {
-//        String str = getTempPassword();
-//
-//        System.out.println("str = " + str);
-//
-//        MailDto dto = new MailDto();
-//        dto.setTitle(findPasswordReq.getName()+"님의 임시비밀번호 안내 이메일 입니다.");
-//        dto.setMessage("안녕하세요. 임시비밀번호 안내 관련 메일 입니다." + "[" + findPasswordReq.getName() + "]" + "님의 임시 비밀번호는 "
-//                + str + " 입니다.");
-//        updatePassword(str,findPasswordReq);
-//        return dto;
-//    }
-
-//    public void updatePassword(String str, FindPasswordReq findPasswordReq) {
-//        String pw = passwordEncoder.encode(str);
-//        Login login = loginRepository.findByEmployeeId(findPasswordReq.getEmployeeId()).orElseThrow(()-> new IllegalArgumentException("없는 아이디"));
-//        loginRepository.updatePw(pw, findPasswordReq.getEmployeeId());
-//    }
-
-//    public String getTempPassword() {
-//        char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
-//                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
-//        String str = "";
-//
-//        int idx = 0;
-//        for (int i=0; i<10; i++) {
-//            idx = (int) (charSet.length * Math.random());
-//            str += charSet[idx];
-//        }
-//        return str;
-//    }
-//
-//    public void mailSend(MailDto mailDto) {
-//        System.out.println("이메일 전송 완료");
-//        SimpleMailMessage message = new SimpleMailMessage();
-//        message.setTo(mailDto.getAddress());
-//        message.setFrom(FROM_ADDRESS);
-//        message.setSubject(mailDto.getTitle());
-//        message.setText(mailDto.getMessage());
-//
-//        javaMailSender.send(message);
-//    }
 //
 //    public void userChange(ChargeRequestDto requestDto) {
 //        Login user = loginRepository.findByEmployeeId(requestDto.getEmployeeId()).get();

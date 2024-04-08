@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -17,24 +18,27 @@ public class SeveranceDetailRes {
     private String employId;
     private String name;
     private String birth;
-    private LocalDate MonthOfYear;
+    private String leavingDate;
     private int severancePay;
 
 
 
-    public static SeveranceDetailRes makeDetailRes(SeveranceDetailRes severanceDetailRes) {
-
-
+    public static SeveranceDetailRes makeDetailRes(String employId, String name , String birth, String leavingDate, int severancePay) {
         return SeveranceDetailRes.builder()
-                .employId(severanceDetailRes.getEmployId())
-                .name(severanceDetailRes.getName())
-                .birth(severanceDetailRes.getBirth())
-                .MonthOfYear(severanceDetailRes.getMonthOfYear())
+                .employId(employId)
+                .name(name)
+                .birth(birth)
+                .leavingDate(leavingDate)
+                .severancePay(severancePay)
                 .build();
 
     }
         public void setSeverancePay(int severancePay){
             this.severancePay = severancePay;
         }
+
+
+
     }
+
 

@@ -4,6 +4,7 @@ import com.example.harbor_salary.domain.Salary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface SalaryRepository extends JpaRepository<Salary, Long> {
 
         List<Salary> findTop3ByEmployeeIdOrderBySalaryMonthOfYearDesc(String employeeId);
 
+        @Query("SELECT COUNT(e) FROM Salary e WHERE e.employeeId = :employeeId")
+        int getCountByEmployeeId(String employeeId);
 }

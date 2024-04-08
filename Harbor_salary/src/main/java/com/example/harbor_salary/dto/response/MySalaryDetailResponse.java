@@ -13,7 +13,6 @@ public class MySalaryDetailResponse {
     private LocalDate salaryMonthOfYear;
     private int salaryGross;
     private String name;
-    private String birth;
     private SalaryCode salaryCode;
 
 
