@@ -35,5 +35,4 @@ public class Salary{
     //실수령 급여
     @Column(nullable = false)
     private int salaryGross;
-
 }

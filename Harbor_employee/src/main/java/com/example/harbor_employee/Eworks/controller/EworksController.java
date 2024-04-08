@@ -8,8 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.Path;
-
 @RestController
 @Slf4j
 @RequestMapping("/employee/eworks")
@@ -33,16 +31,16 @@ public class EworksController {
     }
 
     /**
-     * 개인 별 전자 결재 리스트 조회 API
+     * 개인 별 요청 전자 결재 리스트 조회 API
      * @return
      */
     @GetMapping("/read/send/{employeeId}")
     public ResponseEntity<CommonResponse> readSendEworksList(@PathVariable("employeeId") String employeeId){
-        return new ResponseEntity<>(new CommonResponse("송신 리스트 출력 완료", eworksService.getSendList(employeeId)), HttpStatus.OK);
+        return new ResponseEntity<>(new CommonResponse("요청 리스트 출력 완료", eworksService.getSendList(employeeId)), HttpStatus.OK);
     }
 
     /**
-     * 개인 별 전자 결재 리스트 조회 API
+     * 개인 별 수신 전자 결재 리스트 조회 API
      * @return
      */
     @GetMapping("/read/receive/{employeeId}")
@@ -65,7 +63,7 @@ public class EworksController {
      * @param
      * @return
      */
-    @PostMapping("/update/{payId}")
+    @PostMapping("/updmate/{payId}")
     public ResponseEntity<CommonResponse> checkEworks(@PathVariable("payId") String payId, @RequestParam("status") Boolean isApproval){
         return new ResponseEntity<>(new CommonResponse("요청이 정상적으로 실행되었습니다.", eworksService.updateApproval(payId)), HttpStatus.OK);
     }

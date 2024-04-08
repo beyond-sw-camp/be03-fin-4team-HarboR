@@ -9,6 +9,7 @@ import com.example.harbor_employee.global.common.CommonResponse;
 import com.example.harbor_employee.kafka.KafkaTestDto;
 import com.example.harbor_employee.kafka.TestProducer;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -99,7 +100,7 @@ public class EmployeeController {
                 .id("123123")
                 .name("테스트 이름")
                 .build();
-        testProducer.send("topic", kafkaTestDto);
+        testProducer.sendToKafka("topic", kafkaTestDto);
         return "ok";
     }
 }

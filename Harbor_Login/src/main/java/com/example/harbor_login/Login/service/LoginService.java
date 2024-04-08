@@ -116,15 +116,16 @@ public class LoginService {
         return null;
     }
 
-    public void findByEmail(String email) {
-        Login member = loginRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않은 이메일입니다."));
-        LoginMemberResDto loginMemberResDto = LoginMemberResDto.mapToMemberResDto(member);
-        log.info("member basic dto 생성 전 호출");
-        HttpStatus employee = loginToEmployeeClient.createEmployee(loginMemberResDto);
-
-        log.info("Member basic Dto  생성" + employee);
-    }
+//    public void findByEmail(String email) {
+//        Login member = loginRepository.findByEmail(email)
+//                .orElseThrow(() -> new IllegalArgumentException("존재하지 않은 이메일입니다."));
+//        LoginMemberResDto loginMemberResDto = LoginMemberResDto.mapToMemberResDto(member);
+//        log.info("member basic dto 생성 전 호출");
+//        HttpStatus employee = loginToEmployeeClient.createEmployee(loginMemberResDto);
+//        testProducer.send("first_create_user_data", loginMemberResDto);
+//
+//        log.info("Member basic Dto  생성" + employee);
+//    }
 
     public Map<String, String> findEmployeeId(FindIdReqDto findIdReqDto) {
         Login user = loginRepository.findByEmailAndName(findIdReqDto.getEmail(), findIdReqDto.getName())

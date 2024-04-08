@@ -63,15 +63,14 @@ public class EworksService {
         List<Eworks> eworksList = eworksRepository.findAllByFirstSignIdOrSecondSignIdOrThirdSignId(employeeId);
         List<EworksListResDto> eworksListResDtos = new ArrayList<>();
         for(Eworks eworks : eworksList){
-            EworksListResDto eworksListResDto = EworksListResDto.builder()
-                    .payStatusName(Code.valueOf(eworks.getPayStatusCode()).getMessage())
-                    .firstApprovalId(eworks.getFirstSignId())
-                    .firstApprovalDate(eworks.getFirstApprovalDate())
-                    .secondApprovalId(eworks.getSecondSignId())
-                    .secondApprovalDate(eworks.getSecondApprovalDate())
-                    .thirdApprovalId(eworks.getThirdSignId())
-                    .thirdApprovalDate(eworks.getThirdApprovalDate())
-                    .build();
+            EworksListResDto eworksListResDto = EworksListResDto.create(
+                    Code.valueOf(eworks.getPayStatusCode()).getMessage(),
+                    eworks.getFirstSignId(),
+                    eworks.getFirstApprovalDate(),
+                    eworks.getSecondSignId(),
+                    eworks.getSecondApprovalDate(),
+                    eworks.getThirdSignId(),
+                    eworks.getThirdApprovalDate());
             eworksListResDtos.add(eworksListResDto);
         }
         return eworksListResDtos;
@@ -90,5 +89,6 @@ public class EworksService {
     }
 
     public Object updateApproval(String payId) {
+        return null;
     }
 }
