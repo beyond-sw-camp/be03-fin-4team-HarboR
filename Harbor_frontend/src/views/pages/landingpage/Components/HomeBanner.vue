@@ -5,6 +5,9 @@ import bg1 from '@/assets/images/landing/bg-hero-block-light.png';
 import widget1 from '@/assets/images/landing/widget-1.png';
 import widget2 from '@/assets/images/landing/widget-2.png';
 import tech from '@/assets/images/landing/tech.svg';
+
+
+
 </script>
 
 <template>
@@ -25,12 +28,6 @@ import tech from '@/assets/images/landing/tech.svg';
                   <v-icon style="margin-bottom: -2px;">mdi-play</v-icon>
                 </template>
                 들어가기
-              </v-btn>
-              <v-btn color="secondary" size="large" class="mr-2" to="/auth/login3"> 
-                <template v-slot:prepend>
-                  <v-icon style="margin-bottom: -2px;">mdi-play</v-icon>
-                </template>
-                로그인
               </v-btn>
             </div>
             <img data-aos="fade-up" data-aos-duration="1100" :src="tech" alt="technology" class="mt-8" />

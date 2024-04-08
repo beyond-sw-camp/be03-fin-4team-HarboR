@@ -6,6 +6,7 @@ import com.example.harbor_salary.domain.Salary;
 import com.example.harbor_salary.client.SalaryClient;
 import com.example.harbor_salary.dto.request.MySalaryRequest;
 import com.example.harbor_salary.dto.response.MySalaryDetailResponse;
+import com.example.harbor_salary.global.common.CommonResponse;
 import com.example.harbor_salary.service.SalaryService;
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
@@ -55,17 +56,18 @@ public class SalaryController {
     }
 
 
-//    // 개인 급여 목록 조회
-//    @GetMapping("/mysalarys")
-//    public ResponseEntity<List<MySalaryRequest>> findAllSalarys(@AuthenticationPrincipal CustomUserDetails userDetails, Pageable pageable) {
-//        return new ResponseEntity<>(salaryService.findAllSalarys(userDetails.getEmployeeId(),pageable), HttpStatus.OK);
-//    }
-//    @GetMapping("/mysalary/{salaryId}")
-//    public ResponseEntity<MySalaryDetailResponse> findMySalary(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable("salaryId") Long salaryId) {
-//        System.out.println("userDetails = " + userDetails.getEmployeeId());
-//        System.out.println("salaryId = " + salaryId);
-//        return new ResponseEntity<>(salaryService.findMySalary(userDetails.getEmployeeId(), salaryId), HttpStatus.OK);
-//    }
+    // 개인 급여 목록 조회
+    @GetMapping("/mysalarys")
+    public ResponseEntity<CommonResponse> findAllSalarys(Pageable pageable, Principal principal) {
+        List<MySalaryRequest> allSalarys = salaryService.findAllSalarys(principal.getName(), pageable);
+        return new ResponseEntity<>(new CommonResponse<>("성공했슈",allSalarys), HttpStatus.OK);
+//        return new ResponseEntity<>(new Comm("요청이 정상적으로 실행되었습니다.", principal.getName()), HttpStatus.OK);
+    }
+    @GetMapping("/mysalary/{salaryId}")
+    public ResponseEntity<CommonResponse> findMySalary(@PathVariable("salaryId") Long salaryId,Principal principal) {
+        MySalaryDetailResponse mySalaryDetailResponse = salaryService.findMySalary(principal.getName(), salaryId);
+        return new ResponseEntity<>(new CommonResponse<>("성공했슈",mySalaryDetailResponse), HttpStatus.OK);
+    }
 
 
 

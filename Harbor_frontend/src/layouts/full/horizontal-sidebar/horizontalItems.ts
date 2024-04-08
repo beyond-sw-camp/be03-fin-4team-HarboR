@@ -40,7 +40,7 @@ export interface menu {
 
 const horizontalItems: menu[] = [
   {
-    title: 'Dashboard',
+    title: '내정보',
     icon: DashboardIcon,
     to: '#',
     children: [

@@ -110,6 +110,7 @@ public class SalaryService {
                 .salaryMonthOfYear(salary.getSalaryMonthOfYear())
                 .salaryGross(salary.getSalaryGross())
                 .salaryCode(salary.getSalaryCode())
+
                 .birth(getUsersResponse.getResults().get(0).getBirth())
                 .name(getUsersResponse.getResults().get(0).getName())
                 .build();
