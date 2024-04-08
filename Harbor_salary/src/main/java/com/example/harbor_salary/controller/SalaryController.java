@@ -6,6 +6,7 @@ import com.example.harbor_salary.domain.Salary;
 import com.example.harbor_salary.client.SalaryClient;
 import com.example.harbor_salary.dto.request.MySalaryRequest;
 import com.example.harbor_salary.dto.response.MySalaryDetailResponse;
+import com.example.harbor_salary.global.common.CommonResponse;
 import com.example.harbor_salary.dto.response.SeveranceDetailRes;
 import com.example.harbor_salary.service.SalaryService;
 import feign.FeignException;

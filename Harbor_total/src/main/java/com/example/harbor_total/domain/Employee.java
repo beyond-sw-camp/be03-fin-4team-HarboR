@@ -32,8 +32,8 @@ public class Employee {
     @Column(nullable = false, length = 20)
     private String name;
     @Column(nullable = false, length = 20)
-    private String teamName;
-    private Double annualRemain;
+    private String teamCode;
+    private double annualRemain;
 
     @OneToMany(mappedBy = "employee")
     private List<Commute> commutes;
@@ -44,4 +44,13 @@ public class Employee {
     @OneToMany(mappedBy = "employee")
     private List<Attendance> attendances;
 
+    public static Employee create(String id, String email, String name, String teamCode, double annual){
+        return Employee.builder()
+                .employeeId(id)
+                .email(email)
+                .name(name)
+                .teamCode(teamCode)
+                .annualRemain(annual)
+                .build();
+    }
 }

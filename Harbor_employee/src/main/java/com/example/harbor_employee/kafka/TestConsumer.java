@@ -1,4 +1,4 @@
-package com.example.harbor_login.kafka;
+package com.example.harbor_employee.kafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -7,7 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -19,7 +21,7 @@ public class TestConsumer {
         this.objectMapper = objectMapper;
     }
 
-    @KafkaListener(topics = "topic", groupId = "group_1")
+    @KafkaListener(topics = "first_create_user_data", groupId = "group_1")
     public void listener(String data) {
         log.info("Kafka Message : -> " + data);
 
@@ -29,10 +31,10 @@ public class TestConsumer {
         } catch(JsonProcessingException e) {
             e.printStackTrace();
         }
-        String id = map.get("id");
-        String name = map.get("name");
+        String email = map.get("employeeId");
+        String name = map.get("teamCode");
 
-        System.out.println("id: " + id);
-        System.out.println("name: " + name);
+        System.out.println("employeeId: " + email);
+        System.out.println("teamCode: " + name);
     }
-    }
+}

@@ -15,4 +15,5 @@ public class EmployeeResDto {
     private String position;
     private String team;
     private String name;
+    private String status;
 }
