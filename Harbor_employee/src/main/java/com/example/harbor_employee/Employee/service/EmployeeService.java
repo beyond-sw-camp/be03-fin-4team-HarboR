@@ -3,6 +3,7 @@ package com.example.harbor_employee.Employee.service;
 import com.example.harbor_employee.global.support.Code;
 import com.example.harbor_employee.Employee.domain.Employee;
 import com.example.harbor_employee.Employee.dto.request.EmployeeSearchDto;
+import com.example.harbor_employee.Employee.dto.request.EmployeeUpdateRequestDto;
 import com.example.harbor_employee.Employee.dto.response.EmployeeDetailResDto;
 import com.example.harbor_employee.Employee.dto.response.EmployeeResDto;
 import com.example.harbor_employee.Employee.dto.response.GetEmployResponse;
@@ -17,9 +18,17 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -71,7 +80,8 @@ public class EmployeeService {
     }
 
     public EmployeeDetailResDto findByEmployeeId(String employeeId) {
-        Employee employee = employeeRepository.findByEmployeeId(employeeId).orElseThrow(IllegalArgumentException::new);
+        Employee employee = employeeRepository.findByEmployeeId(employeeId)
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 직원을 찾을 수 없습니다."));
         return EmployeeDetailResDto.builder()
                 .employeeId(employeeId)
                 .name(employee.getName())
@@ -108,4 +118,22 @@ public class EmployeeService {
         return null;
     }
 
+    public EmployeeDetailResDto updateEmployee(EmployeeUpdateRequestDto request, String employeeId) {
+        Employee employee = employeeRepository.findByEmployeeId(employeeId).orElseThrow(() -> new IllegalArgumentException(" 없는 employee 입니다 "));
+
+        MultipartFile multipartFile = request.getProfileImage();
+        String fileName = multipartFile.getOriginalFilename();
+
+        Path path = Paths.get("/Users/song/Desktop/코딩공부/tmp", employee.getEmployeeId() + "_" + fileName);
+        employee.setImage(path.toString());
+        employee.updateEmployee(path.toString(),request.getPhone());
+        try {
+            byte[] bytes = multipartFile.getBytes();
+            Files.write(path, bytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE); // 없으면 넣고 있으면 덮어쓰기
+        } catch (IOException e) {
+            throw new IllegalArgumentException("image not available");
+        }
+
+        return EmployeeDetailResDto.toDto(employee);
+    }
 }

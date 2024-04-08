@@ -1,6 +1,7 @@
 package com.example.harbor_employee.Employee.controller;
 
 import com.example.harbor_employee.Employee.dto.request.EmployeeSearchDto;
+import com.example.harbor_employee.Employee.dto.request.EmployeeUpdateRequestDto;
 import com.example.harbor_employee.Employee.dto.response.EmployeeResDto;
 import com.example.harbor_employee.Employee.dto.response.GetEmployResponse;
 import com.example.harbor_employee.client.dto.LoginMemberResDto;
@@ -9,7 +10,6 @@ import com.example.harbor_employee.global.common.CommonResponse;
 import com.example.harbor_employee.kafka.KafkaTestDto;
 import com.example.harbor_employee.kafka.TestProducer;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -17,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -60,12 +59,19 @@ public class EmployeeController {
     }
 
     /**
-     * @param principal: 인증 정보에 담긴 name을 이용(employeeId)
+     * @param employeeId: 인증 정보에 담긴 name을 이용(employeeId)
      * @return 인증된 사용자의 상세 정보 조회
      */
-    @GetMapping("/get/detail")
-    public ResponseEntity<CommonResponse> getDetail(Principal principal){
-        return new ResponseEntity<>(new CommonResponse("요청이 정상적으로 실행되었습니다.", employeeService.findByEmployeeId(principal.getName())), HttpStatus.OK);
+    @GetMapping("/get/{employeeId}/detail")
+    public ResponseEntity<CommonResponse> getEmployeeDetail(@PathVariable(name = "employeeId") String employeeId) {
+        return new ResponseEntity<>(new CommonResponse("유저 정보 자세히 보기", employeeService.findByEmployeeId(employeeId)), HttpStatus.OK);
+    }
+
+    //    front에서 admin도 수정 api가 보이는 식으로
+    @PatchMapping("/{employeeId}/update")
+    public ResponseEntity<CommonResponse> updateEmployee(@PathVariable(name = "employeeId") String employeeId, EmployeeUpdateRequestDto request) {
+        System.out.println("0");
+        return new ResponseEntity<>(new CommonResponse("유저 정보 업데이트",employeeService.updateEmployee(request,employeeId)), HttpStatus.OK);
     }
 
     @PostMapping("/create")
@@ -79,7 +85,6 @@ public class EmployeeController {
         System.out.println("접근 성공");
         return ResponseEntity.status(HttpStatus.OK).body("pong");
     }
-
     /**
      * @FeignClient테스트
      */
@@ -90,7 +95,6 @@ public class EmployeeController {
         log.info("돌려줌");
         return ResponseEntity.status(HttpStatus.OK).body(positionCode);
     }
-
     /**
      * @kafka테스트
      */
