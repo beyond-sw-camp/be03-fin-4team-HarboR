@@ -4,6 +4,7 @@ import com.example.harbor_employee.Employee.dto.response.ExcelEmployeeDto;
 import com.example.harbor_employee.Eworks.domain.Eworks;
 import com.example.harbor_employee.PersonnelAppointment.domain.PersonnelAppointment;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -79,7 +80,7 @@ public class Employee {
     private String reasonForResignation;
     @Column(length = 50)
     private String accountNumber;
-    @CreatedDate
+    @CreationTimestamp
     private LocalDateTime createdAt;
     @LastModifiedDate
     private LocalDateTime updatedAt;
@@ -131,6 +132,7 @@ public class Employee {
         this.joinDate = excelEmployeeDto.getJoinDate();
         this.accountNumber = excelEmployeeDto.getAccountNumber();
         this.departmentCode = excelEmployeeDto.getDepartmentCode();
+        this.phone = excelEmployeeDto.getPhone();
     }
 }
 

@@ -7,7 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -29,10 +31,10 @@ public class TestConsumer {
         } catch(JsonProcessingException e) {
             e.printStackTrace();
         }
-        String email = map.get("email");
-        String name = map.get("name");
+        String email = map.get("employeeId");
+        String name = map.get("teamCode");
 
-        System.out.println("email: " + email);
-        System.out.println("name: " + name);
+        System.out.println("employeeId: " + email);
+        System.out.println("teamCode: " + name);
     }
-    }
+}
