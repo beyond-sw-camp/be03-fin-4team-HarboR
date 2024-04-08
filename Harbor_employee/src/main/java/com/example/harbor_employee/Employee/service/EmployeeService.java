@@ -6,7 +6,6 @@ import com.example.harbor_employee.Employee.dto.request.EmployeeSearchDto;
 import com.example.harbor_employee.Employee.dto.request.EmployeeUpdateRequestDto;
 import com.example.harbor_employee.Employee.dto.response.*;
 import com.example.harbor_employee.Employee.repository.EmployeeRepository;
-import com.example.harbor_employee.PersonnelAppointment.domain.PersonnelAppointment;
 import com.example.harbor_employee.global.util.EmployeeSpecification;
 import com.example.harbor_employee.client.dto.LoginMemberResDto;
 import com.example.harbor_employee.kafka.KafkaTestDto;
@@ -253,6 +252,7 @@ public class EmployeeService {
                             .build();
                     testProducer.sendToKafka("first_create_user_data", kafkaTestDto);
                 }
+
             }
             return dataList;
         } catch (IOException e) {
