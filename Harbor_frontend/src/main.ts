@@ -19,7 +19,7 @@ import Vue3EasyDataTable from 'vue3-easy-data-table';
 //i18
 import { createI18n } from 'vue-i18n';
 import messages from '@/utils/locales/messages';
-
+import axios from 'axios';
 const i18n = createI18n({
   locale: 'en',
   messages: messages,
@@ -28,6 +28,13 @@ const i18n = createI18n({
 });
 
 const app = createApp(App);
+axios.interceptors.response.use(response => response, error =>{
+  if(error.response && error.response.status === 401){
+    localStorage.clear();
+    window.location.href = "/login";
+  }
+  return Promise.reject(error);
+})
 fakeBackend();
 app.use(router);
 app.component('EasyDataTable', Vue3EasyDataTable);

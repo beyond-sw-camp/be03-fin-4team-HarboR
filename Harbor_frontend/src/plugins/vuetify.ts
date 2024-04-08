@@ -2,6 +2,7 @@ import { createVuetify } from 'vuetify';
 import '@mdi/font/css/materialdesignicons.css';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
+import { VCalendar } from 'vuetify/labs/VCalendar'
 import { PurpleTheme, GreenTheme, PinkTheme, YellowTheme, SeaGreenTheme, OliveGreenTheme, SpeechBlueTheme } from '@/theme/LightTheme';
 import {
   DarkPurpleTheme,
@@ -16,7 +17,6 @@ import {
 export default createVuetify({
   components,
   directives,
-
   theme: {
     defaultTheme: 'PurpleTheme',
     themes: {
@@ -48,5 +48,8 @@ export default createVuetify({
       // set v-tooltip default location to top
       location: 'top'
     }
-  }
+  },
+  components: {
+    VCalendar,
+  },
 });

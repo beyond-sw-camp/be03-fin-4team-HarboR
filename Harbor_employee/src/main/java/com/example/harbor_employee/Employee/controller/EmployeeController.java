@@ -1,5 +1,6 @@
 package com.example.harbor_employee.Employee.controller;
 
+import com.example.harbor_employee.Employee.dto.NameBirthDto;
 import com.example.harbor_employee.Employee.dto.request.EmployeeSearchDto;
 import com.example.harbor_employee.Employee.dto.request.EmployeeUpdateRequestDto;
 import com.example.harbor_employee.Employee.dto.response.EmployeeResDto;
@@ -95,6 +96,7 @@ public class EmployeeController {
     public ResponseEntity<GetEmployResponse> getPositionCodeByEmployeeId(@PathVariable("employeeId") String employeeId){
         log.info("퐁");
         GetEmployResponse positionCode = employeeService.getUserPosition(employeeId);
+        System.out.println("positionCode = " + positionCode);
         log.info("돌려줌");
         return ResponseEntity.status(HttpStatus.OK).body(positionCode);
     }
@@ -103,5 +105,10 @@ public class EmployeeController {
     public ResponseEntity<CommonResponse> create(@RequestParam("file") MultipartFile file) throws IOException {
         List<ExcelEmployeeDto> excelDataDtos = employeeService.create(file);
         return new ResponseEntity<>(new CommonResponse("요청이 정상적으로 실행되었습니다.", excelDataDtos), HttpStatus.OK);
+    }
+
+    @GetMapping("/get/{employeeId}/object")
+    public NameBirthDto getNameBirth(@PathVariable("employeeId") String employeeId){
+        return employeeService.getObject(employeeId);
     }
 }
