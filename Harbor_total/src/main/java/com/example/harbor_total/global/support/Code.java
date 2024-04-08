@@ -1,4 +1,4 @@
-package com.example.harbor_employee.Employee.domain;
+package com.example.harbor_total.global.support;
 
 import lombok.Getter;
 
@@ -149,5 +149,14 @@ public enum Code {
     private final String message;
     Code(String message) {
         this.message = message;
+    }
+
+    public static Code getCodeByMessage(String message) {
+        for (Code code : Code.values()) {
+            if (code.message.equals(message)) {
+                return code;
+            }
+        }
+        throw new IllegalArgumentException("등록되지 않은 코드입니다.");
     }
 }

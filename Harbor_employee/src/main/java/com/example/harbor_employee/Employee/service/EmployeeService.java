@@ -1,6 +1,6 @@
 package com.example.harbor_employee.Employee.service;
 
-import com.example.harbor_employee.Employee.domain.Code;
+import com.example.harbor_employee.global.support.Code;
 import com.example.harbor_employee.Employee.domain.Employee;
 import com.example.harbor_employee.Employee.dto.request.EmployeeSearchDto;
 import com.example.harbor_employee.Employee.dto.request.EmployeeUpdateRequestDto;
@@ -45,10 +45,11 @@ public class EmployeeService {
         Specification<T> specification =
                 EmployeeSpecification.likeName(employeeSearchDto.getName())
                         .and(EmployeeSpecification.likeEmployeeId(employeeSearchDto.getEmployeeId()))
-                        .and(EmployeeSpecification.equalDepartment(employeeSearchDto.getDepartmentName()))
+                        .and(EmployeeSpecification.equalDepartment(employeeSearchDto.getDepartmentCode()))
                         .and(EmployeeSpecification.equalTeamName(employeeSearchDto.getTeamCode()));
 
-        Page<Employee> employeeList = employeeRepository.findAll(specification, pageable);
+        Page<Employee> employeePage = employeeRepository.findAll(specification, pageable);
+        List<Employee> employeeList = employeePage.getContent();
         List<EmployeeResDto> employeeResDtos = new ArrayList<>();
         employeeResDtos = employeeList.stream()
                 .map(e-> EmployeeResDto.builder()

@@ -3,6 +3,7 @@ package com.example.harbor_employee.kafka;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
@@ -17,10 +18,10 @@ public class TestProducer {
         this.objectMapper = objectMapper;
     }
 
-    public void send(String topic, KafkaTestDto kafkaTestDto) {
+    public void sendToKafka(String topic, Object dto) {
         String json = "";
         try{
-            json = objectMapper.writeValueAsString(kafkaTestDto);
+            json = objectMapper.writeValueAsString(dto);
         } catch(JsonProcessingException e){
             e.getMessage();
         }

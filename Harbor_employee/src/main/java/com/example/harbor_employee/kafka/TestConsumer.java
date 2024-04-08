@@ -1,4 +1,4 @@
-package com.example.harbor_login.kafka;
+package com.example.harbor_employee.kafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -19,7 +19,7 @@ public class TestConsumer {
         this.objectMapper = objectMapper;
     }
 
-    @KafkaListener(topics = "topic", groupId = "group_1")
+    @KafkaListener(topics = "first_create_user_data", groupId = "group_1")
     public void listener(String data) {
         log.info("Kafka Message : -> " + data);
 
@@ -29,10 +29,10 @@ public class TestConsumer {
         } catch(JsonProcessingException e) {
             e.printStackTrace();
         }
-        String id = map.get("id");
+        String email = map.get("email");
         String name = map.get("name");
 
-        System.out.println("id: " + id);
+        System.out.println("email: " + email);
         System.out.println("name: " + name);
     }
     }
