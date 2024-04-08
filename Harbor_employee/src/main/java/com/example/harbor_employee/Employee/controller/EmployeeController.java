@@ -3,6 +3,8 @@ package com.example.harbor_employee.Employee.controller;
 import com.example.harbor_employee.Employee.dto.request.EmployeeSearchDto;
 import com.example.harbor_employee.Employee.dto.request.EmployeeUpdateRequestDto;
 import com.example.harbor_employee.Employee.dto.response.EmployeeResDto;
+import com.example.harbor_employee.Employee.dto.response.ExcelDataDto;
+import com.example.harbor_employee.Employee.dto.response.ExcelEmployeeDto;
 import com.example.harbor_employee.Employee.dto.response.GetEmployResponse;
 import com.example.harbor_employee.client.dto.LoginMemberResDto;
 import com.example.harbor_employee.Employee.service.EmployeeService;
@@ -15,8 +17,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -94,6 +100,12 @@ public class EmployeeController {
         GetEmployResponse positionCode = employeeService.getUserPosition(employeeId);
         log.info("돌려줌");
         return ResponseEntity.status(HttpStatus.OK).body(positionCode);
+    }
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/createbaisc")
+    public ResponseEntity<CommonResponse> create(@RequestParam("file") MultipartFile file) throws IOException {
+        List<ExcelEmployeeDto> excelDataDtos = employeeService.create(file);
+        return new ResponseEntity<>(new CommonResponse("요청이 정상적으로 실행되었습니다.", excelDataDtos), HttpStatus.OK);
     }
     /**
      * @kafka테스트
