@@ -7,6 +7,7 @@ import com.example.harbor_salary.client.SalaryClient;
 import com.example.harbor_salary.dto.request.MySalaryRequest;
 import com.example.harbor_salary.dto.response.MySalaryDetailResponse;
 import com.example.harbor_salary.global.common.CommonResponse;
+import com.example.harbor_salary.dto.response.SeveranceDetailRes;
 import com.example.harbor_salary.service.SalaryService;
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
@@ -58,36 +59,48 @@ public class SalaryController {
 
     // 개인 급여 목록 조회
     @GetMapping("/mysalarys")
-    public ResponseEntity<CommonResponse> findAllSalarys(Pageable pageable, Principal principal) {
-        List<MySalaryRequest> allSalarys = salaryService.findAllSalarys(principal.getName(), pageable);
-        return new ResponseEntity<>(new CommonResponse<>("성공했슈",allSalarys), HttpStatus.OK);
-//        return new ResponseEntity<>(new Comm("요청이 정상적으로 실행되었습니다.", principal.getName()), HttpStatus.OK);
-    }
-    @GetMapping("/mysalary/{salaryId}")
-    public ResponseEntity<CommonResponse> findMySalary(@PathVariable("salaryId") Long salaryId,Principal principal) {
-        MySalaryDetailResponse mySalaryDetailResponse = salaryService.findMySalary(principal.getName(), salaryId);
-        return new ResponseEntity<>(new CommonResponse<>("성공했슈",mySalaryDetailResponse), HttpStatus.OK);
+    public ResponseEntity<List<MySalaryRequest>> findAllSalarys(@AuthenticationPrincipal CustomUserDetails userDetails, Pageable pageable) {
+        return new ResponseEntity<>(salaryService.findAllSalarys(userDetails.getEmployeeId(), pageable), HttpStatus.OK);
     }
 
+    @GetMapping("/mysalary/{salaryId}")
+    public ResponseEntity<MySalaryDetailResponse> findMySalary(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable("salaryId") Long salaryId) {
+        System.out.println("userDetails = " + userDetails.getEmployeeId());
+        System.out.println("salaryId = " + salaryId);
+        return new ResponseEntity<>(salaryService.findMySalary(userDetails.getEmployeeId(), salaryId), HttpStatus.OK);
+    }
 
 
     @GetMapping("/ping")
-    public String ping(){
-        try{
+    public String ping() {
+        try {
             return salaryClient.adminPing();
-        } catch(FeignException e){
+        } catch (FeignException e) {
             System.out.println(e.getMessage());
         }
         return "1";
     }
+
     //employee 핑퐁 확인
     @GetMapping("/employeeping")
-    public String employeePing(){
-        try{
+    public String employeePing() {
+        try {
             return salaryEmployeeClient.employeePing();
-        } catch(FeignException e){
+        } catch (FeignException e) {
             System.out.println(e.getMessage());
         }
         return "1";
+    }
+
+    @GetMapping("/svDetails/{employeeId}")
+    public ResponseEntity<SeveranceDetailRes> getSeveranceDetail(@PathVariable String employeeId) {
+        SeveranceDetailRes severanceDetailRes = salaryService.severanceDetail(employeeId);
+        System.out.println(employeeId);
+        // 결과가 null이 아니라면 정상적으로 반환
+        if (severanceDetailRes != null) {
+            return ResponseEntity.ok(severanceDetailRes);
+        }
+        // 결과가 null이나 잘못된 경우, NOT_FOUND 등 적절한 HTTP 상태 코드로 응답
+        return ResponseEntity.notFound().build();
     }
 }

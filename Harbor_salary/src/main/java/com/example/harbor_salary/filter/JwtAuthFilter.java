@@ -24,7 +24,6 @@ public class JwtAuthFilter extends GenericFilter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        try {
             String bearerToken = ((HttpServletRequest)request).getHeader("Authorization");
             if(bearerToken != null) {
                 //bearer token에서 token값만 추출
@@ -53,11 +52,5 @@ public class JwtAuthFilter extends GenericFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
             chain.doFilter(request, response);
-
-        } catch (Exception e) {
-            HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-            httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
-            httpServletResponse.setContentType("application/json");
-        }
     }
 }

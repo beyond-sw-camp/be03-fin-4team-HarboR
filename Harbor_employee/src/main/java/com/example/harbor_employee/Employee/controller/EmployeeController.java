@@ -1,15 +1,14 @@
 package com.example.harbor_employee.Employee.controller;
 
+import com.example.harbor_employee.Employee.dto.NameBirthDto;
 import com.example.harbor_employee.Employee.dto.request.EmployeeSearchDto;
 import com.example.harbor_employee.Employee.dto.request.EmployeeUpdateRequestDto;
 import com.example.harbor_employee.Employee.dto.response.EmployeeResDto;
-import com.example.harbor_employee.Employee.dto.response.ExcelDataDto;
 import com.example.harbor_employee.Employee.dto.response.ExcelEmployeeDto;
 import com.example.harbor_employee.Employee.dto.response.GetEmployResponse;
 import com.example.harbor_employee.client.dto.LoginMemberResDto;
 import com.example.harbor_employee.Employee.service.EmployeeService;
 import com.example.harbor_employee.global.common.CommonResponse;
-import com.example.harbor_employee.kafka.KafkaTestDto;
 import com.example.harbor_employee.kafka.TestProducer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -68,12 +66,6 @@ public class EmployeeController {
      * @param employeeId: 인증 정보에 담긴 name을 이용(employeeId)
      * @return 인증된 사용자의 상세 정보 조회
      */
-<<<<<<< HEAD
-
-    @GetMapping("/get/detail")
-    public ResponseEntity<CommonResponse> getDetail(Principal principal){
-        return new ResponseEntity<>(new CommonResponse("요청이 정상적으로 실행되었습니다.", employeeService.findByEmployeeId(principal.getName())), HttpStatus.OK);
-=======
     @GetMapping("/get/{employeeId}/detail")
     public ResponseEntity<CommonResponse> getEmployeeDetail(@PathVariable(name = "employeeId") String employeeId) {
         return new ResponseEntity<>(new CommonResponse("유저 정보 자세히 보기", employeeService.findByEmployeeId(employeeId)), HttpStatus.OK);
@@ -84,7 +76,6 @@ public class EmployeeController {
     public ResponseEntity<CommonResponse> updateEmployee(@PathVariable(name = "employeeId") String employeeId, EmployeeUpdateRequestDto request) {
         System.out.println("0");
         return new ResponseEntity<>(new CommonResponse("유저 정보 업데이트",employeeService.updateEmployee(request,employeeId)), HttpStatus.OK);
->>>>>>> f50756f6315b636d790c731e7a28f576d0a57547
     }
 
     @PostMapping("/create")
@@ -115,16 +106,9 @@ public class EmployeeController {
         List<ExcelEmployeeDto> excelDataDtos = employeeService.create(file);
         return new ResponseEntity<>(new CommonResponse("요청이 정상적으로 실행되었습니다.", excelDataDtos), HttpStatus.OK);
     }
-    /**
-     * @kafka테스트
-     */
-//    @PostMapping("/kafka/test")
-//    public String testKafka(){
-//        KafkaTestDto kafkaTestDto = KafkaTestDto.builder()
-//                .id("123123")
-//                .name("테스트 이름")
-//                .build();
-//        testProducer.sendToKafka("topic", kafkaTestDto);
-//        return "ok";
-//    }
+
+    @GetMapping("/get/{employeeId}/object")
+    public NameBirthDto getNameBirth(@PathVariable("employeeId") String employeeId){
+        return employeeService.getObject(employeeId);
+    }
 }
