@@ -115,4 +115,16 @@ public class EmployeeController {
         List<ExcelEmployeeDto> excelDataDtos = employeeService.create(file);
         return new ResponseEntity<>(new CommonResponse("요청이 정상적으로 실행되었습니다.", excelDataDtos), HttpStatus.OK);
     }
+    /**
+     * @kafka테스트
+     */
+//    @PostMapping("/kafka/test")
+//    public String testKafka(){
+//        KafkaTestDto kafkaTestDto = KafkaTestDto.builder()
+//                .id("123123")
+//                .name("테스트 이름")
+//                .build();
+//        testProducer.sendToKafka("topic", kafkaTestDto);
+//        return "ok";
+//    }
 }
