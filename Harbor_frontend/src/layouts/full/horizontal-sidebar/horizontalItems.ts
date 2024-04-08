@@ -40,7 +40,7 @@ export interface menu {
 
 const horizontalItems: menu[] = [
   {
-    title: 'Dashboard',
+    title: '내정보',
     icon: DashboardIcon,
     to: '#',
     children: [
@@ -803,9 +803,9 @@ const horizontalItems: menu[] = [
         type: 'external'
       },
       {
-        title: 'Road Map',
+        title: 'Test',
         icon: SitemapIcon,
-        to: 'https://codedthemes.gitbook.io/berry-vuetify/roadmap',
+        to: '/testcalendar',
         type: 'external'
       }
     ]

@@ -11,6 +11,5 @@
         <module name="Harbor_total.main" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="11" />
   </component>
 </project>

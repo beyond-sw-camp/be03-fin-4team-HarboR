@@ -68,6 +68,12 @@ public class EmployeeController {
      * @param employeeId: 인증 정보에 담긴 name을 이용(employeeId)
      * @return 인증된 사용자의 상세 정보 조회
      */
+<<<<<<< HEAD
+
+    @GetMapping("/get/detail")
+    public ResponseEntity<CommonResponse> getDetail(Principal principal){
+        return new ResponseEntity<>(new CommonResponse("요청이 정상적으로 실행되었습니다.", employeeService.findByEmployeeId(principal.getName())), HttpStatus.OK);
+=======
     @GetMapping("/get/{employeeId}/detail")
     public ResponseEntity<CommonResponse> getEmployeeDetail(@PathVariable(name = "employeeId") String employeeId) {
         return new ResponseEntity<>(new CommonResponse("유저 정보 자세히 보기", employeeService.findByEmployeeId(employeeId)), HttpStatus.OK);
@@ -78,6 +84,7 @@ public class EmployeeController {
     public ResponseEntity<CommonResponse> updateEmployee(@PathVariable(name = "employeeId") String employeeId, EmployeeUpdateRequestDto request) {
         System.out.println("0");
         return new ResponseEntity<>(new CommonResponse("유저 정보 업데이트",employeeService.updateEmployee(request,employeeId)), HttpStatus.OK);
+>>>>>>> f50756f6315b636d790c731e7a28f576d0a57547
     }
 
     @PostMapping("/create")
@@ -98,6 +105,7 @@ public class EmployeeController {
     public ResponseEntity<GetEmployResponse> getPositionCodeByEmployeeId(@PathVariable("employeeId") String employeeId){
         log.info("퐁");
         GetEmployResponse positionCode = employeeService.getUserPosition(employeeId);
+        System.out.println("positionCode = " + positionCode);
         log.info("돌려줌");
         return ResponseEntity.status(HttpStatus.OK).body(positionCode);
     }

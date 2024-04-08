@@ -115,8 +115,10 @@ public class EmployeeService {
     public GetEmployResponse getUserPosition(String employeeId) {
         try{
             Employee employee = employeeRepository.findByEmployeeId(employeeId).orElseThrow(IllegalArgumentException::new);
+            System.out.println("employee.getPositionCode() = " + employee.getPositionCode());
             GetEmployResponse getEmployResponse = new GetEmployResponse();
-//            getEmployResponse.setPositionCode(employee.getPositionCode().getDescription());
+            getEmployResponse.getResults().add(new GetEmployResponse.Result(employee.getPositionCode()));
+            System.out.println("getEmployResponse.getResults() = " + getEmployResponse.getResults());
             return getEmployResponse;
         } catch(Exception e){
             System.out.println(e.getMessage());

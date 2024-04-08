@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia';
 import { router } from '@/router';
-import { fetchWrapper } from '@/utils/helpers/fetch-wrapper';
-
-const baseUrl = `${import.meta.env.VITE_API_URL}/users`;
+import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
+const baseUrl = `${import.meta.env.VITE_API_URL}`;
 
 export const useAuthStore = defineStore({
   id: 'auth',
@@ -14,20 +14,56 @@ export const useAuthStore = defineStore({
     returnUrl: null
   }),
   actions: {
-    async login(username: string, password: string) {
-      const user = await fetchWrapper.post(`${baseUrl}/authenticate`, { username, password });
-
-      // update pinia state
-      this.user = user;
-      // store user details and jwt in local storage to keep user logged in between page refreshes
-      localStorage.setItem('user', JSON.stringify(user));
-      // redirect to previous url or default to home page
-      router.push(this.returnUrl || '/dashboard/default');
+    async login(email: string | undefined, employeeId: string | undefined, password: string) {
+      try {
+        // loginData 타입을 확장하여 email과 employeeId를 선택적 속성으로 포함
+        let loginData: { email?: string; employeeId?: string; password: string } = { password };
+    
+        // 이메일로 로그인하는 경우
+        if (email && !employeeId) {
+          loginData.email = email;
+        }
+        // 사원번호로 로그인하는 경우
+        else if (!email && employeeId) {
+          loginData.employeeId = employeeId;
+        } else {
+          alert("이메일 또는 사원번호 중 하나를 입력해주세요.");
+          return; // 이메일과 사원번호 둘 다 있거나 없는 경우 함수를 종료합니다.
+        }
+    
+        // API 엔드포인트 결정
+        const endPoint = email ? 'EmailLogin' : 'EmployeeIdLogin';
+        console.log("이메일" + email);
+        console.log("사원번호" + employeeId);
+        console.log("비밀번호" + password);
+        console.log("어떤걸로 로그인?" + endPoint);
+        // 로그인 요청 보내기
+        const user = await axios.post(`${baseUrl}/login/account/${endPoint}`, loginData);
+        // const user = await axios.post(`http://localhost:8000/login/account/${endPoint}`, loginData);
+        const token = user.data.result.token;
+    
+        if (token) {
+          const decoded = jwtDecode(token);
+          console.log(decoded);
+          localStorage.setItem("token", token);
+          localStorage.setItem("사원번호", decoded.sub);
+          localStorage.setItem("이메일", decoded.myEmail);
+          localStorage.setItem("권한등급", decoded.role);
+          router.push('/dashboard/default');
+        } else {
+          console.log("200 ok but no token");
+          alert("Login Failed");
+        }
+      } catch (error) {
+        console.log(error);
+        alert("로그인 실패");
+        return;
+      }
     },
     logout() {
       this.user = null;
       localStorage.removeItem('user');
-      router.push('/auth/login1');
+      router.push('/auth/login');
     }
   }
 });

@@ -68,8 +68,9 @@ public class SalaryService {
     }
     //급여 생성
     public Salary createSalary(String employeeId){
+        System.out.println("employeeId = " + employeeId);
         GetEmployResponse getEmployResponse = salaryEmployeeClient.getPositionCodeByEmployeeId(employeeId);
-        log.info("salaryCodes = " + getEmployResponse.getResults().get(0).getPositionCode());
+        System.out.println("getEmployResponse = " + getEmployResponse);
         SalaryCode salaryCodes = salaryCodeRepository.findByCodeNum(getEmployResponse.getResults().get(0).getPositionCode());
         int baseSalary = salaryCodes.getBaseSalary();
         int salaryGross = calculateSalary(baseSalary);
@@ -98,7 +99,7 @@ public class SalaryService {
         log.info("생년월일" + getUsersResponse.getResults().get(0).getBirth());
         return mySalaryRequest;
     }
-    //상세 급여 목록 조회
+    //상세 급여 조회
     public MySalaryDetailResponse findMySalary(String employeeId, Long salaryId) {
         System.out.println("employeeId = " + employeeId);
         System.out.println("salaryId = " + salaryId);
@@ -109,6 +110,7 @@ public class SalaryService {
                 .salaryMonthOfYear(salary.getSalaryMonthOfYear())
                 .salaryGross(salary.getSalaryGross())
                 .salaryCode(salary.getSalaryCode())
+
                 .birth(getUsersResponse.getResults().get(0).getBirth())
                 .name(getUsersResponse.getResults().get(0).getName())
                 .build();

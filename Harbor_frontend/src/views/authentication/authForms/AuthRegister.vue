@@ -1,64 +1,77 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import Google from '@/assets/images/auth/social-google.svg';
+import axios from 'axios';
+import { router } from '@/router';
+const baseUrl = `${import.meta.env.VITE_API_URL}`;
 const checkbox = ref(false);
 const show1 = ref(false);
 const password = ref('');
 const email = ref('');
 const Regform = ref();
-const firstname = ref('');
-const lastname = ref('');
-const passwordRules = ref([
-  (v: string) => !!v || 'Password is required',
-  (v: string) => (v && v.length <= 10) || 'Password must be less than 10 characters'
+const name = ref('');
+const birth = ref('');
+const nameRules = ref([
+  (v: string) => !!v || '이름을 입력해주세요'
 ]);
-const emailRules = ref([(v: string) => !!v || 'E-mail is required', (v: string) => /.+@.+\..+/.test(v) || 'E-mail must be valid']);
+const birthRules = ref([
+  (v: string) => !!v || '생년월일을 입력해주세요',
+  (v: string) => (v && v.length === 6) || 'EX : 980924'
+]);
+const passwordRules = ref([
+  (v: string) => !!v || '비밀번호를 입력해주세요',
+  (v: string) => (v && v.length >= 8 && v.length <= 20) || '비밀번호를 8자에서 20자 사이로 입력해주세요'
+]);
+const emailRules = ref([(v: string) => !!v || '이메일을 입력해주세요', (v: string) => /.+@.+\..+/.test(v) || '이메일 형식에 맞춰주세요']);
 
-function validate() {
-  Regform.value.validate();
+async function validate() {
+  try {
+    // let loginData = {
+    //   email : string,
+    //   name : string,
+    //   password : string,
+
+    // }
+    // v-form 컴포넌트의 validate 메서드를 호출하여 입력 값의 유효성을 검사합니다.
+    const isValid = await Regform.value.validate();
+    // 유효성 검사에 실패하면 함수를 종료합니다.
+    if (!isValid) {
+      alert("형식을 모두 채워주세요")
+      return;
+    }
+    // 회원가입 로직을 수행합니다. 여기에 필요한 HTTP 요청 등의 로직을 추가하면 됩니다.
+    // 예시로 HTTP 요청을 사용하겠습니다.
+    const response = await axios.post(`${baseUrl}/login/account/signup`, {
+      name: name.value,
+      email: email.value,
+      password: password.value,
+      birth: birth.value,
+    });
+    // 회원가입이 성공하면 사용자에게 알림을 표시하거나 다른 작업을 수행할 수 있습니다.
+    alert('회원가입이 완료되었습니다.');
+    router.push('/auth/login3');
+  } catch (error) {
+    console.error('회원가입 중 오류 발생:', error);
+    alert('회원가입 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+  }
 }
+
 </script>
 
 <template>
-  <v-btn block color="primary" variant="outlined" class="text-lightText googleBtn">
-    <img :src="Google" alt="google" />
-    <span class="ml-2">Sign up with Google</span></v-btn
-  >
-  <v-row>
-    <v-col class="d-flex align-center">
-      <v-divider class="custom-devider" />
-      <v-btn variant="outlined" class="orbtn" rounded="md" size="small">OR</v-btn>
-      <v-divider class="custom-devider" />
-    </v-col>
-  </v-row>
-  <h5 class="text-h5 text-center my-4 mb-8">Sign up with Email address</h5>
   <v-form ref="Regform" lazy-validation action="/dashboards/analytical" class="mt-7 loginForm">
-    <v-row>
-      <v-col cols="12" sm="6">
         <v-text-field
-          v-model="firstname"
+          v-model="name"
+          :rules="nameRules"
           density="comfortable"
           hide-details="auto"
           variant="outlined"
           color="primary"
-          label="Firstname"
+          label="이름"
         ></v-text-field>
-      </v-col>
-      <v-col cols="12" sm="6">
-        <v-text-field
-          v-model="lastname"
-          density="comfortable"
-          hide-details="auto"
-          variant="outlined"
-          color="primary"
-          label="Lastname"
-        ></v-text-field>
-      </v-col>
-    </v-row>
     <v-text-field
       v-model="email"
       :rules="emailRules"
-      label="Email Address / Username"
+      label="이메일"
       class="mt-4 mb-4"
       required
       density="comfortable"
@@ -69,7 +82,7 @@ function validate() {
     <v-text-field
       v-model="password"
       :rules="passwordRules"
-      label="Password"
+      label="비밀번호"
       required
       density="comfortable"
       variant="outlined"
@@ -80,25 +93,38 @@ function validate() {
       @click:append-inner="show1 = !show1"
       class="pwdInput"
     ></v-text-field>
-
+    <v-text-field
+      v-model="birth"
+      :rules="birthRules"
+      label="생년월일"
+      required
+      class="mt-4 mb-4"
+      density="comfortable"
+      hide-details="auto"
+      variant="outlined"
+      color="primary"
+    ></v-text-field>
     <div class="d-sm-inline-flex align-center mt-2 mb-7 mb-sm-0 font-weight-bold">
       <v-checkbox
         v-model="checkbox"
         :rules="[(v: any) => !!v || 'You must agree to continue!']"
-        label="Agree with?"
+        label="이용 약관에 동의하시겠습니까?"
         required
         color="primary"
         class="ms-n2"
         hide-details
       ></v-checkbox>
-      <a href="#" class="ml-1 text-lightText">Terms and Condition</a>
+      <a href="https://www.kakao.com/main" class="ml-1 text-lightText">이용약관</a>
     </div>
-    <v-btn color="secondary" block class="mt-2" variant="flat" size="large" @click="validate()">Sign Up</v-btn>
+    <v-btn color="secondary" block class="mt-2" variant="flat" size="large" @click="validate()">승인 요청</v-btn>
   </v-form>
   <div class="mt-5 text-right">
     <v-divider />
-    <v-btn variant="plain" to="/auth/login1" class="mt-2 text-capitalize mr-n2">Already have an account?</v-btn>
+    <v-btn variant="plain" to="/auth/login3" class="mt-2 text-capitalize mr-n2">이미 계정이 있나요?</v-btn>
+    <h5 class="text-center">승인 요청 버튼 클릭 시 관리자 승인 후 <br> 이메일 인증을 통해 회원가입이 완료됩니다. 
+</h5>
   </div>
+  
 </template>
 <style lang="scss">
 .custom-devider {
