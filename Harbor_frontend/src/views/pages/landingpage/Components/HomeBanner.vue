@@ -17,10 +17,10 @@ import tech from '@/assets/images/landing/tech.svg';
         <v-col cols="12" lg="5" md="5">
           <div class="pr-lg-4 text-md-left text-center">
             <h1 class="bannerText my-5" data-aos="fade-up" data-aos-duration="500">
-              한화시스템 BEYOND SW캠프<span class="text-primary">HorboR</span>
+              한화시스템 BEYOND SW캠프<span class="text-primary">HarboR</span>
             </h1>
             <p class="mb-8" data-aos="fade-up" data-aos-duration="800">
-              직원들이 편안한 HR 만들기 위해 HorboR는 노력하고 있습니다.
+              직원들이 편안한 HR 만들기 위해 HarboR는 노력하고 있습니다.
             </p>
             <div data-aos="fade-up" data-aos-duration="1000">
               <v-btn color="secondary" size="large" class="mr-2" to="/dashboard/default"> 
