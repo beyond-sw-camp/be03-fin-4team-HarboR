@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EworksListResDto {
-    private String payStatusName;
+    private String payStatusCode;
     private String firstApprovalId;
     private String secondApprovalId;
     private String thirdApprovalId;
@@ -19,9 +19,9 @@ public class EworksListResDto {
     private String secondApprovalDate;
     private String thirdApprovalDate;
 
-    public static EworksListResDto create(String payStatusName, String firstApprovalId, String firstApprovalDate, String secondApprovalId, String secondApprovalDate, String thirdApprovalId, String thirdApprovalDate) {
+    public static EworksListResDto create(String payStatusCode, String firstApprovalId, String firstApprovalDate, String secondApprovalId, String secondApprovalDate, String thirdApprovalId, String thirdApprovalDate) {
         return EworksListResDto.builder()
-                .payStatusName(payStatusName)
+                .payStatusCode(payStatusCode)
                 .firstApprovalId(firstApprovalId)
                 .firstApprovalDate(firstApprovalDate)
                 .secondApprovalId(secondApprovalId)
