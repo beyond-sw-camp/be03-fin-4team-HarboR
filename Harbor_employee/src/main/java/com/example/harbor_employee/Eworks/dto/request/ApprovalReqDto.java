@@ -1,4 +1,4 @@
-package com.example.harbor_employee.Eworks.controller;
+package com.example.harbor_employee.Eworks.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetAuthListReqDto {
+public class ApprovalReqDto {
+    private Long payId;
     private String employeeId;
 }
