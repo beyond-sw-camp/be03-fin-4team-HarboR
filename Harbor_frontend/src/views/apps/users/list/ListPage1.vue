@@ -36,9 +36,6 @@ const headers: Header[] = [
 const items = ref(listCards);
 const themeColor = ref('rgb(var(--v-theme-secondary))');
 
-// const goToEmployeeDetail = (employeeId: string) => {
-//   router.push(`/app/user/${employeeId}/profile`);
-// }
 </script>
 <template>
   <v-row>
@@ -54,7 +51,7 @@ const themeColor = ref('rgb(var(--v-theme-secondary))');
           <EasyDataTable :headers="headers" :items="items" table-class-name="customize-table action-position"
             :theme-color="themeColor" :search-field="searchField" :search-value="searchValue" :rows-per-page="8">
             <template #item-name="{ name, email, profileImagePath, verify, employeeId }">
-              <div class="d-flex align-center ga-4" @click="$router.push(`/app/user/${employeeId}/profile`)">
+              <div class="d-flex align-center ga-4"  @click="$router.push({ path: `/app/user/${employeeId}/profile`, params: { employeeId: employeeId }})">
                 <img :src="profileImagePath" alt="avatar" width="40" />
                 <div>
                   <h5 class="text-h5">

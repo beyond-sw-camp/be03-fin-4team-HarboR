@@ -5,14 +5,9 @@ import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
 
 // tabs import
 import ProfileTab from './ProfileTab.vue';
-import PersonalDetailsTab from './PersonalDetailsTab.vue';
-import MyAccountTab from './MyAccountTab.vue';
-import ChangePassword from './ChangePassword.vue';
-import SettingsTab from './SettingsTab.vue';
 
 // icons
-import { UserCircleIcon, FileDescriptionIcon, IdIcon, LockIcon, MailIcon } from 'vue-tabler-icons';
-
+import { UserCircleIcon } from 'vue-tabler-icons';
 // theme breadcrumb
 const page = ref({ title: '사원 정보' });
 const breadcrumbs = ref([
@@ -32,7 +27,6 @@ const breadcrumbs = ref([
     href: '#'
   }
 ]);
-
 // tabs data
 const tab = ref('tab-profile');
 </script>

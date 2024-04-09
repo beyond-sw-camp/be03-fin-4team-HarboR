@@ -374,7 +374,8 @@ const MainRoutes = {
     {
       name: 'List',
       path: '/app/user/list',
-      component: () => import('@/views/apps/users/list/ListPage1.vue')
+      component: () => import('@/views/apps/users/list/ListPage1.vue'),
+      props: true
     },
     {
       name: 'List2',
