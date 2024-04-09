@@ -8,6 +8,7 @@ import com.example.harbor_employee.Eworks.dto.request.ApprovalReqDto;
 import com.example.harbor_employee.Eworks.dto.response.EworksAuthList;
 import com.example.harbor_employee.Eworks.dto.request.EworksCreateReqDto;
 import com.example.harbor_employee.Eworks.dto.response.EworksListResDto;
+import com.example.harbor_employee.Eworks.dto.response.EworksReceiveListResDto;
 import com.example.harbor_employee.Eworks.repository.EworksRepository;
 import com.example.harbor_employee.global.support.Approval;
 import com.example.harbor_employee.global.support.Code;
@@ -68,18 +69,15 @@ public class EworksService {
         return eworksListResDtos;
     }
 
-    public List<EworksListResDto> getReceiveList(String employeeId) {
+    //Todo: 결재 요청 상세 내용은 어떻게 표시하는게 좋을까?
+    public List<EworksReceiveListResDto> getReceiveList(String employeeId) {
         List<Eworks> eworksList = eworksRepository.findAllByFirstSignIdOrSecondSignIdOrThirdSignId(employeeId);
-        List<EworksListResDto> eworksListResDtos = new ArrayList<>();
+        List<EworksReceiveListResDto> eworksListResDtos = new ArrayList<>();
         for(Eworks eworks : eworksList){
-            EworksListResDto eworksListResDto = EworksListResDto.create(
-                    eworks.getPayStatusCode(),
-                    eworks.getFirstSignId(),
-                    eworks.getFirstApprovalDate(),
-                    eworks.getSecondSignId(),
-                    eworks.getSecondApprovalDate(),
-                    eworks.getThirdSignId(),
-                    eworks.getThirdApprovalDate());
+            EworksReceiveListResDto eworksListResDto = EworksReceiveListResDto.create(
+                    eworks.getPayId(),
+                    employeeId,
+                    eworks.getPayStatusCode());
             eworksListResDtos.add(eworksListResDto);
         }
         return eworksListResDtos;
@@ -139,24 +137,34 @@ public class EworksService {
     public void updateApproval(ApprovalReqDto approvalReqDto) {
         Eworks eworks = eworksRepository.findById(approvalReqDto.getPayId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 결재입니다"));
         if(!eworks.getFirstSignId().equals(approvalReqDto.getEmployeeId()) && !eworks.getSecondSignId().equals(approvalReqDto.getEmployeeId()) && !eworks.getThirdSignId().equals(approvalReqDto.getEmployeeId()))
-            throw new NoSuchElementException("해당 결제에 대한 승인 권한이 없습니다.");
+            throw new IllegalArgumentException("해당 결제에 대한 승인 권한이 없습니다.");
 
-        // 1차 승인권자 일 시 바로 승인 가능 처리
         if(approvalReqDto.getEmployeeId().equals(eworks.getFirstSignId())){
-            eworks.updateApprovalDate(Approval.FIRST);
+            if(approvalReqDto.getApprovalStatus().equals(Boolean.TRUE))
+                eworks.updateApprovalDate(Approval.FIRST);
+            else eworks.updateCompanion(Approval.FIRST);
         }
-        //Todo: 후결제의 경우에 처리를 어떤식으로 하는게 좋을지?
         if(approvalReqDto.getEmployeeId().equals(eworks.getSecondSignId())){
             if(eworks.getFirstApprovalDate() == null) {
-                throw new IllegalArgumentException("1차 승인권자의 승인이 필요합니다.");
-            }
-            eworks.updateApprovalDate(Approval.SECOND);
+                if(approvalReqDto.getForce().equals(Boolean.TRUE)) {
+                    eworks.updateApprovalDate(Approval.SECOND);
+                } else throw new IllegalArgumentException("1차 승인권자의 승인이 필요합니다.");
+            } else if(eworks.getFirstApprovalDate().startsWith("companion"))
+                throw new IllegalArgumentException("반려 처리된 결재입니다.");
+            if(approvalReqDto.getApprovalStatus().equals(Boolean.TRUE))
+                eworks.updateApprovalDate(Approval.SECOND);
+            else eworks.updateCompanion(Approval.SECOND);
         }
         if(approvalReqDto.getEmployeeId().equals(eworks.getThirdSignId())){
             if(eworks.getFirstApprovalDate() == null || eworks.getSecondApprovalDate() == null) {
-                throw new IllegalArgumentException("앞선 승인권자의 승인이 필요합니다.");
-            }
-            eworks.updateApprovalDate(Approval.THIRD);
+                if(approvalReqDto.getForce().equals(Boolean.TRUE))
+                    eworks.updateApprovalDate(Approval.THIRD);
+            } else if(eworks.getSecondApprovalDate().startsWith("companion")) {
+                throw new IllegalArgumentException("반려 처리된 결재입니다.");
+            } else throw new IllegalArgumentException("앞선 승인권자의 승인이 필요합니다.");
+            if(approvalReqDto.getApprovalStatus().equals(Boolean.TRUE))
+                eworks.updateApprovalDate(Approval.THIRD);
+            else eworks.updateCompanion(Approval.THIRD);
         }
     }
 }

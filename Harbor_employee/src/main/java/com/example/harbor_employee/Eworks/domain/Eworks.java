@@ -65,4 +65,14 @@ public class Eworks {
             this.thirdApprovalDate = String.valueOf(LocalDateTime.now()).substring(0,10);
         }
     }
+
+    public void updateCompanion(Approval approval){
+        if(approval.name().equals("FIRST")){
+            this.firstApprovalDate = "companion";
+        }else if(approval.name().equals("SECOND")){
+            this.secondApprovalDate = "companion";
+        }else if(approval.name().equals("THIRD")){
+            this.thirdApprovalDate = "companion";
+        }
+    }
 }

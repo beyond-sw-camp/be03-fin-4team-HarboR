@@ -12,4 +12,6 @@ import lombok.NoArgsConstructor;
 public class ApprovalReqDto {
     private Long payId;
     private String employeeId;
+    private Boolean approvalStatus;
+    private Boolean force;
 }

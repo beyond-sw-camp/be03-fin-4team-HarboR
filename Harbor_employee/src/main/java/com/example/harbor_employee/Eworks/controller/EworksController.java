@@ -66,7 +66,7 @@ public class EworksController {
      */
     @PostMapping("/approval")
     public ResponseEntity<CommonResponse> approvalEworks(@RequestBody ApprovalReqDto approvalReqDto){
-            eworksService.updateApproval(approvalReqDto);
-            return new ResponseEntity<>(new CommonResponse("요청이 정상적으로 실행되었습니다.", ""), HttpStatus.OK);
+        eworksService.updateApproval(approvalReqDto);
+        return new ResponseEntity<>(new CommonResponse("요청이 정상적으로 실행되었습니다.", null), HttpStatus.OK);
     }
 }
