@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
 import { useUserCardStore } from '@/stores/apps/UserCard';
-
 // common components
 import type { Header } from 'vue3-easy-data-table';
 import 'vue3-easy-data-table/dist/style.css';
@@ -17,6 +16,7 @@ type ListItem = {
   email: string;
   name: string;
   verify: boolean;
+  employeeId: string;
   // Add other properties as needed
 };
 const listCards = computed<ListItem[]>(() => {
@@ -27,16 +27,18 @@ const searchField = ref('name');
 const searchValue = ref('');
 
 const headers: Header[] = [
-  { text: '#', value: 'id' },
-  { text: 'User Profile', value: 'name', sortable: true },
-  { text: 'Country', value: 'location', sortable: true },
-  { text: 'Friends', value: 'friends', sortable: true },
-  { text: 'Followers', value: 'followers', sortable: true },
-  { text: 'Status', value: 'status', sortable: true },
-  { text: 'Action', value: 'operation' }
+  { text: '사원 정보', value: 'name', sortable: true },
+  { text: '전화번호', value: 'phone', sortable: true },
+  { text: '소속부서', value: 'department', sortable: true },
+  { text: '사원직책', value: 'position', sortable: true },
+  { text: '사원상태', value: 'status', sortable: true },
 ];
 const items = ref(listCards);
 const themeColor = ref('rgb(var(--v-theme-secondary))');
+
+// const goToEmployeeDetail = (employeeId: string) => {
+//   router.push(`/app/user/${employeeId}/profile`);
+// }
 </script>
 <template>
   <v-row>
@@ -44,32 +46,16 @@ const themeColor = ref('rgb(var(--v-theme-secondary))');
       <UiParentCard title="Customer List">
         <v-row justify="space-between" class="align-center mb-3">
           <v-col cols="12" md="3">
-            <v-text-field
-              type="text"
-              variant="outlined"
-              persistent-placeholder
-              placeholder="Search Customer"
-              v-model="searchValue"
-              density="compact"
-              hide-details
-              prepend-inner-icon="mdi-magnify"
-            />
+            <v-text-field type="text" variant="outlined" persistent-placeholder placeholder="검색하기" v-model="searchValue"
+              density="compact" hide-details prepend-inner-icon="mdi-magnify" />
           </v-col>
         </v-row>
         <div class="overflow-auto">
-          <EasyDataTable
-            :headers="headers"
-            :items="items"
-            table-class-name="customize-table action-position"
-            :theme-color="themeColor"
-            :search-field="searchField"
-            :search-value="searchValue"
-            :rows-per-page="8"
-          >
-            <template #item-name="{ name, email, avatar, verify }">
-              <div class="d-flex align-center ga-4">
-                <img :src="avatar" alt="avatar" width="40" />
-
+          <EasyDataTable :headers="headers" :items="items" table-class-name="customize-table action-position"
+            :theme-color="themeColor" :search-field="searchField" :search-value="searchValue" :rows-per-page="8">
+            <template #item-name="{ name, email, profileImagePath, verify, employeeId }">
+              <div class="d-flex align-center ga-4" @click="$router.push(`/app/user/${employeeId}/profile`)">
+                <img :src="profileImagePath" alt="avatar" width="40" />
                 <div>
                   <h5 class="text-h5">
                     {{ name }}
@@ -78,6 +64,18 @@ const themeColor = ref('rgb(var(--v-theme-secondary))');
                     </v-btn>
                   </h5>
                   <small class="text-subtitle">{{ email }}</small>
+                  <br>
+                  <small class="text-subtitle">{{ employeeId }}</small>
+                </div>
+              </div>
+            </template>
+            <template #item-department="{ department, team }">
+              <div class="d-flex align-center ga-4">
+                <div>
+                  <h5 class="text-h5">
+                    {{ team }}
+                  </h5>
+                  <small class="text-subtitle">{{ department }}</small>
                 </div>
               </div>
             </template>
@@ -85,6 +83,11 @@ const themeColor = ref('rgb(var(--v-theme-secondary))');
               <v-chip color="success" v-if="status === 'Active'" size="small"> Active </v-chip>
               <v-chip color="error" v-if="status === 'Rejected'" size="small"> Rejected </v-chip>
               <v-chip color="warning" v-if="status === 'Pending'" size="small"> Pending </v-chip>
+            </template>
+            <template #item-position="{ position }">
+              <div>
+                {{ position.slice(0, 2) }}
+              </div>
             </template>
             <template #item-operation>
               <div class="operation-wrapper">
@@ -126,6 +129,7 @@ const themeColor = ref('rgb(var(--v-theme-secondary))');
     width: 50px !important;
     margin: 0 15px !important;
   }
+
   .vue3-easy-data-table__footer {
     text-align: center;
     padding-top: 15px !important;

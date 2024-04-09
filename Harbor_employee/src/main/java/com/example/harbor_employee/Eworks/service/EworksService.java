@@ -2,6 +2,7 @@ package com.example.harbor_employee.Eworks.service;
 
 import com.example.harbor_employee.Employee.domain.Employee;
 import com.example.harbor_employee.Employee.repository.EmployeeRepository;
+import com.example.harbor_employee.Eworks.controller.GetAuthListReqDto;
 import com.example.harbor_employee.Eworks.domain.Eworks;
 import com.example.harbor_employee.Eworks.dto.response.EworksAuthList;
 import com.example.harbor_employee.Eworks.dto.request.EworksCreateReqDto;
@@ -9,6 +10,7 @@ import com.example.harbor_employee.Eworks.dto.response.EworksListResDto;
 import com.example.harbor_employee.Eworks.repository.EworksRepository;
 import com.example.harbor_employee.global.support.Code;
 import com.example.harbor_employee.global.support.Department;
+import com.example.harbor_employee.global.support.Position;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,16 +78,52 @@ public class EworksService {
         return eworksListResDtos;
     }
 
-    //ToDo: 승인권자 리스트 뽑을 때 로직이나 조건을 좀 더 생각해봐야겠음
-    public EworksAuthList getAuthList(String departmentCode) {
-        String firstAuthCode = Department.valueOf(departmentCode).getCode();
+    public EworksAuthList getAuthList(GetAuthListReqDto getAuthListReqDto) {
+        Employee employee = employeeRepository.findByEmployeeId(getAuthListReqDto.getEmployeeId())
+                .orElseThrow(() -> new IllegalArgumentException("없는 회원입니다."));
+        String firstAuthCode = getAuthListReqDto.getDepartmentCode();
         String secondAuthCode = Department.valueOf(firstAuthCode).getCode();
         String thirdAuthCode = Department.valueOf(secondAuthCode).getCode();
-        List<Employee> firstAuthList = employeeRepository.findAllByDepartmentCode(firstAuthCode);
-        List<Employee> secondAuthList = employeeRepository.findAllByDepartmentCode(secondAuthCode);
-        List<Employee> thirdAuthList = employeeRepository.findAllByDepartmentCode(thirdAuthCode);
+        // 내가 해당하는 포지션 코드 획득
+        List<EworksAuthList.Inform> firstInforms = new ArrayList<>();
+        List<EworksAuthList.Inform> secondInforms = new ArrayList<>();
+        List<EworksAuthList.Inform> thirdInforms = new ArrayList<>();
+        EworksAuthList eworksAuthList = new EworksAuthList();
+        String firstPositionCode = Position.getPositionByCode(employee.getPositionCode()).getHighPosition();
+        List<Employee> firstAuthList = employeeRepository.findEmployeesByDepartmentCodeAndPositionCodeRange(
+                firstPositionCode,
+                Position.valueOf(firstPositionCode).getHighPosition(),
+                firstAuthCode);
+        for (Employee value : firstAuthList) {
+            System.out.println("저,, 나왔어요,,," + value.getName());
+            firstInforms.add(EworksAuthList.Inform.create(value.getName(), value.getEmployeeId()));
+        }
+        eworksAuthList.setFirstAuthorizer(firstInforms);
+        System.out.println(eworksAuthList.getFirstAuthorizer().get(0));
+        if(!firstAuthCode.startsWith("K") && !String.valueOf(firstPositionCode).startsWith("S6")){
+            String secondPositionCode = Position.getPositionByCode(String.valueOf(firstPositionCode)).getHighPosition();
+            List<Employee> secondAuthList = employeeRepository.findEmployeesByDepartmentCodeAndPositionCodeRange(
+                    secondPositionCode,
+                    Position.valueOf(secondPositionCode).getHighPosition(),
+                    secondAuthCode);
+            for (Employee value : secondAuthList) {
+                secondInforms.add(EworksAuthList.Inform.create(value.getName(), value.getEmployeeId()));
+            }
+            eworksAuthList.setSecondAuthorizer(secondInforms);
+            if(secondAuthCode.startsWith("K") && String.valueOf(firstPositionCode).startsWith("S6"))
+                return eworksAuthList;
 
-        return null;
+            String thirdPositionCode = Position.getPositionByCode(String.valueOf(secondPositionCode)).getHighPosition();
+            List<Employee> thirdAuthList = employeeRepository.findEmployeesByDepartmentCodeAndPositionCodeRange(
+                    thirdPositionCode,
+                    Position.valueOf(thirdPositionCode).getHighPosition(),
+                    thirdAuthCode);
+            for (Employee value : thirdAuthList) {
+                thirdInforms.add(EworksAuthList.Inform.create(value.getName(), value.getEmployeeId()));
+            }
+            eworksAuthList.setThirdAuthorizer(thirdInforms);
+        }
+        return eworksAuthList;
     }
 
     public Object updateApproval(String payId) {

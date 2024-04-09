@@ -6,7 +6,7 @@ import { MailIcon, MapPinIcon, PhoneIcon, EditIcon } from 'vue-tabler-icons';
 
 const items = shallowRef([
   { text: 'Email', icon: MailIcon, divider: true, subtext: 'demo@sample.com' },
-  { text: 'Phone', icon: PhoneIcon, divider: true, subtext: '(+99) 9999 999 999' },
+  { text: '전회번호', icon: PhoneIcon, divider: true, subtext: '(+99) 9999 999 999' },
   { text: 'Location', icon: MapPinIcon, divider: false, subtext: 'Melbourne' }
 ]);
 
@@ -77,38 +77,7 @@ const emps = shallowRef([
   }
 ]);
 
-const skills = shallowRef([
-  {
-    color: 'primary',
-    title: 'Junior',
-    value: 70
-  },
-  {
-    color: 'primary',
-    title: 'UX Researcher',
-    value: 80
-  },
-  {
-    color: 'secondary',
-    title: 'Wordpress',
-    value: 25
-  },
-  {
-    color: 'primary',
-    title: 'Graphic Designer',
-    value: 80
-  },
-  {
-    color: 'secondary',
-    title: 'HTML',
-    value: 45
-  },
-  {
-    color: 'primary',
-    title: 'PHP',
-    value: 65
-  }
-]);
+
 </script>
 
 <template>
@@ -239,27 +208,6 @@ const skills = shallowRef([
                 <v-col md="8">
                   <h4 class="text-subtitle-1">{{ emp.title }}</h4>
                   <span class="text-subtitle-2 text-disabled font-weight-medium">{{ emp.subtext }}</span>
-                </v-col>
-              </v-row>
-            </v-card-text>
-          </v-card>
-        </v-card>
-
-        <v-card variant="flat" class="mt-6">
-          <v-card variant="outlined">
-            <div class="px-5 py-6">
-              <h5 class="text-subtitle-1">Skills</h5>
-            </div>
-            <v-divider></v-divider>
-            <v-card-text>
-              <v-row class="py-2">
-                <v-col cols="12" md="6" v-for="(skill, i) in skills" :key="i">
-                  <h5 class="text-subtitle-1 font-weight-regular">{{ skill.title }}</h5>
-                  <div class="d-flex align-center">
-                    <v-progress-linear style="left: 0; transform: unset" :model-value="skill.value" :color="skill.color">
-                    </v-progress-linear>
-                    <span class="text-subtitle-1 ml-4 text-medium-emphasis">{{ skill.value }}%</span>
-                  </div>
                 </v-col>
               </v-row>
             </v-card-text>

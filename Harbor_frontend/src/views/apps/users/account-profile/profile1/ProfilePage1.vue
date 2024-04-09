@@ -14,7 +14,7 @@ import SettingsTab from './SettingsTab.vue';
 import { UserCircleIcon, FileDescriptionIcon, IdIcon, LockIcon, MailIcon } from 'vue-tabler-icons';
 
 // theme breadcrumb
-const page = ref({ title: 'Profile 01' });
+const page = ref({ title: '사원 정보' });
 const breadcrumbs = ref([
   {
     title: 'Users',
@@ -27,7 +27,7 @@ const breadcrumbs = ref([
     href: '#'
   },
   {
-    title: 'Profile 01',
+    title: 'Profile',
     disabled: true,
     href: '#'
   }
@@ -48,36 +48,12 @@ const tab = ref('tab-profile');
               <v-tab variant="plain" value="tab-profile"
                 ><UserCircleIcon class="v-icon--start" width="20" stroke-width="1.5" /> Profile</v-tab
               >
-              <v-tab variant="plain" value="tab-personal"
-                ><FileDescriptionIcon class="v-icon--start" width="20" stroke-width="1.5" />Personal Details</v-tab
-              >
-              <v-tab variant="plain" value="tab-account"><IdIcon class="v-icon--start" width="20" stroke-width="1.5" />My Account</v-tab>
-              <v-tab variant="plain" value="tab-password"
-                ><LockIcon class="v-icon--start" width="20" stroke-width="1.5" />Change Password</v-tab
-              >
-              <v-tab variant="plain" value="tab-setting"><MailIcon class="v-icon--start" width="20" stroke-width="1.5" />Settings</v-tab>
             </v-tabs>
             <v-divider></v-divider>
             <div class="pt-6">
               <v-window v-model="tab">
                 <v-window-item value="tab-profile">
                   <ProfileTab />
-                </v-window-item>
-
-                <v-window-item value="tab-personal">
-                  <PersonalDetailsTab />
-                </v-window-item>
-
-                <v-window-item value="tab-account">
-                  <MyAccountTab />
-                </v-window-item>
-
-                <v-window-item value="tab-password">
-                  <ChangePassword />
-                </v-window-item>
-
-                <v-window-item value="tab-setting">
-                  <SettingsTab />
                 </v-window-item>
               </v-window>
             </div>

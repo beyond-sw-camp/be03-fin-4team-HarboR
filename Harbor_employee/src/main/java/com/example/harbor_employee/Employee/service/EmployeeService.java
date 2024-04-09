@@ -2,11 +2,11 @@ package com.example.harbor_employee.Employee.service;
 
 import com.example.harbor_employee.global.support.Code;
 import com.example.harbor_employee.Employee.domain.Employee;
+import com.example.harbor_employee.Employee.dto.NameBirthDto;
 import com.example.harbor_employee.Employee.dto.request.EmployeeSearchDto;
 import com.example.harbor_employee.Employee.dto.request.EmployeeUpdateRequestDto;
 import com.example.harbor_employee.Employee.dto.response.*;
 import com.example.harbor_employee.Employee.repository.EmployeeRepository;
-import com.example.harbor_employee.PersonnelAppointment.domain.PersonnelAppointment;
 import com.example.harbor_employee.global.util.EmployeeSpecification;
 import com.example.harbor_employee.client.dto.LoginMemberResDto;
 import com.example.harbor_employee.kafka.KafkaTestDto;
@@ -68,6 +68,9 @@ public class EmployeeService {
                         .team(Code.valueOf(e.getTeamCode()).getMessage())
                         .position(Code.valueOf(e.getPositionCode()).getMessage())
                         .name(e.getName())
+                        .profileImagePath(e.getProfileImage())
+                        .email(e.getEmail())
+                        .phone(e.getPhone())
                         .build()).collect(Collectors.toList());
         return employeeResDtos;
     }
@@ -119,6 +122,7 @@ public class EmployeeService {
             GetEmployResponse getEmployResponse = new GetEmployResponse();
             getEmployResponse.getResults().add(new GetEmployResponse.Result(employee.getPositionCode()));
             System.out.println("getEmployResponse.getResults() = " + getEmployResponse.getResults());
+            getEmployResponse.getResults().add(new GetEmployResponse.Result(employee.getPositionCode()));
             return getEmployResponse;
         } catch(Exception e){
             System.out.println(e.getMessage());
@@ -255,11 +259,19 @@ public class EmployeeService {
                             .build();
                     testProducer.sendToKafka("first_create_user_data", kafkaTestDto);
                 }
+
             }
             return dataList;
         } catch (IOException e) {
             // 파일 처리 중 예외 발생 시 예외를 던짐
             throw new IOException("파일을 처리하는 도중 오류가 발생");
         }
+    }
+    public NameBirthDto getObject(String employeeId) {
+        Employee employee = employeeRepository.findByEmployeeId(employeeId).orElseThrow(() -> new IllegalArgumentException("없는 회원입니다."));
+        return NameBirthDto.builder()
+                .birth(employee.getBirthDate())
+                .name(employee.getName())
+                .build();
     }
 }

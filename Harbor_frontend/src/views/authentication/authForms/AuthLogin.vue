@@ -57,11 +57,11 @@ watch(selectedInput, () => {
       로그인</v-btn>
     <div v-if="errors.apiError" class="mt-2">
       <v-alert color="error">{{ errors.apiError }}</v-alert>
-    </div>
+    </div>  
   </Form>
   <div class="mt-5 text-right">
     <v-divider />
-    <v-btn variant="plain" to="/auth/register3" class="mt-2 text-capitalize mr-n2">회원가입</v-btn>
+    <v-btn variant="plain" to="/auth/register" class="mt-2 text-capitalize mr-n2">회원가입</v-btn>
   </div>
 </template>
 <style lang="scss">

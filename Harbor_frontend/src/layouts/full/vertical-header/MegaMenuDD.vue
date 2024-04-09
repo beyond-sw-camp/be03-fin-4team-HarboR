@@ -18,7 +18,7 @@ const dropdownMenu = shallowRef([
   },
   {
     link: 'Account Profile',
-    href: 'app/user/account-profile/profile1'
+    href: 'app/user/account-profile/profile'
   },
   {
     link: 'Kanban',

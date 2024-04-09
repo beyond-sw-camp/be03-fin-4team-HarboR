@@ -342,8 +342,8 @@ const MainRoutes = {
       component: () => import('@/views/apps/users/social-profile/GalleryPage.vue')
     },
     {
-      name: 'Profile 01',
-      path: '/app/user/account-profile/profile1',
+      name: 'Profile',
+      path: '/app/user/:employeeId/profile',
       component: () => import('@/views/apps/users/account-profile/profile1/ProfilePage1.vue')
     },
     {
@@ -373,7 +373,7 @@ const MainRoutes = {
     },
     {
       name: 'List',
-      path: '/app/user/list1',
+      path: '/app/user/list',
       component: () => import('@/views/apps/users/list/ListPage1.vue')
     },
     {

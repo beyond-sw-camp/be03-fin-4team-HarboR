@@ -1,4 +1,4 @@
-package com.example.harbor_salary.config;
+package com.example.harbor_total.global.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +14,6 @@ import java.util.List;
 @AllArgsConstructor
 public class CustomUserDetails implements UserDetails {
     private final String username;
-    private final String employeeId;
     private final String password;
     private final String email;
     private final String role;
