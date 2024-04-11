@@ -146,25 +146,33 @@ public class EworksService {
         }
         if(approvalReqDto.getEmployeeId().equals(eworks.getSecondSignId())){
             if(eworks.getFirstApprovalDate() == null) {
-                if(approvalReqDto.getForce().equals(Boolean.TRUE)) {
-                    eworks.updateApprovalDate(Approval.SECOND);
-                } else throw new IllegalArgumentException("1차 승인권자의 승인이 필요합니다.");
-            } else if(eworks.getFirstApprovalDate().startsWith("companion"))
+                if(approvalReqDto.getForce().equals(Boolean.TRUE))
+                    if(approvalReqDto.getApprovalStatus().equals(Boolean.TRUE))
+                        eworks.updateApprovalDate(Approval.SECOND);
+                    else eworks.updateCompanion(Approval.SECOND);
+                else throw new IllegalArgumentException("앞선 승인권자의 승인이 필요합니다.");
+            } else if(eworks.getFirstApprovalDate().startsWith("companion")) {
                 throw new IllegalArgumentException("반려 처리된 결재입니다.");
-            if(approvalReqDto.getApprovalStatus().equals(Boolean.TRUE))
-                eworks.updateApprovalDate(Approval.SECOND);
-            else eworks.updateCompanion(Approval.SECOND);
+            } else {
+                if(approvalReqDto.getApprovalStatus().equals(Boolean.TRUE))
+                    eworks.updateApprovalDate(Approval.SECOND);
+                else eworks.updateCompanion(Approval.SECOND);
+            }
         }
         if(approvalReqDto.getEmployeeId().equals(eworks.getThirdSignId())){
             if(eworks.getFirstApprovalDate() == null || eworks.getSecondApprovalDate() == null) {
                 if(approvalReqDto.getForce().equals(Boolean.TRUE))
-                    eworks.updateApprovalDate(Approval.THIRD);
+                    if(approvalReqDto.getApprovalStatus().equals(Boolean.TRUE))
+                        eworks.updateApprovalDate(Approval.THIRD);
+                    else eworks.updateCompanion(Approval.THIRD);
+                else throw new IllegalArgumentException("앞선 승인권자의 승인이 필요합니다.");
             } else if(eworks.getSecondApprovalDate().startsWith("companion")) {
                 throw new IllegalArgumentException("반려 처리된 결재입니다.");
-            } else throw new IllegalArgumentException("앞선 승인권자의 승인이 필요합니다.");
-            if(approvalReqDto.getApprovalStatus().equals(Boolean.TRUE))
-                eworks.updateApprovalDate(Approval.THIRD);
-            else eworks.updateCompanion(Approval.THIRD);
+            } else {
+                if(approvalReqDto.getApprovalStatus().equals(Boolean.TRUE))
+                    eworks.updateApprovalDate(Approval.THIRD);
+                else eworks.updateCompanion(Approval.THIRD);
+            }
         }
     }
 }
