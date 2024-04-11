@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, String> {
-    Optional<Employee> findByEmployeeId(String employeeId);
+    Optional<Employee> findByEmployeeId(String EmployeeId);
 
     @Query("SELECT e FROM Employee e WHERE e.positionCode > :startDeptCode AND e.positionCode <= :endDeptCode AND e.departmentCode = :departmentCode")
     List<Employee> findEmployeesByDepartmentCodeAndPositionCodeRange(@Param(value = "startDeptCode") @NotEmpty String startDeptCode,

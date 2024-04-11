@@ -1,5 +1,6 @@
 package com.example.harbor_total.global.kafka;
 
+
 import com.example.harbor_total.Employee.repository.EmployeeRepository;
 import com.example.harbor_total.Employee.domain.Employee;
 import com.fasterxml.jackson.core.JsonProcessingException;

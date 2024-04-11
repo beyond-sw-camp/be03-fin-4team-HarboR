@@ -11,4 +11,7 @@ public class AttendanceFlexibleWorkReqDto {
     private LocalDateTime workStartTime;
     private LocalDateTime workEndTime;
     private String workPolicy;
+    private String firstSignId;
+    private String secondSignId;
+    private String thirdSignId;
 }

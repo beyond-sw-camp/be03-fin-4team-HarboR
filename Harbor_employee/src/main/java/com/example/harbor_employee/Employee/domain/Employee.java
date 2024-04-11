@@ -108,10 +108,11 @@ public class Employee {
         this.departmentCode = pa.getAfterDepartmentCode();
     }
 
-    public void updateEmployee(String updateimage, String phone) {
+    public void updateEmployee(String updateimage, String phone, String address) {
 
         this.profileImage = updateimage;
         this.phone = phone;
+        this.address = address;
     }
 
     public void updateEmployee(ExcelEmployeeDto excelEmployeeDto) {
