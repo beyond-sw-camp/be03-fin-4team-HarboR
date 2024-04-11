@@ -1,5 +1,6 @@
 package com.example.harbor_total.domain;
 
+import com.example.harbor_total.Employee.domain.Employee;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +9,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.sql.Time;
-import java.time.LocalDateTime;
 
 /*
 * commuteId: 출퇴근 기록 번호(PK)

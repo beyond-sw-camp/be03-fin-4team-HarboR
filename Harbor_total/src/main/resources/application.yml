@@ -26,6 +26,7 @@ eureka:
 logging:
   level:
     root: info
+    com.example.harbor_login.client: DEBUG
 jwt:
   expiration: 30
   secretKey: CE254B51A873FD7C90C9338C534787FFCDEA4DC217B49AF2CB7DA54661418349
