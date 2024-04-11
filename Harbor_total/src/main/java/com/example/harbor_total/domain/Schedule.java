@@ -1,5 +1,6 @@
 package com.example.harbor_total.domain;
 
+import com.example.harbor_total.Employee.domain.Employee;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
