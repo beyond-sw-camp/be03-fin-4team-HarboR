@@ -1,6 +1,6 @@
 package com.example.harbor_total.global.filter;
 
-import com.example.harbor_login.global.config.CustomUserDetails;
+import com.example.harbor_total.global.config.CustomUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;

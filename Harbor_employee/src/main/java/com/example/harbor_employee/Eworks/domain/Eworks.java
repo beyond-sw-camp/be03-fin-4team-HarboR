@@ -1,6 +1,7 @@
 package com.example.harbor_employee.Eworks.domain;
 
 import com.example.harbor_employee.Employee.domain.Employee;
+import com.example.harbor_employee.global.support.Approval;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 /**
  * @Entity 구성
@@ -52,5 +54,25 @@ public class Eworks {
                 .secondSignId(secondSignId)
                 .thirdSignId(thirdSignId)
                 .build();
+    }
+
+    public void updateApprovalDate(Approval approval){
+        if(approval.name().equals("FIRST")){
+            this.firstApprovalDate = String.valueOf(LocalDateTime.now()).substring(0, 10);
+        }else if(approval.name().equals("SECOND")){
+            this.secondApprovalDate = String.valueOf(LocalDateTime.now()).substring(0,10);
+        }else if(approval.name().equals("THIRD")){
+            this.thirdApprovalDate = String.valueOf(LocalDateTime.now()).substring(0,10);
+        }
+    }
+
+    public void updateCompanion(Approval approval){
+        if(approval.name().equals("FIRST")){
+            this.firstApprovalDate = "companion";
+        }else if(approval.name().equals("SECOND")){
+            this.secondApprovalDate = "companion";
+        }else if(approval.name().equals("THIRD")){
+            this.thirdApprovalDate = "companion";
+        }
     }
 }

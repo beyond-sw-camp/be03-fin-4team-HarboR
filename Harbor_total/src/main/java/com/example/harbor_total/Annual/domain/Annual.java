@@ -1,5 +1,6 @@
-package com.example.harbor_total.domain;
+package com.example.harbor_total.Annual.domain;
 
+import com.example.harbor_total.Attendance.domain.Attendance;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -7,6 +8,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /*
 * annualId: 휴가 번호(PK)
@@ -28,10 +31,18 @@ public class Annual {
     @Id
     private Long annualId;
     private Integer annualCount;
-    private String adjustmentDate;
+    private LocalDateTime adjustmentDate;
+    private LocalDateTime adjustmentEndDate;
     private String adjustmentComment;
-    private String adjustmentUpdateDate;
+    private LocalDateTime adjustmentUpdateDate;
     private Integer authorityPersonId;
+    private String firstSignId;
+    private String secondSignId;
+    private String thirdSignId;
+    private LocalDateTime firstApprovalDate;
+    private LocalDateTime secondApprovalDate;
+    private LocalDateTime thirdApprovalDate;
+    private Boolean adjustment_delYn = false;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "attendance_id")

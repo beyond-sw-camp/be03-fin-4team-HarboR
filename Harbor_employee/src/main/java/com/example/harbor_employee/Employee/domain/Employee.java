@@ -5,7 +5,6 @@ import com.example.harbor_employee.Eworks.domain.Eworks;
 import com.example.harbor_employee.PersonnelAppointment.domain.PersonnelAppointment;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -113,10 +112,11 @@ public class Employee {
         this.departmentCode = pa.getAfterDepartmentCode();
     }
 
-    public void updateEmployee(String updateimage, String phone) {
+    public void updateEmployee(String updateimage, String phone, String address) {
 
         this.profileImage = updateimage;
         this.phone = phone;
+        this.address = address;
     }
 
     public void updateEmployee(ExcelEmployeeDto excelEmployeeDto) {

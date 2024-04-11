@@ -64,9 +64,9 @@ public class EmployeeService {
         employeeResDtos = employeeList.stream()
                 .map(e-> EmployeeResDto.builder()
                         .employeeId(e.getEmployeeId())
-                        .department(Code.valueOf(e.getDepartmentCode()).getMessage())
-                        .team(Code.valueOf(e.getTeamCode()).getMessage())
-                        .position(Code.valueOf(e.getPositionCode()).getMessage())
+                        .department(e.getDepartmentCode())
+                        .team(e.getTeamCode())
+                        .position(e.getPositionCode())
                         .name(e.getName())
                         .build()).collect(Collectors.toList());
         return employeeResDtos;
@@ -93,18 +93,18 @@ public class EmployeeService {
                 .name(employee.getName())
                 .email(employee.getEmail())
                 .phone(employee.getPhone())
-                .gender(Code.valueOf(employee.getGenderCode()).getMessage())
+                .gender(employee.getGenderCode())
                 .birthDate(employee.getBirthDate())
                 .socialSecurityNumber(employee.getSocialSecurityNumber())
                 .address(employee.getAddress())
-                .duty(Code.valueOf(employee.getDutyCode()).getMessage())
-                .position(Code.valueOf(employee.getPositionCode()).getMessage())
-                .team(Code.valueOf(employee.getTeamCode()).getMessage())
-                .department(Code.valueOf(employee.getDepartmentCode()).getMessage())
-                .status(Code.valueOf(employee.getStatusCode()).getMessage())
+                .duty(employee.getDutyCode())
+                .position(employee.getPositionCode())
+                .team(employee.getTeamCode())
+                .department(employee.getDepartmentCode())
+                .status(employee.getStatusCode())
                 .careerYMD(employee.getCareerYMD())
                 .joinDate(employee.getJoinDate())
-                .bank(Code.valueOf(employee.getBankCode()).getMessage())
+                .bank(employee.getBankCode())
                 .accountNumber(employee.getAccountNumber())
                 .profileImagePath(employee.getProfileImage())
                 .leavingDate(employee.getLeavingDate())
@@ -135,7 +135,8 @@ public class EmployeeService {
 
         Path path = Paths.get("/Users/song/Desktop/코딩공부/tmp", employee.getEmployeeId() + "_" + fileName);
         employee.setImage(path.toString());
-        employee.updateEmployee(path.toString(),request.getPhone());
+        employee.updateEmployee(path.toString(),request.getPhone(),request.getAddress());
+
         try {
             byte[] bytes = multipartFile.getBytes();
             Files.write(path, bytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE); // 없으면 넣고 있으면 덮어쓰기
