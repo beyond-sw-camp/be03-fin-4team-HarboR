@@ -13,6 +13,7 @@ import javax.persistence.*;
 import java.util.List;
 
 /*
+
  * employeeId: 사원 번호(PK)
  * email: 이메일
  * name: 이름

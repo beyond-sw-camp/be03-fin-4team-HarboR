@@ -33,10 +33,6 @@ public class SeveranceDetailRes {
                 .build();
 
     }
-        public void setSeverancePay(int severancePay){
-            this.severancePay = severancePay;
-        }
-
 
 
     }
