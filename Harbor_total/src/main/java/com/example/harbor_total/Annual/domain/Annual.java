@@ -36,6 +36,12 @@ public class Annual {
     private String adjustmentComment;
     private LocalDateTime adjustmentUpdateDate;
     private Integer authorityPersonId;
+    private String firstSignId;
+    private String secondSignId;
+    private String thirdSignId;
+    private LocalDateTime firstApprovalDate;
+    private LocalDateTime secondApprovalDate;
+    private LocalDateTime thirdApprovalDate;
     private Boolean adjustment_delYn = false;
 
     @ManyToOne(cascade = CascadeType.ALL)

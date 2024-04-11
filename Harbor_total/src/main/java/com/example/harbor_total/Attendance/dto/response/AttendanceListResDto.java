@@ -17,8 +17,11 @@ public class AttendanceListResDto {
     private String workPolicy;
     private String EmployeeId;
     private double annualRemain;
+    private String firstSignId;
+    private String secondSignId;
+    private String thirdSignId;
 
-    public static AttendanceListResDto toDto(Attendance attendance) {
+    public static AttendanceListResDto toDto(Attendance attendance, AttendanceFlexibleWorkReqDto attendanceFlexibleWorkReqDto) {
         return AttendanceListResDto.builder()
                 .attendanceId(attendance.getAttendanceId())
                 .workStartTime(attendance.getWorkStartTime())
@@ -26,6 +29,9 @@ public class AttendanceListResDto {
                 .workPolicy(attendance.getWorkPolicy())
                 .EmployeeId(attendance.getEmployee().getEmployeeId())
                 .annualRemain(attendance.getEmployee().getAnnualRemain())
+                .firstSignId(attendanceFlexibleWorkReqDto.getFirstSignId())
+                .secondSignId(attendanceFlexibleWorkReqDto.getSecondSignId())
+                .thirdSignId(attendanceFlexibleWorkReqDto.getThirdSignId())
                 .build();
     }
 }

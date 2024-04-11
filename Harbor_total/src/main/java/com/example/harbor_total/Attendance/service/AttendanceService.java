@@ -46,12 +46,37 @@ public class AttendanceService {
                 attendanceFlexibleWorkReqDto.getWorkPolicy().equals(O08.name()) ||
                 attendanceFlexibleWorkReqDto.getWorkPolicy().equals(O09.name())) {
             return requestvacation(attendanceFlexibleWorkReqDto, employeeId);
+        } else if (attendanceFlexibleWorkReqDto.getWorkPolicy().equals(O03)) {
+            return requestbusinesstrip(attendanceFlexibleWorkReqDto, employeeId);
+
         } else {
             throw new IllegalArgumentException("해당하는 근무는 없습니다.");
         }
+
+    }
+    //    휴가, 유연근무제 확인
+    public void checkwork(AttendanceFlexibleWorkReqDto attendanceFlexibleWorkReqDto, String employeeId) {
+        LocalDateTime startDate = attendanceFlexibleWorkReqDto.getWorkStartTime().toLocalDate().atStartOfDay();
+        LocalDateTime endDate = attendanceFlexibleWorkReqDto.getWorkEndTime().toLocalDate().atTime(23, 59, 59);
+
+        List<Attendance> flexibleWork  =
+                attendanceRepository.findByWorkStartTimeBetweenAndEmployeeEmployeeId(
+                        attendanceFlexibleWorkReqDto.getWorkStartTime(),
+                        attendanceFlexibleWorkReqDto.getWorkEndTime(), employeeId);
+
+        if (flexibleWork.size() >= 1) {
+            throw new IllegalArgumentException("유연 근무제, 혹은 출장이 예정되어 있습니다. 근무를 확인해 주세요");
+        }
+
+        Optional<Annual> vacation = annualRepository.findByAdjustmentDateLessThanAndAdjustmentEndDateGreaterThanEqualOrAdjustmentDateLessThanEqualAndAdjustmentEndDateGreaterThan(
+                endDate, startDate,
+                startDate, endDate);
+        vacation.ifPresent(annual -> {
+            throw new IllegalArgumentException("휴가 신청 하신 날에 휴가가 이미 있습니다");
+        });
     }
 
-    // 유연 근무제
+    // 유연 근무제 신청
     private AttendanceListResDto requestflexiblework(AttendanceFlexibleWorkReqDto attendanceFlexibleWorkReqDto, String employeeId) {
         LocalTime startRange = LocalTime.of(8, 0);
         LocalTime endRange = LocalTime.of(10, 0);
@@ -77,35 +102,26 @@ public class AttendanceService {
         // 저장
         attendanceRepository.save(attendance);
         // dto 반환
-        return AttendanceListResDto.toDto(attendance);
+        return AttendanceListResDto.toDto(attendance, attendanceFlexibleWorkReqDto);
     }
 
     //   휴가 신청
     private AttendanceListResDto requestvacation(AttendanceFlexibleWorkReqDto attendanceFlexibleWorkReqDto, String employeeId) {
 
-        System.out.println(" 도착 ");
-        LocalDateTime startDate = attendanceFlexibleWorkReqDto.getWorkStartTime().toLocalDate().atStartOfDay();
-        LocalDateTime endDate = attendanceFlexibleWorkReqDto.getWorkEndTime().toLocalDate().atTime(23, 59, 59);
-
-//        1. 휴가 신청하려는 유연근무제, 출장 확인
-        List<Attendance> flexibleWork  =
-                attendanceRepository.findByWorkStartTimeBetweenAndEmployeeEmployeeId(
-                        attendanceFlexibleWorkReqDto.getWorkStartTime(),
-                        attendanceFlexibleWorkReqDto.getWorkEndTime(), employeeId);
-
-        if (flexibleWork.size() >= 1) {
-            throw new IllegalArgumentException("유연 근무제, 혹은 출장이 예정되어 있습니다. 근무를 확인해 주세요");
-        }
-
-//      2. 그날 휴가가 신청되어 있는지 확인
-        Optional<Annual> vacation = annualRepository.findByAdjustmentDateLessThanAndAdjustmentEndDateGreaterThanEqualOrAdjustmentDateLessThanEqualAndAdjustmentEndDateGreaterThan(
-                endDate, startDate,
-                startDate, endDate);
-        vacation.ifPresent(annual -> {
-            throw new IllegalArgumentException("휴가 신청 하신 날에 휴가가 이미 있습니다");
-        });
-
-//        휴가 신청종류:  반차, 연차, 병가
+        log.info("휴가 신청");
+        checkwork(attendanceFlexibleWorkReqDto, employeeId);
         return null;
     }
+
+//    출장신청
+    public AttendanceListResDto requestbusinesstrip(AttendanceFlexibleWorkReqDto attendanceFlexibleWorkReqDto, String employeeId) {
+
+        log.info("출장 신청 ");
+
+        checkwork(attendanceFlexibleWorkReqDto, employeeId);
+
+        return null;
+    }
+
+
 }
