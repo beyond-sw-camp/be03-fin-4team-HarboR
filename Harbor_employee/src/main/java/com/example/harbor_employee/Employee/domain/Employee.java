@@ -1,11 +1,9 @@
 package com.example.harbor_employee.Employee.domain;
 
 import com.example.harbor_employee.Employee.dto.response.ExcelEmployeeDto;
-import com.example.harbor_employee.Eworks.domain.Eworks;
 import com.example.harbor_employee.PersonnelAppointment.domain.PersonnelAppointment;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -86,9 +84,6 @@ public class Employee {
     private LocalDateTime updatedAt;
 
     private String departmentCode;
-
-    @OneToMany(mappedBy = "employee")
-    private List<Eworks> eworks = new ArrayList<>();
 
     @OneToMany(mappedBy = "employee")
     private List<PersonnelAppointment> personnelAppointmentList = new ArrayList<>();

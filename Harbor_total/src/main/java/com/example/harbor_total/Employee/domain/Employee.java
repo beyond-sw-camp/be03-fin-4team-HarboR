@@ -36,6 +36,10 @@ public class Employee {
     private String name;
     @Column(nullable = false, length = 20)
     private String teamCode;
+    @Column(nullable = false, length = 20)
+    private String departmentCode;
+    @Column(nullable = false, length = 20)
+    private String positionCode;
     private double annualRemain;
 
     @OneToMany(mappedBy = "employee")
@@ -47,12 +51,14 @@ public class Employee {
     @OneToMany(mappedBy = "employee")
     private List<Attendance> attendances;
 
-    public static Employee create(String id, String email, String name, String teamCode, double annual){
+    public static Employee create(String id, String email, String name, String teamCode, String departmentCode, String positionCode, double annual){
         return Employee.builder()
                 .employeeId(id)
                 .email(email)
                 .name(name)
                 .teamCode(teamCode)
+                .departmentCode(departmentCode)
+                .positionCode(positionCode)
                 .annualRemain(annual)
                 .build();
     }

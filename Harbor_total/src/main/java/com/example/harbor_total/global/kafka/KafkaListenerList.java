@@ -33,6 +33,14 @@ public class KafkaListenerList {
         } catch(JsonProcessingException e) {
             e.printStackTrace();
         }
-        employeeRepository.save(Employee.create(map.get("employeeId"), map.get("email"), map.get("name"), map.get("teamCode"), 15));
+        employeeRepository.save(Employee.create(
+                map.get("employeeId"),
+                map.get("email"),
+                map.get("name"),
+                map.get("teamCode"),
+                map.get("departmentCode"),
+                map.get("positionCode"),
+                15)
+        );
     }
 }

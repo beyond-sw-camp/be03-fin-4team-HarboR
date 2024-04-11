@@ -1,4 +1,4 @@
-package com.example.harbor_employee.Eworks.dto.response;
+package com.example.harbor_total.Annual.dto.response;
 
 import lombok.*;
 
@@ -8,7 +8,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class EworksAuthList {
+public class AuthListResDto {
     private List<Inform> firstAuthorizer;
     private List<Inform> secondAuthorizer;
     private List<Inform> thirdAuthorizer;
@@ -27,8 +27,8 @@ public class EworksAuthList {
                     .build();
         }
     }
-    public static EworksAuthList create(List<Inform> firstAuthorizer, List<Inform> secondAuthorizer, List<Inform> thirdAuthorizer){
-        return EworksAuthList.builder()
+    public static AuthListResDto create(List<Inform> firstAuthorizer, List<Inform> secondAuthorizer, List<Inform> thirdAuthorizer){
+        return AuthListResDto.builder()
                 .firstAuthorizer(firstAuthorizer)
                 .secondAuthorizer(secondAuthorizer)
                 .thirdAuthorizer(thirdAuthorizer)
