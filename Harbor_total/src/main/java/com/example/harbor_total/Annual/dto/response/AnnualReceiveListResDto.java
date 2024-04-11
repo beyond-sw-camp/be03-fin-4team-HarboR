@@ -1,4 +1,4 @@
-package com.example.harbor_employee.Eworks.dto.response;
+package com.example.harbor_total.Annual.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,14 +9,14 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class EworksReceiveListResDto {
-    private Long payId;
+public class AnnualReceiveListResDto {
+    private Long attendanceId;
     private String employeeId;
     private String statusCode;
 
-    public static EworksReceiveListResDto create(Long payId, String employeeId, String statusCode){
-        return EworksReceiveListResDto.builder()
-                .payId(payId)
+    public static AnnualReceiveListResDto create(Long attendanceId, String employeeId, String statusCode){
+        return AnnualReceiveListResDto.builder()
+                .attendanceId(attendanceId)
                 .employeeId(employeeId)
                 .statusCode(statusCode)
                 .build();

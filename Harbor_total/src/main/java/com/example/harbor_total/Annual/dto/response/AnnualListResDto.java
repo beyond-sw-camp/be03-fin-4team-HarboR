@@ -1,16 +1,17 @@
-package com.example.harbor_employee.Eworks.dto.response;
+package com.example.harbor_total.Annual.dto.response;
 
-import com.example.harbor_employee.Eworks.service.EworksService;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class EworksListResDto {
+public class AnnualListResDto {
     private String payStatusCode;
     private String firstApprovalId;
     private String secondApprovalId;
@@ -19,8 +20,8 @@ public class EworksListResDto {
     private String secondApprovalDate;
     private String thirdApprovalDate;
 
-    public static EworksListResDto create(String payStatusCode, String firstApprovalId, String firstApprovalDate, String secondApprovalId, String secondApprovalDate, String thirdApprovalId, String thirdApprovalDate) {
-        return EworksListResDto.builder()
+    public static AnnualListResDto create(String payStatusCode, String firstApprovalId, String firstApprovalDate, String secondApprovalId, String secondApprovalDate, String thirdApprovalId, String thirdApprovalDate) {
+        return AnnualListResDto.builder()
                 .payStatusCode(payStatusCode)
                 .firstApprovalId(firstApprovalId)
                 .firstApprovalDate(firstApprovalDate)

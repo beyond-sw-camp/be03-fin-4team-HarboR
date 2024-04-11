@@ -1,4 +1,4 @@
-package com.example.harbor_employee.Eworks.controller;
+package com.example.harbor_total.Annual.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

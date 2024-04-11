@@ -38,8 +38,9 @@ public class Attendance {
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
-    @OneToMany(mappedBy = "attendance")
-    private List<Annual> annuals;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "annual_id")
+    private Annual annuals;
 
     public static Attendance create(Employee employee, AttendanceFlexibleWorkReqDto attendanceFlexibleWorkReqDto) {
         return Attendance.builder()
