@@ -15,7 +15,7 @@ import java.sql.Time;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Commute {
+public class CommuteRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commuteId;

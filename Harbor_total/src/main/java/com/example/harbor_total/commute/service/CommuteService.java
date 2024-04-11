@@ -2,7 +2,7 @@ package com.example.harbor_total.commute.service;
 
 import com.example.harbor_total.Employee.domain.Employee;
 import com.example.harbor_total.Employee.repository.EmployeeRepository;
-import com.example.harbor_total.commute.domain.Commute;
+import com.example.harbor_total.commute.domain.CommuteRecord;
 import com.example.harbor_total.commute.repository.CommuteRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,14 +38,14 @@ public class CommuteService {
         }
 
         // 출근 기록을 생성합니다.
-        Commute commute = Commute.builder()
+        CommuteRecord commuteRecord = CommuteRecord.builder()
                 .attendanceTime(Time.valueOf(LocalTime.now()))
                 .attendanceDate(Date.valueOf(LocalDate.now()))
                 .employee(employee)
                 .build();
 
         // 출근 기록을 저장합니다.
-        commuteRepository.save(commute);
+        commuteRepository.save(commuteRecord);
 
         return "ok";
     }
@@ -57,14 +57,14 @@ public class CommuteService {
                 .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 사원 ID입니다."));
 
         // 오늘 날짜에 해당하는 출퇴근 기록을 찾습니다.
-        Commute commute = commuteRepository.findByEmployeeAndAttendanceDate(employee, Date.valueOf(LocalDate.now()))
+        CommuteRecord commuteRecord = commuteRepository.findByEmployeeAndAttendanceDate(employee, Date.valueOf(LocalDate.now()))
                 .orElseThrow(() -> new IllegalArgumentException("오늘 날짜에 해당하는 출퇴근 기록이 없습니다."));
 
         // 퇴근 시간을 현재 시간으로 설정합니다.
-        commute.setLeaveworkTime(Time.valueOf(LocalTime.now()));
+        commuteRecord.setLeaveworkTime(Time.valueOf(LocalTime.now()));
 
         // 출퇴근 기록을 저장합니다.
-        commuteRepository.save(commute);
+        commuteRepository.save(commuteRecord);
 
         return "ok";
     }

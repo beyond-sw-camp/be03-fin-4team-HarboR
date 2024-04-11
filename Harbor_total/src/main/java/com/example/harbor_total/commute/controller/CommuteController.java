@@ -1,6 +1,5 @@
 package com.example.harbor_total.commute.controller;
 
-import com.example.harbor_total.commute.domain.Commute;
 import com.example.harbor_total.commute.service.CommuteService;
 import com.example.harbor_total.global.common.CommonResponse;
 import org.springframework.beans.factory.annotation.Autowired;
