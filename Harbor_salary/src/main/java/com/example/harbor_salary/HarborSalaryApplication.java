@@ -8,7 +8,8 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @EnableFeignClients
-public class HarborSalaryApplication {
+public class
+HarborSalaryApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(HarborSalaryApplication.class, args);

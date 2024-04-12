@@ -347,16 +347,6 @@ const MainRoutes = {
       component: () => import('@/views/apps/users/account-profile/profile1/ProfilePage1.vue')
     },
     {
-      name: 'Profile 02',
-      path: '/app/user/account-profile/profile2',
-      component: () => import('@/views/apps/users/account-profile/profile2/ProfilePage2.vue')
-    },
-    {
-      name: 'Profile 03',
-      path: '/app/user/account-profile/profile3',
-      component: () => import('@/views/apps/users/account-profile/profile3/ProfilePage3.vue')
-    },
-    {
       name: 'Style 01',
       path: '/app/user/card/card1',
       component: () => import('@/views/apps/users/card/CardStyle1.vue')

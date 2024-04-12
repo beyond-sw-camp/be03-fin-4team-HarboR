@@ -5,12 +5,21 @@ import { useUserCardStore } from '@/stores/apps/UserCard';
 import type { Header } from 'vue3-easy-data-table';
 import 'vue3-easy-data-table/dist/style.css';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
-
+import { useCodeStore } from '@/stores/codetrans';
 const store = useUserCardStore();
-
+const codeStore = useCodeStore();
 onMounted(() => {
   store.fetchlistCards();
 });
+const getPositionName = (position) => {
+  return codeStore.getPositionNameByCode(position);
+};
+const getDepartmentName = (department) => {
+  return codeStore.getDepartmentNameByCode(department);
+};
+const getTeamName = (team) => {
+  return codeStore.getTeamNameByCode(team);
+};
 type ListItem = {
   avatar: string;
   email: string;
@@ -70,9 +79,9 @@ const themeColor = ref('rgb(var(--v-theme-secondary))');
               <div class="d-flex align-center ga-4">
                 <div>
                   <h5 class="text-h5">
-                    {{ team }}
+                    {{  getTeamName(team) }} 
                   </h5>
-                  <small class="text-subtitle">{{ department }}</small>
+                  <small class="text-subtitle"> {{ getDepartmentName(department) }} </small>
                 </div>
               </div>
             </template>
@@ -83,7 +92,7 @@ const themeColor = ref('rgb(var(--v-theme-secondary))');
             </template>
             <template #item-position="{ position }">
               <div>
-                {{ position.slice(0, 2) }}
+                {{getPositionName(position)}}
               </div>
             </template>
             <template #item-operation>
