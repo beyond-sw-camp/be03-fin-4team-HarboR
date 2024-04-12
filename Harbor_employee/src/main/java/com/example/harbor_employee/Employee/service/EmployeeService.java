@@ -138,7 +138,8 @@ public class EmployeeService {
 
         Path path = Paths.get("/Users/song/Desktop/코딩공부/tmp", employee.getEmployeeId() + "_" + fileName);
         employee.setImage(path.toString());
-        employee.updateEmployee(path.toString(),request.getPhone());
+        employee.updateEmployee(path.toString(),request.getPhone(),request.getAddress());
+
         try {
             byte[] bytes = multipartFile.getBytes();
             Files.write(path, bytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE); // 없으면 넣고 있으면 덮어쓰기

@@ -13,7 +13,12 @@ spring:
     database-platform: org.hibernate.dialect.MariaDBDialect
     generate-ddl: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        highlight_sql: true
     show-sql: true
   # eureka ??? ?? name?? ??? ?? ??.
 eureka:
@@ -26,4 +31,9 @@ eureka:
 logging:
   level:
     root: info
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+jwt:
+  expiration: 30
+  secretKey: CE254B51A873FD7C90C9338C534787FFCDEA4DC217B49AF2CB7DA54661418349
 url: "http://localhost:8000"

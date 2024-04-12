@@ -1,11 +1,9 @@
 package com.example.harbor_employee.Employee.domain;
 
 import com.example.harbor_employee.Employee.dto.response.ExcelEmployeeDto;
-import com.example.harbor_employee.Eworks.domain.Eworks;
 import com.example.harbor_employee.PersonnelAppointment.domain.PersonnelAppointment;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -88,9 +86,6 @@ public class Employee {
     private String departmentCode;
 
     @OneToMany(mappedBy = "employee")
-    private List<Eworks> eworks = new ArrayList<>();
-
-    @OneToMany(mappedBy = "employee")
     private List<PersonnelAppointment> personnelAppointmentList = new ArrayList<>();
 
     public static Employee createLogin(String email, String birth, String name,String employeeId) {
@@ -113,10 +108,11 @@ public class Employee {
         this.departmentCode = pa.getAfterDepartmentCode();
     }
 
-    public void updateEmployee(String updateimage, String phone) {
+    public void updateEmployee(String updateimage, String phone, String address) {
 
         this.profileImage = updateimage;
         this.phone = phone;
+        this.address = address;
     }
 
     public void updateEmployee(ExcelEmployeeDto excelEmployeeDto) {
