@@ -30,11 +30,11 @@ public class AnnualController {
      * @param annualCreateReqDto
      * @return
      */
-    @PostMapping("/create")
-    public ResponseEntity createEworks(@RequestBody AnnualCreateReqDto annualCreateReqDto){
-        annualService.create(annualCreateReqDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(HttpStatus.CREATED);
-    }
+//    @PostMapping("/create")
+//    public ResponseEntity createEworks(@RequestBody AnnualCreateReqDto annualCreateReqDto){
+//        annualService.create(annualCreateReqDto);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(HttpStatus.CREATED);
+//    }
 
     /**
      * 개인 별 요청 전자 결재 리스트 조회 API
