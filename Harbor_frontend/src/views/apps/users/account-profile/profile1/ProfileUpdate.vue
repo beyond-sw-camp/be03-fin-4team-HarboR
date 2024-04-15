@@ -69,7 +69,7 @@ async function update() {
             <v-btn color="primary" style="position: relative; overflow: hidden;">
               <input type="file" accept="image/*" @change="fileUpload"
                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;">
-              사진변경
+              사진변경 (test)
             </v-btn>
           </v-card-text>
         </v-card>
