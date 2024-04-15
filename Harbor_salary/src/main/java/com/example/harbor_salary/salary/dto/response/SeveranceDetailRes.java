@@ -1,13 +1,9 @@
-package com.example.harbor_salary.dto.response;
+package com.example.harbor_salary.salary.dto.response;
 
-import com.example.harbor_salary.domain.Salary;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
 @Builder

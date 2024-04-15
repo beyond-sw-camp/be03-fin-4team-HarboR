@@ -1,6 +1,6 @@
-package com.example.harbor_salary.dto.response;
+package com.example.harbor_salary.salary.dto.response;
 
-import com.example.harbor_salary.domain.SalaryCode;
+import com.example.harbor_salary.salary.domain.SalaryCode;
 import lombok.Builder;
 import lombok.Data;
 

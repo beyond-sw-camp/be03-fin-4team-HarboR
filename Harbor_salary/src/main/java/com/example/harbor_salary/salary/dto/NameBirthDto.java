@@ -1,4 +1,4 @@
-package com.example.harbor_salary.dto;
+package com.example.harbor_salary.salary.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
