@@ -61,20 +61,20 @@ public class EmployeeController {
         List<EmployeeResDto> employees = employeeService.findAll(employeeSearchDto, pageable);
         return new ResponseEntity<>(employees, HttpStatus.OK);
     }
-
-    /**
-     * @param employeeId: 인증 정보에 담긴 name을 이용(employeeId)
-     * @return 인증된 사용자의 상세 정보 조회
-     */
     @GetMapping("/get/{employeeId}/detail")
     public ResponseEntity<CommonResponse> getEmployeeDetail(@PathVariable(name = "employeeId") String employeeId) {
         return new ResponseEntity<>(new CommonResponse("유저 정보 자세히 보기", employeeService.findByEmployeeId(employeeId)), HttpStatus.OK);
     }
+    /**
+     * @param employeeId: 인증 정보에 담긴 name을 이용(employeeId)
+     * @return 인증된 사용자의 상세 정보 조회
+     */
 
     //    front에서 admin도 수정 api가 보이는 식으로
     @PatchMapping("/{employeeId}/update")
     public ResponseEntity<CommonResponse> updateEmployee(@PathVariable(name = "employeeId") String employeeId, EmployeeUpdateRequestDto request) {
-        System.out.println("0");
+        System.out.println("request = " + request);
+        System.out.println("update");
         return new ResponseEntity<>(new CommonResponse("유저 정보 업데이트",employeeService.updateEmployee(request,employeeId)), HttpStatus.OK);
     }
 

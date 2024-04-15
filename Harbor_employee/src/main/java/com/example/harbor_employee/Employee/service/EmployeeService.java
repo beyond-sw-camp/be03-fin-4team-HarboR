@@ -68,6 +68,9 @@ public class EmployeeService {
                         .team(e.getTeamCode())
                         .position(e.getPositionCode())
                         .name(e.getName())
+                        .profileImagePath(e.getProfileImage())
+                        .email(e.getEmail())
+                        .phone(e.getPhone())
                         .build()).collect(Collectors.toList());
         return employeeResDtos;
     }
