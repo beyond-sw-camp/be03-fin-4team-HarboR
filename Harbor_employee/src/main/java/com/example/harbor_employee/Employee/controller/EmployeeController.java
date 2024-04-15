@@ -73,7 +73,8 @@ public class EmployeeController {
     //    front에서 admin도 수정 api가 보이는 식으로
     @PatchMapping("/{employeeId}/update")
     public ResponseEntity<CommonResponse> updateEmployee(@PathVariable(name = "employeeId") String employeeId, EmployeeUpdateRequestDto request) {
-        System.out.println("0");
+        System.out.println("request = " + request);
+        System.out.println("update");
         return new ResponseEntity<>(new CommonResponse("유저 정보 업데이트",employeeService.updateEmployee(request,employeeId)), HttpStatus.OK);
     }
 

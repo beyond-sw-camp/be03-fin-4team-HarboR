@@ -25,12 +25,6 @@ const emailRules = ref([(v: string) => !!v || '이메일을 입력해주세요',
 
 async function validate() {
   try {
-    // let loginData = {
-    //   email : string,
-    //   name : string,
-    //   password : string,
-
-    // }
     // v-form 컴포넌트의 validate 메서드를 호출하여 입력 값의 유효성을 검사합니다.
     const isValid = await Regform.value.validate();
     // 유효성 검사에 실패하면 함수를 종료합니다.
