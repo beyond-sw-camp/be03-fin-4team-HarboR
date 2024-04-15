@@ -13,14 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Date;
-import java.time.LocalDate;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Arrays;
-import java.util.Collections;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.Optional;
 
 import static com.example.harbor_total.global.support.Code.*;
 
@@ -97,7 +94,6 @@ public class AttendanceService {
         if (workStartTime.isBefore(startRange) || workStartTime.isAfter(endRange)) {
             throw new IllegalArgumentException("오전 8시에서 오전 10시 사이에만 가능합니다.");
         }
-        System.out.println("1");
         List<Attendance> byWorkStartTimeBetween =
                 attendanceRepository.findByWorkStartTimeBetweenAndEmployeeEmployeeId(
                         attendanceFlexibleWorkReqDto.getWorkStartTime(),
@@ -106,22 +102,58 @@ public class AttendanceService {
             throw new IllegalArgumentException("이미 신청이 되어있습니다.");
         }
         Employee employee = employeeRepository.findByEmployeeId(employeeId).orElseThrow(() -> new IllegalArgumentException("없는 회원입니다."));
-        System.out.println(employee.getEmployeeId());
 
         //  유연 근무제 생성
         Attendance attendance = Attendance.create(employee, attendanceFlexibleWorkReqDto);
         // 저장
         attendanceRepository.save(attendance);
         // dto 반환
-        return AttendanceListResDto.toDto(attendance, attendanceFlexibleWorkReqDto);
+        return AttendanceListResDto.toDto(attendance, attendanceFlexibleWorkReqDto,employeeId);
     }
 
     //   휴가 신청
     private AttendanceListResDto requestvacation(AttendanceFlexibleWorkReqDto attendanceFlexibleWorkReqDto, String employeeId) {
-
-        log.info("휴가 신청");
+        if (attendanceFlexibleWorkReqDto.getThirdSignId().isBlank() || attendanceFlexibleWorkReqDto.getFirstSignId().isBlank() || attendanceFlexibleWorkReqDto.getSecondSignId().isBlank()) {
+            throw new IllegalArgumentException("결재 받을 사람이 없어요");
+        }
         checkwork(attendanceFlexibleWorkReqDto, employeeId);
-        return null;
+        Employee employee = employeeRepository.findByEmployeeId(employeeId).orElseThrow(() -> new IllegalArgumentException("없는 회원입니다."));
+
+        // Attendance 엔티티 생성 및 저장
+        Attendance attendance = Attendance.create(employee, attendanceFlexibleWorkReqDto);
+        attendanceRepository.save(attendance);
+
+        // 휴가 기간에 따른 연차 사용량 계산
+        Duration duration = Duration.between(attendanceFlexibleWorkReqDto.getWorkStartTime(), attendanceFlexibleWorkReqDto.getWorkEndTime());
+        double useAnnual = duration.toHours() <= 4 ? 0.5 : ChronoUnit.DAYS.between(
+                attendanceFlexibleWorkReqDto.getWorkStartTime().toLocalDate(),
+                attendanceFlexibleWorkReqDto.getWorkEndTime().toLocalDate()) + 1;
+
+        double remainVacation = employee.getAnnualRemain() - useAnnual;
+        if (remainVacation < 0) {
+            throw new IllegalArgumentException("남은 휴가일 보다 사용 휴가일이 더 많습니다.");
+        }
+
+        // Annual 엔티티 생성
+        Annual annual = Annual.create(
+                remainVacation,
+                attendanceFlexibleWorkReqDto.getWorkStartTime(),
+                attendanceFlexibleWorkReqDto.getWorkEndTime(),
+                attendanceFlexibleWorkReqDto.getAdjustmentComment(),
+                attendanceFlexibleWorkReqDto.getFirstSignId(),
+                attendanceFlexibleWorkReqDto.getSecondSignId(),
+                attendanceFlexibleWorkReqDto.getThirdSignId(),
+                attendance
+        );
+        // Annual 엔티티 저장
+        annualRepository.save(annual);
+
+        // Attendance 엔티티의 annual 필드 업데이트
+        attendance.updateAttendanceId(annual);
+
+        employee.updateRemain_Annual(remainVacation);
+        // DTO 반환
+        return AttendanceListResDto.toDto(annual, attendanceFlexibleWorkReqDto, employeeId);
     }
 
 //    출장신청
@@ -133,6 +165,4 @@ public class AttendanceService {
 
         return null;
     }
-
-
 }

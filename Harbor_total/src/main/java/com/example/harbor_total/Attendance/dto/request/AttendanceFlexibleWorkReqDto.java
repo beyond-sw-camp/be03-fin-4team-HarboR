@@ -10,6 +10,7 @@ public class AttendanceFlexibleWorkReqDto {
 
     private LocalDateTime workStartTime;
     private LocalDateTime workEndTime;
+    private String adjustmentComment;
     private String workPolicy;
     private String firstSignId;
     private String secondSignId;
