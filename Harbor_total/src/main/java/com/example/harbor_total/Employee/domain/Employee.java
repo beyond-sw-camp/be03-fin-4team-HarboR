@@ -12,12 +12,13 @@ import javax.persistence.*;
 import java.util.List;
 
 /*
-* employeeId: 사원 번호(PK)
-* email: 이메일
-* name: 이름
-* teamName: 소속팀(FK)
-* annualRemain: 잔여 연차
-* */
+
+ * employeeId: 사원 번호(PK)
+ * email: 이메일
+ * name: 이름
+ * teamName: 소속팀(FK)
+ * annualRemain: 잔여 연차
+ * */
 @Getter
 @EntityListeners(AuditingEntityListener.class)
 @Entity
