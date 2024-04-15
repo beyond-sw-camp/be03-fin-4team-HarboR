@@ -1,6 +1,6 @@
 package com.example.harbor_salary.client;
 
-import com.example.harbor_salary.dto.NameBirthDto;
+import com.example.harbor_salary.salary.dto.NameBirthDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -1,17 +1,17 @@
-package com.example.harbor_salary.service;
+package com.example.harbor_salary.salary.service;
 
 import com.example.harbor_salary.client.GetEmployResponse;
 import com.example.harbor_salary.client.GetUsersResponse;
 import com.example.harbor_salary.client.SalaryClient;
 import com.example.harbor_salary.client.SalaryEmployeeClient;
-import com.example.harbor_salary.domain.Salary;
-import com.example.harbor_salary.domain.SalaryCode;
-import com.example.harbor_salary.dto.NameBirthDto;
-import com.example.harbor_salary.dto.request.MySalaryRequest;
-import com.example.harbor_salary.dto.response.MySalaryDetailResponse;
-import com.example.harbor_salary.dto.response.SeveranceDetailRes;
-import com.example.harbor_salary.repository.SalaryCodeRepository;
-import com.example.harbor_salary.repository.SalaryRepository;
+import com.example.harbor_salary.salary.domain.Salary;
+import com.example.harbor_salary.salary.domain.SalaryCode;
+import com.example.harbor_salary.salary.dto.NameBirthDto;
+import com.example.harbor_salary.salary.dto.request.MySalaryRequest;
+import com.example.harbor_salary.salary.dto.response.MySalaryDetailResponse;
+import com.example.harbor_salary.salary.dto.response.SeveranceDetailRes;
+import com.example.harbor_salary.salary.repository.SalaryCodeRepository;
+import com.example.harbor_salary.salary.repository.SalaryRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,8 +20,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.example.harbor_salary.dto.response.SeveranceDetailRes.makeDetailRes;
 
 @Service
 @Slf4j
@@ -146,7 +144,7 @@ public class SalaryService {
 
 
     public SeveranceDetailRes severanceDetail(String employeeId) {
-        int SP =  severancePay(employeeId);
+        int SP = severancePay(employeeId);
         NameBirthDto nameBirthDto = salaryEmployeeClient.getNameBirth(employeeId);
         return SeveranceDetailRes.makeDetailRes(
                 employeeId,

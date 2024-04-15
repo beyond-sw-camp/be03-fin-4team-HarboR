@@ -1,14 +1,13 @@
-package com.example.harbor_salary.controller;
+package com.example.harbor_salary.salary.controller;
 
 import com.example.harbor_salary.client.SalaryEmployeeClient;
-import com.example.harbor_salary.config.CustomUserDetails;
-import com.example.harbor_salary.domain.Salary;
+import com.example.harbor_salary.global.config.CustomUserDetails;
+import com.example.harbor_salary.salary.domain.Salary;
 import com.example.harbor_salary.client.SalaryClient;
-import com.example.harbor_salary.dto.request.MySalaryRequest;
-import com.example.harbor_salary.dto.response.MySalaryDetailResponse;
-import com.example.harbor_salary.global.common.CommonResponse;
-import com.example.harbor_salary.dto.response.SeveranceDetailRes;
-import com.example.harbor_salary.service.SalaryService;
+import com.example.harbor_salary.salary.dto.request.MySalaryRequest;
+import com.example.harbor_salary.salary.dto.response.MySalaryDetailResponse;
+import com.example.harbor_salary.salary.dto.response.SeveranceDetailRes;
+import com.example.harbor_salary.salary.service.SalaryService;
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController

@@ -1,11 +1,8 @@
-package com.example.harbor_salary.repository;
+package com.example.harbor_salary.salary.repository;
 
-import com.example.harbor_salary.domain.Salary;
-import com.example.harbor_salary.domain.SalaryCode;
+import com.example.harbor_salary.salary.domain.SalaryCode;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 public interface SalaryCodeRepository extends JpaRepository<SalaryCode, String> {

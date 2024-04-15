@@ -1,7 +1,7 @@
-package com.example.harbor_salary.config;
+package com.example.harbor_salary.global.config;
 
 
-import com.example.harbor_salary.filter.JwtAuthFilter;
+import com.example.harbor_salary.global.filter.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

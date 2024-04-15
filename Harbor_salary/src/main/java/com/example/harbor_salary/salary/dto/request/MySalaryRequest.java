@@ -1,4 +1,4 @@
-package com.example.harbor_salary.dto.request;
+package com.example.harbor_salary.salary.dto.request;
 
 import lombok.Builder;
 import lombok.Data;

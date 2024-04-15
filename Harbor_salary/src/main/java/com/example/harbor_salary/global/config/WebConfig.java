@@ -1,4 +1,4 @@
-package com.example.harbor_salary.config;
+package com.example.harbor_salary.global.config;
 
 //CORS 설정 vue 사용시 포트 달라지기 때문
 
