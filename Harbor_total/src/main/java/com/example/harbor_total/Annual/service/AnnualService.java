@@ -14,6 +14,7 @@ import com.example.harbor_total.Employee.repository.EmployeeRepository;
 import com.example.harbor_total.global.support.Approval;
 import com.example.harbor_total.global.support.Department;
 import com.example.harbor_total.global.support.Position;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -34,22 +35,22 @@ public class AnnualService {
         this.attendanceRepository = attendanceRepository;
     }
 
-//    public void create(AnnualCreateReqDto annualCreateReqDto){
-//        Attendance attendance = attendanceRepository.findById(annualCreateReqDto.getAttendenceId())
-//                .orElseThrow(() -> new IllegalArgumentException("해당하는 근무가 없습니다."));
-//        Annual annual = Annual.create(
-//                annualCreateReqDto.getAttendenceId(),
-//                annualCreateReqDto.getAnnualCount(),
-//                annualCreateReqDto.getAdjustmentStartDate(),
-//                annualCreateReqDto.getAdjustmentEndDate(),
-//                annualCreateReqDto.getAdjustmentComment(),
-//                annualCreateReqDto.getFirstSignId(),
-//                annualCreateReqDto.getSecondSignId(),
-//                annualCreateReqDto.getThirdSignId()
-//                );
-//        attendance.setAnnual(annual);
-//        annualRepository.save(annual);
-//    }
+    public void create(AnnualCreateReqDto annualCreateReqDto){
+        Attendance attendance = attendanceRepository.findById(annualCreateReqDto.getAttendenceId())
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 근무가 없습니다."));
+        Annual annual = Annual.create(
+                annualCreateReqDto.getAnnualCount(),
+                annualCreateReqDto.getAdjustmentStartDate(),
+                annualCreateReqDto.getAdjustmentEndDate(),
+                annualCreateReqDto.getAdjustmentComment(),
+                annualCreateReqDto.getFirstSignId(),
+                annualCreateReqDto.getSecondSignId(),
+                annualCreateReqDto.getThirdSignId(),
+                attendance
+                );
+        attendance.updateAttendanceId(annual);
+        annualRepository.save(annual);
+    }
 
     public List<AnnualListResDto> getSendList(String employeeId) {
         Employee employee = employeeRepository.findByEmployeeId(employeeId).orElseThrow(() ->
@@ -205,5 +206,16 @@ public class AnnualService {
                 else annual.updateCompanion(Approval.THIRD);
             }
         }
+    }
+
+    public HttpStatus deleteAnnual(Long annualId) {
+        Attendance attendance = attendanceRepository.findByAttendanceId(annualId)
+                .orElseThrow(() -> new IllegalArgumentException("결재 정보를 조회할 수 없습니다."));
+        try{
+            attendanceRepository.delete(attendance);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return HttpStatus.OK;
     }
 }

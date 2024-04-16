@@ -1,7 +1,5 @@
 package com.example.harbor_total.Annual.controller;
 
-
-import com.example.harbor_total.Annual.dto.request.AnnualCreateReqDto;
 import com.example.harbor_total.Annual.dto.request.ApprovalReqDto;
 import com.example.harbor_total.Annual.service.AnnualService;
 import com.example.harbor_total.global.common.CommonResponse;
@@ -62,6 +60,11 @@ public class AnnualController {
     @GetMapping("/read/authlist/{employeeId}")
     public ResponseEntity<CommonResponse> getAuthList(@PathVariable("employeeId") String employeeId){
         return new ResponseEntity<>(new CommonResponse("승인권자 리스트 출력 완료", annualService.getAuthList(employeeId)), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{annualId}")
+    public HttpStatus deleteAnnual(@PathVariable("annualId") Long annualId){
+        return annualService.deleteAnnual(annualId);
     }
 
     /**

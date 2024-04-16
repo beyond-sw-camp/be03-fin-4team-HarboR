@@ -43,8 +43,8 @@ public class Annual {
     private String firstApprovalDate;
     private String secondApprovalDate;
     private String thirdApprovalDate;
-    private Boolean adjustment_delYn = false;
-    @OneToOne(mappedBy = "annuals", cascade = CascadeType.ALL)
+    private String adjustment_delYn;
+    @OneToOne(mappedBy = "annuals")
     private Attendance attendance;
 
     public static Annual create(Double annualCount, LocalDateTime adjustmentDate, LocalDateTime adjustmentEndDate, String adjustmentComment, String firstSignId, String secondSignId, String thirdSignId, Attendance attendance){
@@ -81,7 +81,7 @@ public class Annual {
     }
 
     public void updateDelYN(){
-        if(this.adjustment_delYn) this.adjustment_delYn = false;
-        this.adjustment_delYn = true;
+        if(adjustment_delYn.equals("Y")) this.adjustment_delYn = "N";
+        this.adjustment_delYn = "Y";
     }
 }
