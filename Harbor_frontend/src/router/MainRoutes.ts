@@ -430,6 +430,11 @@ const MainRoutes = {
       name: 'TestCalender',
       path: '/testcalendar',
       component: () => import('@/views/apps/test/TestCalendar.vue')
+    },
+    {
+      name: 'TestTimeline',
+      path: '/testtimeline',
+      component: () => import('@/views/apps/test/GSTC.vue')
     }
   ]
 };

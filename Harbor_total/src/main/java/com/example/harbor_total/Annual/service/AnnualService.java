@@ -16,6 +16,8 @@ import com.example.harbor_total.global.support.Department;
 import com.example.harbor_total.global.support.Position;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +47,7 @@ public class AnnualService {
                 annualCreateReqDto.getSecondSignId(),
                 annualCreateReqDto.getThirdSignId()
                 );
+        attendance.setAnnual(annual);
         annualRepository.save(annual);
     }
 
@@ -74,15 +77,40 @@ public class AnnualService {
         List<Annual> annualList = annualRepository.findAllByFirstSignIdOrSecondSignIdOrThirdSignId(employeeId);
         List<AnnualReceiveListResDto> eworksListResDtos = new ArrayList<>();
         for(Annual annual : annualList){
-            Attendance attendance = attendanceRepository.findById(annual.getAnnualId())
-                    .orElseThrow(() -> new IllegalArgumentException("근태 정보를 조회할 수 없습니다."));
-            AnnualReceiveListResDto eworksListResDto = AnnualReceiveListResDto.create(
-                    annual.getAnnualId(),
-                    employeeId,
-                    attendance.getWorkPolicy());
-            eworksListResDtos.add(eworksListResDto);
+            if(checkApproval(annual, employeeId) != null){
+                Attendance attendance = attendanceRepository.findById(annual.getAnnualId())
+                        .orElseThrow(() -> new IllegalArgumentException("근태 정보를 조회할 수 없습니다."));
+                AnnualReceiveListResDto eworksListResDto = AnnualReceiveListResDto.create(
+                        annual.getAnnualId(),
+                        employeeId,
+                        attendance.getWorkPolicy());
+                eworksListResDtos.add(eworksListResDto);
+            }
         }
         return eworksListResDtos;
+    }
+
+    private Annual checkApproval(Annual annual, String employeeId) {
+        LocalDateTime startDate = LocalDate.now().atStartOfDay();
+        LocalDateTime endDate = LocalDate.now().atTime(23, 59, 59);
+
+        if(annual.getFirstSignId().equals(employeeId) && annual.getFirstApprovalDate() == null){
+            return annual;
+        } else if(annual.getSecondSignId() != null && annual.getSecondSignId().equals(employeeId)){
+            // 1차 승인권자가 휴가인지 체크 ( 리스트가 비어있다면 휴가 처리 )
+            List<Attendance> attendanceList = attendanceRepository.findByWorkStartTimeBetweenAndEmployeeEmployeeId(startDate, endDate, annual.getFirstSignId());
+            if(annual.getFirstApprovalDate() != null || !attendanceList.isEmpty() && attendanceList.get(0).getWorkPolicy().equals("E07")){
+                if(annual.getSecondApprovalDate() == null)
+                    return annual;
+            }
+        } else if(annual.getSecondSignId() != null && annual.getThirdSignId().equals(employeeId)){
+            List<Attendance> attendanceList = attendanceRepository.findByWorkStartTimeBetweenAndEmployeeEmployeeId(startDate, endDate, annual.getSecondSignId());
+            if(annual.getSecondApprovalDate() != null || !attendanceList.isEmpty() && attendanceList.get(0).getWorkPolicy().equals("E07")){
+                if(annual.getThirdApprovalDate() == null)
+                    return annual;
+            }
+        }
+        return null;
     }
 
     public AuthListResDto getAuthList(String employeeId) {

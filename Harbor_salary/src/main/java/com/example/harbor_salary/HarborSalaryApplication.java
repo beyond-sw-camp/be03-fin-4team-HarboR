@@ -13,9 +13,4 @@ public class HarborSalaryApplication {
     public static void main(String[] args) {
         SpringApplication.run(HarborSalaryApplication.class, args);
     }
-
-    @Bean
-    public Logger.Level feignLoggerLevel(){
-        return Logger.Level.FULL;
-    }
 }

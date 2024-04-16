@@ -19,6 +19,8 @@ public interface AnnualRepository extends JpaRepository<Annual, Long> {
         LocalDateTime endDate1, LocalDateTime startDate1,
         LocalDateTime startDate2, LocalDateTime endDate2);
 
+
+
     @Query("SELECT e FROM Annual e WHERE e.firstSignId = :employeeId OR e.secondSignId = :employeeId OR e.thirdSignId = :employeeId")
     List<Annual> findAllByFirstSignIdOrSecondSignIdOrThirdSignId(@Param(value = "employeeId") @NotEmpty String employeeId);
 }

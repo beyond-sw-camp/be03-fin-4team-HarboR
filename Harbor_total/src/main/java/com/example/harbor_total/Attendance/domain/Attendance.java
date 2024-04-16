@@ -50,6 +50,9 @@ public class Attendance {
                 .employee(employee)
                 .build();
     }
+    public void setAnnual(Annual annual){
+        this.annuals = annual;
+    }
 }
 /*
 * attendanceId: 근태 번호(PK, AUTO)
