@@ -136,7 +136,7 @@ public class AttendanceService {
 
         // Annual 엔티티 생성
         Annual annual = Annual.create(
-                remainVacation,
+                useAnnual,
                 attendanceFlexibleWorkReqDto.getWorkStartTime(),
                 attendanceFlexibleWorkReqDto.getWorkEndTime(),
                 attendanceFlexibleWorkReqDto.getAdjustmentComment(),
