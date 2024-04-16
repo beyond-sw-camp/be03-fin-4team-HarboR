@@ -50,7 +50,6 @@ public class Attendance {
                 .employee(employee)
                 .build();
     }
-
     public void updateAttendanceId(Annual annuals) {
         this.annuals = annuals;
     }
