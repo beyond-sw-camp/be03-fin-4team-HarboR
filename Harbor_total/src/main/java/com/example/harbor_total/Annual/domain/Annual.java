@@ -31,6 +31,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class Annual {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long annualId;
     private Double annualCount;
     private LocalDateTime adjustmentDate;
@@ -43,10 +44,11 @@ public class Annual {
     private String secondApprovalDate;
     private String thirdApprovalDate;
     private Boolean adjustment_delYn = false;
+    @OneToOne(mappedBy = "annuals", cascade = CascadeType.ALL)
+    private Attendance attendance;
 
-    public static Annual create(Long attendanceId, Double annualCount, LocalDateTime adjustmentDate, LocalDateTime adjustmentEndDate, String adjustmentComment, String firstSignId, String secondSignId, String thirdSignId){
+    public static Annual create(Double annualCount, LocalDateTime adjustmentDate, LocalDateTime adjustmentEndDate, String adjustmentComment, String firstSignId, String secondSignId, String thirdSignId, Attendance attendance){
         return Annual.builder()
-                .annualId(attendanceId)
                 .annualCount(annualCount)
                 .adjustmentDate(adjustmentDate)
                 .adjustmentEndDate(adjustmentEndDate)
@@ -54,6 +56,7 @@ public class Annual {
                 .firstSignId(firstSignId)
                 .secondSignId(secondSignId)
                 .thirdSignId(thirdSignId)
+                .attendance(attendance)
                 .build();
     }
 

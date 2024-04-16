@@ -34,7 +34,7 @@ const breadcrumbs = shallowRef([
     </v-col>
     <v-col cols="12" xl="4" md="6" sm="12">
       <UiParentCard title="Show adjacent months">
-        <v-date-picker width="320" show-adjacent-months></v-date-picker>
+        <v-date-picker width="800" show-adjacent-months></v-date-picker>
       </UiParentCard>
     </v-col>
   </v-row>

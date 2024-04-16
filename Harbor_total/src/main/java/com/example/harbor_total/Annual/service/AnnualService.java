@@ -34,22 +34,22 @@ public class AnnualService {
         this.attendanceRepository = attendanceRepository;
     }
 
-    public void create(AnnualCreateReqDto annualCreateReqDto){
-        Attendance attendance = attendanceRepository.findById(annualCreateReqDto.getAttendenceId())
-                .orElseThrow(() -> new IllegalArgumentException("해당하는 근무가 없습니다."));
-        Annual annual = Annual.create(
-                annualCreateReqDto.getAttendenceId(),
-                annualCreateReqDto.getAnnualCount(),
-                annualCreateReqDto.getAdjustmentStartDate(),
-                annualCreateReqDto.getAdjustmentEndDate(),
-                annualCreateReqDto.getAdjustmentComment(),
-                annualCreateReqDto.getFirstSignId(),
-                annualCreateReqDto.getSecondSignId(),
-                annualCreateReqDto.getThirdSignId()
-                );
-        attendance.setAnnual(annual);
-        annualRepository.save(annual);
-    }
+//    public void create(AnnualCreateReqDto annualCreateReqDto){
+//        Attendance attendance = attendanceRepository.findById(annualCreateReqDto.getAttendenceId())
+//                .orElseThrow(() -> new IllegalArgumentException("해당하는 근무가 없습니다."));
+//        Annual annual = Annual.create(
+//                annualCreateReqDto.getAttendenceId(),
+//                annualCreateReqDto.getAnnualCount(),
+//                annualCreateReqDto.getAdjustmentStartDate(),
+//                annualCreateReqDto.getAdjustmentEndDate(),
+//                annualCreateReqDto.getAdjustmentComment(),
+//                annualCreateReqDto.getFirstSignId(),
+//                annualCreateReqDto.getSecondSignId(),
+//                annualCreateReqDto.getThirdSignId()
+//                );
+//        attendance.setAnnual(annual);
+//        annualRepository.save(annual);
+//    }
 
     public List<AnnualListResDto> getSendList(String employeeId) {
         Employee employee = employeeRepository.findByEmployeeId(employeeId).orElseThrow(() ->

@@ -69,7 +69,7 @@ const sidebarItem: menu[] = [
   {
     title: '사원 목록',
     icon: DeviceAnalyticsIcon,
-    to: '/dashboard/analytics'
+    to: '/app/user/list'
   },
   {
     title: '사원 승인(인사과)',

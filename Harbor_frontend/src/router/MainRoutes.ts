@@ -342,19 +342,9 @@ const MainRoutes = {
       component: () => import('@/views/apps/users/social-profile/GalleryPage.vue')
     },
     {
-      name: 'Profile 01',
-      path: '/app/user/account-profile/profile1',
+      name: 'Profile',
+      path: '/app/user/:employeeId/profile',
       component: () => import('@/views/apps/users/account-profile/profile1/ProfilePage1.vue')
-    },
-    {
-      name: 'Profile 02',
-      path: '/app/user/account-profile/profile2',
-      component: () => import('@/views/apps/users/account-profile/profile2/ProfilePage2.vue')
-    },
-    {
-      name: 'Profile 03',
-      path: '/app/user/account-profile/profile3',
-      component: () => import('@/views/apps/users/account-profile/profile3/ProfilePage3.vue')
     },
     {
       name: 'Style 01',
@@ -373,8 +363,9 @@ const MainRoutes = {
     },
     {
       name: 'List',
-      path: '/app/user/list1',
-      component: () => import('@/views/apps/users/list/ListPage1.vue')
+      path: '/app/user/list',
+      component: () => import('@/views/apps/users/list/ListPage1.vue'),
+      props: true
     },
     {
       name: 'List2',

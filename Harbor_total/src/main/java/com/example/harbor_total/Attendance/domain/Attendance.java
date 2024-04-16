@@ -50,8 +50,8 @@ public class Attendance {
                 .employee(employee)
                 .build();
     }
-    public void setAnnual(Annual annual){
-        this.annuals = annual;
+    public void updateAttendanceId(Annual annuals) {
+        this.annuals = annuals;
     }
 }
 /*

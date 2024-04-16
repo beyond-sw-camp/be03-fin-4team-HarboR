@@ -99,7 +99,7 @@ const horizontalItems: menu[] = [
             to: '/app/user/account-profile',
             children: [
               {
-                title: 'Profile 01',
+                title: 'Profile',
                 icon: CircleIcon,
                 to: '/app/user/account-profile/profile1'
               },
@@ -145,7 +145,7 @@ const horizontalItems: menu[] = [
               {
                 title: 'Style 01',
                 icon: CircleIcon,
-                to: '/app/user/list1'
+                to: '/app/user/list'
               },
               {
                 title: 'Style 02',
@@ -530,113 +530,39 @@ const horizontalItems: menu[] = [
         to: '/auth',
         children: [
           {
-            title: 'Auth 1',
+            title: 'Auth',
             icon: CircleIcon,
             to: '/auth/login',
             children: [
               {
                 title: 'Login',
                 icon: CircleIcon,
-                to: '/auth/login1'
+                to: '/auth/login'
               },
               {
                 title: 'Register',
                 icon: CircleIcon,
-                to: '/auth/register1'
+                to: '/auth/register'
               },
               {
                 title: 'Forgot Password',
                 icon: CircleIcon,
-                to: '/auth/forgot-pwd1'
+                to: '/auth/forgot-pwd'
               },
               {
                 title: 'Check Mail',
                 icon: CircleIcon,
-                to: '/auth/check-mail1'
+                to: '/auth/check-mail'
               },
               {
                 title: 'Reset Password',
                 icon: CircleIcon,
-                to: '/auth/reset-pwd1'
+                to: '/auth/reset-pwd'
               },
               {
                 title: 'Code Verification',
                 icon: CircleIcon,
-                to: '/auth/code-verify1'
-              }
-            ]
-          },
-          {
-            title: 'Auth 2',
-            icon: CircleIcon,
-            to: '/auth/login',
-            children: [
-              {
-                title: 'Login 2',
-                icon: CircleIcon,
-                to: '/auth/login2'
-              },
-              {
-                title: 'Register 2',
-                icon: CircleIcon,
-                to: '/auth/register2'
-              },
-              {
-                title: 'Forgot Password 2',
-                icon: CircleIcon,
-                to: '/auth/forgot-pwd2'
-              },
-              {
-                title: 'Check Mail 2',
-                icon: CircleIcon,
-                to: '/auth/check-mail2'
-              },
-              {
-                title: 'Reset Password 2',
-                icon: CircleIcon,
-                to: '/auth/reset-pwd2'
-              },
-              {
-                title: 'Code Verification 2',
-                icon: CircleIcon,
-                to: '/auth/code-verify2'
-              }
-            ]
-          },
-          {
-            title: 'Auth 3',
-            icon: CircleIcon,
-            to: '/auth/login',
-            children: [
-              {
-                title: 'Login 3',
-                icon: CircleIcon,
-                to: '/auth/login3'
-              },
-              {
-                title: 'Register 3',
-                icon: CircleIcon,
-                to: '/auth/register3'
-              },
-              {
-                title: 'Forgot Password 3',
-                icon: CircleIcon,
-                to: '/auth/forgot-pwd3'
-              },
-              {
-                title: 'Check Mail 3',
-                icon: CircleIcon,
-                to: '/auth/check-mail3'
-              },
-              {
-                title: 'Reset Password 3',
-                icon: CircleIcon,
-                to: '/auth/reset-pwd3'
-              },
-              {
-                title: 'Code Verification 3',
-                icon: CircleIcon,
-                to: '/auth/code-verify3'
+                to: '/auth/code-verify'
               }
             ]
           }

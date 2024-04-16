@@ -21,20 +21,20 @@ public class TestConsumer {
         this.objectMapper = objectMapper;
     }
 
-    @KafkaListener(topics = "first_create_user_data", groupId = "group_1")
-    public void listener(String data) {
-        log.info("Kafka Message : -> " + data);
-
-        Map<String, String> map = new HashMap<>();
-        try{
-            map = objectMapper.readValue(data, new TypeReference<Map<String, String>>() {});
-        } catch(JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        String email = map.get("employeeId");
-        String name = map.get("teamCode");
-
-        System.out.println("employeeId: " + email);
-        System.out.println("teamCode: " + name);
-    }
+//    @KafkaListener(topics = "first_create_user_data", groupId = "group_1")
+//    public void listener(String data) {
+//        log.info("Kafka Message : -> " + data);
+//
+//        Map<String, String> map = new HashMap<>();
+//        try{
+//            map = objectMapper.readValue(data, new TypeReference<Map<String, String>>() {});
+//        } catch(JsonProcessingException e) {
+//            e.printStackTrace();
+//        }
+//        String email = map.get("employeeId");
+//        String name = map.get("teamCode");
+//
+//        System.out.println("employeeId: " + email);
+//        System.out.println("teamCode: " + name);
+//    }
 }
