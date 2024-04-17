@@ -1,12 +1,13 @@
 package com.example.harbor_employee.Employee.service;
 
-import com.example.harbor_employee.global.support.Code;
 import com.example.harbor_employee.Employee.domain.Employee;
 import com.example.harbor_employee.Employee.dto.NameBirthDto;
 import com.example.harbor_employee.Employee.dto.request.EmployeeSearchDto;
 import com.example.harbor_employee.Employee.dto.request.EmployeeUpdateRequestDto;
 import com.example.harbor_employee.Employee.dto.response.*;
 import com.example.harbor_employee.Employee.repository.EmployeeRepository;
+import com.example.harbor_employee.client.TotalClient;
+import com.example.harbor_employee.client.dto.EmployeeStatusDto;
 import com.example.harbor_employee.global.util.EmployeeSpecification;
 import com.example.harbor_employee.client.dto.LoginMemberResDto;
 import com.example.harbor_employee.kafka.KafkaTestDto;
@@ -21,11 +22,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -33,10 +34,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,10 +44,12 @@ import java.util.stream.Collectors;
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final TestProducer testProducer;
+    private final TotalClient totalClient;
 
-    public EmployeeService(EmployeeRepository employeeRepository, TestProducer testProducer) {
+    public EmployeeService(EmployeeRepository employeeRepository, TestProducer testProducer, TotalClient totalClient) {
         this.employeeRepository = employeeRepository;
         this.testProducer = testProducer;
+        this.totalClient = totalClient;
     }
 
     public List<EmployeeResDto> findAll(EmployeeSearchDto employeeSearchDto, Pageable pageable) {
@@ -60,18 +61,30 @@ public class EmployeeService {
 
         Page<Employee> employeePage = employeeRepository.findAll(specification, pageable);
         List<Employee> employeeList = employeePage.getContent();
-        List<EmployeeResDto> employeeResDtos = new ArrayList<>();
-        employeeResDtos = employeeList.stream()
-                .map(e-> EmployeeResDto.builder()
-                        .employeeId(e.getEmployeeId())
-                        .department(e.getDepartmentCode())
-                        .team(e.getTeamCode())
-                        .position(e.getPositionCode())
-                        .name(e.getName())
-                        .profileImagePath(e.getProfileImage())
-                        .email(e.getEmail())
-                        .phone(e.getPhone())
-                        .build()).collect(Collectors.toList());
+        List<String> employeeIdList = new ArrayList<>();
+        for(Employee employee: employeeList){
+            employeeIdList.add(employee.getEmployeeId());
+        }
+        List<EmployeeStatusDto> employeeStatusDtos = totalClient.getStatus(employeeIdList);
+
+        Map<String, EmployeeStatusDto> employeeStatusMap = employeeStatusDtos.stream()
+                .collect(Collectors.toMap(EmployeeStatusDto::getEmployeeId, Function.identity()));
+
+        List<EmployeeResDto> employeeResDtos = employeeList.stream()
+                .map(e -> {
+                    EmployeeStatusDto status = employeeStatusMap.getOrDefault(e.getEmployeeId(), null);
+                    return EmployeeResDto.builder()
+                            .employeeId(e.getEmployeeId())
+                            .department(e.getDepartmentCode())
+                            .team(e.getTeamCode())
+                            .position(e.getPositionCode())
+                            .name(e.getName())
+                            .profileImagePath(e.getProfileImage())
+                            .email(e.getEmail())
+                            .phone(e.getPhone())
+                            .status(status != null ? status.getStatusCode() : null)
+                            .build();
+                }).collect(Collectors.toList());
         return employeeResDtos;
     }
 
@@ -274,5 +287,9 @@ public class EmployeeService {
                 .birth(employee.getBirthDate())
                 .name(employee.getName())
                 .build();
+    }
+
+    public List<EmployeeStatusDto> getemployeeStautsList(List<String> employeeIdList){
+        return totalClient.getStatus(employeeIdList);
     }
 }
