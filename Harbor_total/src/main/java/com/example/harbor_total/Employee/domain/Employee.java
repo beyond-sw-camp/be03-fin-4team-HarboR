@@ -2,7 +2,6 @@ package com.example.harbor_total.Employee.domain;
 
 import com.example.harbor_total.Attendance.domain.Attendance;
 import com.example.harbor_total.domain.Commute;
-import com.example.harbor_total.domain.Schedule;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -47,9 +46,6 @@ public class Employee {
     private List<Commute> commutes;
 
     @OneToMany(mappedBy = "employee")
-    private List<Schedule> schedules;
-
-    @OneToMany(mappedBy = "employee")
     private List<Attendance> attendances;
 
     public static Employee create(String id, String email, String name, String teamCode, String departmentCode, String positionCode, double annual){
@@ -62,5 +58,9 @@ public class Employee {
                 .positionCode(positionCode)
                 .annualRemain(annual)
                 .build();
+    }
+
+    public void updateRemain_Annual(double remainVacation) {
+        this.annualRemain = remainVacation;
     }
 }
