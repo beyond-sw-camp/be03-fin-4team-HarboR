@@ -1,7 +1,7 @@
 package com.example.harbor_total.Employee.domain;
 
 import com.example.harbor_total.Attendance.domain.Attendance;
-import com.example.harbor_total.domain.Commute;
+import com.example.harbor_total.commute.domain.CommuteRecord;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -43,7 +43,7 @@ public class Employee {
     private double annualRemain;
 
     @OneToMany(mappedBy = "employee")
-    private List<Commute> commutes;
+    private List<CommuteRecord> commutes;
 
     @OneToMany(mappedBy = "employee")
     private List<Attendance> attendances;

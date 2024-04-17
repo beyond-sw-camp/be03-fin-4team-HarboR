@@ -7,14 +7,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
-@Data
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "HR_Commute")
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class CommuteRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +27,12 @@ public class CommuteRecord {
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
+    public CommuteRecord(Employee employee) {
+        this.employee = employee;
+        this.attendanceDate = Date.valueOf(LocalDate.now());
+    }
 
-
-
+    public static CommuteRecord createCommuteRecord(Employee employee) {
+        return new CommuteRecord(employee);
+    }
 }

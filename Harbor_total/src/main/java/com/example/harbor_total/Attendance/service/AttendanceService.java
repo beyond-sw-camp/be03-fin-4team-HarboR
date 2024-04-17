@@ -13,9 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -125,9 +123,25 @@ public class AttendanceService {
 
         // 휴가 기간에 따른 연차 사용량 계산
         Duration duration = Duration.between(attendanceFlexibleWorkReqDto.getWorkStartTime(), attendanceFlexibleWorkReqDto.getWorkEndTime());
-        double useAnnual = duration.toHours() <= 4 ? 0.5 : ChronoUnit.DAYS.between(
-                attendanceFlexibleWorkReqDto.getWorkStartTime().toLocalDate(),
-                attendanceFlexibleWorkReqDto.getWorkEndTime().toLocalDate()) + 1;
+        double useAnnual;
+
+        if (duration.toHours() <= 4) {
+            useAnnual = 0.5;
+        } else {
+            LocalDate startDate = attendanceFlexibleWorkReqDto.getWorkStartTime().toLocalDate();
+            LocalDate endDate = attendanceFlexibleWorkReqDto.getWorkEndTime().toLocalDate();
+
+            long totalDays = duration.toDays() + 1; // 휴가 기간의 총 일 수 (종료일을 포함하기 위해 +1)
+
+            long weekendDays = startDate.datesUntil(endDate.plusDays(1))
+                    .filter(date -> date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY)
+                    .count(); // 휴가 기간에 포함된 주말의 일 수
+
+            // 실제 사용된 연차 수 계산 (휴가 기간 - 주말)
+            useAnnual = totalDays - weekendDays;
+            System.out.println("totalDays = " + totalDays);
+            System.out.println("weekendDays = " + weekendDays);
+        }
 
         double remainVacation = employee.getAnnualRemain() - useAnnual;
         if (remainVacation < 0) {

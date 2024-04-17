@@ -35,12 +35,12 @@ public class CommuteController {
 
 
 
-    @PutMapping("/leavework")
-    public ResponseEntity<CommonResponse> recordLeaveWork(Principal principal) {
-        String EmplyoeeId = principal.getName();
-        String leave = commuteService.recordLeaveWork(EmplyoeeId);
-        return new ResponseEntity<>(new CommonResponse<>("퇴근처리 되었습니다.",leave), HttpStatus.OK);
-    }
+//    @PutMapping("/leavework")
+//    public ResponseEntity<CommonResponse> recordLeaveWork(Principal principal) {
+//        String EmplyoeeId = principal.getName();
+//        String leave = commuteService.recordLeaveWork(EmplyoeeId);
+//        return new ResponseEntity<>(new CommonResponse<>("퇴근처리 되었습니다.",leave), HttpStatus.OK);
+//    }
 }
 
 
