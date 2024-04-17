@@ -54,11 +54,17 @@ public class EmployeeController {
      *      ]
      * }
      */
+//    @GetMapping("/get/list")
+//    public ResponseEntity<List<EmployeeResDto>> getList(
+//            EmployeeSearchDto employeeSearchDto,
+//            @PageableDefault(page = 0, size = 10, sort = "employeeId", direction = Sort.Direction.ASC) Pageable pageable){
+//        List<EmployeeResDto> employees = employeeService.findAll(employeeSearchDto, pageable);
+//        return new ResponseEntity<>(employees, HttpStatus.OK);
+//    }
     @GetMapping("/get/list")
     public ResponseEntity<List<EmployeeResDto>> getList(
-            EmployeeSearchDto employeeSearchDto,
-            @PageableDefault(page = 0, size = 10, sort = "employeeId", direction = Sort.Direction.ASC) Pageable pageable){
-        List<EmployeeResDto> employees = employeeService.findAll(employeeSearchDto, pageable);
+            EmployeeSearchDto employeeSearchDto){
+        List<EmployeeResDto> employees = employeeService.findAll(employeeSearchDto);
         return new ResponseEntity<>(employees, HttpStatus.OK);
     }
     @GetMapping("/get/{employeeId}/detail")

@@ -34,18 +34,15 @@ async function update() {
   const formData = new FormData();
   formData.append('phone', employeeDetails.value.phone);
   formData.append('address', employeeDetails.value.address);
-
-  // profileImage가 존재하는 경우에만 FormData에 추가
-  if (profileImage) {
-    formData.append('profileImage', profileImage);
+  if (selectedImage) {
+    formData.append('profileImage', selectedImage);
   }
 
+
+
   try {
-    const response = await axios.patch(`${baseUrl}/employee/${employeeDetails.value.employeeId}/update`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data', // 파일을 포함하여 데이터를 전송할 때 필요한 헤더
-      },
-    });
+    const response = await axios.patch(`${baseUrl}/employee/${employeeDetails.value.employeeId}/update`, formData
+    );
     alert('수정 완료되었습니다.');
   } catch (error) {
     console.error('수정 중 오류 발생:', error);

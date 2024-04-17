@@ -51,15 +51,37 @@ public class EmployeeService {
         this.testProducer = testProducer;
     }
 
-    public List<EmployeeResDto> findAll(EmployeeSearchDto employeeSearchDto, Pageable pageable) {
+//    public List<EmployeeResDto> findAll(EmployeeSearchDto employeeSearchDto, Pageable pageable) {
+//        Specification<T> specification =
+//                EmployeeSpecification.likeName(employeeSearchDto.getName())
+//                        .and(EmployeeSpecification.likeEmployeeId(employeeSearchDto.getEmployeeId()))
+//                        .and(EmployeeSpecification.equalDepartment(employeeSearchDto.getDepartmentCode()))
+//                        .and(EmployeeSpecification.equalTeamName(employeeSearchDto.getTeamCode()));
+//
+//        Page<Employee> employeePage = employeeRepository.findAll(specification, pageable);
+//        List<Employee> employeeList = employeePage.getContent();
+//        List<EmployeeResDto> employeeResDtos = new ArrayList<>();
+//        employeeResDtos = employeeList.stream()
+//                .map(e-> EmployeeResDto.builder()
+//                        .employeeId(e.getEmployeeId())
+//                        .department(e.getDepartmentCode())
+//                        .team(e.getTeamCode())
+//                        .position(e.getPositionCode())
+//                        .name(e.getName())
+//                        .profileImagePath(e.getProfileImage())
+//                        .email(e.getEmail())
+//                        .phone(e.getPhone())
+//                        .build()).collect(Collectors.toList());
+//        return employeeResDtos;
+//    }
+    public List<EmployeeResDto> findAll(EmployeeSearchDto employeeSearchDto) {
         Specification<T> specification =
                 EmployeeSpecification.likeName(employeeSearchDto.getName())
                         .and(EmployeeSpecification.likeEmployeeId(employeeSearchDto.getEmployeeId()))
                         .and(EmployeeSpecification.equalDepartment(employeeSearchDto.getDepartmentCode()))
                         .and(EmployeeSpecification.equalTeamName(employeeSearchDto.getTeamCode()));
 
-        Page<Employee> employeePage = employeeRepository.findAll(specification, pageable);
-        List<Employee> employeeList = employeePage.getContent();
+        List<Employee> employeeList = employeeRepository.findAll(specification);
         List<EmployeeResDto> employeeResDtos = new ArrayList<>();
         employeeResDtos = employeeList.stream()
                 .map(e-> EmployeeResDto.builder()
@@ -136,7 +158,7 @@ public class EmployeeService {
         MultipartFile multipartFile = request.getProfileImage();
         String fileName = multipartFile.getOriginalFilename();
 
-        Path path = Paths.get("/Users/song/Desktop/코딩공부/tmp", employee.getEmployeeId() + "_" + fileName);
+        Path path = Paths.get("C:/Users/wonta/Desktop/tmp", employee.getEmployeeId() + "_" + fileName);
         employee.setImage(path.toString());
         employee.updateEmployee(path.toString(),request.getPhone(),request.getAddress());
 
