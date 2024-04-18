@@ -17,8 +17,7 @@ import java.util.Optional;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     Optional<Employee> findByEmployeeId(String employeeId);
-//    Page<Employee> findAll(Specification<T> specification, Pageable pageable);
-    List<Employee> findAll(Specification<T> specification);
+    Page<Employee> findAll(Specification<T> specification, Pageable pageable);
     List<Employee> findAllByDepartmentCode(String departmentCode);
 
     @Query("SELECT e FROM Employee e WHERE e.positionCode > :startDeptCode AND e.positionCode <= :endDeptCode AND e.departmentCode = :departmentCode")

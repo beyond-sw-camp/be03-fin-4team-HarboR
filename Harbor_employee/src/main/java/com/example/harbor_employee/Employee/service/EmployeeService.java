@@ -51,37 +51,15 @@ public class EmployeeService {
         this.testProducer = testProducer;
     }
 
-//    public List<EmployeeResDto> findAll(EmployeeSearchDto employeeSearchDto, Pageable pageable) {
-//        Specification<T> specification =
-//                EmployeeSpecification.likeName(employeeSearchDto.getName())
-//                        .and(EmployeeSpecification.likeEmployeeId(employeeSearchDto.getEmployeeId()))
-//                        .and(EmployeeSpecification.equalDepartment(employeeSearchDto.getDepartmentCode()))
-//                        .and(EmployeeSpecification.equalTeamName(employeeSearchDto.getTeamCode()));
-//
-//        Page<Employee> employeePage = employeeRepository.findAll(specification, pageable);
-//        List<Employee> employeeList = employeePage.getContent();
-//        List<EmployeeResDto> employeeResDtos = new ArrayList<>();
-//        employeeResDtos = employeeList.stream()
-//                .map(e-> EmployeeResDto.builder()
-//                        .employeeId(e.getEmployeeId())
-//                        .department(e.getDepartmentCode())
-//                        .team(e.getTeamCode())
-//                        .position(e.getPositionCode())
-//                        .name(e.getName())
-//                        .profileImagePath(e.getProfileImage())
-//                        .email(e.getEmail())
-//                        .phone(e.getPhone())
-//                        .build()).collect(Collectors.toList());
-//        return employeeResDtos;
-//    }
-    public List<EmployeeResDto> findAll(EmployeeSearchDto employeeSearchDto) {
+    public List<EmployeeResDto> findAll(EmployeeSearchDto employeeSearchDto, Pageable pageable) {
         Specification<T> specification =
                 EmployeeSpecification.likeName(employeeSearchDto.getName())
                         .and(EmployeeSpecification.likeEmployeeId(employeeSearchDto.getEmployeeId()))
                         .and(EmployeeSpecification.equalDepartment(employeeSearchDto.getDepartmentCode()))
                         .and(EmployeeSpecification.equalTeamName(employeeSearchDto.getTeamCode()));
 
-        List<Employee> employeeList = employeeRepository.findAll(specification);
+        Page<Employee> employeePage = employeeRepository.findAll(specification, pageable);
+        List<Employee> employeeList = employeePage.getContent();
         List<EmployeeResDto> employeeResDtos = new ArrayList<>();
         employeeResDtos = employeeList.stream()
                 .map(e-> EmployeeResDto.builder()
