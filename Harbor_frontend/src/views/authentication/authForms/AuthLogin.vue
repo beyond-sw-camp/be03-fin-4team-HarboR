@@ -34,10 +34,15 @@ watch(selectedInput, () => {
       <v-divider class="custom-devider" />
     </v-col>
   </v-row>
-  <select class="mt-2 " v-model="selectedInput">
-    <option value="email">이메일</option>
-    <option value="employeeId">사원번호</option>
-  </select>
+    <div>
+      <v-switch
+        v-model="selectedInput"
+        :label="` ${selectedInput === 'email' ? '이메일' : '사원번호'}`"
+        false-value="employeeId"
+        true-value="email"
+        hide-details
+      ></v-switch>
+    </div>
   <Form @submit="validate" class="mt-7 loginForm" v-slot="{ errors, isSubmitting }">
     <v-text-field v-if="selectedInput === 'email'" v-model="email" :rules="emailRules" label="이메일" class="mt-4 mb-8"
       required density="comfortable" hide-details="auto" variant="outlined" color="primary"></v-text-field>

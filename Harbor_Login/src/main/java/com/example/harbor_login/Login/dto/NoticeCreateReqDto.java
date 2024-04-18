@@ -21,4 +21,6 @@ public class NoticeCreateReqDto {
     private String fileName;
 
     private MultipartFile filePath;
+
+    private LocalDateTime createdAt;
 }

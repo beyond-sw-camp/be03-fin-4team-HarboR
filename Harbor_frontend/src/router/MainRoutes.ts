@@ -421,7 +421,19 @@ const MainRoutes = {
       name: 'TestCalender',
       path: '/testcalendar',
       component: () => import('@/views/apps/test/TestCalendar.vue')
+    },
+    {
+      name: 'noticeList',
+      path: '/noticeList',
+      component: () => import('@/views/apps/users/list/noticeList.vue')
+    },
+    {
+      name: 'noticedetail',
+      path: '/noticedetail/:id',
+      component: () => import('@/views/apps/users/list/noticedetail.vue')
     }
+
+    
   ]
 };
 
