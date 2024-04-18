@@ -9,15 +9,20 @@ import com.example.harbor_total.Attendance.dto.response.AttendanceListResDto;
 import com.example.harbor_total.Attendance.repository.AttendanceRepository;
 import com.example.harbor_total.Employee.repository.EmployeeRepository;
 import com.example.harbor_total.Employee.domain.Employee;
+import com.example.harbor_total.client.dto.EmployeeStatusDto;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.example.harbor_total.global.support.Code.*;
 
@@ -164,5 +169,20 @@ public class AttendanceService {
         checkwork(attendanceFlexibleWorkReqDto, employeeId);
 
         return null;
+    }
+
+    public List<EmployeeStatusDto> getEmployeeStatus(List<String> employeeId) {
+        LocalDateTime start = LocalDate.now().atTime(0,0,0);
+        LocalDateTime end = LocalDate.now().atTime(23,59,59);
+        List<Attendance> attendances = attendanceRepository.findAttendanceByEmployee_EmployeeIdInAndCreatedAtBetweenOrderByCreatedAtDesc(employeeId, start, end);
+        List<EmployeeStatusDto> employeeStatusDtos = new ArrayList<>();
+        for(Attendance attendance: attendances){
+            employeeStatusDtos.add(
+                    EmployeeStatusDto.builder()
+                    .employeeId(attendance.getEmployee().getEmployeeId())
+                    .statusCode(attendance.getWorkPolicy())
+                    .build());
+        }
+        return employeeStatusDtos;
     }
 }

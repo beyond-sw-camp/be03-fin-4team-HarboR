@@ -2,7 +2,9 @@ package com.example.harbor_total.Attendance.controller;
 
 import com.example.harbor_total.Attendance.dto.request.AttendanceFlexibleWorkReqDto;
 import com.example.harbor_total.Attendance.service.AttendanceService;
+import com.example.harbor_total.client.dto.EmployeeStatusDto;
 import com.example.harbor_total.global.common.CommonResponse;
+import feign.Response;
 import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -11,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/total/attendance")
@@ -42,4 +45,10 @@ public class AttendanceController {
 //    public ResponseEntity<CommonResponse> getList() {
 //        return new ResponseEntity<>(new CommonResponse("당일 근무 리스트 가져오기", commuteService.getList()), HttpStatus.OK);
 //    }
+
+//    @GetMapping(value = "/status", produces = "application/json", consumes = "application/json")
+    @GetMapping("/status")
+    public List<EmployeeStatusDto> getStatus(@RequestParam("id") List<String> employeeId){
+        return commuteService.getEmployeeStatus(employeeId);
+    }
 }
