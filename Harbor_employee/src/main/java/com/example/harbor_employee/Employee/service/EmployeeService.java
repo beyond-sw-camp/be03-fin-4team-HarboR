@@ -149,7 +149,7 @@ public class EmployeeService {
         MultipartFile multipartFile = request.getProfileImage();
         String fileName = multipartFile.getOriginalFilename();
 
-        Path path = Paths.get("/Users/song/Desktop/코딩공부/tmp", employee.getEmployeeId() + "_" + fileName);
+        Path path = Paths.get("C:/Users/wonta/Desktop/tmp", employee.getEmployeeId() + "_" + fileName);
         employee.setImage(path.toString());
         employee.updateEmployee(path.toString(),request.getPhone(),request.getAddress());
 
