@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.*;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 
 import static com.example.harbor_total.global.support.Code.*;
 
@@ -179,4 +179,20 @@ public class AttendanceService {
 
         return null;
     }
+
+
+    public Optional<List<Object[]>> getListGroupByTeam(String employeeId) {
+        Employee employee = employeeRepository.findByEmployeeId(employeeId).orElseThrow(() -> new IllegalArgumentException("없는 회원입니다."));
+
+//        내팀 가져오기
+        String MyTeamCode = employee.getTeamCode();
+
+        LocalDateTime start = LocalDate.now().atStartOfDay();
+        LocalDateTime end = LocalDate.now().atTime(23, 59, 59);
+
+
+        Optional<List<Object[]>> byMyTeamAttendanceCount = employeeRepository.findByMyTeamAttendanceCount(MyTeamCode);
+        return byMyTeamAttendanceCount;
+    }
 }
+//출근 5명 , 휴가 : 3

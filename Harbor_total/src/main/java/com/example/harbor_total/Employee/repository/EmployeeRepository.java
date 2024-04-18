@@ -1,5 +1,6 @@
 package com.example.harbor_total.Employee.repository;
 
+import com.example.harbor_total.Attendance.domain.Attendance;
 import com.example.harbor_total.Employee.domain.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,4 +24,20 @@ public interface EmployeeRepository extends JpaRepository<Employee, String> {
     List<Employee> findEmployeesByTeamCodeAndPositionCodeRange(@Param(value = "startDeptCode") @NotEmpty String startDeptCode,
                                                                      @Param(value = "endDeptCode") @NotEmpty String endDeptCode,
                                                                      @Param(value = "teamCode") @NotEmpty String teamCode);
+
+    @Query(value =
+            "SELECT " +
+                    "a.work_policy AS workPolicy, " +
+                    "COUNT(a.work_policy) AS policyCount " +
+                    "FROM " +
+                    "HR_Attendance a " +
+                    "JOIN " +
+                    "HR_Employee e ON a.employee_id = e.employee_id " +
+                    "WHERE " +
+                    "e.team_code = :teamCode " +
+                    "AND DATE(a.work_start_time) = CURDATE() " +
+                    "GROUP BY " +
+                    "a.work_policy",
+            nativeQuery = true)
+    Optional<List<Object[]>> findByMyTeamAttendanceCount(@Param("teamCode") String teamCode);
 }
