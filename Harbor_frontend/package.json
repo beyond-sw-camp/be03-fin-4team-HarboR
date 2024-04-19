@@ -27,11 +27,12 @@
     "chance": "1.1.11",
     "date-fns": "3.3.1",
     "gantt-schedule-timeline-calendar": "^3.35.2",
-    "html2pdf.js": "^0.9.3",
+    "html2pdf.js": "^0.10.1",
     "jwt-decode": "^4.0.0",
     "lodash": "4.17.21",
     "maska": "^2.1.11",
     "pinia": "2.1.7",
+    "qalendar": "^3.8.1",
     "recaptcha-v3": "^1.10.0",
     "remixicon": "4.1.0",
     "swiper": "^11.0.7",
@@ -70,7 +71,7 @@
     "sass": "1.70.0",
     "sass-loader": "14.1.0",
     "typescript": "5.3.3",
-    "vite": "5.1.2",
+    "vite": "^5.2.9",
     "vue-cli-plugin-vuetify": "2.5.8",
     "vue-tsc": "1.8.27"
   }
