@@ -16,6 +16,7 @@ import com.example.harbor_total.global.support.Department;
 import com.example.harbor_total.global.support.Position;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-
+@Transactional
 public class AnnualService {
     private final AnnualRepository annualRepository;
     private final EmployeeRepository employeeRepository;
@@ -46,6 +47,7 @@ public class AnnualService {
                 annualCreateReqDto.getFirstSignId(),
                 annualCreateReqDto.getSecondSignId(),
                 annualCreateReqDto.getThirdSignId(),
+                "N",
                 attendance
                 );
         attendance.updateAttendanceId(annual);
@@ -91,6 +93,7 @@ public class AnnualService {
         return eworksListResDtos;
     }
 
+    //Todo: 휴결재 처리
     private Annual checkApproval(Annual annual, String employeeId) {
         LocalDateTime startDate = LocalDate.now().atStartOfDay();
         LocalDateTime endDate = LocalDate.now().atTime(23, 59, 59);

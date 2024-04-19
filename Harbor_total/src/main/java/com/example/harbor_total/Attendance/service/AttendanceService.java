@@ -148,6 +148,7 @@ public class AttendanceService {
                 attendanceFlexibleWorkReqDto.getFirstSignId(),
                 attendanceFlexibleWorkReqDto.getSecondSignId(),
                 attendanceFlexibleWorkReqDto.getThirdSignId(),
+                "N",
                 attendance
         );
         // Annual 엔티티 저장
