@@ -65,6 +65,7 @@ public class EmployeeController {
         List<EmployeeResDto> employees = employeeService.findAll(employeeSearchDto, pageable);
         return new ResponseEntity<>(employees, HttpStatus.OK);
     }
+
     @GetMapping("/get/{employeeId}/detail")
     public ResponseEntity<CommonResponse> getEmployeeDetail(@PathVariable(name = "employeeId") String employeeId) {
         return new ResponseEntity<>(new CommonResponse("유저 정보 자세히 보기", employeeService.findByEmployeeId(employeeId)), HttpStatus.OK);
