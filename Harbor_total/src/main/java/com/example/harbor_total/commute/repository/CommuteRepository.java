@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -17,8 +19,6 @@ public interface CommuteRepository extends JpaRepository<CommuteRecord,Long> {
 
     boolean existsByEmployeeAndAttendanceDate(Employee employee, Date attendanceDate);
 
-
-
-
+    List<CommuteRecord> findAllByEmployeeAndAttendanceDateBetween(Employee employee, Date StartTime, Date EndTime);
 
 }
