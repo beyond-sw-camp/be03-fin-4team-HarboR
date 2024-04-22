@@ -56,17 +56,15 @@ public class Annual {
         this.thirdSignId = thirdSignId;
     }
 
-    public static Annual create(Double annualCount, LocalDateTime adjustmentDate, LocalDateTime adjustmentEndDate, String adjustmentComment, String firstSignId, String secondSignId, String thirdSignId, String adjustment_delYn, Attendance attendance){
-//        return Annual.builder()
-//                .annualCount(annualCount)
-//                .adjustmentDate(adjustmentDate)
-//                .adjustmentEndDate(adjustmentEndDate)
-//                .adjustmentComment(adjustmentComment)
-//                .firstSignId(firstSignId)
-//                .secondSignId(secondSignId)
-//                .thirdSignId(thirdSignId)
-//                .attendance(attendance)
-//                .build();
+    public static Annual create(Double annualCount,
+                                LocalDateTime adjustmentDate,
+                                LocalDateTime adjustmentEndDate,
+                                String adjustmentComment,
+                                String firstSignId,
+                                String secondSignId,
+                                String thirdSignId,
+                                String adjustment_delYn,
+                                Attendance attendance){
         return new Annual(annualCount, adjustmentDate, adjustmentEndDate, adjustmentComment, firstSignId, secondSignId, thirdSignId, adjustment_delYn, attendance);
     }
 
@@ -93,7 +91,6 @@ public class Annual {
             this.thirdApprovalDate = "companion";
         }
     }
-
     public void updateDelYN(){
         this.adjustment_delYn = "Y";
     }

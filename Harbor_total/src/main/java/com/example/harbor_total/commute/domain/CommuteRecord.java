@@ -26,8 +26,4 @@ public class CommuteRecord {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id")
     private Employee employee;
-
-
-
-
 }

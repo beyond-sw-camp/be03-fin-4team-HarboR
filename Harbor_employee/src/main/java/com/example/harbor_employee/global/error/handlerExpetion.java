@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 @RestControllerAdvice
 public class handlerExpetion {
-
     @ExceptionHandler({BindException.class})
     @Order(value = Ordered.HIGHEST_PRECEDENCE) // 최우선 빈 등록, 에러터지면 일빠로 옴
     public ResponseEntity<?> handlerException(BindException ex) {

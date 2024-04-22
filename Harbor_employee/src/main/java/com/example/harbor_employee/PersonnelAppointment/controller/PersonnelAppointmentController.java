@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,7 +30,6 @@ public class PersonnelAppointmentController {
         return "ok";
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create")
     public ResponseEntity<CommonResponse> create(@RequestParam("file") MultipartFile file) throws IOException {
         log.info("{excel 파일 전송 }");
@@ -39,21 +37,18 @@ public class PersonnelAppointmentController {
         return new ResponseEntity<>(new CommonResponse("요청이 정상적으로 실행되었습니다.", excelDataDtos), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/findAll")
     public ResponseEntity<CommonResponse> listAll(EmployeeSearchDto employeeSearchDto, Pageable pageable) {
         return new ResponseEntity<>(new CommonResponse("전체 리스트 호출", paService.findAll(employeeSearchDto, pageable)), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{appointmentId}/delete")
     public ResponseEntity<CommonResponse> deletePA(@PathVariable("appointmentId") Long appointmentId) {
         return new ResponseEntity<>(new CommonResponse("해당 인사발령 취소", paService.delete(appointmentId)), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{appointmentId}/detail")
-    public ResponseEntity<CommonResponse> detailPA(@PathVariable("appointmentId") Long appointmentId) {
+    public ResponseEntity<CommonResponse> detailPA(@RequestHeader("appointmentId") Long appointmentId) {
         return new ResponseEntity<>(new CommonResponse("해당 인사발령 자세히 보기", paService.detail(appointmentId)), HttpStatus.OK);
     }
 }

@@ -50,7 +50,6 @@ public class CommuteService {
         return "ok";
     }
 
-
     public String recordLeaveWork(String employeeId) {
         // 사원 ID로 Employee 엔티티를 찾습니다.
         Employee employee = employeeRepository.findByEmployeeId(employeeId)

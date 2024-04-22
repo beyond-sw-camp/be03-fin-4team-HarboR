@@ -9,9 +9,8 @@ import com.example.harbor_total.Attendance.dto.response.AttendanceListResDto;
 import com.example.harbor_total.Attendance.repository.AttendanceRepository;
 import com.example.harbor_total.Employee.repository.EmployeeRepository;
 import com.example.harbor_total.Employee.domain.Employee;
-import com.example.harbor_total.client.dto.EmployeeStatusDto;
+import com.example.harbor_total.Attendance.dto.EmployeeStatusDto;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +21,6 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.example.harbor_total.global.support.Code.*;
 
@@ -33,7 +31,6 @@ public class AttendanceService {
     private final AttendanceRepository attendanceRepository;
     private final EmployeeRepository employeeRepository;
     private final AnnualRepository annualRepository;
-
 
     public AttendanceService(AttendanceRepository attendanceRepository, EmployeeRepository employeeRepository, AnnualRepository annualRepository) {
         this.attendanceRepository = attendanceRepository;
@@ -87,7 +84,6 @@ public class AttendanceService {
             throw new IllegalArgumentException("이미 그 날짜에 휴가가 있습니다");
         }
     }
-
 
     // 유연 근무제 신청
     private AttendanceListResDto requestflexiblework(AttendanceFlexibleWorkReqDto attendanceFlexibleWorkReqDto, String employeeId) {

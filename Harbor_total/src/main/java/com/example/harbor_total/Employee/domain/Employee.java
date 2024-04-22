@@ -1,7 +1,7 @@
 package com.example.harbor_total.Employee.domain;
 
 import com.example.harbor_total.Attendance.domain.Attendance;
-import com.example.harbor_total.domain.Commute;
+import com.example.harbor_total.commute.domain.Commute;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
