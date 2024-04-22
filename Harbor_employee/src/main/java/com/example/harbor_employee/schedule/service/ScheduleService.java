@@ -19,11 +19,9 @@ public class ScheduleService {
 
     public ScheduleService(ScheduleRepository scheduleRepository) {
         this.scheduleRepository = scheduleRepository;
-
     }
 
     public Schedule CreateSchedule(ScheduleCreateReq scheduleCreateReq) {
-
         Schedule schedule = Schedule.builder()
                 .scheduleStartDate(scheduleCreateReq.getScheduleStartDate())
                 .scheduleEndDate(scheduleCreateReq.getScheduleEndDate())
@@ -34,7 +32,6 @@ public class ScheduleService {
                 .build();
         System.out.println(scheduleCreateReq.getScheduleTitle());
         Schedule schedule1 = scheduleRepository.save(schedule);
-
         return schedule1;
     }
 
@@ -46,36 +43,27 @@ public class ScheduleService {
     }
 
     public Schedule scheduleUpdate(Long scheduleId, ScheduleUpdateReq scheduleUpdateReq) {
-
         Schedule schedule = scheduleRepository.findByScheduleId(scheduleId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스케줄입니다."));
         schedule.updateSchedule(scheduleUpdateReq.getScheduleStartDate(), scheduleUpdateReq.getScheduleEndDate(), scheduleUpdateReq.getScheduleStartTime(), scheduleUpdateReq.getScheduleEndTime(),
                 scheduleUpdateReq.getScheduleComment(), scheduleUpdateReq.getScheduleTitle());
-        Schedule schedule1 = scheduleRepository.save(schedule);
-
-
-        return schedule1;
+        return scheduleRepository.save(schedule);
 
     }
 
     public void ScheduleDelete(Long scheduleId) {
-
         Schedule schedule = scheduleRepository.findByScheduleId(scheduleId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스케줄입니다."));
         schedule.deleteSchedule();
         scheduleRepository.save(schedule);
-
-
     }
 
     public Schedule scheduleDetail(Long scheduleId) {
         Schedule schedule = scheduleRepository.findByScheduleId(scheduleId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스케줄 입니다"));
-
         if (schedule.isDelYn()) {
             return null; // 또는 원하는 처리를 하세요.
         } else {
             return schedule;
         }
-
     }
 }
 

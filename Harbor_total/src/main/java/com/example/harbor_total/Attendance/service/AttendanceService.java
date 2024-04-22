@@ -9,11 +9,13 @@ import com.example.harbor_total.Attendance.dto.response.AttendanceListResDto;
 import com.example.harbor_total.Attendance.repository.AttendanceRepository;
 import com.example.harbor_total.Employee.repository.EmployeeRepository;
 import com.example.harbor_total.Employee.domain.Employee;
+import com.example.harbor_total.Attendance.dto.EmployeeStatusDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +28,6 @@ public class AttendanceService {
     private final AttendanceRepository attendanceRepository;
     private final EmployeeRepository employeeRepository;
     private final AnnualRepository annualRepository;
-
 
     public AttendanceService(AttendanceRepository attendanceRepository, EmployeeRepository employeeRepository, AnnualRepository annualRepository) {
         this.attendanceRepository = attendanceRepository;
@@ -80,7 +81,6 @@ public class AttendanceService {
             throw new IllegalArgumentException("이미 그 날짜에 휴가가 있습니다");
         }
     }
-
 
     // 유연 근무제 신청
     private AttendanceListResDto requestflexiblework(AttendanceFlexibleWorkReqDto attendanceFlexibleWorkReqDto, String employeeId) {
@@ -167,5 +167,20 @@ public class AttendanceService {
 
         Optional<List<Object[]>> byMyTeamAttendanceCount = employeeRepository.findByMyTeamAttendanceCount(MyTeamCode);
         return byMyTeamAttendanceCount;
+    }
+
+    public List<EmployeeStatusDto> getEmployeeStatus(List<String> employeeId) {
+        LocalDateTime start = LocalDate.now().atTime(0,0,0);
+        LocalDateTime end = LocalDate.now().atTime(23,59,59);
+        List<Attendance> attendances = attendanceRepository.findAttendanceByEmployee_EmployeeIdInAndCreatedAtBetweenOrderByCreatedAtDesc(employeeId, start, end);
+        List<EmployeeStatusDto> employeeStatusDtos = new ArrayList<>();
+        for(Attendance attendance: attendances){
+            employeeStatusDtos.add(
+                    EmployeeStatusDto.builder()
+                            .employeeId(attendance.getEmployee().getEmployeeId())
+                            .statusCode(attendance.getWorkPolicy())
+                            .build());
+        }
+        return employeeStatusDtos;
     }
 }

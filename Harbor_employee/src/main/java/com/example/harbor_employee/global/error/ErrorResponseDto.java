@@ -12,7 +12,6 @@ public class ErrorResponseDto {
         body.put("status", Integer.toString(status.value()));
         body.put("status_message", status.getReasonPhrase());
         body.put("error_message", Message);
-
         return new ResponseEntity<>(body, status);
     }
 }

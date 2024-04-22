@@ -16,7 +16,6 @@ public class EmployeeResDto {
     private String team;
     private String name;
     private String status;
-
     private String profileImagePath;
     private String email;
     private String phone;

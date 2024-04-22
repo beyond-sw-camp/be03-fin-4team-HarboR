@@ -1,8 +1,7 @@
 package com.example.harbor_total.commute.dto.res;
 
 import com.example.harbor_total.Attendance.domain.Attendance;
-import com.example.harbor_total.commute.domain.CommuteRecord;
-import com.example.harbor_total.global.support.Code;
+import com.example.harbor_total.commute.domain.Commute;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +25,7 @@ public class CommuteListResDto {
     //    지각
     private String tardy;
 
-    public static List<CommuteListResDto> toDto(Attendance attendance, List<CommuteRecord> commuteRecords) {
+    public static List<CommuteListResDto> toDto(Attendance attendance, List<Commute> commutes) {
         List<CommuteListResDto> result = new ArrayList<>(); // 결과를 저장할 리스트 생성
 
         if (O04.name().equals(attendance.getWorkPolicy()) ||
@@ -49,7 +47,7 @@ public class CommuteListResDto {
 //            O01("출근"),O02("퇴근"), O03("출장"), O04("휴가"), O05("휴계"), O06("고정"), O07("시차"), O08("반차"), O09("병가"),
         } else {
             Date day = Date.valueOf(attendance.getWorkStartTime().toLocalDate());
-            CommuteRecord commuteRecord = commuteRecords.stream()
+            Commute commute = commutes.stream()
                     .filter(x -> x.getAttendanceDate().equals(day))
                     .findFirst()
                     .orElseThrow(() -> new IllegalArgumentException("매칭되는 날짜가 없습니다."));
@@ -57,13 +55,13 @@ public class CommuteListResDto {
             CommuteListResDtoBuilder builder = CommuteListResDto.builder()
                     .attendanceDate(day)
                     .workPolicy(attendance.getWorkPolicy())
-                    .workStartTime(commuteRecord.getAttendanceTime())
-                    .workEndTime(commuteRecord.getLeaveworkTime())
+                    .workStartTime(commute.getAttendanceTime())
+                    .workEndTime(commute.getLeaveworkTime())
                     .tardy(X02.name() + " 정상");
             if (O01.name().equals(attendance.getWorkPolicy()) ||
                     O07.name().equals(attendance.getWorkPolicy())
             ) {
-                if (commuteRecord.getAttendanceTime().toLocalTime().isAfter(attendance.getWorkStartTime().toLocalTime())) {
+                if (commute.getAttendanceTime().toLocalTime().isAfter(attendance.getWorkStartTime().toLocalTime())) {
                     builder.tardy(X01.name() + " 지각");
                 }
             }

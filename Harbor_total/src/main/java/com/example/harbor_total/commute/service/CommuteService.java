@@ -4,7 +4,7 @@ import com.example.harbor_total.Attendance.domain.Attendance;
 import com.example.harbor_total.Attendance.repository.AttendanceRepository;
 import com.example.harbor_total.Employee.domain.Employee;
 import com.example.harbor_total.Employee.repository.EmployeeRepository;
-import com.example.harbor_total.commute.domain.CommuteRecord;
+import com.example.harbor_total.commute.domain.Commute;
 import com.example.harbor_total.commute.dto.req.CommuteListReqDto;
 import com.example.harbor_total.commute.dto.res.CommuteListResDto;
 import com.example.harbor_total.commute.repository.CommuteRepository;
@@ -65,23 +65,22 @@ public class CommuteService {
 //                오후에 쉬는 경우 오전 출근은 찍되 퇴근은 안 찍음
 //                오전에 쉬는경우 오후에 와서 출근 찍고 퇴근도 찍음
 //                시작시간을 출근으로 바꿔줌, 퇴근은 안 찍는걸로,오전에 휴가였음 오후에 와야함
-                CommuteRecord commuteRecord = CommuteRecord.createCommuteRecord(employee);
-                commuteRepository.save(commuteRecord);
+                Commute commute = Commute.createCommuteRecord(employee);
+                commuteRepository.save(commute);
             } else {
                 throw new IllegalArgumentException(String.valueOf(Code.valueOf(hasAttendanceToday.get().getWorkPolicy()).getMessage()) + " 가 존재합니다");
             }
         } else {
 //           출근 기록을 생성.
-            CommuteRecord commuteRecord = CommuteRecord.createCommuteRecord(employee);
+            Commute commute = Commute.createCommuteRecord(employee);
 //           지각 비교할 출근 기록 생성
             Attendance attendance = Attendance.create(employee);
 //            저장
-            commuteRepository.save(commuteRecord);
+            commuteRepository.save(commute);
             attendanceRepository.save(attendance);
         }
         return "ok";
     }
-
 
     public String recordLeaveWork(String employeeId) {
         // 사원 ID로 Employee 엔티티를 찾습니다.
@@ -89,7 +88,7 @@ public class CommuteService {
                 .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 사원 ID입니다."));
 
         // 오늘 날짜에 해당하는 출퇴근 기록을 찾습니다.
-        CommuteRecord commuteRecord = commuteRepository.findByEmployeeAndAttendanceDate(employee, Date.valueOf(LocalDate.now()))
+        Commute commute = commuteRepository.findByEmployeeAndAttendanceDate(employee, Date.valueOf(LocalDate.now()))
                 .orElseThrow(() -> new IllegalArgumentException("오늘 날짜에 해당하는 실제 출퇴근 기록이 없습니다."));
         // 오늘 날짜의 근무 가져옴
         Optional<Attendance> hasAttendanceToday = attendanceRepository.findByEmployeeAndWorkStartTimeBetween(
@@ -105,7 +104,7 @@ public class CommuteService {
 //                 끝나는 시간 바꿔줌
             }
         }
-        commuteRecord.updateLeaveTime(Time.valueOf(LocalTime.now()));
+        commute.updateLeaveTime(Time.valueOf(LocalTime.now()));
         return "ok";
 //    }
     }
@@ -117,7 +116,7 @@ public class CommuteService {
         Date lastDayOfMonth = Date.valueOf(month.toLocalDate().withDayOfMonth(month.toLocalDate().lengthOfMonth()));
 
 //        한달간 내 출퇴근
-        List<CommuteRecord> MonthCommute = commuteRepository.findAllByEmployeeAndAttendanceDateBetween(employee, firstDayOfMonth, lastDayOfMonth);
+        List<Commute> MonthCommute = commuteRepository.findAllByEmployeeAndAttendanceDateBetween(employee, firstDayOfMonth, lastDayOfMonth);
         List<Attendance> allByEmployeeAndWorkStartTimeBetween = attendanceRepository.findAllByEmployeeAndWorkStartTimeBetween(employee, month.toLocalDate().withDayOfMonth(1).atStartOfDay(), month.toLocalDate().withDayOfMonth(month.toLocalDate().lengthOfMonth()).atTime(23, 59, 59))
                 .orElseThrow(()-> new IllegalArgumentException(String.valueOf(month.getMonth()) + "의 해당하는 근무표가 없습니다."));
 

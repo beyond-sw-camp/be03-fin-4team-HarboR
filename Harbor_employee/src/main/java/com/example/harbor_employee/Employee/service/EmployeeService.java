@@ -10,7 +10,7 @@ import com.example.harbor_employee.client.TotalClient;
 import com.example.harbor_employee.client.dto.EmployeeStatusDto;
 import com.example.harbor_employee.global.util.EmployeeSpecification;
 import com.example.harbor_employee.client.dto.LoginMemberResDto;
-import com.example.harbor_employee.kafka.KafkaTestDto;
+import com.example.harbor_employee.kafka.dto.KafkaDetailDto;
 import com.example.harbor_employee.kafka.TestProducer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
@@ -22,7 +22,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -159,14 +158,12 @@ public class EmployeeService {
         } catch (IOException e) {
             throw new IllegalArgumentException("image not available");
         }
-
         return EmployeeDetailResDto.toDto(employee);
     }
 
     public List<ExcelEmployeeDto> create(MultipartFile file) throws IOException {
 
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
-
 
         if (!extension.equals("xlsx") && !extension.equals("xls")) {
             throw new IllegalArgumentException("엑셀 파일만 올려주세요.");
@@ -253,7 +250,7 @@ public class EmployeeService {
                         excelEmployeeDto.setPhone(cell14.getStringCellValue());
                     dataList.add(excelEmployeeDto);
                     employee.updateEmployee(excelEmployeeDto);
-                    KafkaTestDto kafkaTestDto = KafkaTestDto.builder()
+                    KafkaDetailDto kafkaDetailDto = KafkaDetailDto.builder()
                             .employeeId(employee.getEmployeeId())
                             .teamCode(employee.getTeamCode())
                             .positionCode(employee.getPositionCode())
@@ -271,9 +268,8 @@ public class EmployeeService {
                             .name(employee.getName())
                             .email(employee.getEmail())
                             .build();
-                    testProducer.sendToKafka("first_create_user_data", kafkaTestDto);
+                    testProducer.sendToKafka("first_create_user_data", kafkaDetailDto);
                 }
-
             }
             return dataList;
         } catch (IOException e) {
@@ -281,6 +277,7 @@ public class EmployeeService {
             throw new IOException("파일을 처리하는 도중 오류가 발생");
         }
     }
+
     public NameBirthDto getObject(String employeeId) {
         Employee employee = employeeRepository.findByEmployeeId(employeeId).orElseThrow(() -> new IllegalArgumentException("없는 회원입니다."));
         return NameBirthDto.builder()

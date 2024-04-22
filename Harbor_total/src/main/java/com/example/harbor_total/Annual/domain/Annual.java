@@ -65,14 +65,17 @@ public class Annual {
                 attendance);
     }
 
-
     public void updateApprovalDate(Approval approval){
-        if(approval.name().equals("FIRST")){
-            this.firstApprovalDate = String.valueOf(LocalDate.now());
-        }else if(approval.name().equals("SECOND")){
-            this.secondApprovalDate = String.valueOf(LocalDate.now());
-        }else if(approval.name().equals("THIRD")){
-            this.thirdApprovalDate = String.valueOf(LocalDate.now());
+        switch (approval.name()) {
+            case "FIRST":
+                this.firstApprovalDate = String.valueOf(LocalDate.now());
+                break;
+            case "SECOND":
+                this.secondApprovalDate = String.valueOf(LocalDate.now());
+                break;
+            case "THIRD":
+                this.thirdApprovalDate = String.valueOf(LocalDate.now());
+                break;
         }
     }
 

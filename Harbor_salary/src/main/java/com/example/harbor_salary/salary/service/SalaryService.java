@@ -1,12 +1,12 @@
 package com.example.harbor_salary.salary.service;
 
-import com.example.harbor_salary.client.GetEmployResponse;
-import com.example.harbor_salary.client.GetUsersResponse;
+import com.example.harbor_salary.client.dto.GetEmployResponse;
+import com.example.harbor_salary.client.dto.GetUsersResponse;
 import com.example.harbor_salary.client.SalaryClient;
 import com.example.harbor_salary.client.SalaryEmployeeClient;
 import com.example.harbor_salary.salary.domain.Salary;
 import com.example.harbor_salary.salary.domain.SalaryCode;
-import com.example.harbor_salary.salary.dto.NameBirthDto;
+import com.example.harbor_salary.client.dto.NameBirthDto;
 import com.example.harbor_salary.salary.dto.request.MySalaryRequest;
 import com.example.harbor_salary.salary.dto.response.MySalaryDetailResponse;
 import com.example.harbor_salary.salary.dto.response.SeveranceDetailRes;
@@ -59,15 +59,11 @@ public class SalaryService {
         return baseSalary - totalDeductions;
     }
 
-
     //급여목록조회
-
 
     //급여 생성
     public Salary createSalary(String employeeId) {
-        System.out.println("employeeId = " + employeeId);
         GetEmployResponse getEmployResponse = salaryEmployeeClient.getPositionCodeByEmployeeId(employeeId);
-        System.out.println("getEmployResponse = " + getEmployResponse.getResults().get(0).getPositionCode());
         SalaryCode salaryCodes = salaryCodeRepository.findByCodeNum(getEmployResponse.getResults().get(0).getPositionCode());
         int baseSalary = salaryCodes.getBaseSalary();
         int salaryGross = calculateSalary(baseSalary);
@@ -93,21 +89,17 @@ public class SalaryService {
                 .birth(getUsersResponse.getResults().get(0).getBirth())
                 .build()
         ).collect(Collectors.toList());
-        log.info("생년월일" + getUsersResponse.getResults().get(0).getBirth());
         return mySalaryRequest;
     }
 
     //상세 급여 목록 조회
     public MySalaryDetailResponse findMySalary(String employeeId, Long salaryId) {
-        System.out.println("employeeId = " + employeeId);
-        System.out.println("salaryId = " + salaryId);
         Salary salary = salaryRepository.findByEmployeeIdAndSalaryId(employeeId, salaryId);
         GetUsersResponse getUsersResponse = salaryClient.getUsers(employeeId);
         return MySalaryDetailResponse.builder()
                 .employeeId(salary.getEmployeeId())
                 .salaryMonthOfYear(salary.getSalaryMonthOfYear())
                 .salaryGross(salary.getSalaryGross())
-                .salaryCode(salary.getSalaryCode())
                 .name(getUsersResponse.getResults().get(0).getName())
                 .build();
     }
@@ -118,7 +110,6 @@ public class SalaryService {
 //        List<Salary> recentSalaries = salaryRepository.findTop3ByEmployeeIdOrderBySalaryMonthOfYearDesc(employeeId);
 //        return recentSalaries;
 //    }
-
 
     public int severancePay(String employeeId) {
         List<Salary> recentSalaries = salaryRepository.findTop3ByEmployeeIdOrderBySalaryMonthOfYearDesc(employeeId);
@@ -141,7 +132,6 @@ public class SalaryService {
         int averageSalary = totalSalary / recentSalaries.size();
         return averageSalary;
     }
-
 
     public SeveranceDetailRes severanceDetail(String employeeId) {
         int SP = severancePay(employeeId);

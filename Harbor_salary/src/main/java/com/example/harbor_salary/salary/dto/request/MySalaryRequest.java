@@ -13,5 +13,4 @@ public class MySalaryRequest {
     private int salaryGross;
     private String name;
     private String birth;
-
 }

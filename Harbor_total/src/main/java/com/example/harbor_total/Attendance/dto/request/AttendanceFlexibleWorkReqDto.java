@@ -1,11 +1,7 @@
 package com.example.harbor_total.Attendance.dto.request;
 
 
-import com.example.harbor_total.commute.domain.CommuteRecord;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
