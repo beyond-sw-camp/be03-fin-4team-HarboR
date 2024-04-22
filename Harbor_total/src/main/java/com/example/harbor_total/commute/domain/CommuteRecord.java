@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Getter
@@ -15,6 +16,7 @@ import java.time.LocalTime;
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "HR_Commute")
+@ToString
 public class CommuteRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,9 +32,14 @@ public class CommuteRecord {
     public CommuteRecord(Employee employee) {
         this.employee = employee;
         this.attendanceDate = Date.valueOf(LocalDate.now());
+        this.attendanceTime = Time.valueOf(LocalTime.now());
     }
 
     public static CommuteRecord createCommuteRecord(Employee employee) {
         return new CommuteRecord(employee);
+    }
+
+    public void updateLeaveTime(Time leavTime) {
+        this.leaveworkTime = leavTime;
     }
 }

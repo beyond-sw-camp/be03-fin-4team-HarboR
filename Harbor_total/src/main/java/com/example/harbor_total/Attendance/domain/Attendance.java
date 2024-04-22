@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "HR_Attendance")
+@ToString
 public class Attendance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,15 +65,14 @@ public class Attendance {
         this.annuals = annuals;
     }
 
-    @Override
-    public String toString() {
-        return "Attendance{" +
-                "attendanceId=" + attendanceId +
-                ", workStartTime=" + workStartTime +
-                ", workEndTime=" + workEndTime +
-                ", workPolicy='" + workPolicy + '\'' +
-                ", employee=" + employee.getEmployeeId() + // 예시로 연관된 필드를 추가
-                '}';
+
+
+    public void updateStartTime(LocalDateTime now) {
+        this.workStartTime = now;
+    }
+
+    public void updateEndTime(LocalDateTime now) {
+        this.workEndTime = now;
     }
 }
 /*

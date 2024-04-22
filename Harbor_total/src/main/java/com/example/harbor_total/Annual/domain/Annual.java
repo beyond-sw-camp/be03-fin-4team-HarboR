@@ -1,6 +1,7 @@
 package com.example.harbor_total.Annual.domain;
 
 import com.example.harbor_total.Attendance.domain.Attendance;
+import com.example.harbor_total.Attendance.dto.request.AttendanceFlexibleWorkReqDto;
 import com.example.harbor_total.global.support.Approval;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -52,7 +53,8 @@ public class Annual {
         this.thirdSignId = thirdSignId;
     }
 
-    public static Annual create(Double annualCount, LocalDateTime adjustmentDate, LocalDateTime adjustmentEndDate, String adjustmentComment, String firstSignId, String secondSignId, String thirdSignId, Attendance attendance){
+//    public static Annual create(Double annualCount, LocalDateTime adjustmentDate, LocalDateTime adjustmentEndDate, String adjustmentComment, String firstSignId, String secondSignId, String thirdSignId, Attendance attendance){
+    public static Annual create(Double annualCount, AttendanceFlexibleWorkReqDto attendanceFlexibleWorkReqDto, Attendance attendance){
 //        return Annual.builder()
 //                .annualCount(annualCount)
 //                .adjustmentDate(adjustmentDate)
@@ -63,8 +65,17 @@ public class Annual {
 //                .thirdSignId(thirdSignId)
 //                .attendance(attendance)
 //                .build();
-        return new Annual(annualCount, adjustmentDate, adjustmentEndDate, adjustmentComment, firstSignId, secondSignId, thirdSignId, attendance);
+        return new Annual(annualCount,
+                attendanceFlexibleWorkReqDto.getWorkStartTime(),
+                attendanceFlexibleWorkReqDto.getWorkEndTime(),
+                attendanceFlexibleWorkReqDto.getAdjustmentComment(),
+                attendanceFlexibleWorkReqDto.getFirstSignId(),
+                attendanceFlexibleWorkReqDto.getSecondSignId(),
+                attendanceFlexibleWorkReqDto.getThirdSignId(),
+                attendance);
+//        return new Annual(annualCount, adjustmentDate, adjustmentEndDate, adjustmentComment, firstSignId, secondSignId, thirdSignId, attendance);
     }
+
 
     public void updateApprovalDate(Approval approval){
         if(approval.name().equals("FIRST")){

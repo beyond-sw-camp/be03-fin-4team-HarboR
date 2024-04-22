@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.repository.query.Param;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -24,4 +25,7 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
 
 
     Optional<Attendance> findByEmployeeAndWorkStartTimeBetween(Employee employee, LocalDateTime atStartOfDay, LocalDateTime atTime);
+
+    //    내 근무
+    Optional<List<Attendance>> findAllByEmployeeAndWorkStartTimeBetween(Employee employee, LocalDateTime StartTime, LocalDateTime EndTime);
 }

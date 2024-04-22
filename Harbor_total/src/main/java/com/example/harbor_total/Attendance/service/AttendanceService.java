@@ -33,26 +33,26 @@ public class AttendanceService {
         this.employeeRepository = employeeRepository;
         this.annualRepository = annualRepository;
     }
+
     public AttendanceListResDto requestwork(AttendanceFlexibleWorkReqDto attendanceFlexibleWorkReqDto, String employeeId) {
 
         AttendanceListResDto attendanceListResDto;
 
 //        유연 근무제 (승인 안 받아도 됨)
-        if(attendanceFlexibleWorkReqDto.getWorkPolicy().equals(O07.name())) {
+        if (attendanceFlexibleWorkReqDto.getWorkPolicy().equals(O07.name())) {
             return requestflexiblework(attendanceFlexibleWorkReqDto, employeeId);
 //        휴가 (반차, 병가, 반차)
         } else if (attendanceFlexibleWorkReqDto.getWorkPolicy().equals(O04.name()) ||
                 attendanceFlexibleWorkReqDto.getWorkPolicy().equals(O08.name()) ||
+                attendanceFlexibleWorkReqDto.getWorkPolicy().equals(O03.name()) ||
                 attendanceFlexibleWorkReqDto.getWorkPolicy().equals(O09.name())) {
             return requestvacation(attendanceFlexibleWorkReqDto, employeeId);
-        } else if (attendanceFlexibleWorkReqDto.getWorkPolicy().equals(O03)) {
-            return requestbusinesstrip(attendanceFlexibleWorkReqDto, employeeId);
-
         } else {
             throw new IllegalArgumentException("해당하는 근무는 없습니다.");
         }
 
     }
+
     //    휴가, 유연근무제 확인
     public void checkwork(AttendanceFlexibleWorkReqDto attendanceFlexibleWorkReqDto, String employeeId) {
         // 신청한 근무의 시작일과 종료일을 설정합니다.
@@ -106,13 +106,13 @@ public class AttendanceService {
         // 저장
         attendanceRepository.save(attendance);
         // dto 반환
-        return AttendanceListResDto.toDto(attendance, attendanceFlexibleWorkReqDto,employeeId);
+        return AttendanceListResDto.toDto(attendance, attendanceFlexibleWorkReqDto, employeeId);
     }
 
     //   휴가 신청
     private AttendanceListResDto requestvacation(AttendanceFlexibleWorkReqDto attendanceFlexibleWorkReqDto, String employeeId) {
         if (attendanceFlexibleWorkReqDto.getThirdSignId().isBlank() || attendanceFlexibleWorkReqDto.getFirstSignId().isBlank() || attendanceFlexibleWorkReqDto.getSecondSignId().isBlank()) {
-            throw new IllegalArgumentException("결재 받을 사람이 없어요");
+            throw new IllegalArgumentException("결재 받을 사람이 없습니다.");
         }
         checkwork(attendanceFlexibleWorkReqDto, employeeId);
         Employee employee = employeeRepository.findByEmployeeId(employeeId).orElseThrow(() -> new IllegalArgumentException("없는 회원입니다."));
@@ -124,9 +124,8 @@ public class AttendanceService {
         // 휴가 기간에 따른 연차 사용량 계산
         Duration duration = Duration.between(attendanceFlexibleWorkReqDto.getWorkStartTime(), attendanceFlexibleWorkReqDto.getWorkEndTime());
         double useAnnual;
-
-        if (duration.toHours() <= 4) {
-            useAnnual = 0.5;
+        if (attendanceFlexibleWorkReqDto.getWorkPolicy().equals(O03.name())) {
+            useAnnual = 0;
         } else {
             LocalDate startDate = attendanceFlexibleWorkReqDto.getWorkStartTime().toLocalDate();
             LocalDate endDate = attendanceFlexibleWorkReqDto.getWorkEndTime().toLocalDate();
@@ -138,27 +137,15 @@ public class AttendanceService {
                     .count(); // 휴가 기간에 포함된 주말의 일 수
 
             // 실제 사용된 연차 수 계산 (휴가 기간 - 주말)
-            useAnnual = totalDays - weekendDays;
-            System.out.println("totalDays = " + totalDays);
-            System.out.println("weekendDays = " + weekendDays);
+            useAnnual = Math.max(totalDays - weekendDays, 0.5);
         }
-
         double remainVacation = employee.getAnnualRemain() - useAnnual;
         if (remainVacation < 0) {
             throw new IllegalArgumentException("남은 휴가일 보다 사용 휴가일이 더 많습니다.");
         }
 
         // Annual 엔티티 생성
-        Annual annual = Annual.create(
-                remainVacation,
-                attendanceFlexibleWorkReqDto.getWorkStartTime(),
-                attendanceFlexibleWorkReqDto.getWorkEndTime(),
-                attendanceFlexibleWorkReqDto.getAdjustmentComment(),
-                attendanceFlexibleWorkReqDto.getFirstSignId(),
-                attendanceFlexibleWorkReqDto.getSecondSignId(),
-                attendanceFlexibleWorkReqDto.getThirdSignId(),
-                attendance
-        );
+        Annual annual = Annual.create(remainVacation, attendanceFlexibleWorkReqDto, attendance);
         // Annual 엔티티 저장
         annualRepository.save(annual);
 
@@ -170,21 +157,8 @@ public class AttendanceService {
         return AttendanceListResDto.toDto(annual, attendanceFlexibleWorkReqDto, employeeId);
     }
 
-//    출장신청
-    public AttendanceListResDto requestbusinesstrip(AttendanceFlexibleWorkReqDto attendanceFlexibleWorkReqDto, String employeeId) {
-
-        log.info("출장 신청 ");
-
-        checkwork(attendanceFlexibleWorkReqDto, employeeId);
-
-        return null;
-    }
-
-
     public Optional<List<Object[]>> getListGroupByTeam(String employeeId) {
         Employee employee = employeeRepository.findByEmployeeId(employeeId).orElseThrow(() -> new IllegalArgumentException("없는 회원입니다."));
-
-//        내팀 가져오기
         String MyTeamCode = employee.getTeamCode();
 
         LocalDateTime start = LocalDate.now().atStartOfDay();
@@ -195,4 +169,3 @@ public class AttendanceService {
         return byMyTeamAttendanceCount;
     }
 }
-//출근 5명 , 휴가 : 3
