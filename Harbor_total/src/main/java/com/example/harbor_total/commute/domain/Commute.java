@@ -1,41 +1,44 @@
 package com.example.harbor_total.commute.domain;
 
 import com.example.harbor_total.Employee.domain.Employee;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
-/*
-* commuteId: 출퇴근 기록 번호(PK)
-* employeeId: 사원 번호(FK)
-* attendanceTime: 출근 시각
-* leaveworkTime: 퇴근 시각
-* breakTime: 휴계 시간
-* attendanceDate: 날짜
-* */
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "HR_Commute")
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@ToString
 public class Commute {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commuteId;
     private Time attendanceTime;
     private Time leaveworkTime;
-    private Time breakTime;
-    //Todo: 컬럼 생성날짜로 해도 괜찮을지도?
-    private String attendanceDate;
+    private Date attendanceDate;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id")
     private Employee employee;
+
+    public Commute(Employee employee) {
+        this.employee = employee;
+        this.attendanceDate = Date.valueOf(LocalDate.now());
+        this.attendanceTime = Time.valueOf(LocalTime.now());
+    }
+
+    public static Commute createCommuteRecord(Employee employee) {
+        return new Commute(employee);
+    }
+
+    public void updateLeaveTime(Time leavTime) {
+        this.leaveworkTime = leavTime;
+    }
 }

@@ -88,7 +88,7 @@ public class LoginService {
 
     public Page<LoginMemberResDto> findAll(Pageable pageable) {
 
-        return loginRepository.findAllByDelYnNotOrderByCreatedAt(true, pageable).map(LoginMemberResDto::mapToMemberResDto);
+        return loginRepository.findAllByDelYnNotOrderByCreatedAt(false, pageable).map(LoginMemberResDto::mapToMemberResDto);
     }
 
     public String delete(String employeeId) {

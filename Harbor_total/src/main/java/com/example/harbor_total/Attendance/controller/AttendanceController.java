@@ -36,13 +36,12 @@ public class AttendanceController {
     }
 
     //    근무 리스트
-//    @GetMapping("/getlist")
-//    @PreAuthorize("hasRole('ADMIN')")
-//    public ResponseEntity<CommonResponse> getList() {
-//        return new ResponseEntity<>(new CommonResponse("당일 근무 리스트 가져오기", commuteService.getList()), HttpStatus.OK);
-//    }
+    @GetMapping("/groupbyteamlist")
+    public ResponseEntity<CommonResponse> getList(Principal principal) {
+        String employeeId = principal.getName();
+        return new ResponseEntity<>(new CommonResponse("당일 근무 리스트 가져오기", commuteService.getListGroupByTeam(employeeId)), HttpStatus.OK);
+    }
 
-//    @GetMapping(value = "/status", produces = "application/json", consumes = "application/json")
     @GetMapping("/status")
     public List<EmployeeStatusDto> getStatus(@RequestParam("id") List<String> employeeId){
         return commuteService.getEmployeeStatus(employeeId);

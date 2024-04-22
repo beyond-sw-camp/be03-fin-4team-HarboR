@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ApprovalReqDto {
     private Long annualId;
-    private String employeeId;
     private Boolean approvalStatus;
     private Boolean force; // => 이전 사람이 휴가중인지 체크하고(프론트?)
 }

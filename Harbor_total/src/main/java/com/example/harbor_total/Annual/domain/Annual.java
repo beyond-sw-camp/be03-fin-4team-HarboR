@@ -1,9 +1,9 @@
 package com.example.harbor_total.Annual.domain;
 
 import com.example.harbor_total.Attendance.domain.Attendance;
+import com.example.harbor_total.Attendance.dto.request.AttendanceFlexibleWorkReqDto;
 import com.example.harbor_total.global.support.Approval;
 import lombok.*;
-import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -12,20 +12,19 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 /*
- * annualId: 휴가 번호(PK)
- * attendanceId: 근태 번호(FK)
- * annualCount: 휴가 추가/차감일
- * adjustmentDate: 조정 적용일
- * adjustmentComment: 조정 사유
- * adjustmentUpdateDate: 승인 날짜
- * authorityPersonId: 최종 승인권자
- * */
+* annualId: 휴가 번호(PK)
+* attendanceId: 근태 번호(FK)
+* annualCount: 휴가 추가/차감일
+* adjustmentDate: 조정 적용일
+* adjustmentComment: 조정 사유
+* adjustmentUpdateDate: 승인 날짜
+* authorityPersonId: 최종 승인권자
+* */
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "HR_Annual")
-@DynamicUpdate
 public class Annual {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,8 +42,7 @@ public class Annual {
     private String adjustment_delYn;
     @OneToOne(mappedBy = "annuals")
     private Attendance attendance;
-
-    private Annual(Double annualCount, LocalDateTime adjustmentDate, LocalDateTime adjustmentEndDate, String adjustmentComment, String firstSignId, String secondSignId, String thirdSignId, String adjustment_delYn, Attendance attendance) {
+    public Annual(Double annualCount, LocalDateTime adjustmentDate, LocalDateTime adjustmentEndDate, String adjustmentComment, String firstSignId, String secondSignId, String thirdSignId, Attendance attendance) {
         this.annualCount = annualCount;
         this.adjustmentDate = adjustmentDate;
         this.adjustmentEndDate = adjustmentEndDate;
@@ -52,20 +50,19 @@ public class Annual {
         this.attendance = attendance;
         this.firstSignId = firstSignId;
         this.secondSignId = secondSignId;
-        this.adjustment_delYn = adjustment_delYn;
         this.thirdSignId = thirdSignId;
     }
 
-    public static Annual create(Double annualCount,
-                                LocalDateTime adjustmentDate,
-                                LocalDateTime adjustmentEndDate,
-                                String adjustmentComment,
-                                String firstSignId,
-                                String secondSignId,
-                                String thirdSignId,
-                                String adjustment_delYn,
-                                Attendance attendance){
-        return new Annual(annualCount, adjustmentDate, adjustmentEndDate, adjustmentComment, firstSignId, secondSignId, thirdSignId, adjustment_delYn, attendance);
+    public static Annual create(Double annualCount, AttendanceFlexibleWorkReqDto attendanceFlexibleWorkReqDto, Attendance attendance){
+
+        return new Annual(annualCount,
+                attendanceFlexibleWorkReqDto.getWorkStartTime(),
+                attendanceFlexibleWorkReqDto.getWorkEndTime(),
+                attendanceFlexibleWorkReqDto.getAdjustmentComment(),
+                attendanceFlexibleWorkReqDto.getFirstSignId(),
+                attendanceFlexibleWorkReqDto.getSecondSignId(),
+                attendanceFlexibleWorkReqDto.getThirdSignId(),
+                attendance);
     }
 
     public void updateApprovalDate(Approval approval){
@@ -91,6 +88,7 @@ public class Annual {
             this.thirdApprovalDate = "companion";
         }
     }
+
     public void updateDelYN(){
         this.adjustment_delYn = "Y";
     }

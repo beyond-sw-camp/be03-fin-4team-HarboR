@@ -1,6 +1,5 @@
 package com.example.harbor_total.Annual.controller;
 
-import com.example.harbor_total.Annual.dto.request.AnnualCreateReqDto;
 import com.example.harbor_total.Annual.dto.request.ApprovalReqDto;
 import com.example.harbor_total.Annual.service.AnnualService;
 import com.example.harbor_total.global.common.CommonResponse;
@@ -25,18 +24,6 @@ public class AnnualController {
 //    public ResponseEntity<CommonResponse> getlist() {
 //
 //    }
-
-    /**
-     * 전자 결재 생성
-     * @param annualCreateReqDto
-     * @return
-     */
-    @PostMapping("/create")
-    public ResponseEntity createEworks(@RequestBody AnnualCreateReqDto annualCreateReqDto){
-        annualService.create(annualCreateReqDto);
-        log.info("전자 결재 생성 성공." + "\n" + "근태 번호: " + annualCreateReqDto.getAttendenceId());
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
-    }
 
     /**
      * 개인 별 요청 전자 결재 리스트 조회 API
@@ -77,8 +64,8 @@ public class AnnualController {
      * @return
      */
     @PostMapping("/approval")
-    public ResponseEntity<CommonResponse> approvalEworks(@RequestBody ApprovalReqDto approvalReqDto){
-        annualService.updateApproval(approvalReqDto);
+    public ResponseEntity<CommonResponse> approvalEworks(@RequestHeader("employeeId") String employeeId, @RequestBody ApprovalReqDto approvalReqDto){
+        annualService.updateApproval(employeeId, approvalReqDto);
         return new ResponseEntity<>(new CommonResponse("요청이 정상적으로 실행되었습니다.", null), HttpStatus.OK);
     }
 }

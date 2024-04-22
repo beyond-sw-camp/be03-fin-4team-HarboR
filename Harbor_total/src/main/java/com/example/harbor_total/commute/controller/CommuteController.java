@@ -1,5 +1,6 @@
 package com.example.harbor_total.commute.controller;
 
+import com.example.harbor_total.commute.dto.req.CommuteListReqDto;
 import com.example.harbor_total.commute.service.CommuteService;
 import com.example.harbor_total.global.common.CommonResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +37,15 @@ public class CommuteController {
         return new ResponseEntity<>(new CommonResponse("출근 처리 되었습니다.", attendanceResult), HttpStatus.OK);
     }
 
-    @PutMapping("/leavework")
+    @GetMapping("Monthlyattendence")
+    public ResponseEntity<CommonResponse> MonthlyAttendance(@RequestBody CommuteListReqDto commuteListReqDto, Principal principal) {
+        String employeeId = principal.getName();
+
+        return new ResponseEntity<>(new CommonResponse("한달 근무리스트", commuteService.MonthlyAttendance(employeeId,commuteListReqDto)), HttpStatus.OK);
+    }
+
+
+    @PatchMapping("/leavework")
     public ResponseEntity<CommonResponse> recordLeaveWork(@RequestHeader("employeeId") String employeeId) {
         String leave = commuteService.recordLeaveWork(employeeId);
         return new ResponseEntity<>(new CommonResponse<>("퇴근 처리 되었습니다.", leave), HttpStatus.OK);
