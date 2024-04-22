@@ -1,43 +1,36 @@
 <template>
-  <div class="container">
-    <h1 style="color: #1e40af;">업무 관리 캘린더</h1>
+    <v-row justify="space-between" class="align-center mb-3">
+      <v-col cols="12" md="3">
+        <h5 class="text-center">상품 ID</h5>
+      </v-col>
+      <v-col cols="12" md="3">
+        <h5 class="text-center">수량</h5>
+      </v-col>
+      <v-col cols="12" md="3">
+        <h5 class="text-center">상품명</h5>
+      </v-col>
+      <v-col cols="12" md="3">
+        <h5 class="text-center">가격</h5>
+      </v-col>
+    </v-row>
 
-    <!-- 업무 추가 폼 -->
-    <div>
-      <input type="text" v-model="newTask" placeholder="새로운 업무 추가">
-      <button @click="addTask">추가</button>
-    </div>
-
-    <!-- 업무 목록 -->
-    <div class="mt-4">
-      <div v-for="(task, index) in tasks" :key="index" class="task-item">
-        <span>{{ task }}</span>
-        <button @click="deleteTask(index)">삭제</button>
-      </div>
-    </div>
-  </div>
+    <v-row justify="space-between" class="align-center mb-3">
+      <v-col cols="12" md="3">
+        <h5 class="text-center">1</h5>
+      </v-col>
+      <v-col cols="12" md="3">
+        <h5 class="text-center">100</h5>
+      </v-col>
+      <v-col cols="12" md="3">
+        <h5 class="text-center">이원태</h5>
+      </v-col>
+      <v-col cols="12" md="3">
+        <h5 class="text-center">30000원</h5>
+      </v-col>
+    </v-row>
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      newTask: '',
-      tasks: []
-    };
-  },
-  methods: {
-    addTask() {
-      if (this.newTask.trim() !== '') {
-        this.tasks.push(this.newTask.trim());
-        this.newTask = '';
-      }
-    },
-    deleteTask(index) {
-      this.tasks.splice(index, 1);
-    }
-  }
-};
 </script>
 
 <style scoped>

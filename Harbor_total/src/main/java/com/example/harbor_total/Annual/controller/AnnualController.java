@@ -1,6 +1,5 @@
 package com.example.harbor_total.Annual.controller;
 
-
 import com.example.harbor_total.Annual.dto.request.AnnualCreateReqDto;
 import com.example.harbor_total.Annual.dto.request.ApprovalReqDto;
 import com.example.harbor_total.Annual.service.AnnualService;
@@ -30,11 +29,11 @@ public class AnnualController {
      * @param annualCreateReqDto
      * @return
      */
-//    @PostMapping("/create")
-//    public ResponseEntity createEworks(@RequestBody AnnualCreateReqDto annualCreateReqDto){
-//        annualService.create(annualCreateReqDto);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(HttpStatus.CREATED);
-//    }
+    @PostMapping("/create")
+    public ResponseEntity createEworks(@RequestBody AnnualCreateReqDto annualCreateReqDto){
+        annualService.create(annualCreateReqDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(HttpStatus.CREATED);
+    }
 
     /**
      * 개인 별 요청 전자 결재 리스트 조회 API
@@ -62,6 +61,11 @@ public class AnnualController {
     @GetMapping("/read/authlist/{employeeId}")
     public ResponseEntity<CommonResponse> getAuthList(@PathVariable("employeeId") String employeeId){
         return new ResponseEntity<>(new CommonResponse("승인권자 리스트 출력 완료", annualService.getAuthList(employeeId)), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{annualId}")
+    public HttpStatus deleteAnnual(@PathVariable("annualId") Long annualId){
+        return annualService.deleteAnnual(annualId);
     }
 
     /**

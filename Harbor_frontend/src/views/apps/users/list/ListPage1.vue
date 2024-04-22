@@ -8,8 +8,9 @@ import UiParentCard from '@/components/shared/UiParentCard.vue';
 import { useCodeStore } from '@/stores/codetrans';
 const store = useUserCardStore();
 const codeStore = useCodeStore();
+const token: string | null = localStorage.getItem('token');
 onMounted(() => {
-  store.fetchlistCards();
+  store.fetchlistCards(token);
 });
 const getPositionName = (position) => {
   return codeStore.getPositionNameByCode(position);
@@ -44,7 +45,7 @@ const headers: Header[] = [
 ];
 const items = ref(listCards);
 const themeColor = ref('rgb(var(--v-theme-secondary))');
-
+// 직책 또는 부서 이름으로 검색하는 경우
 </script>
 <template>
   <v-row>
@@ -55,12 +56,17 @@ const themeColor = ref('rgb(var(--v-theme-secondary))');
             <v-text-field type="text" variant="outlined" persistent-placeholder placeholder="검색하기" v-model="searchValue"
               density="compact" hide-details prepend-inner-icon="mdi-magnify" />
           </v-col>
+          <v-col cols="12" md="3">
+            <v-select label="Select" v-model="searchField" variant="outlined" @update:model-value="searchByName"
+            :items="['','name', 'position', 'department']"></v-select>
+            </v-col>
         </v-row>
         <div class="overflow-auto">
           <EasyDataTable :headers="headers" :items="items" table-class-name="customize-table action-position"
             :theme-color="themeColor" :search-field="searchField" :search-value="searchValue" :rows-per-page="8">
             <template #item-name="{ name, email, profileImagePath, verify, employeeId }">
-              <div class="d-flex align-center ga-4"  @click="$router.push({ path: `/app/user/${employeeId}/profile`, params: { employeeId: employeeId }})">
+              <div class="d-flex align-center ga-4"
+                @click="$router.push({ path: `/app/user/${employeeId}/profile`, params: { employeeId: employeeId } })">
                 <img :src="profileImagePath" alt="avatar" width="40" />
                 <div>
                   <h5 class="text-h5">
@@ -79,7 +85,7 @@ const themeColor = ref('rgb(var(--v-theme-secondary))');
               <div class="d-flex align-center ga-4">
                 <div>
                   <h5 class="text-h5">
-                    {{  getTeamName(team) }} 
+                    {{ getTeamName(team) }}
                   </h5>
                   <small class="text-subtitle"> {{ getDepartmentName(department) }} </small>
                 </div>
@@ -92,7 +98,7 @@ const themeColor = ref('rgb(var(--v-theme-secondary))');
             </template>
             <template #item-position="{ position }">
               <div>
-                {{getPositionName(position)}}
+                {{ getPositionName(position) }}
               </div>
             </template>
             <template #item-operation>

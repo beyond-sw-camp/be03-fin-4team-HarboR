@@ -10,6 +10,7 @@ import VueTablerIcons from 'vue-tabler-icons';
 //Mock Api data
 import './_mockApis';
 import { fakeBackend } from '@/utils/helpers/fake-backend';
+import { Qalendar } from "qalendar";
 
 import { vMaska } from 'maska';
 // print
@@ -28,21 +29,16 @@ const i18n = createI18n({
 });
 
 const app = createApp(App);
-axios.interceptors.response.use(response => response, error =>{
-  if(error.response && error.response.status === 401){
-    localStorage.clear();
-    window.location.href = "/login";
-  }
-  return Promise.reject(error);
-})
 fakeBackend();
 app.use(router);
+app.use(axios);
 app.component('EasyDataTable', Vue3EasyDataTable);
 app.use(PerfectScrollbar);
 app.use(createPinia());
 app.use(VueTablerIcons);
 app.use(print);
 app.use(i18n);
+app.use(Qalendar);
 app.directive('maska', vMaska);
 app.use(VueApexCharts);
 app.use(vuetify).mount('#app');
