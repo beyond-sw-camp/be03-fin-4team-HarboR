@@ -77,7 +77,7 @@ const showRow = (item: ListItem) => {
                     </v-btn>
                   </h5>
                   <small class="text-subtitle">{{ email }}</small>
-                  <br>
+                  <br />
                   <small class="text-subtitle">{{ employeeId }}</small>
                 </div>
               </div>
