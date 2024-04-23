@@ -1,6 +1,5 @@
 package com.example.harbor_salary.salary.dto.response;
 
-import com.example.harbor_salary.salary.domain.SalaryCode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,4 +16,7 @@ public class MySalaryDetailResponse {
     private LocalDate salaryMonthOfYear;
     private int salaryGross;
     private String name;
+    private String codeNum;
+    private int baseSalary;
+    private String position;
 }
