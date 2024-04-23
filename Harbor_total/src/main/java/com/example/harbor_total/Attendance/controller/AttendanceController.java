@@ -2,14 +2,11 @@ package com.example.harbor_total.Attendance.controller;
 
 import com.example.harbor_total.Attendance.dto.request.AttendanceFlexibleWorkReqDto;
 import com.example.harbor_total.Attendance.service.AttendanceService;
-import com.example.harbor_total.client.dto.EmployeeStatusDto;
+import com.example.harbor_total.Attendance.dto.EmployeeStatusDto;
 import com.example.harbor_total.global.common.CommonResponse;
-import feign.Response;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -33,20 +30,18 @@ public class AttendanceController {
      * @return AttendanceListResDto
      * */
     @PostMapping("/requestwork")
-    public ResponseEntity<CommonResponse> requestwork(@RequestBody AttendanceFlexibleWorkReqDto attendanceFlexibleWorkReqDto, Principal principal) {
+    public ResponseEntity<CommonResponse> requestwork(@RequestBody AttendanceFlexibleWorkReqDto attendanceFlexibleWorkReqDto, @RequestHeader("employeeId") String employeeId) {
         log.info("attendanceFlexibleWorkReqDto : {} ", attendanceFlexibleWorkReqDto);
-        String employeeId = principal.getName();
-        return new ResponseEntity<>(new CommonResponse("시차 근무제 신청하기",commuteService.requestwork(attendanceFlexibleWorkReqDto,employeeId)),HttpStatus.ACCEPTED.OK);
+        return new ResponseEntity<>(new CommonResponse("시차 근무제 신청하기",commuteService.requestwork(attendanceFlexibleWorkReqDto,employeeId)), HttpStatus.OK);
     }
 
     //    근무 리스트
-//    @GetMapping("/getlist")
-//    @PreAuthorize("hasRole('ADMIN')")
-//    public ResponseEntity<CommonResponse> getList() {
-//        return new ResponseEntity<>(new CommonResponse("당일 근무 리스트 가져오기", commuteService.getList()), HttpStatus.OK);
-//    }
+    @GetMapping("/groupbyteamlist")
+    public ResponseEntity<CommonResponse> getList(Principal principal) {
+        String employeeId = principal.getName();
+        return new ResponseEntity<>(new CommonResponse("당일 근무 리스트 가져오기", commuteService.getListGroupByTeam(employeeId)), HttpStatus.OK);
+    }
 
-//    @GetMapping(value = "/status", produces = "application/json", consumes = "application/json")
     @GetMapping("/status")
     public List<EmployeeStatusDto> getStatus(@RequestParam("id") List<String> employeeId){
         return commuteService.getEmployeeStatus(employeeId);

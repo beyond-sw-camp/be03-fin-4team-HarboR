@@ -20,7 +20,6 @@ public class SalaryCode {
     @Id
     @Column(length = 20)
     private String codeNum;
-
     //급여
     @Column(nullable = false)
     private int baseSalary;

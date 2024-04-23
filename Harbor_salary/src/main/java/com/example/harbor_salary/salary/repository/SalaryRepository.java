@@ -13,8 +13,8 @@ import java.util.List;
 public interface SalaryRepository extends JpaRepository<Salary, Long> {
         Salary findByEmployeeIdAndSalaryId(String employeeId , Long salaryId);
 
-//        Page<Salary> findAllByEmployeeId(String employeeId, Pageable pageable);
-        List<Salary> findAllByEmployeeId(String employeeId);
+        Page<Salary> findAllByEmployeeId(String employeeId, Pageable pageable);
+//        List<Salary> findAllByEmployeeId(String employeeId);
 
         List<Salary> findTop3ByEmployeeIdOrderBySalaryMonthOfYearDesc(String employeeId);
 

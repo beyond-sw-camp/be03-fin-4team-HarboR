@@ -11,19 +11,16 @@ import com.example.harbor_employee.client.dto.EmployeeStatusDto;
 import com.example.harbor_employee.client.dto.LoginMemberResDto;
 import com.example.harbor_employee.Employee.service.EmployeeService;
 import com.example.harbor_employee.global.common.CommonResponse;
-import com.example.harbor_employee.kafka.TestProducer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -59,15 +56,15 @@ public class EmployeeController {
      * }
      */
     @GetMapping("/get/list")
-    public ResponseEntity<List<EmployeeResDto>> getList(
+    public ResponseEntity<CommonResponse> getList(
             EmployeeSearchDto employeeSearchDto,
-            @PageableDefault(page = 0, size = 100, sort = "employeeId", direction = Sort.Direction.ASC) Pageable pageable){
+            @PageableDefault(page = 0, size = 20, sort = "employeeId", direction = Sort.Direction.ASC) Pageable pageable){
         List<EmployeeResDto> employees = employeeService.findAll(employeeSearchDto, pageable);
-        return new ResponseEntity<>(employees, HttpStatus.OK);
+        return new ResponseEntity<>(new CommonResponse("전체 리스트 호출", employees), HttpStatus.OK);
     }
 
-    @GetMapping("/get/{employeeId}/detail")
-    public ResponseEntity<CommonResponse> getEmployeeDetail(@PathVariable(name = "employeeId") String employeeId) {
+    @GetMapping("/get/detail")
+    public ResponseEntity<CommonResponse> getEmployeeDetail(@RequestHeader(name = "employeeId") String employeeId) {
         return new ResponseEntity<>(new CommonResponse("유저 정보 자세히 보기", employeeService.findByEmployeeId(employeeId)), HttpStatus.OK);
     }
     /**
@@ -76,10 +73,8 @@ public class EmployeeController {
      */
 
     //    front에서 admin도 수정 api가 보이는 식으로
-    @PatchMapping("/{employeeId}/update")
-    public ResponseEntity<CommonResponse> updateEmployee(@PathVariable(name = "employeeId") String employeeId, EmployeeUpdateRequestDto request) {
-        System.out.println("request = " + request);
-        System.out.println("update");
+    @PatchMapping("/update")
+    public ResponseEntity<CommonResponse> updateEmployee(@RequestHeader(name = "employeeId") String employeeId, EmployeeUpdateRequestDto request) {
         return new ResponseEntity<>(new CommonResponse("유저 정보 업데이트",employeeService.updateEmployee(request,employeeId)), HttpStatus.OK);
     }
 
@@ -89,30 +84,19 @@ public class EmployeeController {
         return employeeService.createBasicEmployee(loginMemberResDto);
     }
 
-    @GetMapping("/admin")
-    public ResponseEntity<List<EmployeeStatusDto>> healthCheck(){
-        List<String> list = Arrays.asList("HB20240002", "HB20240003", "HB20240004");
-        List<EmployeeStatusDto> employeeStatusDto = totalClient.getStatus(list);
-        return ResponseEntity.status(HttpStatus.OK).body(employeeStatusDto);
-    }
-    /**
-     * @FeignClient테스트
-     */
-    @GetMapping("/{employeeId}/positionCode")
-    public ResponseEntity<GetEmployResponse> getPositionCodeByEmployeeId(@PathVariable("employeeId") String employeeId){
-        GetEmployResponse positionCode = employeeService.getUserPosition(employeeId);
-        System.out.println("positionCode = " + positionCode);
-        return ResponseEntity.status(HttpStatus.OK).body(positionCode);
-    }
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/createbaisc")
+    @PostMapping("/create/basic")
     public ResponseEntity<CommonResponse> create(@RequestParam("file") MultipartFile file) throws IOException {
         List<ExcelEmployeeDto> excelDataDtos = employeeService.create(file);
         return new ResponseEntity<>(new CommonResponse("요청이 정상적으로 실행되었습니다.", excelDataDtos), HttpStatus.OK);
     }
 
-    @GetMapping("/get/{employeeId}/object")
-    public NameBirthDto getNameBirth(@PathVariable("employeeId") String employeeId){
+    @GetMapping("/get/object")
+    public NameBirthDto getNameBirth(@RequestHeader(name = "employeeId") String employeeId){
         return employeeService.getObject(employeeId);
+    }
+
+    @GetMapping("/positionCode")
+    public GetEmployResponse getPositionCodeByEmployeeId(@RequestHeader(name = "employeeId") String employeeId){
+        return employeeService.getUserPosition(employeeId);
     }
 }

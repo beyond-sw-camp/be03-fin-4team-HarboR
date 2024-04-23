@@ -2,7 +2,8 @@ package com.example.harbor_login.Login.controller;
 
 
 import com.example.harbor_login.Login.domain.Login;
-import com.example.harbor_login.Login.dto.*;
+import com.example.harbor_login.Login.dto.request.*;
+import com.example.harbor_login.Login.dto.response.GetUsersResponse;
 import com.example.harbor_login.Login.service.EmailService;
 import com.example.harbor_login.Login.service.LoginService;
 import com.example.harbor_login.global.common.CommonResponse;
@@ -33,7 +34,7 @@ public class LoginController {
 
     @PostMapping("/signup")
     public ResponseEntity<CommonResponse> signup(@Valid @RequestBody LoginSignUpReqDto loginSignUpReqDto, BindingResult bindingResult) throws BindException {
-        System.out.println("bindingResult = " + bindingResult);
+        log.info("bindingResult = " + bindingResult);
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
         }
@@ -47,8 +48,8 @@ public class LoginController {
             @Valid @RequestBody EmailLoginReqDto emailLoginReqDto,
             BindingResult bindingResult
     ) throws BindException {
-            System.out.println("emailLoginReqDto.getEmail() = " + emailLoginReqDto.getEmail());
-            System.out.println("emailLoginReqDto.getPassword() = " + emailLoginReqDto.getPassword());
+            log.error("emailLoginReqDto.getEmail() = " + emailLoginReqDto.getEmail());
+            log.error("emailLoginReqDto.getPassword() = " + emailLoginReqDto.getPassword());
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
         }
@@ -69,8 +70,8 @@ public class LoginController {
             BindingResult bindingResult
 
     ) throws BindException {
-        System.out.println("emailLoginReqDto.getEmail() = " + employeeLoginReqDto.getEmployeeId());
-        System.out.println("emailLoginReqDto.getPassword() = " + employeeLoginReqDto.getPassword());
+        log.error("emailLoginReqDto.getEmail() = " + employeeLoginReqDto.getEmployeeId());
+        log.error("emailLoginReqDto.getPassword() = " + employeeLoginReqDto.getPassword());
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
         }
@@ -85,11 +86,6 @@ public class LoginController {
 
         return new ResponseEntity<>(new CommonResponse("member successfully logined", member_info), HttpStatus.OK);
     }
-    @GetMapping(value = "/detail/{id}")
-    public ResponseEntity<GetUsersResponse> getUserDetail(@PathVariable(name = "id") String id) {
-        GetUsersResponse login = loginService.getUserInfo(id);
-        return ResponseEntity.status(HttpStatus.OK).body(login);
-    }
 
 //    @GetMapping("/myinfo")
 //    public ResponseEntity<CommonResponse> findMyInfo() {
@@ -100,27 +96,29 @@ public class LoginController {
     @GetMapping("/findId")
     public ResponseEntity<CommonResponse> findId(@RequestBody FindIdReqDto findIdReqDto) {
         Map<String, String> employeeId = loginService.findEmployeeId(findIdReqDto);
-        return new ResponseEntity<>(new CommonResponse("find Id successfully", findIdReqDto), HttpStatus.OK);
+        return new ResponseEntity<>(new CommonResponse("find Id successfully", employeeId.get("EmployeeId")), HttpStatus.OK);
     }
 
-    @PostMapping("/findPw")
+    @GetMapping("/findPw")
     public ResponseEntity<CommonResponse> pwFind(@RequestBody FindPasswordReq findPasswordReq) {
         loginService.userCheck(findPasswordReq);
-        return new ResponseEntity<>(new CommonResponse("사용자가 확인 되었습니다.", findPasswordReq), HttpStatus.OK);
+        return new ResponseEntity<>(new CommonResponse("사용자가 확인 되었습니다.", ""), HttpStatus.OK);
     }
 
-    @PostMapping("/TempPassword/{email}")
+    @GetMapping("/TempPassword/{email}")
     public ResponseEntity<CommonResponse> mailConfirm1(@PathVariable(value = "email") String email) {
         emailService.sendEmailPw(email);
-
-
-        return new ResponseEntity<>(new CommonResponse("tempPassword transmitted successfully", email), HttpStatus.OK);
+        return new ResponseEntity<>(new CommonResponse("tempPassword transmitted successfully", ""), HttpStatus.OK);
     }
 
-    @PostMapping("/changePw")
+    @PatchMapping("/changePw")
     public ResponseEntity<CommonResponse> pwCharge(@RequestBody ChargeRequestDto chargeRequestDto) {
         loginService.PwChange(chargeRequestDto);
-        return new ResponseEntity<>(new CommonResponse("Password successfully change", chargeRequestDto), HttpStatus.OK);
+        return new ResponseEntity<>(new CommonResponse("Password successfully change", ""), HttpStatus.OK);
+    }
+
+    @GetMapping("/detail")
+    public GetUsersResponse getUsers(@RequestHeader("employeeId") String employeeId) {
+        return loginService.getUserInfo(employeeId);
     }
 }
-

@@ -8,8 +8,9 @@ import UiParentCard from '@/components/shared/UiParentCard.vue';
 import { useCodeStore } from '@/stores/codetrans';
 const store = useUserCardStore();
 const codeStore = useCodeStore();
+const token: string | null = localStorage.getItem('token');
 onMounted(() => {
-  store.fetchlistCards();
+  store.fetchlistCards(token);
 });
 const getPositionName = (position) => {
   return codeStore.getPositionNameByCode(position);

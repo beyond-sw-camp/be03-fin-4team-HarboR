@@ -23,8 +23,6 @@ public class RedisUtil {
         valueOperations.set(key, value);
     }
 
-
-
     public void deleteData(String key) {
         template.delete(key);
     }

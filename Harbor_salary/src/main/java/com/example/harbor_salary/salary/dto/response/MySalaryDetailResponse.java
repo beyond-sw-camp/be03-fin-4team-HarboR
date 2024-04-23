@@ -1,15 +1,16 @@
 package com.example.harbor_salary.salary.dto.response;
 
-import com.example.harbor_salary.salary.domain.SalaryCode;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
 import java.time.LocalDate;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class MySalaryDetailResponse {
     private String employeeId;
     private LocalDate salaryMonthOfYear;
@@ -18,7 +19,4 @@ public class MySalaryDetailResponse {
     private String codeNum;
     private int baseSalary;
     private String position;
-
-
-
 }

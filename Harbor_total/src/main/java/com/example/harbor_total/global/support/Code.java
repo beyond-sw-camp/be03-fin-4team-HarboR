@@ -148,7 +148,10 @@ public enum Code {
     T03("기획팀"),
     T04("인사팀"),
     T05("마케팅팀"),
-    K1000("(주)Harbor");
+    K1000("(주)Harbor"),
+
+    X01("지각"),
+    X02("정상");
 
     private final String message;
 
