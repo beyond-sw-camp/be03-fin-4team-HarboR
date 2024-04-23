@@ -1,6 +1,9 @@
 import {
   BrandGravatarIcon,
   MenuIcon,
+  CoinIcon,
+  CoinsIcon,
+  CoinOffIcon,
   CircleIcon,
   ShapeIcon,
   CircleOffIcon,
@@ -134,13 +137,18 @@ const sidebarItem: menu[] = [
   { header: '급여관리' },
   {
     title: '급여목록조회',
-    icon: DashboardIcon,
-    to: '/dashboard/default'
+    icon: CoinIcon,
+    to: '/app/user/salarylist'
   },
   {
     title: '퇴직금조회 ',
-    icon: DeviceAnalyticsIcon,
+    icon: CoinOffIcon,
     to: '/dashboard/analytics'
+  },
+  {
+    title: '급여 지급버튼 ',
+    icon: CoinsIcon,
+    to: '/app/user/salaryCreate'
   },
 ]
 export default sidebarItem;

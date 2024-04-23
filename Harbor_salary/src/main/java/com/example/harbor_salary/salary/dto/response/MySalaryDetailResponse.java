@@ -4,6 +4,8 @@ import com.example.harbor_salary.salary.domain.SalaryCode;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
 import java.time.LocalDate;
 
 @Data
@@ -13,7 +15,9 @@ public class MySalaryDetailResponse {
     private LocalDate salaryMonthOfYear;
     private int salaryGross;
     private String name;
-    private SalaryCode salaryCode;
+    private String codeNum;
+    private int baseSalary;
+    private String position;
 
 
 

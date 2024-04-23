@@ -79,13 +79,16 @@ public class SalaryService {
         return salaryRepository.save(salary);
     }
 
-    public List<MySalaryRequest> findAllSalarys(String employeeId, Pageable pageable) {
+    public List<MySalaryRequest> findAllSalarys(String employeeId) {
         // 현재 로그인한 사원의 급여 정보 조회
-        Page<Salary> salarys = salaryRepository.findAllByEmployeeId(employeeId, pageable);
-        List<Salary> salaryList = salarys.getContent();
+        System.out.println("employeeId = " + employeeId);
+        List<Salary> salaryList = salaryRepository.findAllByEmployeeId(employeeId);
+        System.out.println("salaryList = " + salaryList);
         GetUsersResponse getUsersResponse = salaryClient.getUsers(employeeId);
+        System.out.println("getUsersResponse = " + getUsersResponse);
         List<MySalaryRequest> mySalaryRequest = new ArrayList<>();
         mySalaryRequest = salaryList.stream().map(i -> MySalaryRequest.builder()
+                .salaryId(i.getSalaryId())
                 .employeeId(i.getEmployeeId())
                 .salaryGross(i.getSalaryGross())
                 .salaryMonthOfYear(i.getSalaryMonthOfYear())
@@ -93,21 +96,25 @@ public class SalaryService {
                 .birth(getUsersResponse.getResults().get(0).getBirth())
                 .build()
         ).collect(Collectors.toList());
-        log.info("생년월일" + getUsersResponse.getResults().get(0).getBirth());
+        System.out.println("mySalaryRequest = " + mySalaryRequest);
         return mySalaryRequest;
     }
 
     //상세 급여 목록 조회
     public MySalaryDetailResponse findMySalary(String employeeId, Long salaryId) {
-        System.out.println("employeeId = " + employeeId);
-        System.out.println("salaryId = " + salaryId);
+        System.out.println("employeeId1 = " + employeeId);
+        System.out.println("salaryId1 = " + salaryId);
         Salary salary = salaryRepository.findByEmployeeIdAndSalaryId(employeeId, salaryId);
         GetUsersResponse getUsersResponse = salaryClient.getUsers(employeeId);
+        System.out.println("getUsersResponse = " + getUsersResponse.getResults().get(0).getName());
+        System.out.println("getUsersResponse.getResults().get(0).getName() = " + getUsersResponse.getResults().get(0).getName());
         return MySalaryDetailResponse.builder()
                 .employeeId(salary.getEmployeeId())
                 .salaryMonthOfYear(salary.getSalaryMonthOfYear())
                 .salaryGross(salary.getSalaryGross())
-                .salaryCode(salary.getSalaryCode())
+                .codeNum(salary.getSalaryCode().getCodeNum())
+                .baseSalary(salary.getSalaryCode().getBaseSalary())
+                .position(salary.getSalaryCode().getPosition())
                 .name(getUsersResponse.getResults().get(0).getName())
                 .build();
     }

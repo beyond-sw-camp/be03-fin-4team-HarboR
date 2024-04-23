@@ -1,6 +1,7 @@
 package com.example.harbor_salary.salary.controller;
 
 import com.example.harbor_salary.client.SalaryEmployeeClient;
+import com.example.harbor_salary.global.common.CommonResponse;
 import com.example.harbor_salary.global.config.CustomUserDetails;
 import com.example.harbor_salary.salary.domain.Salary;
 import com.example.harbor_salary.client.SalaryClient;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -57,15 +59,18 @@ public class SalaryController {
 
     // 개인 급여 목록 조회
     @GetMapping("/mysalarys")
-    public ResponseEntity<List<MySalaryRequest>> findAllSalarys(@AuthenticationPrincipal CustomUserDetails userDetails, Pageable pageable) {
-        return new ResponseEntity<>(salaryService.findAllSalarys(userDetails.getEmployeeId(), pageable), HttpStatus.OK);
+    public ResponseEntity<CommonResponse> findAllSalarys(Principal principal) {
+        String employeeId = principal.getName();
+        System.out.println("userDetails = " + employeeId);
+        return new ResponseEntity<>(new CommonResponse<>("내 샐러리", salaryService.findAllSalarys(employeeId)), HttpStatus.OK);
     }
 
     @GetMapping("/mysalary/{salaryId}")
-    public ResponseEntity<MySalaryDetailResponse> findMySalary(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable("salaryId") Long salaryId) {
-        System.out.println("userDetails = " + userDetails.getEmployeeId());
+    public ResponseEntity<CommonResponse> findMySalary(Principal principal, @PathVariable("salaryId") Long salaryId) {
+        String employeeId = principal.getName();
+        System.out.println("employeeId = " + employeeId);
         System.out.println("salaryId = " + salaryId);
-        return new ResponseEntity<>(salaryService.findMySalary(userDetails.getEmployeeId(), salaryId), HttpStatus.OK);
+        return new ResponseEntity<>(new CommonResponse<>("내 샐러리 상세조회",salaryService.findMySalary(employeeId, salaryId)), HttpStatus.OK);
     }
 
 

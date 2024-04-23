@@ -61,7 +61,7 @@ public class EmployeeController {
     @GetMapping("/get/list")
     public ResponseEntity<List<EmployeeResDto>> getList(
             EmployeeSearchDto employeeSearchDto,
-            @PageableDefault(page = 0, size = 10, sort = "employeeId", direction = Sort.Direction.ASC) Pageable pageable){
+            @PageableDefault(page = 0, size = 100, sort = "employeeId", direction = Sort.Direction.ASC) Pageable pageable){
         List<EmployeeResDto> employees = employeeService.findAll(employeeSearchDto, pageable);
         return new ResponseEntity<>(employees, HttpStatus.OK);
     }
