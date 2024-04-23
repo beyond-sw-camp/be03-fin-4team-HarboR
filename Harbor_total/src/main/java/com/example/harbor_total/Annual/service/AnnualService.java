@@ -1,7 +1,6 @@
 package com.example.harbor_total.Annual.service;
 
 import com.example.harbor_total.Annual.domain.Annual;
-import com.example.harbor_total.Annual.dto.request.AnnualCreateReqDto;
 import com.example.harbor_total.Annual.dto.request.ApprovalReqDto;
 import com.example.harbor_total.Annual.dto.response.AnnualListResDto;
 import com.example.harbor_total.Annual.dto.response.AuthListResDto;
@@ -16,6 +15,7 @@ import com.example.harbor_total.global.support.Department;
 import com.example.harbor_total.global.support.Position;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-
+@Transactional
 public class AnnualService {
     private final AnnualRepository annualRepository;
     private final EmployeeRepository employeeRepository;
@@ -35,39 +35,18 @@ public class AnnualService {
         this.attendanceRepository = attendanceRepository;
     }
 
-    public void create(AnnualCreateReqDto annualCreateReqDto){
-        Attendance attendance = attendanceRepository.findById(annualCreateReqDto.getAttendenceId())
-                .orElseThrow(() -> new IllegalArgumentException("해당하는 근무가 없습니다."));
-        Annual annual = Annual.create(
-                annualCreateReqDto.getAnnualCount(),
-                annualCreateReqDto.getAdjustmentStartDate(),
-                annualCreateReqDto.getAdjustmentEndDate(),
-                annualCreateReqDto.getAdjustmentComment(),
-                annualCreateReqDto.getFirstSignId(),
-                annualCreateReqDto.getSecondSignId(),
-                annualCreateReqDto.getThirdSignId(),
-                attendance
-                );
-        attendance.updateAttendanceId(annual);
-        annualRepository.save(annual);
-    }
-
     public List<AnnualListResDto> getSendList(String employeeId) {
-        Employee employee = employeeRepository.findByEmployeeId(employeeId).orElseThrow(() ->
-                new IllegalArgumentException("존재하지 않는 회원입니다"));
-
-        List<Attendance> attendanceList = attendanceRepository.findAllByEmployee(employee);
+        List<Attendance> attendanceList = attendanceRepository.findAllByEmployee_EmployeeId(employeeId);
         List<AnnualListResDto> annualListResDtoList = new ArrayList<>();
         for(Attendance attendence : attendanceList){
             AnnualListResDto annualListResDto = AnnualListResDto.create(
-                    attendence.getWorkPolicy(),
-                    attendence.getAnnuals().getFirstSignId(),
-                    attendence.getAnnuals().getFirstApprovalDate(),
-                    attendence.getAnnuals().getSecondSignId(),
-                    attendence.getAnnuals().getSecondApprovalDate(),
-                    attendence.getAnnuals().getThirdSignId(),
-                    attendence.getAnnuals().getThirdApprovalDate()
-            );
+                attendence.getWorkPolicy(),
+                attendence.getAnnuals().getFirstSignId(),
+                attendence.getAnnuals().getFirstApprovalDate(),
+                attendence.getAnnuals().getSecondSignId(),
+                attendence.getAnnuals().getSecondApprovalDate(),
+                attendence.getAnnuals().getThirdSignId(),
+                attendence.getAnnuals().getThirdApprovalDate());
             annualListResDtoList.add(annualListResDto);
         }
         return annualListResDtoList;
@@ -91,23 +70,24 @@ public class AnnualService {
         return eworksListResDtos;
     }
 
+    //Todo: 휴결재 처리
     private Annual checkApproval(Annual annual, String employeeId) {
         LocalDateTime startDate = LocalDate.now().atStartOfDay();
         LocalDateTime endDate = LocalDate.now().atTime(23, 59, 59);
 
         if(annual.getFirstSignId().equals(employeeId) && annual.getFirstApprovalDate() == null){
             return annual;
-        } else if(annual.getSecondSignId() != null && annual.getSecondSignId().equals(employeeId)){
+        } else if(annual.getSecondApprovalDate() != null && annual.getSecondSignId().equals(employeeId)){
             // 1차 승인권자가 휴가인지 체크 ( 리스트가 비어있다면 휴가 처리 )
-            List<Attendance> attendanceList = attendanceRepository.findByWorkStartTimeBetweenAndEmployeeEmployeeId(startDate, endDate, annual.getFirstSignId());
-            if(annual.getFirstApprovalDate() != null || !attendanceList.isEmpty() && attendanceList.get(0).getWorkPolicy().equals("E07")){
-                if(annual.getSecondApprovalDate() == null)
+            List<Attendance> attendanceList = attendanceRepository.findAllByWorkStartTimeBetweenAndEmployeeEmployeeIdOrderByWorkStartTimeDesc(startDate, endDate, annual.getFirstSignId());
+            if(annual.getFirstApprovalDate() != null || !attendanceList.isEmpty()){
+                if(attendanceList.get(0).getWorkPolicy().equals("E07") && annual.getSecondApprovalDate() == null)
                     return annual;
             }
-        } else if(annual.getSecondSignId() != null && annual.getThirdSignId().equals(employeeId)){
-            List<Attendance> attendanceList = attendanceRepository.findByWorkStartTimeBetweenAndEmployeeEmployeeId(startDate, endDate, annual.getSecondSignId());
-            if(annual.getSecondApprovalDate() != null || !attendanceList.isEmpty() && attendanceList.get(0).getWorkPolicy().equals("E07")){
-                if(annual.getThirdApprovalDate() == null)
+        } else if(annual.getThirdApprovalDate() != null && annual.getThirdSignId().equals(employeeId)){
+            List<Attendance> attendanceList = attendanceRepository.findAllByWorkStartTimeBetweenAndEmployeeEmployeeIdOrderByWorkStartTimeDesc(startDate, endDate, annual.getSecondSignId());
+            if(annual.getSecondApprovalDate() != null || !attendanceList.isEmpty()){
+                if(attendanceList.get(0).getWorkPolicy().equals("E07") && annual.getThirdApprovalDate() == null)
                     return annual;
             }
         }
@@ -166,17 +146,17 @@ public class AnnualService {
         return Position.getPositionByCode(String.valueOf(code)).getHighPosition();
     }
 
-    public void updateApproval(ApprovalReqDto approvalReqDto) {
+    public void updateApproval(String employeeId, ApprovalReqDto approvalReqDto) {
         Annual annual = annualRepository.findById(approvalReqDto.getAnnualId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 결재입니다"));
-        if(!annual.getFirstSignId().equals(approvalReqDto.getEmployeeId()) && !annual.getSecondSignId().equals(approvalReqDto.getEmployeeId()) && !annual.getThirdSignId().equals(approvalReqDto.getEmployeeId()))
+        if(!annual.getFirstSignId().equals(employeeId) && !annual.getSecondSignId().equals(employeeId) && !annual.getThirdSignId().equals(employeeId))
             throw new IllegalArgumentException("해당 결제에 대한 승인 권한이 없습니다.");
 
-        if(approvalReqDto.getEmployeeId().equals(annual.getFirstSignId())){
+        if(employeeId.equals(annual.getFirstSignId())){
             if(approvalReqDto.getApprovalStatus().equals(Boolean.TRUE))
                 annual.updateApprovalDate(Approval.FIRST);
             else annual.updateCompanion(Approval.FIRST);
         }
-        if(approvalReqDto.getEmployeeId().equals(annual.getSecondSignId())){
+        if(employeeId.equals(annual.getSecondSignId())){
             if(annual.getFirstApprovalDate() == null) {
                 if(approvalReqDto.getForce().equals(Boolean.TRUE))
                     if(approvalReqDto.getApprovalStatus().equals(Boolean.TRUE))
@@ -191,7 +171,7 @@ public class AnnualService {
                 else annual.updateCompanion(Approval.SECOND);
             }
         }
-        if(approvalReqDto.getEmployeeId().equals(annual.getThirdSignId())){
+        if(employeeId.equals(annual.getThirdSignId())){
             if(annual.getFirstApprovalDate() == null || annual.getSecondApprovalDate() == null) {
                 if(approvalReqDto.getForce().equals(Boolean.TRUE))
                     if(approvalReqDto.getApprovalStatus().equals(Boolean.TRUE))

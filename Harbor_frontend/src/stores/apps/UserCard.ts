@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 // project imports
-import axios from '@/utils/axios';
-import type Noticedetail from '@/views/apps/users/list/noticedetail.vue';
+import axios, { setClientHeaders } from '@/utils/axios';
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 export const useUserCardStore = defineStore({
   id: 'userCard',
@@ -34,8 +33,9 @@ export const useUserCardStore = defineStore({
       }
     },
     // Fetch cards from action
-    async fetchlistCards() {
+    async fetchlistCards(token: string | null) {
       try {
+        setClientHeaders(token);
         const response = await axios.get(`${baseUrl}/employee/get/list`);
         this.list = response.data;
       } catch (error) {
@@ -53,7 +53,7 @@ export const useUserCardStore = defineStore({
     },
     async noticeCards(token: string | null) {
       try {
-        
+        setClientHeaders(token);
         const response = await axios.get(`${baseUrl}/login/notice/list`);
         this.noticelist = response.data.result.content;
       } catch (error) {

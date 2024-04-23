@@ -9,8 +9,8 @@ export const useCodeStore = defineStore({
     returnUrl: null
   }),
   actions: {
-    // 직위 - 호봉 X 
-    getPositionNameByCode(position : string) {
+    // 직위 - 호봉 X
+    getPositionNameByCode(position: string) {
       const code = parseInt(position.slice(1), 10);
       if (code >= 11 && code <= 15) {
         return '사원';
@@ -28,14 +28,12 @@ export const useCodeStore = defineStore({
         return 'Unknown'; // Handle other cases if necessary
       }
     },
-    // 직위 - 호봉 O 
-     getPositionNumberByCode(position: string) {
+    // 직위 - 호봉 O
+    getPositionNumberByCode(position: string) {
       // 직위 코드의 첫 번째 문자(S)는 무시하고, 두 번째 문자로 직위를, 마지막 두 숫자로 호봉을 결정합니다.
       const positionCode = position.charAt(1);
       const level = parseInt(position.substring(2), 10);
-    
       let positionName: string;
-    
       switch (positionCode) {
         case '1':
           positionName = '사원';
@@ -189,6 +187,5 @@ export const useCodeStore = defineStore({
       }
       return prefix;
     }
-    
   }
 });

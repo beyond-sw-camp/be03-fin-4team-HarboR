@@ -18,7 +18,7 @@ spring:
   cloud:
     gateway:
       default-filters:
-        - name: GlobalFilter
+        - name: JwtGlobalFilter
           args:
             baseMessage: gateway filter
             preLogger: true
@@ -26,9 +26,8 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOrigins:
-              - "http://localhost:3000"
-              - "http://localhost:3100"
+            allowedOrigins: "http://localhost:3000"
+            allow-credentials: true
             allowedHeaders: "*"
             allowedMethods:
               - GET
@@ -36,4 +35,5 @@ spring:
               - PUT
               - DELETE
               - PATCH
-
+jwt:
+  secretKey: CE254B51A873FD7C90C9338C534787FFCDEA4DC217B49AF2CB7DA54661418349

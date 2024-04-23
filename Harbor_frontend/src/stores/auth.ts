@@ -40,7 +40,7 @@ export const useAuthStore = defineStore({
         // 로그인 요청 보내기
         const user = await axios.post(`${baseUrl}/login/account/${endPoint}`, loginData);
         // const user = await axios.post(`http://localhost:8000/login/account/${endPoint}`, loginData);
-        const token = user.data.result.token;
+        const token: string = user.data.result.token;
     
         if (token) {
           const decoded = jwtDecode(token);
@@ -62,7 +62,8 @@ export const useAuthStore = defineStore({
     },
     logout() {
       this.user = null;
-      localStorage.removeItem('user');
+      localStorage.clear();
+      // localStorage.removeItem('user');
       router.push('/auth/login');
     }
   }

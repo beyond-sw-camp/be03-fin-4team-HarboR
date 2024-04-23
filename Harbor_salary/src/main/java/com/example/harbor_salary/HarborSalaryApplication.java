@@ -10,7 +10,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class
 HarborSalaryApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(HarborSalaryApplication.class, args);
     }

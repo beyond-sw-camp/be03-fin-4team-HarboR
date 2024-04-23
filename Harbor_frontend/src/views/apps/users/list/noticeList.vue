@@ -3,9 +3,9 @@ import { ref, onMounted, computed } from 'vue';
 import { useUserCardStore } from '@/stores/apps/UserCard';
 import 'vue3-easy-data-table/dist/style.css'; 
 const store = useUserCardStore();
-
+const token: string | null = localStorage.getItem('token');
 onMounted(() => {
-  store.noticeCards();
+  store.noticeCards(token);
 });
 
 type ListItem = {

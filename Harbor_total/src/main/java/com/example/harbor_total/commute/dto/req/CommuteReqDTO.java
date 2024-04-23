@@ -17,5 +17,4 @@ public class CommuteReqDTO {
         private String status_code;
         private String attendanceDate;
         private String employeeId;
-
 }
