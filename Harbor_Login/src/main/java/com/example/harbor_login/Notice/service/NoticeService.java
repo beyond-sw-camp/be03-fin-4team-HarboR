@@ -39,6 +39,7 @@ public class NoticeService {
                 .title(noticeCreateReqDto.getTitle()) // NoticeResDto에서 title을 가져와서 설정
                 .contents(noticeCreateReqDto.getContents())
                 .fileName(noticeCreateReqDto.getFileName())
+                .createdAt(noticeCreateReqDto.getCreatedAt())
                 // NoticeResDto에서 content를 가져와서 설정
                 // 다른 필드들도 필요에 따라 추가할 수 있음
                 .build();
@@ -80,8 +81,7 @@ public class NoticeService {
 
 
     public Page<NoticeListRes> findAll(Pageable pageable) {
-
-        return noticeRepository.findAllByDelYnOrderByCreatedAt(true,pageable).map(NoticeListRes::mapToNotice);
+        return noticeRepository.findAllByDelYnOrderByCreatedAt(false,  pageable).map(NoticeListRes::mapToNotice);
 
     }
 

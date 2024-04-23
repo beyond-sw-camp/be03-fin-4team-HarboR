@@ -3,26 +3,8 @@
  */
 
 import axios from 'axios';
-const token = localStorage.getItem('token');
-// const token = localStorage.getItem('token');
 
-// const axiosServices = axios.create({
-//   baseURL: 'http://localhost:3000',
-//   withCredentials: true,
-//   headers: {
-//     Authorization: `Bearer ${token}`,
-//     'Content-Type': 'application/json'
-//   }
-// });
-
-const axiosServices = axios.create({
-  baseURL: 'http://localhost:3000',
-  headers: {
-    'Authorization': `Bearer ${ token }`,
-    'Content-Type': 'application/json'
-  },
-});
-
+const axiosServices = axios.create();
 
 axiosServices.interceptors.request.use()
 

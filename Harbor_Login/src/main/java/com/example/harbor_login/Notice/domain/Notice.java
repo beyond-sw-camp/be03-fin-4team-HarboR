@@ -3,8 +3,10 @@ package com.example.harbor_login.Notice.domain;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 
 @Builder
