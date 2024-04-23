@@ -364,13 +364,28 @@ const MainRoutes = {
     {
       name: 'List',
       path: '/app/user/list',
-      component: () => import('@/views/apps/users/list/ListPage1.vue'),
+      component: () => import('@/views/apps/users/list/EmployeeListPage.vue'),
       props: true
     },
     {
-      name: 'List2',
-      path: '/app/user/list2',
-      component: () => import('@/views/apps/users/list/ListPage2.vue')
+      name: 'SalaryList',
+      path: '/app/user/salarylist',
+      component: () => import('@/views/apps/users/list/SalaryListPage.vue')
+    },
+    {
+      name: 'SalaryDetail',
+      path: '/app/user/salarydetail/:salaryId',
+      component: () => import('@/views/apps/users/list/SalaryDetail.vue')
+    },
+    {
+      name: 'SalaryCreate',
+      path: '/app/user/salaryCreate',
+      component: () => import('@/views/apps/users/list/SalaryCreate.vue')
+    },
+    {
+      name: 'SalaryDetail',
+      path: '/app/user/salarydetail/:salaryId',
+      component: () => import('@/views/apps/users/list/SalaryDetail.vue')
     },
     {
       name: 'Contact List',
