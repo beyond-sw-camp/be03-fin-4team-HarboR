@@ -1,0 +1,32 @@
+import { defineStore } from 'pinia';
+// project imports
+import axios, { setClientHeaders } from '@/utils/axios';
+const baseUrl = `${import.meta.env.VITE_API_URL}`;
+export const useUserCardStore = defineStore({
+  id: 'userCard',
+  state: () => ({
+    noticelist: [],
+    noticedetail: []
+  }),
+  getters: {},
+  actions: {
+    async noticeCards(token: string | null) {
+      try {
+        setClientHeaders(token);
+        const response = await axios.get(`${baseUrl}/login/notice/list`);
+        this.noticelist = response.data.result.content;
+      } catch (error) {
+        alert(error);
+      }
+    },
+    async noticedetailCards(noticeId: string, token: string | null) {
+      try {
+        setClientHeaders(token);
+        const response = await axios.get(`${baseUrl}/login/notice/detail/${noticeId}`);
+        this.noticedetail = response.data.result.content;
+      } catch (error) {
+        alert(error);
+      }
+    },
+  }
+});

@@ -5,26 +5,34 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDateTime;
+import javax.validation.constraints.Pattern;
+import java.time.LocalDate;
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class NoticeListRes {
 
+    private int noticeId;
+
     private String title;
 
     private String contents;
 
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
+
 
 
 
     public static NoticeListRes mapToNotice(Notice notice) {
         return NoticeListRes.builder()
+                .noticeId(notice.getNoticeId())
                 .title(notice.getTitle())
                 .contents(notice.getContents())
+                .createdAt(LocalDate.from(notice.getCreatedAt()))
                 .build();
     }
 }

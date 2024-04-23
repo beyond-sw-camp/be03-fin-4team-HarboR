@@ -59,7 +59,7 @@ const showRow = (item: ListItem) => {
               density="compact" hide-details prepend-inner-icon="mdi-magnify" />
           </v-col>
           <v-col cols="12" md="3">
-            <v-select label="Select" v-model="searchField" variant="outlined"
+            <v-select label="Select" v-model="searchField" variant="outlined" @update:model-value="searchByName"
             :items="['','name', 'position', 'department']"></v-select>
             </v-col>
         </v-row>

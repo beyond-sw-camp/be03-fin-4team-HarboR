@@ -72,7 +72,8 @@ function fakeBackend() {
       }
 
       function isAuthenticated() {
-        return opts.headers['Authorization'] === 'Bearer fake-jwt-token';
+        const token = localStorage.getItem("token")
+        return opts.headers['Authorization'] === `Bearer { token }`;
       }
 
       function body() {

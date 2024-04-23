@@ -34,26 +34,12 @@ const getMails = computed<MailItem[]>(() => {
 });
 
 const searchValue = ref('');
-const compact = ref(false);
-const sorting = shallowRef([{ title: 'Name' }, { title: 'Date' }, { title: 'Rating' }, { title: 'Unread' }]);
-
 const emailDetails = ref(false);
 const selectedMail = ref<MailItem | null>(null);
 
 const handleFilter = async (string: string) => {
   store.SelectFilter(string);
   await store.filterMails(string);
-};
-
-const handleImportantChange = async (id: string) => {
-  await store.setImportant(id);
-  handleFilter(store.activeFilter);
-};
-const handleStarredChange = async (id: string) => {
-  if (id) {
-    await store.setStarred(id);
-    handleFilter(store.activeFilter);
-  }
 };
 const countSelectedMail = computed(() => {
   return getMails.value.filter((i) => i.isChecked).length;
@@ -76,21 +62,10 @@ const filteredMails = computed(() => {
 defineEmits(['sToggle']);
 </script>
 <template>
+  <!-- 검색창 -->
   <div v-if="!emailDetails">
     <!---Topbar Row-->
-    <div class="pa-3 d-flex align-center flex-wrap justify-space-between">
-      <div class="d-flex align-center">
-        <v-btn icon size="small" class="d-lg-block d-none" variant="text" @click="$emit('sToggle')"><Menu2Icon size="18" /></v-btn>
-        <v-btn icon size="small" flat @click="compact = !compact"><ArrowsMoveVerticalIcon size="16" /></v-btn>
-        <v-btn icon size="small" flat id="menu-activator"><DotsIcon size="16" /></v-btn>
-        <v-menu activator="#menu-activator" width="100">
-          <v-list>
-            <v-list-item v-for="(item, index) in sorting" :key="index" :value="index">
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-      </div>
+    <div class="pa-3 d-fl ex align-center flex-wrap justify-space-between">
       <div>
         <v-text-field
           variant="outlined"
@@ -120,31 +95,12 @@ defineEmits(['sToggle']);
             mail.isRead ? 'text-medium-emphasis' : 'font-weight-medium'
           }`"
         >
-          <td :class="`checkboxWidth d-table ${compact ? '' : 'py-1'}`">
-            <v-checkbox v-model="mail.isChecked" hide-details color="primary"></v-checkbox>
-          </td>
-          <td class="checkboxWidth">
-            <v-btn icon size="small" flat @click="handleStarredChange(`${mail.id}`)">
-              <v-icon v-if="mail.starred" color="warning">mdi-star</v-icon>
-              <v-icon v-else>mdi-star-outline</v-icon>
-            </v-btn>
-          </td>
-          <td width="30">
-            <v-btn icon size="small" flat @click="handleImportantChange(`${mail.id}`)">
-              <v-icon v-if="mail.important" color="secondary">mdi-label</v-icon>
-              <v-icon v-else>mdi-label-outline</v-icon>
-            </v-btn>
-          </td>
-          <td @click="handleUserChange(mail)">
-            <img :src="mail.profile.avatar" :alt="mail.profile.avatar" width="36" />
-          </td>
+          
+      
           <td class="text-no-wrap" @click="handleUserChange(mail)">{{ mail.profile.name }}</td>
           <td @click="handleUserChange(mail)">
             <div class="d-flex align-center ga-2">
               <div class="text-no-wrap text-truncate">{{ mail.subject }}</div>
-              <v-chip size="small" color="primary" v-if="mail.promotions">Promotions</v-chip>
-              <v-chip size="small" color="warning" v-if="mail.forums">Forums</v-chip>
-              <v-btn icon v-if="mail.attachments.length > 0" size="small" flat><v-icon>mdi-attachment</v-icon></v-btn>
             </div>
           </td>
           <td class="text-no-wrap">

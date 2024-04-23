@@ -7,7 +7,9 @@ export const useUserCardStore = defineStore({
   state: () => ({
     cards: [],
     list: [],
-    list2: []
+    list2: [],
+    noticelist: [],
+    noticedetail: []
   }),
   getters: {},
   actions: {
@@ -48,6 +50,23 @@ export const useUserCardStore = defineStore({
       } catch (error) {
         alert(error);
       }
-    }
+    },
+    async noticeCards(token: string | null) {
+      try {
+        setClientHeaders(token);
+        const response = await axios.get(`${baseUrl}/login/notice/list`);
+        this.noticelist = response.data.result.content;
+      } catch (error) {
+        alert(error);
+      }
+    },
+    async noticedetailCards(noticeId: string) {
+      try {
+        const response = await axios.get(`${baseUrl}/login/notice/detail/${noticeId}`);
+        this.noticedetail = response.data.result.content;
+      } catch (error) {
+        alert(error);
+      }
+    },
   }
 });
