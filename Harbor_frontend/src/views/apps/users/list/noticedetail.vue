@@ -1,53 +1,29 @@
-<script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { useNoticeDetailCardStore } from '@/stores/apps/UserCard';
-import UiParentCard from '@/components/shared/UiParentCard.vue';
+<script setup lang="ts"> 
+import { ref, onMounted } from 'vue'; 
+import { useRoute } from 'vue-router'; 
+import axios from 'axios'; 
 
-const props = defineProps({
-  noticeId: {
-    type: String,
-    required: true
-    
-  }
-})
-
-const store = useNoticeDetailCardStore();
-
-
-const noticeId = ref(''); // 가정: URL 또는 다른 방법으로부터 공지사항 ID를 얻음
-
-onMounted(() => {
-  store.noticeDetailCards(props.noticeId); // 가정: 공지사항 상세 정보를 가져오는 메서드
-});
-
-const noticeDetail = ref({
-  title: '', // 제목
-  content: '', // 콘텐츠
-  createdAt: '', // 작성일자
-});
-
-// store 상태를 감시하고, 변화가 있을 때 noticeDetail을 업데이트함
-
+const baseUrl = `${import.meta.env.VITE_API_URL}`; 
+const route = useRoute(); 
+const noticeDetail = ref({ 
+title: '', 
+content: '', 
+createdAt: '',  
+}); 
+onMounted(async () => { const noticeId = route.params.noticeId; 
+console.log(noticeId); 
+try { const response = await axios.get(`${baseUrl}/login/notice/detail/${noticeId}`); 
+noticeDetail.value = { 
+  title: response.data.title, 
+  content: response.data.content, 
+  createdAt: response.data.createdAt }; } 
+catch (error) { console.error('API 호출 중 오류 발생:', error); } }); 
 </script>
 
+
 <template>
-  <v-row>
-    <v-col cols="12" md="12">
-      <UiParentCard :title="noticeDetail.title">
-        <div class="notice-content">
-          <p>{{ noticeDetail.createdAt }}</p>
-          <div v-html="noticeDetail.content"></div>
-        </div>
-      </UiParentCard>
-    </v-col>
-  </v-row>
+
+
 </template>
 
-<style scoped>
-.notice-content {
-  p {
-    font-size: 0.9rem;
-    color: #666;
-  }
-}
-</style>
+

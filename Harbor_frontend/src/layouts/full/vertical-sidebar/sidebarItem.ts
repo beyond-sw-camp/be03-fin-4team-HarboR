@@ -1,5 +1,6 @@
 import {
   BrandGravatarIcon,
+  ClipboardTextIcon,
   MenuIcon,
   CircleIcon,
   ShapeIcon,
@@ -142,5 +143,12 @@ const sidebarItem: menu[] = [
     icon: DeviceAnalyticsIcon,
     to: '/dashboard/analytics'
   },
+  { header: '기타', },
+  {
+    title: '공지사항',
+    icon: ClipboardTextIcon,
+    to: '/noticeList'
+  },
+
 ]
 export default sidebarItem;

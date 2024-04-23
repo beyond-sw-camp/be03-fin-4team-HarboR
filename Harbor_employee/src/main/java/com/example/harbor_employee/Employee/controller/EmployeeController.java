@@ -6,6 +6,8 @@ import com.example.harbor_employee.Employee.dto.request.EmployeeUpdateRequestDto
 import com.example.harbor_employee.Employee.dto.response.EmployeeResDto;
 import com.example.harbor_employee.Employee.dto.response.ExcelEmployeeDto;
 import com.example.harbor_employee.Employee.dto.response.GetEmployResponse;
+import com.example.harbor_employee.client.TotalClient;
+import com.example.harbor_employee.client.dto.EmployeeStatusDto;
 import com.example.harbor_employee.client.dto.LoginMemberResDto;
 import com.example.harbor_employee.Employee.service.EmployeeService;
 import com.example.harbor_employee.global.common.CommonResponse;
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -28,11 +32,11 @@ import java.util.List;
 @RequestMapping("/employee")
 public class EmployeeController {
     private final EmployeeService employeeService;
-    private final TestProducer testProducer;
+    private final TotalClient totalClient;
 
-    public EmployeeController(EmployeeService employeeService, TestProducer testProducer) {
+    public EmployeeController(EmployeeService employeeService, TotalClient totalClient) {
         this.employeeService = employeeService;
-        this.testProducer = testProducer;
+        this.totalClient = totalClient;
     }
 
     /**
@@ -61,6 +65,7 @@ public class EmployeeController {
         List<EmployeeResDto> employees = employeeService.findAll(employeeSearchDto, pageable);
         return new ResponseEntity<>(employees, HttpStatus.OK);
     }
+
     @GetMapping("/get/{employeeId}/detail")
     public ResponseEntity<CommonResponse> getEmployeeDetail(@PathVariable(name = "employeeId") String employeeId) {
         return new ResponseEntity<>(new CommonResponse("유저 정보 자세히 보기", employeeService.findByEmployeeId(employeeId)), HttpStatus.OK);
@@ -85,19 +90,18 @@ public class EmployeeController {
     }
 
     @GetMapping("/admin")
-    public ResponseEntity<String> healthCheck(){
-        System.out.println("접근 성공");
-        return ResponseEntity.status(HttpStatus.OK).body("pong");
+    public ResponseEntity<List<EmployeeStatusDto>> healthCheck(){
+        List<String> list = Arrays.asList("HB20240002", "HB20240003", "HB20240004");
+        List<EmployeeStatusDto> employeeStatusDto = totalClient.getStatus(list);
+        return ResponseEntity.status(HttpStatus.OK).body(employeeStatusDto);
     }
     /**
      * @FeignClient테스트
      */
     @GetMapping("/{employeeId}/positionCode")
     public ResponseEntity<GetEmployResponse> getPositionCodeByEmployeeId(@PathVariable("employeeId") String employeeId){
-        log.info("퐁");
         GetEmployResponse positionCode = employeeService.getUserPosition(employeeId);
         System.out.println("positionCode = " + positionCode);
-        log.info("돌려줌");
         return ResponseEntity.status(HttpStatus.OK).body(positionCode);
     }
     @PreAuthorize("hasRole('ADMIN')")

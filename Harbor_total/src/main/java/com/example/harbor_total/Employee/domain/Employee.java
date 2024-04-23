@@ -59,4 +59,8 @@ public class Employee {
                 .annualRemain(annual)
                 .build();
     }
+
+    public void updateRemain_Annual(double remainVacation) {
+        this.annualRemain = remainVacation;
+    }
 }

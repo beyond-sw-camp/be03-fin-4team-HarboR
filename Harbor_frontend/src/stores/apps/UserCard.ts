@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 // project imports
 import axios from '@/utils/axios';
+import type Noticedetail from '@/views/apps/users/list/noticedetail.vue';
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 export const useUserCardStore = defineStore({
   id: 'userCard',
@@ -8,7 +9,8 @@ export const useUserCardStore = defineStore({
     cards: [],
     list: [],
     list2: [],
-    noticelist: []
+    noticelist: [],
+    noticedetail: []
   }),
   getters: {},
   actions: {
@@ -49,45 +51,22 @@ export const useUserCardStore = defineStore({
         alert(error);
       }
     },
-  }
-});
-
-export const useNoticeCardStore = defineStore({
-  id: 'noticeCard',
-  state: () => ({
-    noticelist: []
-  }),
-  getters: {},
-  actions: {
-    async noticeCards() {
+    async noticeCards(token: string | null) {
       try {
+        
         const response = await axios.get(`${baseUrl}/login/notice/list`);
         this.noticelist = response.data.result.content;
       } catch (error) {
         alert(error);
       }
     },
-
-    
-  }
-});
-
-export const useNoticeDetailCardStore = defineStore({
-  id: 'noticeDetailCard',
-  state: () => ({
-    noticeDetail: ''
-  }),
-  getters: {},
-  actions: {
-    async noticeDetailCards(noticeId: string) {
+    async noticedetailCards(noticeId: string) {
       try {
         const response = await axios.get(`${baseUrl}/login/notice/detail/${noticeId}`);
-        this.noticeDetail = response.data.result.content;
+        this.noticedetail = response.data.result.content;
       } catch (error) {
         alert(error);
       }
     },
-
-    
   }
 });

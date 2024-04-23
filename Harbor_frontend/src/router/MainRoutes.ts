@@ -423,6 +423,11 @@ const MainRoutes = {
       component: () => import('@/views/apps/test/TestCalendar.vue')
     },
     {
+      name: 'TestTimeline',
+      path: '/testtimeline',
+      component: () => import('@/views/apps/test/GSTC.vue')
+    },
+    {
       name: 'noticeList',
       path: '/noticeList',
       component: () => import('@/views/apps/users/list/noticeList.vue')
@@ -432,8 +437,6 @@ const MainRoutes = {
       path: '/noticedetail/:id',
       component: () => import('@/views/apps/users/list/noticedetail.vue')
     }
-
-    
   ]
 };
 

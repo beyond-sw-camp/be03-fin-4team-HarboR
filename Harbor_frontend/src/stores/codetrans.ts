@@ -162,5 +162,33 @@ export const useCodeStore = defineStore({
       };
       return departmentMap[code] || '알 수 없는 부서';
     },
+    getNameByCodes(name: string): string {
+      let prefix = '';
+      switch (name) {
+        case '사원':
+          prefix = 'S1';
+          break;
+        case '주임':
+          prefix = 'S2';
+          break;
+        case '대리':
+          prefix = 'S3';
+          break;
+        case '과장':
+          prefix = 'S4';
+          break;
+        case '차장':
+          prefix = 'S5';
+          break;
+        case '부장':
+          prefix = 'S6';
+          break;
+        default:
+          prefix = ''; // 해당하는 직위가 없을 때 빈 문자열 반환
+          break;
+      }
+      return prefix;
+    }
+    
   }
 });

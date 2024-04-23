@@ -12,7 +12,7 @@
 //    @Override
 //    public void addCorsMappings(CorsRegistry registry){
 //        registry.addMapping("/**")
-//                .al lowedOrigins("http://localhost:3000") //vue의 url
+//                .allowedOrigins("http://localhost:3000") //vue의 url
 //                .allowedMethods("*")
 //                .allowedHeaders("*")
 //                .allowCredentials(true); //보안처리 관련 credentials

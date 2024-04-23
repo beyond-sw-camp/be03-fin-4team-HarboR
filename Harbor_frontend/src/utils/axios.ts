@@ -14,7 +14,9 @@ const axiosServices = axios.create({
 });
 
 
-axiosServices.interceptors.request.use()
+axiosServices.interceptors.request.use();{
+  
+}
 
 // interceptor for http
 axiosServices.interceptors.response.use(

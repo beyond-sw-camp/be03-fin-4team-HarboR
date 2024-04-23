@@ -13,6 +13,8 @@ public class AnnualReceiveListResDto {
     private Long attendanceId;
     private String employeeId;
     private String statusCode;
+    //Todo: 후결재 여부 체크 필요
+    private String laterApproval;
 
     public static AnnualReceiveListResDto create(Long attendanceId, String employeeId, String statusCode){
         return AnnualReceiveListResDto.builder()
