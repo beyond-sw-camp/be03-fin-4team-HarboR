@@ -3,9 +3,7 @@
  */
 
 import axios from 'axios';
-<<<<<<< HEAD
 const token = localStorage.getItem('token');
-=======
 // const token = localStorage.getItem('token');
 
 // const axiosServices = axios.create({
@@ -16,7 +14,6 @@ const token = localStorage.getItem('token');
 //     'Content-Type': 'application/json'
 //   }
 // });
->>>>>>> 8034daa62c07085a4831ed2602a75e340b528d21
 
 const axiosServices = axios.create({
   baseURL: 'http://localhost:3000',
