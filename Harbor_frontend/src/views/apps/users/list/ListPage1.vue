@@ -76,7 +76,7 @@ const themeColor = ref('rgb(var(--v-theme-secondary))');
                     </v-btn>
                   </h5>
                   <small class="text-subtitle">{{ email }}</small>
-                  <br>
+                  <br />
                   <small class="text-subtitle">{{ employeeId }}</small>
                 </div>
               </div>

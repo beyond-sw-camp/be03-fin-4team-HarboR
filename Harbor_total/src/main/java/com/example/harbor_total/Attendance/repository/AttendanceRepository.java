@@ -18,8 +18,9 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
     //    List<Attendance> findByEmployeeEmployeeIdAndWorkStartTimeBetween(String employeeId, LocalDateTime startOfDay, LocalDateTime endOfDay);
 
     List<Attendance> findByWorkStartTimeBetweenAndEmployeeEmployeeId(LocalDateTime workStartTime, LocalDateTime workStartTime2, String employee_employeeId);
+    List<Attendance> findAllByWorkStartTimeBetweenAndEmployeeEmployeeIdOrderByWorkStartTimeDesc(LocalDateTime workStartTime, LocalDateTime workStartTime2, String employee_employeeId);
 
-    List<Attendance> findAllByEmployee(Employee employee);
+    List<Attendance> findAllByEmployee_EmployeeId(String employee_employeeId);
 
     @Query("SELECT a.attendanceId FROM Attendance a WHERE a.employee.employeeId = :employeeId AND a.workPolicy = :workPolicy")
     List<Long> findAttendanceIdsByEmployeeIdAndWorkPolicy(@Param("employeeId") String employeeId, @Param("workPolicy") String workPolicy);

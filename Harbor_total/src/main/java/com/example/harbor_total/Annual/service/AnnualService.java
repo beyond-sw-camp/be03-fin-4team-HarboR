@@ -36,21 +36,17 @@ public class AnnualService {
     }
 
     public List<AnnualListResDto> getSendList(String employeeId) {
-        Employee employee = employeeRepository.findByEmployeeId(employeeId).orElseThrow(() ->
-                new IllegalArgumentException("존재하지 않는 회원입니다"));
-
-        List<Attendance> attendanceList = attendanceRepository.findAllByEmployee(employee);
+        List<Attendance> attendanceList = attendanceRepository.findAllByEmployee_EmployeeId(employeeId);
         List<AnnualListResDto> annualListResDtoList = new ArrayList<>();
         for(Attendance attendence : attendanceList){
             AnnualListResDto annualListResDto = AnnualListResDto.create(
-                    attendence.getWorkPolicy(),
-                    attendence.getAnnuals().getFirstSignId(),
-                    attendence.getAnnuals().getFirstApprovalDate(),
-                    attendence.getAnnuals().getSecondSignId(),
-                    attendence.getAnnuals().getSecondApprovalDate(),
-                    attendence.getAnnuals().getThirdSignId(),
-                    attendence.getAnnuals().getThirdApprovalDate()
-            );
+                attendence.getWorkPolicy(),
+                attendence.getAnnuals().getFirstSignId(),
+                attendence.getAnnuals().getFirstApprovalDate(),
+                attendence.getAnnuals().getSecondSignId(),
+                attendence.getAnnuals().getSecondApprovalDate(),
+                attendence.getAnnuals().getThirdSignId(),
+                attendence.getAnnuals().getThirdApprovalDate());
             annualListResDtoList.add(annualListResDto);
         }
         return annualListResDtoList;
@@ -81,17 +77,17 @@ public class AnnualService {
 
         if(annual.getFirstSignId().equals(employeeId) && annual.getFirstApprovalDate() == null){
             return annual;
-        } else if(annual.getSecondSignId() != null && annual.getSecondSignId().equals(employeeId)){
+        } else if(annual.getSecondApprovalDate() != null && annual.getSecondSignId().equals(employeeId)){
             // 1차 승인권자가 휴가인지 체크 ( 리스트가 비어있다면 휴가 처리 )
-            List<Attendance> attendanceList = attendanceRepository.findByWorkStartTimeBetweenAndEmployeeEmployeeId(startDate, endDate, annual.getFirstSignId());
-            if(annual.getFirstApprovalDate() != null || !attendanceList.isEmpty() && attendanceList.get(0).getWorkPolicy().equals("E07")){
-                if(annual.getSecondApprovalDate() == null)
+            List<Attendance> attendanceList = attendanceRepository.findAllByWorkStartTimeBetweenAndEmployeeEmployeeIdOrderByWorkStartTimeDesc(startDate, endDate, annual.getFirstSignId());
+            if(annual.getFirstApprovalDate() != null || !attendanceList.isEmpty()){
+                if(attendanceList.get(0).getWorkPolicy().equals("E07") && annual.getSecondApprovalDate() == null)
                     return annual;
             }
-        } else if(annual.getSecondSignId() != null && annual.getThirdSignId().equals(employeeId)){
-            List<Attendance> attendanceList = attendanceRepository.findByWorkStartTimeBetweenAndEmployeeEmployeeId(startDate, endDate, annual.getSecondSignId());
-            if(annual.getSecondApprovalDate() != null || !attendanceList.isEmpty() && attendanceList.get(0).getWorkPolicy().equals("E07")){
-                if(annual.getThirdApprovalDate() == null)
+        } else if(annual.getThirdApprovalDate() != null && annual.getThirdSignId().equals(employeeId)){
+            List<Attendance> attendanceList = attendanceRepository.findAllByWorkStartTimeBetweenAndEmployeeEmployeeIdOrderByWorkStartTimeDesc(startDate, endDate, annual.getSecondSignId());
+            if(annual.getSecondApprovalDate() != null || !attendanceList.isEmpty()){
+                if(attendanceList.get(0).getWorkPolicy().equals("E07") && annual.getThirdApprovalDate() == null)
                     return annual;
             }
         }
