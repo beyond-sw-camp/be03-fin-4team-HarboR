@@ -66,7 +66,7 @@ const baseUrl = `${import.meta.env.VITE_API_URL}`;
           </v-btn>
           <div>
             <h4 class="text-h4 font-weight-medium">출근</h4>
-            <span class="text-subtitle-2 text-medium-emphasis text-white">Total Income</span>
+            <span class="text-subtitle-2 text-medium-emphasis text-white"></span>
           </div>
         </div>
       </v-card-text>
@@ -80,7 +80,7 @@ const baseUrl = `${import.meta.env.VITE_API_URL}`;
           </v-btn>
           <div>
             <h4 class="text-h4 font-weight-medium">퇴근</h4>
-            <span class="text-subtitle-2 text-disabled font-weight-medium">Total Income</span>
+            <span class="text-subtitle-2 text-disabled font-weight-medium"></span>
           </div>
         </div>
       </v-card-text>
