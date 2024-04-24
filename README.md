@@ -51,6 +51,8 @@
 [API 명세서.pdf](https://github.com/beyond-sw-camp/be03-fin-4team-HarboR/files/14882504/API.pdf)
 [api명세서 확인.pptx](https://github.com/beyond-sw-camp/be03-fin-4team-HarboR/files/14882451/api.pptx)
 
+## 📄 UIUX 단위테스트 결과서
+[UI UX 단위테스트 결과서.pptx](https://github.com/beyond-sw-camp/be03-fin-4team-HarboR/files/15090562/UI.UX.pptx)
 
 
 ## 📄 단위테스트체크리스트
