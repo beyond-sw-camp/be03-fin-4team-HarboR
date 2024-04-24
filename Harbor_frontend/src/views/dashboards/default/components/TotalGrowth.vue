@@ -2,6 +2,8 @@
 import { ref, onMounted, computed } from 'vue';
 import { MonthStore } from '@/stores/apps/monthUser';
 import type { Header } from 'vue3-easy-data-table';
+import { useCodeStore } from '@/stores/codetrans';
+const codeStore = useCodeStore();
 import 'vue3-easy-data-table/dist/style.css';
 const store = MonthStore();
 const token: string | null = localStorage.getItem('token');
@@ -10,9 +12,16 @@ const token: string | null = localStorage.getItem('token');
 const selectedMonth = ref<string>('');
 
 // 페이지 로드 시 데이터 가져오는 부분
-onMounted(() => {
+onMounted(async () => {
   const today = new Date().toISOString().split('.')[0]; // 오늘 날짜를 ISO 형식으로 가져옴
   store.fetchlistCards(token, selectedMonth.value || today); // 선택한 월이 없으면 오늘 날짜를 기본값으로 사용
+
+  // 주식 가격을 가져와서 업데이트
+  console.log(1)
+  const price = await fetchStockPrice();
+  document.getElementById('stock-price').textContent = price;
+
+  console.log(price)
 });
 
 // 월 선택 변경 시 데이터 가져오는 부분
@@ -43,8 +52,18 @@ const themeColor = ref('rgb(var(--v-theme-secondary))');
 const listCards = computed<ListItem[]>(() => {
   return store.cards;
 });
+const getworkPolicyName = (workPolicy) => {
+  return codeStore.getWorkPolicyNameByCode(workPolicy);
+};
+const getTardyNameByCode = (tardy) => {
+  return codeStore.getTardyNameByCode(tardy);
+};
+async function fetchStockPrice() {
+  const response = await fetch('https://api.example.com/stock-price?symbol=272210');
+  const data = await response.json();
+  return data.price;
+}
 </script>
-
 <template>
   <v-row>
     <v-col cols="12" md="12">
@@ -57,13 +76,19 @@ const listCards = computed<ListItem[]>(() => {
         </v-row>
         <div class="overflow-auto">
           <EasyDataTable :headers="headers" :items="listCards" table-class-name="customize-table action-position"
-            :theme-color="themeColor" :rows-per-page="31" >
+            :theme-color="themeColor" :rows-per-page="31">
             <template #item-attendanceDate="{ attendanceDate, workStartTime, workEndTime, workPolicy, tardy }">
               <div class="d-flex align-center ga-4">
                 <div>
                   <h5 class="text-h5">{{ attendanceDate }}</h5>
                 </div>
               </div>
+            </template>
+            <template #item-workPolicy="{ workPolicy }">
+              <div>{{ getworkPolicyName(workPolicy) }}</div>
+            </template>
+            <template #item-tardy="{ tardy }">
+              <div>{{ getTardyNameByCode(tardy) }}</div>
             </template>
           </EasyDataTable>
         </div>

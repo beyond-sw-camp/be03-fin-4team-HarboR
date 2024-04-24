@@ -160,6 +160,27 @@ export const useCodeStore = defineStore({
       };
       return departmentMap[code] || '알 수 없는 부서';
     },
+    getWorkPolicyNameByCode(code: string): string {
+      const departmentMap: { [key: string]: string } = {
+        O01 : "정상",
+        O02 :'퇴근',
+        O03 :'출장',
+        O04 :'휴가',
+        O05 :'휴계',
+        O06 :'고정',
+        O07 :'시차',
+        O08 :'반차',
+        O09 :'병가',
+      };
+      return departmentMap[code] || '알 수 없는 부서';
+    },
+    getTardyNameByCode(code: string): string {
+      const departmentMap: { [key: string]: string } = {
+        X01: '지각',
+        X02: '정상'
+      };
+      return departmentMap[code] || '알 수 없는 부서';
+    },
     getNameByCodes(name: string): string {
       let prefix = '';
       switch (name) {
