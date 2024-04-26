@@ -181,6 +181,13 @@ export const useCodeStore = defineStore({
       };
       return departmentMap[code] || '알 수 없는 부서';
     },
+    getApproveByCode(code: boolean): string {
+      const departmentMap: { [key: boolean]: string } = {
+        false: '미승인',
+        true: '승인'
+      };
+      return departmentMap[code] || '알 수 없는 부서';
+    },
     getNameByCodes(name: string): string {
       let prefix = '';
       switch (name) {
