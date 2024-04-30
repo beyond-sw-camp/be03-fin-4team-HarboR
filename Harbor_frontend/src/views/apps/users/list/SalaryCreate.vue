@@ -18,7 +18,7 @@ async function fetchSalary(employeeId: string) {
   try {
     const token = localStorage.getItem('token');
     if (!token) {
-      console.error('토큰이 존재하지 않습니다.');
+      console.error('토큰이 존재하지 않습니다.')
       return;
     }
     const response = await axios.get(`${baseUrl}/salary/create/${employeeId}`, {

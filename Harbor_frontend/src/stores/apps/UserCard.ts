@@ -56,6 +56,7 @@ export const useUserCardStore = defineStore({
         setClientHeaders(token);
         const response = await axios.get(`${baseUrl}/login/notice/list`);
         this.noticelist = response.data.result.content;
+        console.log(this.noticelist)
       } catch (error) {
         alert(error);
       }

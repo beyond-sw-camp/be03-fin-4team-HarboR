@@ -1,3 +1,58 @@
+<script lang="ts">
+import { ref, onMounted, computed } from 'vue';
+import { useUserCardStore } from '@/stores/apps/UserCard';
+
+export default {
+  setup() {
+    const store = useUserCardStore();
+    const token: string | null = localStorage.getItem('token');
+    onMounted(() => {
+      store.noticeCards(token);
+    });
+
+    type ListItem = {
+      noticeId: number; // 게시물 번호
+      title: string; // 제목
+      createdAt: string; // 작성일자
+    };
+
+    // listCards를 수정하여 날짜가 최신인 것으로 3개의 게시물만 반환하도록 함
+    const listCards = computed<ListItem[]>(() => {
+      return store.$state.noticelist
+        .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt)) // 날짜 내림차순 정렬
+        .slice(0, 3) // 상위 3개 선택
+        .map(card => ({
+          noticeId: card.noticeId, // 게시물 번호 매핑
+          title: card.title,
+          createdAt: card.createdAt,
+        }));
+    });
+
+    // items를 computed 속성으로 정의
+    const items = ref(listCards);
+
+    // 글자수가 15자 이상일 경우 '...'으로 표시하는 메서드
+    const formatTitle = (title: string) => {
+      return title.length > 15 ? title.substring(0, 15) + "..." : title;
+    };
+
+    const toNoticeCard = () => {
+      location.href = "/noticeList";
+    }
+
+    // setup 함수에서 사용할 변수와 함수를 반환
+    return {
+      items,
+      formatTitle,
+      toNoticeCard
+    };
+  }
+}
+</script>
+
+
+
+
 <template>
   <v-card elevation="0" class="bg-white overflow-hidden">
     <v-card-text class="d-flex justify-end">
@@ -12,10 +67,11 @@
       <!-- 리스트 컨테이너 시작 -->
       <div class="list-container">
         <ul>
-          <li v-for="(title, i) in list.content" :key="i" class="list-item">
-            <span class="item-title">{{ formatTitle(list.content[i].title) }}</span>
-            <span class="item-date">{{ list.content[i].createdAt }}</span>
+          <li v-for="(item, i) in items" :key="i" class="list-item">
+            <span class="item-title">{{ formatTitle(item.title) }}</span>
+            <span class="item-date">{{ item.createdAt }}</span>
           </li>
+          
         </ul>
       </div>
       <v-col cols="auto">
@@ -26,36 +82,6 @@
   </v-card>
   
 </template>
-
-
-<script setup>
-import { onMounted, ref } from 'vue'
-import axios from 'axios'
-
-const baseUrl = `${import.meta.env.VITE_API_URL}`;
-
-const list = ref([]);
-onMounted(async () => {
-  try {
-    const response = await axios.get(`${baseUrl}/login/notice/list`);
-    console.log(response.data.result);
-    list.value = response.data.result;
-    console.log(list.value);
-  } catch (error) {
-    console.error('API 호출 중 오류 발생:', error);
-  }
-})
-
-// 글자수가 15자 이상일 경우 '...'으로 표시하는 메서드 추가
-const formatTitle = (title) => {
-  return title.length > 15 ? title.substring(0, 15) + "..." : title;
-};
-
-const toNoticeCard = () => {
-  location.href = "/noticeList"; 
-}
-
-</script>
 
 <style>
 .list-container li {

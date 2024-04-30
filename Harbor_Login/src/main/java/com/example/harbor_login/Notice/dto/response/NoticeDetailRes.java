@@ -17,6 +17,8 @@ public class NoticeDetailRes {
 
     private String contents;
 
+    private String filePath;
+
     private LocalDateTime createdAt;
 
 }

@@ -21,7 +21,7 @@ public class JwtGlobalFilter implements GlobalFilter {
     @Value("${jwt.secretKey}")
     private String secretKey;
 
-    private final List<String> allowUrl = Arrays.asList("/login/account/**", "/signup");
+    private final List<String> allowUrl = Arrays.asList("/login/account/**", "/signup","/login/notice/download/**");
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
