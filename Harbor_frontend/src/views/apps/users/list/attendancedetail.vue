@@ -91,7 +91,7 @@ const themeColor = ref('rgb(var(--v-theme-secondary))');
       <UiParentCard title="사원 승인 리스트">
         <v-row justify="space-between" class="align-center mb-3">
           
-        </v-row>
+                        </v-row>
         <div class="overflow-auto">
             <EasyDataTable :headers="headers" :items="listCards" table-class-name="customize-table action-position"
                 :theme-color="themeColor" :rows-per-page="10">
@@ -118,7 +118,7 @@ const themeColor = ref('rgb(var(--v-theme-secondary))');
         <div class="d-flex justify-end"> <!-- 오른쪽으로 정렬하는 Flexbox 컨테이너 -->
             <v-btn color="primary" @click="uploadFileAttendance" >버튼</v-btn>
             <input type="file" ref="personnelFileInput" style="display: none" @change="handleFileUploadAttendance"/>
-          </div>
+                          </div>
       </UiParentCard>
     </v-col>
   </v-row>
@@ -132,3 +132,31 @@ const themeColor = ref('rgb(var(--v-theme-secondary))');
   </v-dialog>
 </template>
 
+<style>
+.delete-button,
+.edit-button {
+  margin-left: 10px;
+  background-color: #5938de;
+  color: white;
+  border-radius: 10px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* 버튼에 마우스를 올렸을 때의 스타일 */
+.delete-button:hover,
+.edit-button:hover {
+  background-color: #766ee6;
+}
+
+.edit-button {
+  background-color: #4CAF50;
+  /* 수정하기 버튼을 위한 다른 색상 */
+}
+
+.edit-button:hover {
+  background-color: #66bb6a;
+}
+</style>
