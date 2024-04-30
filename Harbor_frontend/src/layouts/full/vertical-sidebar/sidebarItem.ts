@@ -98,44 +98,44 @@ const sidebarItem: menu[] = [
   {
     title: '전자결재 신청',
     icon: ChartArcsIcon,
-    to: '/widget/statistics'
+    to: '/attendance/create'
   },
   {
     title: '전자결재 상신',
     icon: UserCheckIcon,
-    to: '/app/user',
-    children: [
-      {
-        title: '결재 진행',
-        icon: CircleIcon,
-        to: '/app/user/social/posts'
-      },
-      {
-        title: '결재 완료',
-        icon: CircleIcon,
-        to: '/app/user/account-profile',
-      },
-    ]
+    to: '/attendance/list/req',
+    // children: [
+    //   {
+    //     title: '결재 진행',
+    //     icon: CircleIcon,
+    //     to: '/app/user/social/posts'
+    //   },
+    //   {
+    //     title: '결재 완료',
+    //     icon: CircleIcon,
+    //     to: '/app/user/account-profile',
+    //   },
+    // ]
   },
   {
     title: '전자결재 수신',
     icon: UserCheckIcon,
-    to: '/app/user',
-    children: [
-      {
-        title: '결재 요청',
-        icon: CircleIcon,
-        to: '/app/user/social/posts'
-      },
-      {
-        title: '결재 내역',
-        icon: CircleIcon,
-        to: '/app/user/account-profile',
-      },
-    ]
+    to: '/attendance/list/res',
+    // children: [
+    //   {
+    //     title: '결재 요청',
+    //     icon: CircleIcon,
+    //     to: '/app/user/social/posts'
+    //   },
+    //   {
+    //     title: '결재 내역',
+    //     icon: CircleIcon,
+    //     to: '/app/user/account-profile',
+    //   },
+    // ]
   },
   { divider: true },
-  { header: '급여관리' },
+  { header: '급여 명세 관리' },
   {
     title: '급여목록조회',
     icon: CoinIcon,

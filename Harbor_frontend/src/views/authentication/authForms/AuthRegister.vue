@@ -42,7 +42,7 @@ async function validate() {
     });
     // 회원가입이 성공하면 사용자에게 알림을 표시하거나 다른 작업을 수행할 수 있습니다.
     alert('회원가입이 완료되었습니다.');
-    router.push('/auth/login3');
+    router.push('/auth/login');
   } catch (error) {
     console.error('회원가입 중 오류 발생:', error);
     alert('회원가입 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
@@ -98,7 +98,7 @@ async function validate() {
       variant="outlined"
       color="primary"
     ></v-text-field>
-    <div class="d-sm-inline-flex align-center mt-2 mb-7 mb-sm-0 font-weight-bold">
+    <!-- <div class="d-sm-inline-flex align-center mt-2 mb-7 mb-sm-0 font-weight-bold">
       <v-checkbox
         v-model="checkbox"
         :rules="[(v: any) => !!v || 'You must agree to continue!']"
@@ -109,12 +109,12 @@ async function validate() {
         hide-details
       ></v-checkbox>
       <a href="https://www.kakao.com/main" class="ml-1 text-lightText">이용약관</a>
-    </div>
+    </div> -->
     <v-btn color="secondary" block class="mt-2" variant="flat" size="large" @click="validate()">승인 요청</v-btn>
   </v-form>
   <div class="mt-5 text-right">
     <v-divider />
-    <v-btn variant="plain" to="/auth/login3" class="mt-2 text-capitalize mr-n2">이미 계정이 있나요?</v-btn>
+    <v-btn variant="plain" to="/auth/login" class="mt-2 text-capitalize mr-n2">이미 계정이 있나요?</v-btn>
     <h5 class="text-center">승인 요청 버튼 클릭 시 관리자 승인 후 <br> 이메일 인증을 통해 회원가입이 완료됩니다. 
 </h5>
   </div>

@@ -10,7 +10,10 @@ public class EmployeeService {
     public EmployeeService(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
     }
-    public double annualremain(String employeeId) {
+    public double   annualremain(String employeeId) {
         return employeeRepository.findByEmployeeId(employeeId).orElseThrow(() -> new IllegalArgumentException(" 없는 회원입니다")).getAnnualRemain();
+    }
+    public String employeeName(String employeeId) {
+        return employeeRepository.findByEmployeeId(employeeId).orElseThrow(() -> new IllegalArgumentException(" 없는 회원입니다")).getName();
     }
 }

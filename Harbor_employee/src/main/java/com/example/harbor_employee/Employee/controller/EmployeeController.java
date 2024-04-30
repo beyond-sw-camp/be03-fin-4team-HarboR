@@ -63,8 +63,8 @@ public class EmployeeController {
         return new ResponseEntity<>(new CommonResponse("전체 리스트 호출", employees), HttpStatus.OK);
     }
 
-    @GetMapping("/get/detail")
-    public ResponseEntity<CommonResponse> getEmployeeDetail(@RequestHeader(name = "employeeId") String employeeId) {
+    @GetMapping("/get/{employeeId}/detail")
+    public ResponseEntity<CommonResponse> getEmployeeDetail(@PathVariable(name = "employeeId") String employeeId) {
         return new ResponseEntity<>(new CommonResponse("유저 정보 자세히 보기", employeeService.findByEmployeeId(employeeId)), HttpStatus.OK);
     }
     /**

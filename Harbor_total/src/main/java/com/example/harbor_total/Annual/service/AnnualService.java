@@ -40,13 +40,18 @@ public class AnnualService {
         List<AnnualListResDto> annualListResDtoList = new ArrayList<>();
         for(Attendance attendence : attendanceList){
             AnnualListResDto annualListResDto = AnnualListResDto.create(
-                attendence.getWorkPolicy(),
-                attendence.getAnnuals().getFirstSignId(),
-                attendence.getAnnuals().getFirstApprovalDate(),
-                attendence.getAnnuals().getSecondSignId(),
-                attendence.getAnnuals().getSecondApprovalDate(),
-                attendence.getAnnuals().getThirdSignId(),
-                attendence.getAnnuals().getThirdApprovalDate());
+                    attendence.getAnnuals().getAnnualId(),
+                    attendence.getWorkPolicy(),
+                    attendence.getAnnuals().getFirstSignId(),
+                    attendence.getAnnuals().getFirstApprovalDate(),
+                    attendence.getAnnuals().getSecondSignId(),
+                    attendence.getAnnuals().getSecondApprovalDate(),
+                    attendence.getAnnuals().getThirdSignId(),
+                    attendence.getAnnuals().getThirdApprovalDate(),
+                    attendence.getWorkStartTime(),
+                    attendence.getWorkEndTime(),
+                    attendence.getAnnuals().getAdjustmentComment()
+            );
             annualListResDtoList.add(annualListResDto);
         }
         return annualListResDtoList;
@@ -58,12 +63,22 @@ public class AnnualService {
         List<AnnualReceiveListResDto> eworksListResDtos = new ArrayList<>();
         for(Annual annual : annualList){
             if(checkApproval(annual, employeeId) != null){
-                Attendance attendance = attendanceRepository.findById(annual.getAnnualId())
+                Attendance attendance = attendanceRepository.findByAnnuals_AnnualId(annual.getAnnualId())
                         .orElseThrow(() -> new IllegalArgumentException("근태 정보를 조회할 수 없습니다."));
                 AnnualReceiveListResDto eworksListResDto = AnnualReceiveListResDto.create(
                         annual.getAnnualId(),
-                        employeeId,
-                        attendance.getWorkPolicy());
+                        attendance.getEmployee().getEmployeeId(),
+                        attendance.getWorkPolicy(),
+                        annual.getFirstSignId(),
+                        annual.getFirstApprovalDate(),
+                        annual.getSecondSignId(),
+                        annual.getSecondApprovalDate(),
+                        annual.getThirdSignId(),
+                        annual.getThirdApprovalDate(),
+                        annual.getAdjustmentDate(),
+                        annual.getAdjustmentEndDate(),
+                        annual.getAdjustmentComment()
+                );
                 eworksListResDtos.add(eworksListResDto);
             }
         }
@@ -84,10 +99,10 @@ public class AnnualService {
                 if(attendanceList.get(0).getWorkPolicy().equals("E07") && annual.getSecondApprovalDate() == null)
                     return annual;
             }
-        } else if(annual.getThirdApprovalDate() != null && annual.getThirdSignId().equals(employeeId)){
-            List<Attendance> attendanceList = attendanceRepository.findAllByWorkStartTimeBetweenAndEmployeeEmployeeIdOrderByWorkStartTimeDesc(startDate, endDate, annual.getSecondSignId());
-            if(annual.getSecondApprovalDate() != null || !attendanceList.isEmpty()){
-                if(attendanceList.get(0).getWorkPolicy().equals("E07") && annual.getThirdApprovalDate() == null)
+        } else if(annual.getThirdSignId() != null && annual.getThirdSignId().equals(employeeId)){
+            List<Attendance> attendanceList = attendanceRepository.findByWorkStartTimeBetweenAndEmployeeEmployeeId(startDate, endDate, annual.getSecondSignId());
+            if(annual.getSecondApprovalDate() != null || !attendanceList.isEmpty() && attendanceList.get(0).getWorkPolicy().equals("E07")){
+                if(annual.getThirdApprovalDate() == null)
                     return annual;
             }
         }
@@ -95,14 +110,14 @@ public class AnnualService {
     }
 
     public AuthListResDto getAuthList(String employeeId) {
-        AuthListResDto authListResDto = new AuthListResDto();
+            AuthListResDto authListResDto = new AuthListResDto();
         Employee employee = employeeRepository.findByEmployeeId(employeeId)
                 .orElseThrow(() -> new IllegalArgumentException("없는 회원입니다."));
 
-        String firstAuthCode = employee.getTeamCode();
+        String firstAuthCode = employee.getDepartmentCode();
         String firstPositionCode = getPositionCode(employee.getPositionCode());
         List<AuthListResDto.Inform> firstInforms = new ArrayList<>();
-        List<Employee> firstAuthList = employeeRepository.findEmployeesByTeamCodeAndPositionCodeRange(
+        List<Employee> firstAuthList = employeeRepository.findEmployeesByDepartmentCodeAndPositionCodeRange(
                 firstPositionCode,
                 Position.valueOf(firstPositionCode).getHighPosition(),
                 firstAuthCode);
@@ -115,7 +130,7 @@ public class AnnualService {
             String secondAuthCode = Department.valueOf(firstAuthCode).getCode();
             String secondPositionCode = getPositionCode(firstPositionCode);
             List<AuthListResDto.Inform> secondInforms = new ArrayList<>();
-            List<Employee> secondAuthList = employeeRepository.findEmployeesByDepartmentCodeAndPositionCodeRange(
+            List<Employee> secondAuthList = employeeRepository.findEmployeesByTeamCodeAndPositionCodeRange(
                     secondPositionCode,
                     Position.valueOf(secondPositionCode).getHighPosition(),
                     secondAuthCode);
@@ -130,7 +145,7 @@ public class AnnualService {
             String thirdAuthCode = Department.valueOf(secondAuthCode).getCode();
             String thirdPositionCode = getPositionCode(secondPositionCode);
             List<AuthListResDto.Inform> thirdInforms = new ArrayList<>();
-            List<Employee> thirdAuthList = employeeRepository.findEmployeesByDepartmentCodeAndPositionCodeRange(
+            List<Employee> thirdAuthList = employeeRepository.findEmployeesByTeamCodeAndPositionCodeRange(
                     thirdPositionCode,
                     Position.valueOf(thirdPositionCode).getHighPosition(),
                     thirdAuthCode);

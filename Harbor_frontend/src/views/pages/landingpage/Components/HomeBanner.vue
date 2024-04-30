@@ -11,7 +11,7 @@ import tech from '@/assets/images/landing/tech.svg';
 </script>
 
 <template>
-  <div class="home-bg position-relative" style="height: calc(100vh - 74px)">
+  <div class="home-bg position-relative" style="height: calc(120vh - 74px)">
     <v-container class="maxWidth">
       <v-row class="spacer align-center" style="height: calc(100vh - 74px)">
         <v-col cols="12" lg="5" md="5">

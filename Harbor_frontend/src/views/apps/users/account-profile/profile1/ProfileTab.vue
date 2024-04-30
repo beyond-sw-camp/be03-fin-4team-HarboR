@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import axios from 'axios';
+import axios, { setClientHeaders } from '@/utils/axios';
 import {onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useCodeStore } from '@/stores/codetrans';
@@ -14,14 +14,16 @@ const dutyName = ref([]);
 const departmentName = ref([]);
 const teamName = ref([]);
 // vue-router의 useRoute를 사용하여 현재 라우트 정보에 접근
+const route = useRoute();
+const token: string | null = localStorage.getItem('token');
 const route = useRoute(); 
 
 onMounted(async () => {
   // 라우트 파라미터에서 사원번호(employeeId)를 추출
   const employeeId = route.params.employeeId;
-  console.log(employeeId);
   try {
     const codeStore = useCodeStore();
+    setClientHeaders(token);
     const response = await axios.get(`${baseUrl}/employee/get/${employeeId}/detail`);
     employeeDetails.value = response.data.result;
     positionName.value = codeStore.getPositionNameByCode(employeeDetails.value.position);
@@ -29,7 +31,6 @@ onMounted(async () => {
     dutyName.value = codeStore.getDutyNameByCode(employeeDetails.value.duty);
     departmentName.value = codeStore.getDepartmentNameByCode(employeeDetails.value.department);
     teamName.value = codeStore.getTeamNameByCode(employeeDetails.value.team);
-    console.log(employeeDetails.value);
   } catch (error) {
     console.error('API 호출 중 오류 발생:', error);
   }

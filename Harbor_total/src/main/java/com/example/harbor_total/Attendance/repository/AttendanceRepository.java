@@ -27,6 +27,8 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
 
     Optional<Attendance> findByAttendanceId(Long attendanceId);
 
+    Optional<Attendance> findByAnnuals_AnnualId(Long annuals_annualId);
+
     Optional<Attendance> findByEmployeeAndWorkStartTimeBetween(Employee employee, LocalDateTime atStartOfDay, LocalDateTime atTime);
 
     //    내 근무
