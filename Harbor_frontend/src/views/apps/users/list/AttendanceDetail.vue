@@ -1,166 +1,135 @@
 <script setup lang="ts">
-import { format } from 'date-fns'
-import { useCodeStore } from '@/stores/codetrans';
-
-const token: string | null = localStorage.getItem('token');
+import { ref,onMounted ,computed} from 'vue';
+import { ApproveStore } from '@/stores/apps/approveUser.ts';
+import axios, { setClientHeaders } from '@/utils/axios';
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
-// const router = useRouter();
+import type { Header } from 'vue3-easy-data-table';
+import { useCodeStore } from '@/stores/codetrans';
+import 'vue3-easy-data-table/dist/style.css';
 
-const props = defineProps({
-  selectedDetail: Object || Array
-})
 const codeStore = useCodeStore();
-const getStatusCode = (payStatusCode) => {
-  return codeStore.getStatusNameByCode(payStatusCode);
+const store = ApproveStore();
+const token: string | null = localStorage.getItem('token');
+const cards = ref<ListItem[]>([]);
+const isLoading = ref(false);
+
+onMounted(async () => {
+  console.log("1")
+  cards.value = await store.getAttendanceList(token);
+});
+
+const headers: Header[] = [
+  { text: '사원번호', value: 'employeeId', sortable: false },
+  { text: '현재 부서', value: 'beforeDepartmentCode', sortable: true },
+  { text: '바뀔 부서', value: 'afterDepartmentCode', sortable: true },
+  { text: '계급', value: 'positionCode', sortable: true },
+  { text: '직무', value: 'updateDutyCode', sortable: true },
+  { text: '발령예정일', value: 'issueDate', sortable: true },
+  { text: '삭제', value: 'delete', sortable: false }
+];
+type ListItem = {
+  appointmentId : number;
+  beforeDepartmentCode: string;
+  afterDepartmentCode: string;
+  positionCode: string;
+  issueDate: string;
+  employeeId: string;
+  updateDutyCode : string;
+  delyn: string;
 };
+
+
+const listCards = computed<ListItem[]>(() => {
+  return cards.value; // cards.value로 수정
+});
+const getDepartmentName = (beforeDepartmentCode) => {
+  return codeStore.getDepartmentNameByCode(beforeDepartmentCode);
+};
+const getDutyName = (updateDutyCode) =>{
+    return codeStore.getDutyNameByCode(updateDutyCode);
+}
+const getPositionName = (positionCode) =>{
+    return codeStore.getPositionNameByCode(positionCode)
+}
+const deleteItem = async (appointmentId: number) => {
+    if (window.confirm('삭제 하시겠습니까 ??')) {
+    try {
+      setClientHeaders(token)
+      await axios.delete(`${baseUrl}/employee/personnel/${appointmentId}/delete`)
+      alert("성공")
+      location.reload()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+};
+
+const personnelFileInput = ref(null);
+const uploadFileAttendance = () => {
+  personnelFileInput.value.click();
+};
+
+const handleFileUploadAttendance = async (event) => {
+  isLoading.value = true; // 로딩 시작
+  const file = event.target.files[0];
+  try {
+    const result = await store.uploadAttendanceFile(token, file); // await 키워드 추가
+    alert("성공")
+    location.reload()
+  } catch (error) {
+    console.log(error)
+  } finally {
+    isLoading.value = false; // 로딩 종료
+  }
+};
+
+const themeColor = ref('rgb(var(--v-theme-secondary))');
 </script>
-
 <template>
-  <div class="topbarMail d-flex ga-4 align-center w-100 mb-3">
-    <!-- 뒤로가기 버튼 -->
-    <v-btn icon flat @click="$emit('toggleDetail')" size="small">
-      <ChevronLeftIcon size="34" />
-    </v-btn>
-  </div>
   <v-row>
-    <v-col cols="12" lg="12">
-      <v-card variant="flat">
-        <v-card variant="outlined">
-          <v-card-text class="text-center">
-            <h2 class=" mt-3"> 상세 조회</h2>
-          </v-card-text>
-        </v-card>
-      </v-card>
-    </v-col>
-    <v-col cols="12">
-      <!-- customer detail table -->
-      <v-card elevation="0">
-        <v-card variant="outlined">
-          <v-card-text class="mb-3">
-
-            <v-divider></v-divider>
-            <v-card-text class="px-0">
-              <v-window>
-                <v-window-item value="11">
-                  <UiChildCard title="Customer">
-                    <v-row>
-                      <!-- 직위 및 카테고리 -->
-                      <v-col cols="12" sm="4">
-                        <h4 class="mb-2 text-h4">결재 종류 :
-                          <p>{{ getStatusCode(selectedDetail?.payStatusCode) }}</p>
-                        </h4>
-                        <h4 class="mb-2 text-h4" v-if="selectedDetail?.requestName">상신자 :
-                          <p>{{ selectedDetail?.requestName }}</p>
-                        </h4>
-                      </v-col>
-                      <!-- 승인자 -->
-                      <v-col cols="12" sm="8" v-if="selectedWork != 'O07'">
-                        <v-row v-model="tab">
-                          <v-col cols="6" sm="4" class="text-center">
-                            <v-table class="border-lg-red px-2 py-1">
-                              <tr>
-                                <td class="py-2 text-subtitle-1 font-weight-black">1차 승인자</td>
-                              </tr>
-                              <tr>
-                                <td class="py-2 text-subtitle-1">
-                                  {{ selectedDetail?.firstApprovalName }} </td>
-                              </tr>
-                              <tr>
-                                <td v-if="selectedDetail?.firstApprovalDate" class="text-subtitle text-center"
-                                  style="color: green;">{{ selectedDetail?.firstApprovalDate }} </td>
-                                <td v-if="!selectedDetail?.firstApprovalDate" class="text-subtitle text-center"
-                                  style="color: blue;"> 진행중 </td>
-                              </tr>
-                            </v-table>
-                          </v-col>
-                          <v-col cols="6" sm="4" class="text-center">
-                            <v-table class="border-lg-red px-2 py-1">
-                              <tr>
-                                <td class="py-2 text-subtitle-1 font-weight-black">2차 승인자</td>
-                              </tr>
-                              <tr>
-                                <td class="py-2 text-subtitle-1">
-                                  {{ selectedDetail?.secondApprovalName }}</td>
-                              </tr>
-                              <tr>
-                                <td v-if="selectedDetail?.secondApprovalDate" class="text-subtitle text-center"
-                                  style="color: green;">{{ selectedDetail?.secondApprovalDate }} </td>
-                                <td v-if="!selectedDetail?.secondApprovalDate && selectedDetail?.firstApprovalDate"
-                                  class="text-subtitle text-center" style="color: blue;"> 진행중 </td>
-                                <td v-if="!selectedDetail?.secondApprovalDate && !selectedDetail?.firstApprovalDate"
-                                  class="text-subtitle text-center">  </td>
-                              </tr>
-
-                            </v-table>
-                          </v-col>
-                          <v-col cols="6" sm="4" class="text-center">
-                            <v-table class="border-lg-red px-2 py-1">
-                              <tr>
-                                <td class="py-2 text-subtitle-1 font-weight-black">3차 승인자</td>
-                              </tr>
-                              <tr>
-                                <td class="py-2 text-subtitle-1" >
-                                  {{ selectedDetail?.thirdApprovalName }}</td>
-                              </tr>
-                              <tr>
-                                <td v-if="selectedDetail?.thirdApprovalDate" class="text-subtitle text-center"
-                                  style="color: green;">{{ selectedDetail?.thirdApprovalDate }} </td>
-                                <td v-if="!selectedDetail?.thirdApprovalDate && selectedDetail?.secondApprovalDate"
-                                  class="text-subtitle text-center" style="color: blue;"> 진행중 </td>
-                                <td v-if="!selectedDetail?.thirdApprovalDate && !selectedDetail?.secondApprovalDate"
-                                  class="text-subtitle text-center"></td>
-                              </tr>
-                            </v-table>
-                          </v-col>
+    <v-col cols="12" md="12">
+      <UiParentCard title="사원 승인 리스트">
+        <v-row justify="space-between" class="align-center mb-3">
+          
                         </v-row>
-                      </v-col>
-                    </v-row>
-                    <v-divider class="my-4"></v-divider>
-                  </UiChildCard>
-                  <!-- 전자결재 내용 -->
-                  <v-card elevation="0" class="mt-6">
-                    <v-card variant="outlined">
-                      <v-card-item class="py-3">
-                        <v-card-title class="text-h5">결자결재 내용</v-card-title>
-                      </v-card-item>
-                      <v-divider></v-divider>
-                      <v-row class="ml-3 py-5">
-                        <v-col cols="6" sm="2">
-                          시작 일시
-                          <p>{{ selectedDetail?.workStartTime.slice(2, 10) }} {{ selectedDetail?.workStartTime.slice(11,
-      16)
-                            }}</p>
-                        </v-col>
-                        <v-col cols="6" sm="2" class="text-center">~</v-col>
-                        <v-col cols="6" sm="2">
-                          종료 일시 :
-                          <p>{{ selectedDetail?.workEndTime.slice(2, 10) }} {{
-      selectedDetail?.workEndTime.slice(11, 16) }}</p>
-                        </v-col>
-                      </v-row>
-                      <v-divider></v-divider>
-                      <v-card-text>
-                        <v-sheet class="bg-lightprimary pa-2 pa-sm-6" rounded="sm">
-                          <div style="background-color: white; width: 100%; min-height: 100px;">
-                            <p class="mx-2 my-2"> {{ selectedDetail?.adjustmentComment }} </p>
+        <div class="overflow-auto">
+            <EasyDataTable :headers="headers" :items="listCards" table-class-name="customize-table action-position"
+                :theme-color="themeColor" :rows-per-page="10">
+                <template #item-employeeId="{ employeeId }">
+                <div>{{ employeeId }}</div>
+                </template>
+                <template #item-beforeDepartmentCode="{ beforeDepartmentCode }">
+                <div>{{ getDepartmentName(beforeDepartmentCode) }}</div>
+                </template>
+                <template #item-afterDepartmentCode="{ afterDepartmentCode }">
+                <div>{{ getDepartmentName(afterDepartmentCode) }}</div>
+                </template>
+                <template #item-positionCode="{ positionCode }">
+                <div>{{ getPositionName(positionCode) }}</div>
+                </template>
+                <template #item-updateDutyCode="{ updateDutyCode }">
+                <div>{{ getDutyName(updateDutyCode) }}</div>
+                </template>
+                <template #item-delete="{ appointmentId }">
+                    <v-btn color="error" @click="deleteItem(appointmentId)">삭제</v-btn>
+                  </template>
+            </EasyDataTable>
+        </div>
+        <div class="d-flex justify-end"> <!-- 오른쪽으로 정렬하는 Flexbox 컨테이너 -->
+            <v-btn color="primary" @click="uploadFileAttendance" >버튼</v-btn>
+            <input type="file" ref="personnelFileInput" style="display: none" @change="handleFileUploadAttendance"/>
                           </div>
-                        </v-sheet>
-                      </v-card-text>
-                    </v-card>
-                  </v-card>
-                </v-window-item>
-              </v-window>
-            </v-card-text>
-          </v-card-text>
-        </v-card>
-      </v-card>
+      </UiParentCard>
     </v-col>
   </v-row>
-  <!-- 전체 컨테이너 -->
-  <div class="mt- d-flex flex-column justify-content-between" style="height: 100%;">
-    <!-- 여기에 다른 내용 추가 가능 -->
-
-  </div>
+  <v-dialog v-model="isLoading" persistent max-width="70px">
+    <v-progress-circular
+      indeterminate
+      color="primary"
+      :size="70"
+      :width="7"
+    />
+  </v-dialog>
 </template>
 
 <style>
