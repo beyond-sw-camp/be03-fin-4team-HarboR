@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AnnualListResDto {
+    private Long annualId;
     private String payStatusCode;
     private String firstApprovalId;
     private String secondApprovalId;
@@ -19,9 +20,17 @@ public class AnnualListResDto {
     private String firstApprovalDate;
     private String secondApprovalDate;
     private String thirdApprovalDate;
-
-    public static AnnualListResDto create(String payStatusCode, String firstApprovalId, String firstApprovalDate, String secondApprovalId, String secondApprovalDate, String thirdApprovalId, String thirdApprovalDate) {
+    private LocalDateTime workStartTime;
+    private LocalDateTime workEndTime;
+    private String adjustmentComment;
+    public static AnnualListResDto create(Long annualId,String payStatusCode, String firstApprovalId,
+                                          String firstApprovalDate, String secondApprovalId,
+                                          String secondApprovalDate, String thirdApprovalId,
+                                          String thirdApprovalDate, LocalDateTime workStartTime,
+                                          LocalDateTime workEndTime, String adjustmentComment
+                                          ) {
         return AnnualListResDto.builder()
+                .annualId(annualId)
                 .payStatusCode(payStatusCode)
                 .firstApprovalId(firstApprovalId)
                 .firstApprovalDate(firstApprovalDate)
@@ -29,6 +38,9 @@ public class AnnualListResDto {
                 .secondApprovalDate(secondApprovalDate)
                 .thirdApprovalId(thirdApprovalId)
                 .thirdApprovalDate(thirdApprovalDate)
+                .workStartTime(workStartTime)
+                .workEndTime(workEndTime)
+                .adjustmentComment(adjustmentComment)
                 .build();
     }
 }

@@ -188,7 +188,20 @@ export const useCodeStore = defineStore({
           break;
       }
       return prefix;
-    }
-    
+    },
+    getStatusNameByCode(code: string): string {
+      const teamMap: { [key: string]: string } = {
+        O01: '출근',
+        O02: '퇴근',
+        O03: '출장',
+        O04: '휴가',
+        O05: '휴계',
+        O06: '고정',
+        O07: '시차',
+        O08: '반차',
+        O09: '병가',
+      };
+      return teamMap[code] || '알 수 없는 상태';
+    },
   }
 });

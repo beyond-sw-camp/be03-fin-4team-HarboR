@@ -446,7 +446,22 @@ const MainRoutes = {
       name: 'TestQalendar',
       path: '/testqalendar',
       component: () => import('@/views/apps/test/TestQalendar.vue')
-    }
+    },
+    {
+      name: 'AttendanceCreate',
+      path: '/attendance/create',
+      component: () => import('@/views/apps/users/list/AttendanceCreate.vue')
+    },
+    {
+      name: 'AttendanceListReq',
+      path: '/attendance/list/req',
+      component: () => import('@/views/apps/users/list/AttendanceListReq.vue')
+    },
+    {
+      name: 'AttendanceListRes',
+      path: '/attendance/list/res',
+      component: () => import('@/views/apps/users/list/AttendanceListRes.vue')
+    },
   ]
 };
 

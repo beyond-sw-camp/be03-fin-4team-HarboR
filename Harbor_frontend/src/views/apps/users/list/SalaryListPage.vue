@@ -22,7 +22,6 @@ async function fetchSalary() {
       },
     });
     list.value = response.data.result;
-    console.log(list.value);
   } catch (error) {
     console.log(error);
   }
@@ -40,14 +39,13 @@ const listCards = computed<ListItem[]>(() => {
 });
 const items = ref(listCards);
 const showRow = (item: ListItem) => {
-  // console.log(item.salaryId);
   location.href = `/app/user/salarydetail/${item.salaryId}`
 };
 </script>
 <template>
   <v-row>
     <v-col cols="12" md="12">
-      <UiParentCard title="Customer List">
+      <UiParentCard title="급여 목록">
         <div class="overflow-auto">
           <EasyDataTable :headers="headers" :items="items" table-class-name="customize-table action-position"
             @click-row="showRow" :rows-per-page="8">

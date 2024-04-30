@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import axios from 'axios';
+import axios, { setClientHeaders } from '@/utils/axios';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import html2pdf from "html2pdf.js";
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 const route = useRoute();
 const salary = ref([]);
+const token: string | null = localStorage.getItem('token');
 onMounted(() => {
   fetchSalary();
 });
@@ -13,18 +14,13 @@ async function fetchSalary() {
   const salaryId = route.params.salaryId;
   try {
     const token = localStorage.getItem('token');
-    if (!token) {
-      console.error('토큰이 존재하지 않습니다.');
-      return;
-    }
+    setClientHeaders(token);
     const response = await axios.get(`${baseUrl}/salary/mysalary/${salaryId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(response.data.result);
     salary.value = response.data.result;
-    console.log(salary.value);
   } catch (error) {
     console.log(error);
   }
@@ -60,7 +56,7 @@ function savePDF() {
         </v-card>
       </v-card>
     </v-col>
-    <v-col cols="12">
+    <v-col cols="12" >
       <!-- customer detail table -->
       <v-card elevation="0">
         <v-card variant="outlined">

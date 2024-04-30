@@ -82,6 +82,7 @@ public class SalaryService {
         GetUsersResponse getUsersResponse = salaryClient.getUsers(employeeId);
         List<MySalaryRequest> mySalaryRequest = new ArrayList<>();
         mySalaryRequest = salaryList.stream().map(i -> MySalaryRequest.builder()
+                .salaryId(i.getSalaryId())
                 .employeeId(i.getEmployeeId())
                 .salaryGross(i.getSalaryGross())
                 .salaryMonthOfYear(i.getSalaryMonthOfYear())
@@ -92,7 +93,7 @@ public class SalaryService {
         return mySalaryRequest;
     }
 
-    //상세 급여 목록 조회
+    //상세 급여 조회
     public MySalaryDetailResponse findMySalary(String employeeId, Long salaryId) {
         Salary salary = salaryRepository.findByEmployeeIdAndSalaryId(employeeId, salaryId);
         GetUsersResponse getUsersResponse = salaryClient.getUsers(employeeId);
@@ -101,6 +102,9 @@ public class SalaryService {
                 .salaryMonthOfYear(salary.getSalaryMonthOfYear())
                 .salaryGross(salary.getSalaryGross())
                 .name(getUsersResponse.getResults().get(0).getName())
+                .baseSalary(salary.getSalaryCode().getBaseSalary())
+                .position(salary.getSalaryCode().getPosition())
+                .codeNum(salary.getSalaryCode().getCodeNum())
                 .build();
     }
 

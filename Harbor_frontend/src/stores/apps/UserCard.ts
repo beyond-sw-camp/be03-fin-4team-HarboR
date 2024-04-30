@@ -35,7 +35,7 @@ export const useUserCardStore = defineStore({
       try {
         setClientHeaders(token);
         const response = await axios.get(`${baseUrl}/employee/get/list`);
-        this.list = response.data;
+        this.list = response.data.result;
       } catch (error) {
         alert(error);
       }

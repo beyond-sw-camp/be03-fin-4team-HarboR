@@ -52,6 +52,11 @@ const ColorsOptions: ColorsOptionsProps[] = [
     label: 'Black',
     value: 'darkText',
     bg: 'bg-darkText'
+  },
+  {
+    label: 'White',
+    value: 'White',
+    bg: 'bg-white'
   }
 ];
 
