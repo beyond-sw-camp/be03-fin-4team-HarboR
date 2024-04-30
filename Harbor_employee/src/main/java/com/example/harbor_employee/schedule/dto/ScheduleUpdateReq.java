@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ScheduleUpdateReq {
+    private String scheduleId;
     private String scheduleStartDate;
     private String scheduleEndDate;
     private String scheduleStartTime;

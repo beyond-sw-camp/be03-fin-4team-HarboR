@@ -488,7 +488,7 @@ const MainRoutes = {
       component: () => import('@/views/apps/users/list/severancePay.vue')
     },
     {
-      name: 'qalendar',
+      name: 'ScheduleQalendar',
       path: '/schedule/qalendar',
       component: () => import('@/views/apps/calendar/ScheduleQalendar.vue')
     }

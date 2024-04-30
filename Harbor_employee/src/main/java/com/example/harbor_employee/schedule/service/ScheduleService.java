@@ -20,17 +20,19 @@ public class ScheduleService {
         this.scheduleRepository = scheduleRepository;
     }
 
-    public void CreateSchedule(ScheduleCreateReq scheduleCreateReq) {
-        Schedule schdule = Schedule.builder()
+    public Schedule CreateSchedule(ScheduleCreateReq scheduleCreateReq) {
+        Schedule schedule = Schedule.builder()
                 .scheduleStartDate(scheduleCreateReq.getScheduleStartDate())
                 .scheduleEndDate(scheduleCreateReq.getScheduleEndDate())
                 .scheduleStartTime(scheduleCreateReq.getScheduleStartTime())
                 .scheduleEndTime(scheduleCreateReq.getScheduleEndTime())
                 .scheduleTitle(scheduleCreateReq.getScheduleTitle())
                 .scheduleComment(scheduleCreateReq.getScheduleComment())
-                .scheduleColor(scheduleCreateReq.getScheduleColor())
+                .scheduleColor((scheduleCreateReq.getScheduleColor()))
                 .build();
-        scheduleRepository.save(schdule);
+        System.out.println(scheduleCreateReq.getScheduleTitle());
+        Schedule schedule1 = scheduleRepository.save(schedule);
+        return schedule1;
     }
 
     public List<ScheduleListRes> findAllSchedule() {
@@ -40,11 +42,17 @@ public class ScheduleService {
                 .collect(Collectors.toList());
     }
 
-    public Schedule scheduleUpdate(Long scheduleId, ScheduleUpdateReq scheduleUpdateReq) {
+    public void scheduleUpdate(Long scheduleId, ScheduleUpdateReq scheduleUpdateReq) {
         Schedule schedule = scheduleRepository.findByScheduleId(scheduleId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스케줄입니다."));
-        schedule.updateSchedule(scheduleUpdateReq.getScheduleStartDate(), scheduleUpdateReq.getScheduleEndDate(), scheduleUpdateReq.getScheduleStartTime(), scheduleUpdateReq.getScheduleEndTime(),
-                scheduleUpdateReq.getScheduleComment(), scheduleUpdateReq.getScheduleTitle());
-        return schedule;
+        schedule.updateSchedule(
+                scheduleUpdateReq.getScheduleStartDate(),
+                scheduleUpdateReq.getScheduleEndDate(),
+                scheduleUpdateReq.getScheduleEndTime(),
+                scheduleUpdateReq.getScheduleStartTime(),
+                scheduleUpdateReq.getScheduleComment(),
+                scheduleUpdateReq.getScheduleTitle(),
+                scheduleUpdateReq.getScheduleColor()
+        );
     }
 
     public void ScheduleDelete(Long scheduleId) {

@@ -35,7 +35,7 @@ public class Schedule {
     private String scheduleEndDate;
     private String scheduleStartTime;
     private String scheduleEndTime;
-    @Column(nullable = false, length = 50)
+    @Column(length = 50)
     private String scheduleTitle;
     @Column(length = 500)
     private String scheduleComment;
@@ -51,13 +51,15 @@ public class Schedule {
 
     public void updateSchedule(String scheduleStartDate, String scheduleEndDate,
                                String scheduleEndTime, String scheduleStartTime,
-                               String scheduleComment, String scheduleTitle) {
+                               String scheduleComment, String scheduleTitle,
+                               String scheduleColor) {
         this.scheduleStartDate = scheduleStartDate;
         this.scheduleEndDate = scheduleEndDate;
         this.scheduleEndTime = scheduleEndTime;
         this.scheduleStartTime = scheduleStartTime;
         this.scheduleComment = scheduleComment;
         this.scheduleTitle = scheduleTitle;
+        this.scheduleColor = scheduleColor;
     }
 
     public void deleteSchedule(){

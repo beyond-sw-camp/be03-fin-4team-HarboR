@@ -9,7 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
-
-        Optional<Schedule> findByScheduleId(Long scheduleId);
         List<Schedule> findAllByDelYnIs(boolean delYn);
+        Optional<Schedule> findByScheduleId(Long scheduleId);
 }

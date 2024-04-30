@@ -12,7 +12,6 @@ import java.sql.Time;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ScheduleDetailRes {
-    private Long scheduleId;
     private String scheduleStartDate;
     private String scheduleEndDate;
     private String scheduleStartTime;

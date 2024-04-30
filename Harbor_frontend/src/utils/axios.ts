@@ -15,8 +15,6 @@ const axiosServices = axios.create({
 });
 
 
-axiosServices.interceptors.request.use()
-
 export const setClientHeaders = (token: string | null) => {
   axiosServices.interceptors.request.use(function (config) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -27,7 +25,10 @@ export const setClientHeaders = (token: string | null) => {
 // interceptor for http
 axiosServices.interceptors.response.use(
   (response) => response,
-  (error) => Promise.reject((error.response && error.response.data) || 'Wrong Services')
+  (error) => {
+    if (error.status == 401) localStorage.clear();
+    Promise.reject((error.response && error.response.data) || 'Wrong Services');
+  }
 );
 
 export default axiosServices;

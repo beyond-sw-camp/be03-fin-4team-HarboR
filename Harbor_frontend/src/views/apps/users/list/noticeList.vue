@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
 import { useUserCardStore } from '@/stores/apps/UserCard';
-import 'vue3-easy-data-table/dist/style.css'; 
+import 'vue3-easy-data-table/dist/style.css';
 import { useMailStore } from '@/stores/apps/mail';
-import noticedetail from '@/views/apps/users/list/noticedetail.vue'
-import notcieCreate from '@/views/apps/users/list/noticeCreate.vue'
-import { useRouter } from 'vue-router'
+import noticedetail from '@/views/apps/users/list/noticedetail.vue';
+import notcieCreate from '@/views/apps/users/list/noticeCreate.vue';
+import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
@@ -24,7 +24,7 @@ type ListItem = {
   createdAt: string; // 작성일자
   contents: string;
   filePath: string
-};  
+};
 const listCards = computed<ListItem[]>(() => {
   // noticeId 기준 내림차순 정렬
   return store.$state.noticelist
@@ -38,8 +38,6 @@ const listCards = computed<ListItem[]>(() => {
       filePath: card.filePath,
     }));
 });
-
-
 
 const headers = [
   { text: '게시물 번호', value: 'noticeId', sortable: true }, // 게시물 번호 헤더 추가
@@ -65,7 +63,6 @@ defineEmits(['sToggle']);
 <template>
   <!-- 검색창 -->
   <div v-if="!noticeDetails">
-    
     <!-- Topbar Row -->
     <div class="pa-3 d-flex align-center flex-wrap justify-space-between">
       <div>
@@ -77,7 +74,7 @@ defineEmits(['sToggle']);
           placeholder="Search Mail"
           hide-details
           density="compact"
-          class="max-width-300" 
+          class="max-width-300"
         ></v-text-field>
         <!-- <v-text-field type="text" variant="outlined" persistent-placeholder placeholder="검색하기" v-model="searchValue"
               density="compact" hide-details prepend-inner-icon="mdi-magnify" /> -->
@@ -111,6 +108,3 @@ defineEmits(['sToggle']);
     <noticedetail @toggleDetail="noticeDetails = false" :selectedDetail="selectNotice" />
   </div>
 </template>
-
-
-<style lang="scss"></style>
