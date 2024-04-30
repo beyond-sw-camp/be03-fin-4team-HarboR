@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableFeignClients
 @EnableJpaAuditing
-@EnableScheduling
+//@EnableScheduling
 public class
 HarborEmployeeApplication {
 

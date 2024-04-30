@@ -26,6 +26,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -150,16 +152,18 @@ public class PersonnelAppointmentService {
         // Sort 객체를 PageRequest.of 메서드에 전달하여 정렬된 페이지 받기
         Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
 
-        Page<PersonnelAppointment> personnelAppointmentList = parepository.findAll(specification, sortedPageable);
+
+        Page<PersonnelAppointment> personnelAppointmentList = parepository.findAllWithIssueDateAfterToday(String.valueOf(LocalDate.now().plusDays(1)), sortedPageable);
 
         return personnelAppointmentList.map(PaResDto::toPaDto);
     }
 
-    public Long delete(Long appointmentId) {
+    public String delete(Long appointmentId) {
+        log.info("personnelAppointment : ");
         PersonnelAppointment personnelAppointment = parepository.findById(appointmentId).orElseThrow(() -> new IllegalArgumentException(" 없는 인사발령 번호 입니다"));
+        log.info("personnelAppointment : {} ", personnelAppointment);
         parepository.delete(personnelAppointment);
-        log.info("personnelAppointment 삭제 완료 : {} " ,personnelAppointment);
-        return personnelAppointment.getAppointmentId();
+        return "삭제 완료";
     }
 
     public PaResDto detail(Long appointmentId) {

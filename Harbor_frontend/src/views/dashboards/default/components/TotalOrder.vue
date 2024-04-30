@@ -29,7 +29,7 @@ const chartOptions1 = computed(() => {
     },
     yaxis: {
       min: 0,
-      max: 100
+      max: 100000
     },
     tooltip: {
       fixed: {
@@ -55,7 +55,7 @@ const lineChart1 = {
   series: [
     {
       name: 'series1',
-      data: [45, 66, 41, 89, 25, 44, 9, 54]
+      data: [32500, 32500, 55000, 32500, 36030, 26500, 31500, 36500]
     }
   ]
 };
@@ -111,7 +111,7 @@ const chartOptions2 = computed(() => {
 const lineChart2 = {
   series: [
     {
-      name: 'series1',
+      name: 'series2',
       data: [35, 44, 9, 54, 45, 66, 41, 69]
     }
   ]

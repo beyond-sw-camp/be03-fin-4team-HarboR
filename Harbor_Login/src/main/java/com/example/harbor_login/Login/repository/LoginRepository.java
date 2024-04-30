@@ -7,12 +7,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Repository
 public interface LoginRepository extends JpaRepository<Login,String> {
     Optional<Login> findByEmail(String email);
     Optional<Login> findByEmployeeId(String employeeId);
+
 
     Optional<Login> findByEmailAndName(String email, String name);
 

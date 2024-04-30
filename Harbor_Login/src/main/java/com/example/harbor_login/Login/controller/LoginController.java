@@ -93,13 +93,13 @@ public class LoginController {
 //
 //    }
 
-    @GetMapping("/findId")
+    @PostMapping("/findId")
     public ResponseEntity<CommonResponse> findId(@RequestBody FindIdReqDto findIdReqDto) {
         Map<String, String> employeeId = loginService.findEmployeeId(findIdReqDto);
         return new ResponseEntity<>(new CommonResponse("find Id successfully", employeeId.get("EmployeeId")), HttpStatus.OK);
     }
 
-    @GetMapping("/findPw")
+    @PostMapping("/findPw")
     public ResponseEntity<CommonResponse> pwFind(@RequestBody FindPasswordReq findPasswordReq) {
         loginService.userCheck(findPasswordReq);
         return new ResponseEntity<>(new CommonResponse("사용자가 확인 되었습니다.", ""), HttpStatus.OK);

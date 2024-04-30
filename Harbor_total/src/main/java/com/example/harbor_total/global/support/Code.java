@@ -151,7 +151,9 @@ public enum Code {
     K1000("(주)Harbor"),
 
     X01("지각"),
-    X02("정상");
+    X02("정상"),
+    X03("업무중"),
+    X04("퇴근오류");
 
     private final String message;
 

@@ -33,7 +33,7 @@ public class PersonnelAppointment {
 
     private String issueDate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id")
     private Employee employee;
 

@@ -32,7 +32,7 @@ type ListItem = {
 const listCards = computed<ListItem[]>(() => {
   return store.list;
 });
-
+console.log(1)
 const searchField = ref('name');
 const searchValue = ref('');
 
