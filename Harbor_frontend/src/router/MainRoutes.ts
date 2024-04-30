@@ -456,7 +456,12 @@ const MainRoutes = {
       name: 'noticedetail',
       path: '/noticedetail/:id',
       component: () => import('@/views/apps/users/list/noticedetail.vue')
-    }
+    },
+    {
+      name : "attendancedatail",
+      path: '/dashboard/analytics/attendancedetail',
+      component: () => import('@/views/apps/users/list/attendancedetail.vue')
+    },
   ]
 };
 

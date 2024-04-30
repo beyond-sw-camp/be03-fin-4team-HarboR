@@ -15,7 +15,7 @@ const closeModal = () => {
   modalOpen.value = false;
 };
 
-const handleButtonClick = async (type) => { // type 매개변수 추가
+const handleButtonClick = async (type) => {
   try {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -24,9 +24,9 @@ const handleButtonClick = async (type) => { // type 매개변수 추가
     }
     let url = ''; // URL 변수 초기화
     if (type === '출근') {
-      url = `${baseUrl}/total/commute/attendance`; // 출근 URL 설정
+      url = `${baseUrl}/total/commute/attendance`;
     } else if (type === '퇴근') {
-      url = `${baseUrl}/total/commute/leavework`; // 퇴근 URL 설정
+      url = `${baseUrl}/total/commute/leavework`; 
     } else {
       console.error('잘못된 유형입니다.');
       return;
@@ -38,6 +38,7 @@ const handleButtonClick = async (type) => { // type 매개변수 추가
     });
     alert(response.data.message)
     closeModal()
+    location.reload()
   } catch (error) {
     alert(error.response.data.error_message)
     closeModal()

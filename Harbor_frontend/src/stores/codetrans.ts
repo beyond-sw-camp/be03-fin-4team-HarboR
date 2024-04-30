@@ -177,7 +177,16 @@ export const useCodeStore = defineStore({
     getTardyNameByCode(code: string): string {
       const departmentMap: { [key: string]: string } = {
         X01: '지각',
-        X02: '정상'
+        X02: '정상',
+        X03: '근무 중',
+        X04 : '퇴근오류'
+      };
+      return departmentMap[code] || '알 수 없는 부서';
+    },
+    getApproveByCode(code: boolean): string {
+      const departmentMap: { [key: boolean]: string } = {
+        false: '미승인',
+        true: '승인'
       };
       return departmentMap[code] || '알 수 없는 부서';
     },

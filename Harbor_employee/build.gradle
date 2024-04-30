@@ -40,6 +40,8 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.springframework.kafka:spring-kafka'
+
+	implementation 'org.jsoup:jsoup:1.14.2'
 }
 dependencyManagement {
 	imports {

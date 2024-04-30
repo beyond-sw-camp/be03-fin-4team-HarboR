@@ -34,7 +34,7 @@ import PopularStocks from './components/PopularStocks.vue';
     <v-col cols="12" lg="12">
       <TotalGrowth />
     </v-col>
-
+    
   
   </v-row>
 </template>

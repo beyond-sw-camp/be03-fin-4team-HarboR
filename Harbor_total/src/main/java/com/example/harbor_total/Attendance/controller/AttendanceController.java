@@ -37,8 +37,7 @@ public class AttendanceController {
 
     //    근무 리스트
     @GetMapping("/groupbyteamlist")
-    public ResponseEntity<CommonResponse> getList(Principal principal) {
-        String employeeId = principal.getName();
+    public ResponseEntity<CommonResponse> getList(@RequestHeader("employeeId") String employeeId) {
         return new ResponseEntity<>(new CommonResponse("당일 근무 리스트 가져오기", commuteService.getListGroupByTeam(employeeId)), HttpStatus.OK);
     }
 

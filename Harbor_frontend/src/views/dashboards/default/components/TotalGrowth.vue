@@ -26,9 +26,7 @@ onMounted(async () => {
 
 // 월 선택 변경 시 데이터 가져오는 부분
 const fetchData = () => {
-  console.log("42")
   const today = new Date().toISOString().split('.')[0]; // 오늘 날짜를 ISO 형식으로 가져옴
-  console.log(selectedMonth.value)
   store.fetchlistCards(token, selectedMonth.value+"-01T00:00:00" || today); // 선택한 월이 없으면 오늘 날짜를 기본값으로 사용
 };
 

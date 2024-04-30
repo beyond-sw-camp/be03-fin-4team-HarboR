@@ -17,6 +17,7 @@ public class PaResDto {
     private String positionCode;
     private String issueDate;
     private String employeeId;
+    private String updateDutyCode;
 
     public static PaResDto toPaDto(PersonnelAppointment personnelAppointment) {
         return PaResDto.builder()
@@ -26,6 +27,7 @@ public class PaResDto {
                 .positionCode(personnelAppointment.getPositionCode())
                 .issueDate(personnelAppointment.getIssueDate())
                 .employeeId(personnelAppointment.getEmployee().getEmployeeId())
+                .updateDutyCode(personnelAppointment.getUpdateDutyCode())
                 .build();
 
     }

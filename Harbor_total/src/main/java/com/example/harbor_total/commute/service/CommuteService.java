@@ -116,8 +116,6 @@ public class CommuteService {
         List<Attendance> allByEmployeeAndWorkStartTimeBetween = attendanceRepository.findAllByEmployeeAndWorkStartTimeBetween(employee, month.toLocalDate().withDayOfMonth(1).atStartOfDay(), month.toLocalDate().withDayOfMonth(month.toLocalDate().lengthOfMonth()).atTime(23, 59, 59))
                 .orElseThrow(() -> new IllegalArgumentException(String.valueOf(month.getMonth()) + "의 해당하는 근무표가 없습니다."));
 
-        log.info("MonthCommute : {}", MonthCommute);
-        log.info("allByEmployeeAndWorkStartTimeBetween : ", allByEmployeeAndWorkStartTimeBetween + "입니다.");
 
         return allByEmployeeAndWorkStartTimeBetween.stream()
                 .flatMap(attendance -> CommuteListResDto.toDto(attendance, MonthCommute).stream())

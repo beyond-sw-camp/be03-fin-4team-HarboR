@@ -58,18 +58,19 @@ public class CommuteListResDto {
                     .workStartTime(commute.getAttendanceTime())
                     .workEndTime(commute.getLeaveworkTime())
                     .tardy(X02.name());
-            if (O01.name().equals(attendance.getWorkPolicy()) ||
-                    O07.name().equals(attendance.getWorkPolicy())
-            ) {
-                if (commute.getAttendanceTime().toLocalTime().isAfter(attendance.getWorkStartTime().toLocalTime())) {
-                    builder.tardy(X01.name());
+            if (O01.name().equals(attendance.getWorkPolicy()) || O07.name().equals(attendance.getWorkPolicy())) {
+                if (commute.getLeaveworkTime() != null) {
+                    if (commute.getAttendanceTime().toLocalTime().isAfter(attendance.getWorkStartTime().toLocalTime())) {
+                        builder.tardy(X01.name());
+                    }
+                }else{
+                    if (commute.getAttendanceDate().toLocalDate().equals(LocalDate.now())) builder.tardy(X03.name());
+                    else builder.tardy(X04.name());
                 }
             }
             CommuteListResDto dto = builder.build();
-
             result.add(dto);
         }
-
         return result;
     }
 }
