@@ -16,6 +16,7 @@ const teamName = ref([]);
 // vue-router의 useRoute를 사용하여 현재 라우트 정보에 접근
 const route = useRoute();
 const token: string | null = localStorage.getItem('token');
+const route = useRoute(); 
 
 onMounted(async () => {
   // 라우트 파라미터에서 사원번호(employeeId)를 추출

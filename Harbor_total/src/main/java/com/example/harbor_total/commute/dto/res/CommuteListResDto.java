@@ -37,7 +37,7 @@ public class CommuteListResDto {
                 CommuteListResDto dto = CommuteListResDto.builder() // 빌더를 사용하여 객체 생성
                         .attendanceDate(Date.valueOf(startDate))
                         .workPolicy(attendance.getWorkPolicy())
-                        .tardy(X02.name() + " 정상")
+                        .tardy(X02.name())
                         .build();
 
                 result.add(dto);
@@ -57,19 +57,20 @@ public class CommuteListResDto {
                     .workPolicy(attendance.getWorkPolicy())
                     .workStartTime(commute.getAttendanceTime())
                     .workEndTime(commute.getLeaveworkTime())
-                    .tardy(X02.name() + " 정상");
-            if (O01.name().equals(attendance.getWorkPolicy()) ||
-                    O07.name().equals(attendance.getWorkPolicy())
-            ) {
-                if (commute.getAttendanceTime().toLocalTime().isAfter(attendance.getWorkStartTime().toLocalTime())) {
-                    builder.tardy(X01.name() + " 지각");
+                    .tardy(X02.name());
+            if (O01.name().equals(attendance.getWorkPolicy()) || O07.name().equals(attendance.getWorkPolicy())) {
+                if (commute.getLeaveworkTime() != null) {
+                    if (commute.getAttendanceTime().toLocalTime().isAfter(attendance.getWorkStartTime().toLocalTime())) {
+                        builder.tardy(X01.name());
+                    }
+                }else{
+                    if (commute.getAttendanceDate().toLocalDate().equals(LocalDate.now())) builder.tardy(X03.name());
+                    else builder.tardy(X04.name());
                 }
             }
             CommuteListResDto dto = builder.build();
-
             result.add(dto);
         }
-
         return result;
     }
 }

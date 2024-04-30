@@ -9,8 +9,8 @@ export const useCodeStore = defineStore({
     returnUrl: null
   }),
   actions: {
-    // 직위 - 호봉 X 
-    getPositionNameByCode(position : string) {
+    // 직위 - 호봉 X
+    getPositionNameByCode(position: string) {
       const code = parseInt(position.slice(1), 10);
       if (code >= 11 && code <= 15) {
         return '사원';
@@ -28,14 +28,12 @@ export const useCodeStore = defineStore({
         return 'Unknown'; // Handle other cases if necessary
       }
     },
-    // 직위 - 호봉 O 
-     getPositionNumberByCode(position: string) {
+    // 직위 - 호봉 O
+    getPositionNumberByCode(position: string) {
       // 직위 코드의 첫 번째 문자(S)는 무시하고, 두 번째 문자로 직위를, 마지막 두 숫자로 호봉을 결정합니다.
       const positionCode = position.charAt(1);
       const level = parseInt(position.substring(2), 10);
-    
       let positionName: string;
-    
       switch (positionCode) {
         case '1':
           positionName = '사원';
@@ -162,6 +160,36 @@ export const useCodeStore = defineStore({
       };
       return departmentMap[code] || '알 수 없는 부서';
     },
+    getWorkPolicyNameByCode(code: string): string {
+      const departmentMap: { [key: string]: string } = {
+        O01 : "정상",
+        O02 :'퇴근',
+        O03 :'출장',
+        O04 :'휴가',
+        O05 :'휴계',
+        O06 :'고정',
+        O07 :'시차',
+        O08 :'반차',
+        O09 :'병가',
+      };
+      return departmentMap[code] || '알 수 없는 부서';
+    },
+    getTardyNameByCode(code: string): string {
+      const departmentMap: { [key: string]: string } = {
+        X01: '지각',
+        X02: '정상',
+        X03: '근무 중',
+        X04 : '퇴근오류'
+      };
+      return departmentMap[code] || '알 수 없는 부서';
+    },
+    getApproveByCode(code: boolean): string {
+      const departmentMap: { [key: boolean]: string } = {
+        false: '미승인',
+        true: '승인'
+      };
+      return departmentMap[code] || '알 수 없는 부서';
+    },
     getNameByCodes(name: string): string {
       let prefix = '';
       switch (name) {
@@ -203,5 +231,6 @@ export const useCodeStore = defineStore({
       };
       return teamMap[code] || '알 수 없는 상태';
     },
-  }
+    }
+  
 });

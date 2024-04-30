@@ -1,5 +1,6 @@
 import {
   BrandGravatarIcon,
+  ClipboardTextIcon,
   MenuIcon,
   CoinIcon,
   CoinsIcon,
@@ -150,5 +151,12 @@ const sidebarItem: menu[] = [
     icon: CoinsIcon,
     to: '/app/user/salaryCreate'
   },
+  { header: '기타', },
+  {
+    title: '공지사항',
+    icon: ClipboardTextIcon,
+    to: '/noticeList'
+  },
+
 ]
 export default sidebarItem;

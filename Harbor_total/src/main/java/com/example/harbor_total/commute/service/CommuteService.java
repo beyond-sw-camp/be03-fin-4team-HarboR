@@ -89,28 +89,24 @@ public class CommuteService {
 
         // 오늘 날짜에 해당하는 출퇴근 기록을 찾습니다.
         Commute commute = commuteRepository.findByEmployeeAndAttendanceDate(employee, Date.valueOf(LocalDate.now()))
-                .orElseThrow(() -> new IllegalArgumentException("오늘 날짜에 해당하는 실제 출퇴근 기록이 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("오늘 날짜에 해당하는 실제 출근기록이 없습니다."));
         // 오늘 날짜의 근무 가져옴
         Optional<Attendance> hasAttendanceToday = attendanceRepository.findByEmployeeAndWorkStartTimeBetween(
                 employee,
                 LocalDate.now().atStartOfDay(), // 오늘 날짜의 시작 시간
                 LocalDate.now().atTime(23, 59, 59) // 오늘 날짜의 마지막 시간
         );
-
-        if (hasAttendanceToday.isPresent()) {
-//            반차, 유연 근무제인경우
-            if (O07.name().equals(hasAttendanceToday.get().getWorkPolicy()) ||
-                    O08.name().equals(hasAttendanceToday.get().getWorkPolicy())) {
-//                 끝나는 시간 바꿔줌
-            }
+        if (commute.getLeaveworkTime() == null) {
+            commute.updateLeaveTime(Time.valueOf(LocalTime.now()));
+        } else {
+            throw new IllegalArgumentException("이미 퇴근을 했습니다.");
         }
-        commute.updateLeaveTime(Time.valueOf(LocalTime.now()));
         return "ok";
 //    }
     }
+
     public List<CommuteListResDto> MonthlyAttendance(String employeeId, CommuteListReqDto commuteListReqDto) {
         Employee employee = employeeRepository.findByEmployeeId(employeeId).orElseThrow(() -> new IllegalArgumentException(" 없는 회원입니다. "));
-
         LocalDateTime month = commuteListReqDto.getMonth();
         Date firstDayOfMonth = Date.valueOf(month.toLocalDate().withDayOfMonth(1));
         Date lastDayOfMonth = Date.valueOf(month.toLocalDate().withDayOfMonth(month.toLocalDate().lengthOfMonth()));
@@ -118,10 +114,8 @@ public class CommuteService {
 //        한달간 내 출퇴근
         List<Commute> MonthCommute = commuteRepository.findAllByEmployeeAndAttendanceDateBetween(employee, firstDayOfMonth, lastDayOfMonth);
         List<Attendance> allByEmployeeAndWorkStartTimeBetween = attendanceRepository.findAllByEmployeeAndWorkStartTimeBetween(employee, month.toLocalDate().withDayOfMonth(1).atStartOfDay(), month.toLocalDate().withDayOfMonth(month.toLocalDate().lengthOfMonth()).atTime(23, 59, 59))
-                .orElseThrow(()-> new IllegalArgumentException(String.valueOf(month.getMonth()) + "의 해당하는 근무표가 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException(String.valueOf(month.getMonth()) + "의 해당하는 근무표가 없습니다."));
 
-        log.info("MonthCommute : {}", MonthCommute);
-        log.info("allByEmployeeAndWorkStartTimeBetween : " , allByEmployeeAndWorkStartTimeBetween + "입니다.");
 
         return allByEmployeeAndWorkStartTimeBetween.stream()
                 .flatMap(attendance -> CommuteListResDto.toDto(attendance, MonthCommute).stream())

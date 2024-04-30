@@ -461,6 +461,19 @@ const MainRoutes = {
       name: 'AttendanceListRes',
       path: '/attendance/list/res',
       component: () => import('@/views/apps/users/list/AttendanceListRes.vue')
+      name: 'noticeList',
+      path: '/noticeList',
+      component: () => import('@/views/apps/users/list/noticeList.vue')
+    },
+    {
+      name: 'noticedetail',
+      path: '/noticedetail/:id',
+      component: () => import('@/views/apps/users/list/noticedetail.vue')
+    },
+    {
+      name : "attendancedatail",
+      path: '/dashboard/analytics/attendancedetail',
+      component: () => import('@/views/apps/users/list/attendancedetail.vue')
     },
   ]
 };

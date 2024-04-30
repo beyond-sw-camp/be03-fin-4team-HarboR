@@ -51,7 +51,6 @@ public class AttendanceService {
         } else {
             throw new IllegalArgumentException("해당하는 근무는 없습니다.");
         }
-
     }
 
     //    휴가, 유연근무제 확인

@@ -32,7 +32,7 @@ type ListItem = {
 const listCards = computed<ListItem[]>(() => {
   return store.list;
 });
-
+console.log(1)
 const searchField = ref('name');
 const searchValue = ref('');
 
@@ -59,7 +59,7 @@ const showRow = (item: ListItem) => {
               density="compact" hide-details prepend-inner-icon="mdi-magnify" />
           </v-col>
           <v-col cols="12" md="3">
-            <v-select label="Select" v-model="searchField" variant="outlined"
+            <v-select label="Select" v-model="searchField" variant="outlined" @update:model-value="searchByName"
             :items="['','name', 'position', 'department']"></v-select>
             </v-col>
         </v-row>
@@ -77,7 +77,7 @@ const showRow = (item: ListItem) => {
                     </v-btn>
                   </h5>
                   <small class="text-subtitle">{{ email }}</small>
-                  <br>
+                  <br />
                   <small class="text-subtitle">{{ employeeId }}</small>
                 </div>
               </div>

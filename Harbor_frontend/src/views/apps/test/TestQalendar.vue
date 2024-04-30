@@ -37,7 +37,7 @@ export default {
 
   async created() { // 또는 mounted()를 사용할 수 있습니다.
     const response = await axios.get('YOUR_API_URL'); // 여기에 실제 API URL을 입력하세요.
-    this.events = response.data.map((item: CommuteReqDTO) => ({
+    this.events = response.data.map((item: CommuteResDTO) => ({
       title: item.employeeId, // 적절한 필드를 선택하여 매핑합니다.
       time: { start: item.attendanceTime, end: item.leaveworkTime },
       color: 'green', // 색상을 선택합니다.

@@ -1,103 +1,121 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { getPrimary, getSecondary } from '../../../forms/charts/apex-chart/UpdateColors';
+import { ref,onMounted ,computed} from 'vue';
+import { ApproveStore } from '@/stores/apps/approveUser.ts';
+import axios, { setClientHeaders } from '@/utils/axios';
 
-const chartOptions1 = computed(() => {
-  return {
-    chart: {
-      type: 'area',
-      height: 200,
-      fontFamily: `inherit`,
-      foreColor: '#a1aab2',
-      sparkline: {
-        enabled: true
-      }
-    },
-    colors: [getSecondary.value, '#f44336', getPrimary.value],
-    dataLabels: {
-      enabled: false
-    },
-    stroke: {
-      curve: 'smooth',
-      width: 2
-    },
-    fill: {
-      type: 'gradient',
-      gradient: {
-        shadeIntensity: 1,
-        opacityFrom: 0.5,
-        opacityTo: 0,
-        stops: [0, 80, 100]
-      }
-    },
-    legend: {
-      show: false
-    },
-    yaxis: {
-      min: 1,
-      max: 100,
-      labels: {
-        show: false
-      }
-    }
-  };
+import type { Header } from 'vue3-easy-data-table';
+import { useCodeStore } from '@/stores/codetrans';
+import 'vue3-easy-data-table/dist/style.css';
+
+const baseUrl = `${import.meta.env.VITE_API_URL}`;
+const codeStore = useCodeStore();
+const store = ApproveStore();
+const token: string | null = localStorage.getItem('token');
+const isLoading = ref(false);
+
+
+onMounted(() => {
+  store.fetchlistCards(token);
 });
 
-// chart 1
-const lineChart1 = {
-  series: [
-    {
-      name: 'Youtube',
-      data: [10, 90, 65, 85, 40, 80, 30]
-    },
-    {
-      name: 'Facebook',
-      data: [50, 30, 25, 15, 60, 10, 25]
-    },
-    {
-      name: 'Twitter',
-      data: [5, 50, 40, 55, 20, 40, 20]
+const activateUser = async (email: string) => {
+  if (window.confirm('활성화 하시겠습니까?')) {
+    isLoading.value = true;
+    try {
+      setClientHeaders(token)
+      await axios.get(`${baseUrl}/login/admin/active/${email}`)
+      alert("성공")
+      location.reload()
+    } catch (error) {
+      console.log(error)
+    } finally {
+      isLoading.value = false;
     }
-  ]
+  }
 };
+
+const denyUser = async (email: string) => {
+  if (window.confirm('삭제 하시겠습니까 ?')) {
+    isLoading.value = true;
+    try {
+      setClientHeaders(token)
+      await axios.delete(`${baseUrl}/login/admin/delete/${email}`)
+      alert("성공")
+      location.reload()
+    } catch (error) {
+      console.log(error)
+    } finally {
+      isLoading.value = false;
+    }
+  }
+};
+
+
+const headers: Header[] = [
+  { text: '이메일', value: 'email', sortable: true },
+  { text: '이름', value: 'name', sortable: true },
+  { text: '생년월일', value: 'birth', sortable: true },
+  { text: '가입날짜', value: 'createdAt', sortable: true },
+  { text: '승인여부', value: 'delYn', sortable: true },
+  { text: '활성화/삭제', value: 'actions', sortable: false }
+];
+type ListItem = {
+  email: string;
+  name: string;
+  birth: string;
+  createdAt: string;
+  delYn: string;
+  actions: string;
+};
+
+const listCards = computed<ListItem[]>(() => {
+  return store.cards;
+});
+const getDelYnByCode = (delYn) => {
+  return codeStore.getApproveByCode(delYn);
+};
+const themeColor = ref('rgb(var(--v-theme-secondary))');
+
+
+
 </script>
-
 <template>
-  <v-card elevation="0" class="mb-6">
-    <v-card variant="outlined">
-      <v-card-text>
-        <div class="d-sm-flex align-center">
-          <div>
-            <h3 class="text-h3 mb-1">Market Share</h3>
-            <span class="text-subtitle-1 text-medium-emphasis mb-5">Department wise monthly sales report</span>
-          </div>
-          <h3 class="text-h3 mt-4 mt-sm-0 ml-auto d-flex align-center">
-            <TrendingDownIcon width="34" class="text-error mr-2" stroke-width="2" />27, 695.65
-          </h3>
-        </div>
-
-        <v-row class="mt-5">
-          <v-col cols="12" sm="3" class="d-flex align-center">
-            <v-btn color="lightsecondary" icon class="text-secondary" rounded="md" variant="flat">
-              <BrandFacebookIcon stroke-width="1.5" width="20" />
-            </v-btn>
-            <h4 class="text-h4 ml-3">+ 45.36%</h4>
-          </v-col>
-          <v-col cols="12" sm="3" class="d-flex align-center">
-            <v-btn color="lightprimary" icon class="text-primary" rounded="md" variant="flat">
-              <BrandTwitterIcon stroke-width="1.5" width="20" />
-            </v-btn>
-            <h4 class="text-h4 ml-3">- 50.69%</h4>
-          </v-col>
-          <v-col cols="12" sm="3" class="d-flex align-center">
-            <v-btn color="lighterror" icon class="text-error" rounded="md" variant="flat">
-              <BrandYoutubeIcon stroke-width="1.5" width="20" />
-            </v-btn>
-            <h4 class="text-h4 ml-3">+ 16.85%</h4>
-          </v-col>
+  <v-row>
+    <v-col cols="12" md="12">
+      <UiParentCard title="사원 승인 리스트">
+        <v-row justify="space-between" class="align-center mb-3">
+          
         </v-row>
-      </v-card-text>
-      <apexchart type="area" height="200" :options="chartOptions1" :series="lineChart1.series"> </apexchart>
-    </v-card>
-  </v-card>
+        <div class="overflow-auto">
+          <EasyDataTable :headers="headers" :items="listCards" table-class-name="customize-table action-position"
+            :theme-color="themeColor" :rows-per-page="10">
+            <template #item-data="{ email, name, birth, createdAt, delYn, item, deny }">
+              <div class="d-flex align-center ga-4">
+              </div>
+            </template>
+            <template #item-delYn="{ delYn }">
+              <div>{{ getDelYnByCode(delYn) }}</div>
+            </template>
+            <template #item-actions="{ item, email }">
+              <!-- 버튼을 좌우로 정렬하는 flex 컨테이너를 추가합니다 -->
+              <div class="d-flex align-center" style="margin-top: 8px; margin-bottom: 8px;">
+                <!-- "활성화" 버튼 -->
+                <v-btn @click="activateUser(email)">활성화</v-btn>
+                <!-- "삭제" 버튼 -->
+                <v-btn @click="denyUser(email)">삭제</v-btn>
+              </div>
+            </template>
+          </EasyDataTable>
+        </div>
+      </UiParentCard>
+    </v-col>
+  </v-row>
+  <v-dialog v-model="isLoading" persistent max-width="70px">
+    <v-progress-circular
+      indeterminate
+      color="primary"
+      :size="70"
+      :width="7"
+    />
+  </v-dialog>
 </template>

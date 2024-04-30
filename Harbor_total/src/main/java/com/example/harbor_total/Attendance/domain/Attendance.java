@@ -52,6 +52,7 @@ public class Attendance {
     public Attendance(Employee employee) {
         this.employee = employee;
         this.workStartTime = LocalDate.now().atTime(9, 0);
+        this.workEndTime = LocalDate.now().atTime(18, 0);
         this.workPolicy = String.valueOf(Code.O01);
     }
 

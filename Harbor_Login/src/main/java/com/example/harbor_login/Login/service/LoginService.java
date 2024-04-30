@@ -88,11 +88,11 @@ public class LoginService {
 
     public Page<LoginMemberResDto> findAll(Pageable pageable) {
 
-        return loginRepository.findAllByDelYnNotOrderByCreatedAt(false, pageable).map(LoginMemberResDto::mapToMemberResDto);
+        return loginRepository.findAllByDelYnNotOrderByCreatedAt(true, pageable).map(LoginMemberResDto::mapToMemberResDto);
     }
 
-    public String delete(String employeeId) {
-        Login login = loginRepository.findByEmployeeId(employeeId).orElseThrow(() -> new EntityNotFoundException("없는 회원 번호입니다."));
+    public String delete(String email) {
+        Login login = loginRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("없는 회원입니다."));
 
         loginRepository.delete(login);
         return login.getEmployeeId();
@@ -118,20 +118,23 @@ public class LoginService {
         return null;
     }
 
-//    public void findByEmail(String email) {
-//        Login member = loginRepository.findByEmail(email)
-//                .orElseThrow(() -> new IllegalArgumentException("존재하지 않은 이메일입니다."));
-//        LoginMemberResDto loginMemberResDto = LoginMemberResDto.mapToMemberResDto(member);
-//        log.info("member basic dto 생성 전 호출");
-//        HttpStatus employee = loginToEmployeeClient.createEmployee(loginMemberResDto);
-//        testProducer.send("first_create_user_data", loginMemberResDto);
-//
-//        log.info("Member basic Dto  생성" + employee);
-//    }
+    public void findByEmail(String email) {
+        Login member = loginRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않은 이메일입니다."));
+        LoginMemberResDto loginMemberResDto = LoginMemberResDto.mapToMemberResDto(member);
+        log.info("member basic dto 생성 전 호출");
+        HttpStatus employee = loginToEmployeeClient.createEmployee(loginMemberResDto);
+
+        log.info("Member basic Dto  생성" + employee);
+    }
 
     public Map<String, String> findEmployeeId(FindIdReqDto findIdReqDto) {
-        Login user = loginRepository.findByEmailAndName(findIdReqDto.getEmail(), findIdReqDto.getName())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found"));
+
+        Login login = loginRepository.findByEmail(findIdReqDto.getEmail()).orElseThrow(() -> new IllegalArgumentException(" 존재하지 않은 이메일입니다"));
+
+
+        Login user = loginRepository.findByEmailAndName(login.getEmail(), findIdReqDto.getName())
+                .orElseThrow(() -> new IllegalArgumentException("이메일과 이름이 일치하지 않습니다."));
 
         Map<String, String> result = new HashMap<>();
         result.put("EmployeeId", user.getEmployeeId());
@@ -172,6 +175,11 @@ public class LoginService {
             // 임시 비밀번호와 다른 경우에는 예외를 던져서 처리
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Temporary password does not match");
         }
+    }
+
+    public Page<LoginMemberResDto> getcountallemployee(Pageable pageable) {
+
+        return loginRepository.findAllByDelYnNotOrderByCreatedAt(false, pageable).map(LoginMemberResDto::mapToMemberResDto);
     }
 }
 

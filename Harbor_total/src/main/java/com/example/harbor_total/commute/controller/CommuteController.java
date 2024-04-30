@@ -23,7 +23,7 @@ public class CommuteController {
         this.commuteService = commuteService;
     }
 
-    @PostMapping("/attendance")
+    @GetMapping("/attendance")
     public ResponseEntity<CommonResponse> recordAttendance(@RequestHeader String employeeId) {
         String attendanceResult = commuteService.recordAttendance(employeeId);
         System.out.println("employeeId = " + employeeId);
@@ -37,15 +37,13 @@ public class CommuteController {
         return new ResponseEntity<>(new CommonResponse("출근 처리 되었습니다.", attendanceResult), HttpStatus.OK);
     }
 
-    @GetMapping("Monthlyattendence")
-    public ResponseEntity<CommonResponse> MonthlyAttendance(@RequestBody CommuteListReqDto commuteListReqDto, Principal principal) {
-        String employeeId = principal.getName();
-
+    @PostMapping("/Monthlyattendence")
+    public ResponseEntity<CommonResponse> MonthlyAttendance(@RequestBody CommuteListReqDto commuteListReqDto,  @RequestHeader("employeeId") String employeeId) {
         return new ResponseEntity<>(new CommonResponse("한달 근무리스트", commuteService.MonthlyAttendance(employeeId,commuteListReqDto)), HttpStatus.OK);
     }
 
 
-    @PatchMapping("/leavework")
+    @GetMapping("/leavework")
     public ResponseEntity<CommonResponse> recordLeaveWork(@RequestHeader("employeeId") String employeeId) {
         String leave = commuteService.recordLeaveWork(employeeId);
         return new ResponseEntity<>(new CommonResponse<>("퇴근 처리 되었습니다.", leave), HttpStatus.OK);
