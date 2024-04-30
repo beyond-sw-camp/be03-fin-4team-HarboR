@@ -91,7 +91,7 @@ const themeColor = ref('rgb(var(--v-theme-secondary))');
       <UiParentCard title="사원 승인 리스트">
         <v-row justify="space-between" class="align-center mb-3">
           
-        </v-row>
+                        </v-row>
         <div class="overflow-auto">
             <EasyDataTable :headers="headers" :items="listCards" table-class-name="customize-table action-position"
                 :theme-color="themeColor" :rows-per-page="10">
@@ -118,7 +118,7 @@ const themeColor = ref('rgb(var(--v-theme-secondary))');
         <div class="d-flex justify-end"> <!-- 오른쪽으로 정렬하는 Flexbox 컨테이너 -->
             <v-btn color="primary" @click="uploadFileAttendance" >버튼</v-btn>
             <input type="file" ref="personnelFileInput" style="display: none" @change="handleFileUploadAttendance"/>
-          </div>
+                          </div>
       </UiParentCard>
     </v-col>
   </v-row>
