@@ -12,12 +12,12 @@ import java.sql.Time;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ScheduleDetailRes {
-
+    private Long scheduleId;
     private String scheduleStartDate;
     private String scheduleEndDate;
-    private Time scheduleStartTime;
-    private Time scheduleEndTime;
+    private String scheduleStartTime;
+    private String scheduleEndTime;
     private String scheduleTitle;
     private String scheduleComment;
-
+    private String scheduleColor;
 }

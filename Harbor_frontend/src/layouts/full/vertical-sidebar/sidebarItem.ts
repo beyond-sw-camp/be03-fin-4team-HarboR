@@ -85,7 +85,7 @@ const sidebarItem: menu[] = [
   {
     title: '내 일정관리',
     icon: ChartArcsIcon,
-    to: '/widget/statistics'
+    to: '/schedule/qalendar'
   },
   {
     title: '월별 캘린더',

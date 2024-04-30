@@ -473,10 +473,9 @@ const MainRoutes = {
       component: () => import('@/views/apps/users/list/noticedetail.vue')
     },
     {
-      name : "attendancedatail",
+      name: 'attendancedatail',
       path: '/dashboard/analytics/attendancedetail',
       component: () => import('@/views/apps/users/list/attendancedetail.vue')
-    },
     },
     {
       name: 'noticeCreate',
@@ -487,6 +486,11 @@ const MainRoutes = {
       name: 'severancePay',
       path: '/severancePay',
       component: () => import('@/views/apps/users/list/severancePay.vue')
+    },
+    {
+      name: 'qalendar',
+      path: '/schedule/qalendar',
+      component: () => import('@/views/apps/calendar/ScheduleQalendar.vue')
     }
   ]
 };

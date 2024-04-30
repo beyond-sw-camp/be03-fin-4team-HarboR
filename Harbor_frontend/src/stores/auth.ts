@@ -40,6 +40,11 @@ export const useAuthStore = defineStore({
     
         if (token) {
           const decoded = jwtDecode(token);
+          console.log(decoded);
+          localStorage.setItem("token", token);
+          localStorage.setItem("employeeId", decoded.sub);
+          localStorage.setItem("myEmail", decoded.myEmail);
+          localStorage.setItem("role", decoded.role);
           router.push('/dashboard/default');
         } else {
           console.log("200 ok but no token");

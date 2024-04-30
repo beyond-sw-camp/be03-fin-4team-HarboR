@@ -31,8 +31,8 @@ public class ScheduleController {
 
     @PostMapping("/create")
     public ResponseEntity<CommonResponse> ScheduleCreate(@RequestBody ScheduleCreateReq scheduleCreateReq) {
-        Schedule schedule = scheduleService.CreateSchedule(scheduleCreateReq);
-        return new ResponseEntity<>(new CommonResponse("스케줄이 생성되었습니다.", schedule), HttpStatus.CREATED);
+        scheduleService.CreateSchedule(scheduleCreateReq);
+        return new ResponseEntity<>(new CommonResponse("스케줄이 생성되었습니다.", "ok"), HttpStatus.CREATED);
 
     }
 
