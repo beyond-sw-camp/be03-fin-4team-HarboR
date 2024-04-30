@@ -119,7 +119,7 @@ public class SalaryService {
         List<Salary> recentSalaries = salaryRepository.findTop3ByEmployeeIdOrderBySalaryMonthOfYearDesc(employeeId);
         int count = salaryRepository.getCountByEmployeeId(employeeId);
 
-        // 최근 급여 정보가 없거나, 급여를 13번 미만 받은 경우 0을 반환합니다.
+        // 최근 급여 정보가 없거나, 급여를 13번 미만 받은 경우 예외를 발생시킵니다.
         if (recentSalaries == null || recentSalaries.isEmpty() || count < 13) {
             throw new IllegalArgumentException("퇴직금 대상자가 아닙니다");
         }
@@ -134,8 +134,12 @@ public class SalaryService {
 
         // 평균 급여를 계산합니다.
         int averageSalary = totalSalary / recentSalaries.size();
-        return averageSalary;
+
+        // 근속 연수를 계산하여 평균 급여에 곱합니다.
+        int yearsOfWork = count / 12;
+        return averageSalary * yearsOfWork;
     }
+
 
     public SeveranceDetailRes severanceDetail(String employeeId) {
         int SP = severancePay(employeeId);

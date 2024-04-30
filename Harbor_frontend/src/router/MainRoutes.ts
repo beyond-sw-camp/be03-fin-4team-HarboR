@@ -477,7 +477,17 @@ const MainRoutes = {
       path: '/dashboard/analytics/attendancedetail',
       component: () => import('@/views/apps/users/list/attendancedetail.vue')
     },
+    },
+    {
+      name: 'noticeCreate',
+      path: '/noticecreate',
+      component: () => import('@/views/apps/users/list/noticeCreate.vue')
+    },
+    {
+      name: 'severancePay',
+      path: '/severancePay',
+      component: () => import('@/views/apps/users/list/severancePay.vue')
+    }
   ]
 };
-
 export default MainRoutes;

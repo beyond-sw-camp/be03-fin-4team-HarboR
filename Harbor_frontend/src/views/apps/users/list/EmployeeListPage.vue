@@ -12,10 +12,10 @@ const token: string | null = localStorage.getItem('token');
 onMounted(() => {
   store.fetchlistCards(token);
 });
-const getPositionName = (position) => {
+const getPositionName = (positionp9o0i8ubhjn /) => {
   return codeStore.getPositionNameByCode(position);
 };
-const getDepartmentName = (department) => {
+const getDepartmentName = ( ㅠㅗㅑ-ㅠㅗㅑㅕdepartment) => {
   return codeStore.getDepartmentNameByCode(department);
 };
 const getTeamName = (team) => {

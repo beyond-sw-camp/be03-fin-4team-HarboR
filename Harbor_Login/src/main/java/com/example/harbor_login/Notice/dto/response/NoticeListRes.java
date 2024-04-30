@@ -23,6 +23,7 @@ public class NoticeListRes {
     private String contents;
 
     private LocalDate createdAt;
+    private String filePath;
 
 
 
@@ -33,6 +34,7 @@ public class NoticeListRes {
                 .title(notice.getTitle())
                 .contents(notice.getContents())
                 .createdAt(LocalDate.from(notice.getCreatedAt()))
+                .filePath(notice.getFilePath())
                 .build();
     }
 }

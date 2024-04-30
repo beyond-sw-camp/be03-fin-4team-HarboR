@@ -7,14 +7,19 @@ import com.example.harbor_login.Notice.dto.response.NoticeDetailRes;
 import com.example.harbor_login.Notice.dto.response.NoticeListRes;
 import com.example.harbor_login.Notice.repository.NoticeRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -29,22 +34,28 @@ public class NoticeService {
     public NoticeService(NoticeRepository noticeRepository) {
         this.noticeRepository = noticeRepository;
     }
+//    private final Path fileStorageLocation;
+
+//    public NoticeService(NoticeRepository noticeRepository, Path fileStorageLocation) {
+//        this.noticeRepository = noticeRepository;
+//        this.fileStorageLocation = Paths.get(fileUp);
+//    }
 
 
-    public Notice NoticeCreate(NoticeCreateReqDto noticeCreateReqDto) {
-        MultipartFile multipartFile = noticeCreateReqDto.getFilePath();
+    public Notice NoticeCreate(NoticeCreateReqDto noticeCreateReqDto, MultipartFile multipartFile) {
+        MultipartFile multipartFile1= noticeCreateReqDto.getFilePath();
         String fileName = multipartFile.getOriginalFilename();
 
         Notice new_notice = Notice.builder()
                 .title(noticeCreateReqDto.getTitle()) // NoticeResDto에서 title을 가져와서 설정
                 .contents(noticeCreateReqDto.getContents())
-                .fileName(noticeCreateReqDto.getFileName())
-                .createdAt(noticeCreateReqDto.getCreatedAt())
+//                .fileName(noticeCreateReqDto.getFileName())
+//                .createdAt(noticeCreateReqDto.getCreatedAt())
                 // NoticeResDto에서 content를 가져와서 설정
                 // 다른 필드들도 필요에 따라 추가할 수 있음
                 .build();
         Notice notice = noticeRepository.save(new_notice);
-        Path path = Paths.get("/Users/wingk/Desktop/final", notice.getNoticeId() + "_" + fileName);
+        Path path = Paths.get("C:/Users/Playdata/Desktop/final", notice.getNoticeId() + "_" + fileName);
         notice.setImagePath(path.toString());
         try {
             byte[] bytes = multipartFile.getBytes();
@@ -93,7 +104,7 @@ public class NoticeService {
 
 
     public Notice findById(int noticeId) throws EntityNotFoundException {
-            Notice notice = noticeRepository.findByNoticeId(noticeId).orElseThrow(() -> new EntityNotFoundException("검색하신 ID의 Notice가 없습니다."));
+        Notice notice = noticeRepository.findByNoticeId(noticeId).orElseThrow(() -> new EntityNotFoundException("검색하신 ID의 Notice가 없습니다."));
         return notice;
 
     }
@@ -103,9 +114,26 @@ public class NoticeService {
         NoticeDetailRes noticeDetailRes = new NoticeDetailRes();
         noticeDetailRes.setTitle(notice.getTitle());
         noticeDetailRes.setContents(notice.getContents());
+        noticeDetailRes.setFilePath(notice.getFilePath());
         noticeDetailRes.setCreatedAt(notice.getCreatedAt());
 
         return noticeDetailRes;
     }
+//    public Resource loadFile(String fileName){
+//        try {
+//            Path filePath = fileStorageLocation.resolve(fileName).normalize();
+//            Resource resource = new UrlResource(filePath.toUri());
+//            if(resource.exists()){
+//                return  resource;
+//
+//            }else {
+//                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+//            }
+//
+//        }catch (MalformedURLException ex) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+//
+//        }
+//    }
 }
 
