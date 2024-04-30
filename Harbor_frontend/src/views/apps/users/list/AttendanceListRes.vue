@@ -4,7 +4,7 @@ import 'vue3-easy-data-table/dist/style.css';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
 import { useCodeStore } from '@/stores/codetrans';
 import axios, { setClientHeaders } from '@/utils/axios';
-import AttendanceDetail from '@/views/apps/users/list/AttendanceDetail.vue'
+import AttendanceListDetail from '@/views/apps/users/list/AttendanceListDetail.vue'
 const codeStore = useCodeStore();
 const list = ref<any[]>([]);
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
@@ -185,7 +185,7 @@ async function approval(annualId: number, approvalStatus: boolean) {
         </div>
         <!-- 상세보기 -->
         <div v-if="details && selectAttendance" class="pa-5">
-          <AttendanceDetail @toggleDetail="details = false" :selectedDetail="selectAttendance" />
+          <AttendanceListDetail @toggleDetail="details = false" :selectedDetail="selectAttendance" />
           <v-row class="justify-end mr-10 my-3">
             <div class="align-self-end mt-3">
               <v-button class="edit-button" @click="approval(selectAttendance.annualId , true)">승인하기</v-button>
