@@ -131,3 +131,32 @@ const themeColor = ref('rgb(var(--v-theme-secondary))');
     />
   </v-dialog>
 </template>
+
+<style>
+.delete-button,
+.edit-button {
+  margin-left: 10px;
+  background-color: #5938de;
+  color: white;
+  border-radius: 10px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* 버튼에 마우스를 올렸을 때의 스타일 */
+.delete-button:hover,
+.edit-button:hover {
+  background-color: #766ee6;
+}
+
+.edit-button {
+  background-color: #4CAF50;
+  /* 수정하기 버튼을 위한 다른 색상 */
+}
+
+.edit-button:hover {
+  background-color: #66bb6a;
+}
+</style>
