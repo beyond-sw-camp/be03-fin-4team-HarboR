@@ -12,10 +12,10 @@ const token: string | null = localStorage.getItem('token');
 onMounted(() => {
   store.fetchlistCards(token);
 });
-const getPositionName = (positionp9o0i8ubhjn /) => {
+const getPositionName = (position) => {
   return codeStore.getPositionNameByCode(position);
 };
-const getDepartmentName = ( ㅠㅗㅑ-ㅠㅗㅑㅕdepartment) => {
+const getDepartmentName = (department) => {
   return codeStore.getDepartmentNameByCode(department);
 };
 const getTeamName = (team) => {
@@ -32,7 +32,7 @@ type ListItem = {
 const listCards = computed<ListItem[]>(() => {
   return store.list;
 });
-console.log(1)
+console.log(1);
 const searchField = ref('name');
 const searchValue = ref('');
 
@@ -41,12 +41,12 @@ const headers: Header[] = [
   { text: '전화번호', value: 'phone', sortable: true },
   { text: '소속부서', value: 'department', sortable: true },
   { text: '사원직책', value: 'position', sortable: true },
-  { text: '사원상태', value: 'status', sortable: true },
+  { text: '사원상태', value: 'status', sortable: true }
 ];
 const items = ref(listCards);
 const themeColor = ref('rgb(var(--v-theme-secondary))');
 const showRow = (item: ListItem) => {
-  location.href=`/app/user/${item.employeeId}/profile`
+  location.href = `/app/user/${item.employeeId}/profile`;
 };
 </script>
 <template>
@@ -55,17 +55,38 @@ const showRow = (item: ListItem) => {
       <UiParentCard title="Customer List">
         <v-row justify="space-between" class="align-center mb-3">
           <v-col cols="12" md="3">
-            <v-text-field type="text" variant="outlined" persistent-placeholder placeholder="검색하기" v-model="searchValue"
-              density="compact" hide-details prepend-inner-icon="mdi-magnify" />
+            <v-text-field
+              type="text"
+              variant="outlined"
+              persistent-placeholder
+              placeholder="검색하기"
+              v-model="searchValue"
+              density="compact"
+              hide-details
+              prepend-inner-icon="mdi-magnify"
+            />
           </v-col>
           <v-col cols="12" md="3">
-            <v-select label="Select" v-model="searchField" variant="outlined" @update:model-value="searchByName"
-            :items="['','name', 'position', 'department']"></v-select>
-            </v-col>
+            <v-select
+              label="Select"
+              v-model="searchField"
+              variant="outlined"
+              @update:model-value="searchByName"
+              :items="['', 'name', 'position', 'department']"
+            ></v-select>
+          </v-col>
         </v-row>
         <div class="overflow-auto">
-          <EasyDataTable :headers="headers" :items="items" table-class-name="customize-table action-position" @click-row="showRow"
-            :theme-color="themeColor" :search-field="searchField" :search-value="searchValue" :rows-per-page="8">
+          <EasyDataTable
+            :headers="headers"
+            :items="items"
+            table-class-name="customize-table action-position"
+            @click-row="showRow"
+            :theme-color="themeColor"
+            :search-field="searchField"
+            :search-value="searchValue"
+            :rows-per-page="8"
+          >
             <template #item-name="{ name, email, profileImagePath, verify, employeeId }">
               <div class="d-flex align-center ga-4">
                 <img :src="profileImagePath" alt="avatar" width="40" />

@@ -13,22 +13,25 @@ import java.sql.Time;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ScheduleListRes {
-
+    private Long scheduleId;
     private String scheduleStartDate;
     private String scheduleEndDate;
-    private Time scheduleStartTime;
-    private Time scheduleEndTime;
+    private String scheduleStartTime;
+    private String scheduleEndTime;
     private String scheduleTitle;
     private String scheduleComment;
+    private String scheduleColor;
 
     public static ScheduleListRes mapToSchedule(Schedule schedule){
         return ScheduleListRes.builder()
+                .scheduleId(schedule.getScheduleId())
                 .scheduleEndDate(schedule.getScheduleEndDate())
                 .scheduleStartDate(schedule.getScheduleStartDate())
                 .scheduleEndTime(schedule.getScheduleEndTime())
                 .scheduleStartTime(schedule.getScheduleStartTime())
                 .scheduleTitle(schedule.getScheduleTitle())
                 .scheduleComment(schedule.getScheduleComment())
+                .scheduleColor(schedule.getScheduleColor())
                 .build();
 
     }

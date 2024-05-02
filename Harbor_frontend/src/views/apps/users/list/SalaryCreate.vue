@@ -18,21 +18,18 @@ async function fetchSalary(employeeId: string) {
   try {
     const token = localStorage.getItem('token');
     if (!token) {
-      console.error('토큰이 존재하지 않습니다.')
+      console.error('토큰이 존재하지 않습니다.');
       return;
     }
     const response = await axios.get(`${baseUrl}/salary/create/${employeeId}`, {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     });
     console.log(`${employeeId}에 대한 지급완료`); // 성공적으로 급여 지급 시 알림
   } catch (error) {
     console.log(`${employeeId}에 대한 지급오류`);
     console.error(error);
   }
-};
+}
 </script>
-
-<template>
-</template>

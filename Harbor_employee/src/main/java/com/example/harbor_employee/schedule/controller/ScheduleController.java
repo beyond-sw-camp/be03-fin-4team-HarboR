@@ -31,13 +31,14 @@ public class ScheduleController {
 
     @PostMapping("/create")
     public ResponseEntity<CommonResponse> ScheduleCreate(@RequestBody ScheduleCreateReq scheduleCreateReq) {
-        Schedule schedule = scheduleService.CreateSchedule(scheduleCreateReq);
-        return new ResponseEntity<>(new CommonResponse("스케줄이 생성되었습니다.", schedule), HttpStatus.CREATED);
+        scheduleService.CreateSchedule(scheduleCreateReq);
+        return new ResponseEntity<>(new CommonResponse("스케줄이 생성되었습니다.", "ok"), HttpStatus.CREATED);
 
     }
 
     @PatchMapping("/update/{scheduleId}")
     public ResponseEntity<CommonResponse> ScheduleUpdate(@PathVariable("scheduleId") Long scheduleId, @RequestBody ScheduleUpdateReq scheduleUpdateReq) {
+        System.out.println("scheduleId = " + scheduleId + ", scheduleUpdateReq = " + scheduleUpdateReq);
         scheduleService.scheduleUpdate(scheduleId, scheduleUpdateReq);
         return new ResponseEntity<>(new CommonResponse("업데이트 되었습니다", scheduleId), HttpStatus.OK);
 

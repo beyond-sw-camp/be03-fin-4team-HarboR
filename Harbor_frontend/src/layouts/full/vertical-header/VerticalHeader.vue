@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted, computed } from 'vue';
 import { useCustomizerStore } from '../../../stores/customizer';
+import { useTokenStore } from '@/stores/apps/token';
+import axios, { setClientHeaders } from '@/utils/axios';
+import { jwtDecode } from 'jwt-decode';
 // Icon Imports
-import { AccessPointIcon, BellIcon, SettingsIcon, LanguageIcon, SearchIcon, Menu2Icon } from 'vue-tabler-icons';
+import { AccessPointIcon, BellIcon, SettingsIcon, LanguageIcon, SearchIcon, Menu2Icon, RotateClockwiseIcon } from 'vue-tabler-icons';
 
 // dropdown imports
 import LanguageDD from './LanguageDD.vue';
@@ -10,7 +13,15 @@ import NotificationDD from './NotificationDD.vue';
 import ProfileDD from './ProfileDD.vue';
 import MegaMenuDD from './MegaMenuDD.vue';
 import Searchbar from './SearchBarPanel.vue';
+const baseUrl = `${import.meta.env.VITE_API_URL}`;
+const expStore = useTokenStore();
 
+onMounted(() => {
+  expStore.startTimer();
+});
+
+const minute = computed(() => expStore.minute);
+const second = computed(() => expStore.second);
 const customizer = useCustomizerStore();
 const showSearch = ref(false);
 const priority = ref(customizer.setHorizontalLayout ? 0 : 0);
@@ -21,6 +32,23 @@ watch(priority, (newPriority) => {
   // yes, console.log() is a side effect
   priority.value = newPriority;
 });
+
+const reissueToken = async () => {
+  const token = localStorage.getItem('token');
+  const employeeId = localStorage.getItem('employeeId');
+  setClientHeaders(token);
+  const response = await axios.get(`${baseUrl}/login/account/reissue/${employeeId}`);
+  console.log(response);
+  const newToken = response.data.result.token;
+  if (newToken) {
+    const decoded: string = jwtDecode(newToken);
+    localStorage.setItem('token', newToken);
+    localStorage.setItem('employeeId', decoded.sub);
+    localStorage.setItem('myEmail', decoded.myEmail);
+    localStorage.setItem('role', decoded.role);
+    expStore.startTimer();
+  }
+};
 </script>
 
 <template>
@@ -79,6 +107,20 @@ watch(priority, (newPriority) => {
     <!---right part -->
     <!-- ---------------------------------------------- -->
 
+    <!-- ---------------------------------------------- -->
+    <!-- Token Reissuance -->
+    <!-- ---------------------------------------------- -->
+    <v-menu :close-on-content-click="false">
+      <template v-slot:activator="{ props }">
+        <p class="text-h4">{{ minute }} : {{ second }}</p>
+        <v-btn icon class="text-primary mx-3" color="lightprimary" rounded="sm" size="small" variant="flat" @click="reissueToken">
+          <RotateClockwiseIcon stroke-width="1.5" size="22" />
+        </v-btn>
+      </template>
+      <v-sheet rounded="md" width="330" elevation="12">
+        <NotificationDD />
+      </v-sheet>
+    </v-menu>
     <!-- ---------------------------------------------- -->
     <!-- Messages -->
     <!-- ---------------------------------------------- -->

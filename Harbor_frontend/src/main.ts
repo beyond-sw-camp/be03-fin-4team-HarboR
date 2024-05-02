@@ -10,7 +10,7 @@ import VueTablerIcons from 'vue-tabler-icons';
 //Mock Api data
 import './_mockApis';
 import { fakeBackend } from '@/utils/helpers/fake-backend';
-import { Qalendar } from "qalendar";
+import { Qalendar, DatePicker } from 'qalendar';
 
 import { vMaska } from 'maska';
 // print
@@ -39,6 +39,7 @@ app.use(VueTablerIcons);
 app.use(print);
 app.use(i18n);
 app.use(Qalendar);
+app.use(DatePicker);
 app.directive('maska', vMaska);
 app.use(VueApexCharts);
 app.use(vuetify).mount('#app');

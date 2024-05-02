@@ -2,18 +2,17 @@ package com.example.harbor_employee.schedule.service;
 
 import com.example.harbor_employee.schedule.domain.Schedule;
 import com.example.harbor_employee.schedule.dto.ScheduleCreateReq;
-import com.example.harbor_employee.schedule.dto.ScheduleDetailRes;
 import com.example.harbor_employee.schedule.dto.ScheduleListRes;
 import com.example.harbor_employee.schedule.dto.ScheduleUpdateReq;
 import com.example.harbor_employee.schedule.repository.ScheduleRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Time;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
 
@@ -29,6 +28,7 @@ public class ScheduleService {
                 .scheduleEndTime(scheduleCreateReq.getScheduleEndTime())
                 .scheduleTitle(scheduleCreateReq.getScheduleTitle())
                 .scheduleComment(scheduleCreateReq.getScheduleComment())
+                .scheduleColor((scheduleCreateReq.getScheduleColor()))
                 .build();
         System.out.println(scheduleCreateReq.getScheduleTitle());
         Schedule schedule1 = scheduleRepository.save(schedule);
@@ -36,24 +36,28 @@ public class ScheduleService {
     }
 
     public List<ScheduleListRes> findAllSchedule() {
-        return scheduleRepository.findAll()
+        return scheduleRepository.findAllByDelYnIs(false)
                 .stream()
                 .map(ScheduleListRes::mapToSchedule)
                 .collect(Collectors.toList());
     }
 
-    public Schedule scheduleUpdate(Long scheduleId, ScheduleUpdateReq scheduleUpdateReq) {
+    public void scheduleUpdate(Long scheduleId, ScheduleUpdateReq scheduleUpdateReq) {
         Schedule schedule = scheduleRepository.findByScheduleId(scheduleId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스케줄입니다."));
-        schedule.updateSchedule(scheduleUpdateReq.getScheduleStartDate(), scheduleUpdateReq.getScheduleEndDate(), scheduleUpdateReq.getScheduleStartTime(), scheduleUpdateReq.getScheduleEndTime(),
-                scheduleUpdateReq.getScheduleComment(), scheduleUpdateReq.getScheduleTitle());
-        return scheduleRepository.save(schedule);
-
+        schedule.updateSchedule(
+                scheduleUpdateReq.getScheduleStartDate(),
+                scheduleUpdateReq.getScheduleEndDate(),
+                scheduleUpdateReq.getScheduleEndTime(),
+                scheduleUpdateReq.getScheduleStartTime(),
+                scheduleUpdateReq.getScheduleComment(),
+                scheduleUpdateReq.getScheduleTitle(),
+                scheduleUpdateReq.getScheduleColor()
+        );
     }
 
     public void ScheduleDelete(Long scheduleId) {
         Schedule schedule = scheduleRepository.findByScheduleId(scheduleId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스케줄입니다."));
         schedule.deleteSchedule();
-        scheduleRepository.save(schedule);
     }
 
     public Schedule scheduleDetail(Long scheduleId) {

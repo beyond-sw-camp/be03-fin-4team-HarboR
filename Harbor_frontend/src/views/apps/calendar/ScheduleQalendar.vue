@@ -1,18 +1,20 @@
 <template>
   <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
-  <div class="qalendar-wrapper">
-    <Qalendar
-      :events="events"
-      :config="config"
-      @updated-mode="updatedMode"
-      @event-was-dragged="handleEventDrag"
-      @event-was-resized="handleEventResize"
-      @edit-event="handleEditEvent"
-      @delete-event="handleDeleteEvent"
-      @datetime-was-clicked="handleDateTimeClicked"
-      @date-was-clicked="handlerDateClicked"
-    />
-  </div>
+  <UiParentCard title="개인 스케줄 캘린더 ">
+    <div class="qalendar-wrapper">
+      <Qalendar
+        :events="events"
+        :config="config"
+        @updated-mode="updatedMode"
+        @event-was-dragged="handleEventDrag"
+        @event-was-resized="handleEventResize"
+        @edit-event="handleEditEvent"
+        @delete-event="handleDeleteEvent"
+        @datetime-was-clicked="handleDateTimeClicked"
+        @date-was-clicked="handlerDateClicked"
+      />
+    </div>
+  </UiParentCard>
   <v-dialog transition="slide-y-transition" v-model="dialog">
     <v-card class="mx-auto px-6 py-4" max-width="420">
       <v-card-title>
@@ -57,12 +59,21 @@
             variant="underlined"
           ></v-text-field>
         </v-col>
-        <v-textarea v-model="newEvent.description" :v-bind="description" no-resize clearable label="내용" variant="outlined" placeholder="내용을 입력해주세요.">
+        <v-textarea
+          v-model="newEvent.description"
+          :v-bind="description"
+          no-resize
+          clearable
+          label="내용"
+          variant="outlined"
+          placeholder="내용을 입력해주세요."
+        >
         </v-textarea>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="error" variant="text" @click="dialog = false"> 취소 </v-btn>
-          <v-btn color="success" variant="text" @click="createEvent"> {{ dialog_button }} </v-btn>
+          <v-btn color="success" variant="text" v-if="create" @click="createEvent"> 생성 </v-btn>
+          <v-btn color="success" variant="text" v-if="!create" @click="modifyEvent"> 수정 </v-btn>
         </v-card-actions>
       </v-form>
     </v-card>
@@ -71,8 +82,9 @@
 
 <script lang="ts" setup>
 import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
+import UiParentCard from '@/components/shared/UiParentCard.vue';
 import { Qalendar } from 'qalendar';
-import { onMounted, ref, watch, computed } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import axios, { setClientHeaders } from '@/utils/axios';
 import type { Event, ScheduleDTO } from '@/types/calendar/Events';
 
@@ -132,7 +144,7 @@ watch(endDate, (newEndDate, oldEndDate) => {
   }
 });
 
-const page = ref({ title: '개인 일정 캘린더' });
+const page = ref({ title: '일정 관리' });
 const breadcrumbs = ref([
   {
     title: '근태 관리',
@@ -145,14 +157,16 @@ const breadcrumbs = ref([
     href: '#'
   }
 ]);
+
+const create = ref(false);
 const dialog_title = ref('');
-const dialog_button = ref('');
 const dialog = ref(false);
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 const token: string | null = localStorage.getItem('token');
 const selectedColor = ref('yellow');
 const events: IterableIterator<Event> = ref([]);
 const newEvent = ref({
+  id: 0,
   title: '',
   description: '',
   time: { start: '', end: '' },
@@ -213,6 +227,17 @@ const toScheduleDTO = (event: Event): ScheduleDTO => ({
   scheduleColor: event.color
 });
 
+const toEventScheduleDTO = (event: Event): ScheduleDTO => ({
+  scheduleStartDate: event.time.start.split(' ')[0],
+  scheduleEndDate: event.time.end.split(' ')[0],
+  scheduleStartTime: event.time.start.split(' ')[1],
+  scheduleEndTime: event.time.end.split(' ')[1],
+  scheduleTitle: event.title,
+  scheduleComment: event.description,
+  scheduleId: event.id,
+  scheduleColor: event.color
+});
+
 const updateBackground = () => {
   let link = document.getElementById('datestyle');
   if (!link) {
@@ -228,30 +253,28 @@ const updatedMode = () => {
 
 const handleEventDrag = async (event: Event) => {
   console.log('드래그 요청');
-  console.log(event);
-  const schedule = toScheduleDTO(event);
-  console.log(schedule);
+  const schedule = toEventScheduleDTO(event);
   await axios.patch(`${baseUrl}/employee/schedule/update/${event.id}`, schedule);
 };
 
 const handleEventResize = async (event: Event) => {
   console.log('리사이즈 요청');
-  const schedule = toScheduleDTO(event);
+  const schedule = toEventScheduleDTO(event);
   await axios.patch(`${baseUrl}/employee/schedule/update/${event.id}`, schedule);
 };
 
-const description = ref('');
 const handleEditEvent = async (event: Event) => {
   const response = await axios.get(`${baseUrl}/employee/schedule/detail/${event}`);
   const eventData = response.data.result;
   console.log(eventData);
+  newEvent.value.id = eventData.scheduleId;
   newEvent.value.title = eventData.scheduleTitle;
   newEvent.value.description = eventData.scheduleComment;
   startDate.value = new Date(eventData.scheduleStartDate + ' ' + eventData.scheduleStartTime);
   endDate.value = new Date(eventData.scheduleEndDate + ' ' + eventData.scheduleEndTime);
   selectedColor.value = eventData.scheduleColor;
   dialog_title.value = '일정 수정';
-  dialog_button.value = '수정';
+  create.value = false;
   dialog.value = true;
 };
 
@@ -268,18 +291,22 @@ const handleDeleteEvent = async (event: Event) => {
 
 const handleDateTimeClicked = (datetime: string) => {
   console.log(datetime);
+  selectedColor.value = 'yellow';
   newEvent.value.title = '';
   newEvent.value.description = '';
   newEvent.value.color = 'yellow';
-  startDate.value = new Date(datetime.split(' ')[0] + ' ' + convertTo12Hour(datetime.split(' ')[1]));
-  endDate.value = new Date(datetime.split(' ')[0] + ' ' + convertTo12Hour(datetime.split(' ')[1]));
   newEvent.value.time.start = datetime;
   newEvent.value.time.end = datetime;
+
+  startDate.value = new Date(datetime.split(' ')[0] + ' ' + convertTo12Hour(datetime.split(' ')[1]));
+  endDate.value = new Date(datetime.split(' ')[0] + ' ' + convertTo12Hour(datetime.split(' ')[1]));
+
   dialog.value = true;
 };
 
 const handlerDateClicked = (date: string) => {
   console.log(date);
+  selectedColor.value = 'yellow';
   startDate.value = new Date(date);
   endDate.value = new Date(date);
   newEvent.value.title = '';
@@ -288,7 +315,7 @@ const handlerDateClicked = (date: string) => {
   newEvent.value.time.start = formatDateAndTime(startDate.value);
   newEvent.value.time.end = formatDateAndTime(endDate.value);
   dialog_title.value = '일정 생성';
-  dialog_button.value = '생성';
+  create.value = true;
   dialog.value = true;
 };
 
@@ -300,6 +327,28 @@ const createEvent = async () => {
   const schedule = toScheduleDTO(newEvent.value);
   await axios.post(`${baseUrl}/employee/schedule/create`, schedule);
   newEvent.value = {
+    id: '',
+    title: '',
+    description: '',
+    time: {
+      start: '',
+      end: ''
+    },
+    color: ''
+  };
+  dialog.value = false;
+  reloadEvents();
+};
+const modifyEvent = async () => {
+  console.log('수정 요청');
+  newEvent.value.time.start = computedDateTimeFormattedStart.value.toString();
+  newEvent.value.time.end = computedDateTimeFormattedEnd.value.toString();
+  newEvent.value.color = selectedColor.value;
+  const schedule = toScheduleDTO(newEvent.value);
+  console.log(schedule);
+  await axios.patch(`${baseUrl}/employee/schedule/update/${newEvent.value.id}`, schedule);
+  newEvent.value = {
+    id: 0,
     title: '',
     description: '',
     time: {

@@ -33,12 +33,14 @@ public class Schedule {
     private Long scheduleId;
     private String scheduleStartDate;
     private String scheduleEndDate;
-    private Time scheduleStartTime;
-    private Time scheduleEndTime;
-    @Column(nullable = false, length = 50)
+    private String scheduleStartTime;
+    private String scheduleEndTime;
+    @Column(length = 50)
     private String scheduleTitle;
     @Column(length = 500)
     private String scheduleComment;
+    @Builder.Default
+    private String scheduleColor = "yellow";
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id")
@@ -48,23 +50,19 @@ public class Schedule {
 
 
     public void updateSchedule(String scheduleStartDate, String scheduleEndDate,
-                               Time scheduleEndTime, Time scheduleStartTime,
-                               String scheduleComment, String scheduleTitle) {
-
-
+                               String scheduleEndTime, String scheduleStartTime,
+                               String scheduleComment, String scheduleTitle,
+                               String scheduleColor) {
         this.scheduleStartDate = scheduleStartDate;
         this.scheduleEndDate = scheduleEndDate;
-        this.scheduleStartTime = scheduleStartTime;
         this.scheduleEndTime = scheduleEndTime;
+        this.scheduleStartTime = scheduleStartTime;
         this.scheduleComment = scheduleComment;
         this.scheduleTitle = scheduleTitle;
-
-
+        this.scheduleColor = scheduleColor;
     }
 
     public void deleteSchedule(){
-
         this.delYn = true;
     }
-
 }
