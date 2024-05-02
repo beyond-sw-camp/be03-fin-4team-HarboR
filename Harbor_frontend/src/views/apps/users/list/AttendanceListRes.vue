@@ -16,16 +16,12 @@ const getStatusCode = (payStatusCode) => {
 };
 async function fetchStatus() {
   try {
-    const token = localStorage.getItem('token');
+    setClientHeaders(token);
     if (!token) {
       console.error('토큰이 존재하지 않습니다.');
       return;
     }
-    const response = await axios.get(`${baseUrl}/total/annual/read/receive`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.get(`${baseUrl}/total/annual/read/receive`);
     const tempItems = response.data.result;
 
     // 모든 결재자의 이름을 조회합니다.

@@ -33,6 +33,10 @@ export const useAuthStore = defineStore({
     
         // API 엔드포인트 결정
         const endPoint = email ? 'EmailLogin' : 'EmployeeIdLogin';
+        console.log("이메일" + email);
+        console.log("사원번호" + employeeId);
+        console.log("비밀번호" + password);
+        console.log("어떤걸로 로그인?" + endPoint);
         // 로그인 요청 보내기
         const user = await axios.post(`${baseUrl}/login/account/${endPoint}`, loginData);
         // const user = await axios.post(`http://localhost:8000/login/account/${endPoint}`, loginData);
@@ -40,6 +44,11 @@ export const useAuthStore = defineStore({
     
         if (token) {
           const decoded = jwtDecode(token);
+          console.log(decoded);
+          localStorage.setItem("token", token);
+          localStorage.setItem("employeeId", decoded.sub);
+          localStorage.setItem("myEmail", decoded.myEmail);
+          localStorage.setItem("role", decoded.role);
           router.push('/dashboard/default');
         } else {
           console.log("200 ok but no token");
