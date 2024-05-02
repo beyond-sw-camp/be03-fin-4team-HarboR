@@ -1,0 +1,139 @@
+
+name: harbor SOM-Backend
+on:
+  push:
+    branches:
+      - feature/0430
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout github
+        uses: actions/checkout@v2
+
+      - name: install kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: "v1.25.9"
+        id: install
+
+      - name: configure aws #aws configure 팀 키값
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }} # 추가 해줘야함
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # 추가 해줘야함
+          aws-region: ap-northeast-2
+
+      - name: update cluster information
+        run: aws eks update-kubeconfig --name harbor_cluster --region ap-northeast-2
+
+      - name: Login to ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      ################ build and push #################
+
+      ################ batch #################
+      - name: build and push docker image to ecr (batch)
+        env:
+          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor
+          REPOSITORY: harbor-batch
+          IMAGE_TAG: latest
+        run: |
+          docker build \
+          -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
+          -f ./admin/Dockerfile ./Harbor_batch
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+
+      ################ employee #################
+      - name: build and push docker image to ecr (employee)
+        env:
+          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor
+          REPOSITORY: harbor-employee
+          IMAGE_TAG: v6
+        run: |
+          docker build \
+          -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
+          -f ./board/Dockerfile ./Harbor_employee
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+      ################ login #################
+      - name: build and push docker image to ecr (login)
+        env:
+          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor # ECR주소
+          REPOSITORY: team4-Login
+          IMAGE_TAG: v6
+        run: |
+          docker build \
+          -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
+          -f ./batch/Dockerfile ./Harbor_login
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+      ################ salary #################
+      - name: build and push docker image to ecr (salary)
+        env:
+          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor # ECR주소
+          REPOSITORY: team4-salary
+          IMAGE_TAG: v6
+        run: |
+          docker build \
+          -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
+          -f ./batch/Dockerfile ./Harbor_salary
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+      ################ total #################
+      - name: build and push docker image to ecr (total)
+        env:
+          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor # ECR주소
+          REPOSITORY: team4-total
+          IMAGE_TAG: v6
+        run: |
+          docker build \
+          -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
+          -f ./batch/Dockerfile ./Harbor_total
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+      ################ gateway #################
+      - name: build and push docker image to ecr (gateway)
+        env:
+          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor # ECR주소
+          REPOSITORY: team4-gateway
+          IMAGE_TAG: v6
+        run: |
+          docker build \
+          -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
+          -f ./batch/Dockerfile ./Harbor_gateway
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG      
+      
+
+      ################ apply ################
+
+      - name: eks kubectl batch apply
+        run: |
+          kubectl apply -f ./Harbor_batch/k8s/harbor-batch-depl-serv.yml
+          kubectl rollout restart deployment batch
+
+      - name: eks kubectl employee apply
+        run: |
+          kubectl apply -f ./Harbor_employee/k8s/harbor-employee-depl-serv.yml
+          kubectl rollout restart deployment employee
+
+      - name: eks kubectl login apply
+        run: |
+          kubectl apply -f ./Harbor_Login/k8s/harbor-login-depl-serv.yml
+          kubectl rollout restart deployment login
+
+      - name: eks kubectl salary apply
+        run: |
+          kubectl apply -f ./Harbor_salary/k8s/harbor-salary-depl-serv.yml
+          kubectl rollout restart deployment salary
+
+      - name: eks kubectl total apply
+        run: |
+          kubectl apply -f ./Harbor_total/k8s/harbor-total-depl-serv.yml
+          kubectl rollout restart deployment total
+
+      - name: eks kubectl gateway apply
+        run: |
+          kubectl apply -f ./Harbor_total/k8s/harbor-gateway-depl-serv.yml
+          kubectl rollout restart deployment gateway      
+
+#  kubectl create secret generic db-infos \
+#  --from-literal=AWS_ACCESS_KEY_ID=AKIAXYKJWV3K2Y6DCFYB \
+#  --from-literal=AWS_SECRET_ACCESS_KEY=4CJ61JZP2h3FHr5GkZDJb4DOytUyvJVtWAgxI

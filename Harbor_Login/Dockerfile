@@ -20,7 +20,7 @@ FROM openjdk:11
 WORKDIR /app
 
 # 빌드된 JAR 파일을 복사
-COPY --from=stage1 /app/build/libs/*.jar app.jar
+COPY --from=stage1 /Harbor_Login/build/libs/*.jar Harbor_Login.jar
 
 # 애플리케이션 실행
-ENTRYPOINT [ "java", "-jar", "app.jar" ]
+ENTRYPOINT [ "java", "-jar", "Harbor_Login.jar" ]

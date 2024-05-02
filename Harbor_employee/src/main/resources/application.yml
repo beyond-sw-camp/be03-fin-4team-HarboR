@@ -21,7 +21,7 @@ spring:
         highlight_sql: true
     show-sql: true
   redis:
-    host: localhost
+    host: harborredis.c5w28v.ng.0001.apn2.cache.amazonaws.com
     port: 6379
   # eureka ??? ?? name?? ??? ?? ??.
 eureka:
