@@ -65,7 +65,7 @@ jobs:
         run: |
           docker build \
           -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
-          -f ./Harbor_Login/Dockerfile ./Harbor_login
+          -f ./Harbor_Login/Dockerfile ./Harbor_Login
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
       ################ salary #################
       - name: build and push docker image to ecr (salary)
