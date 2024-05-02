@@ -42,7 +42,11 @@ spec:
                 secretKeyRef:
                   name: db-infos
                   key: DB_PASSWORD
-
+            - name: JWT_SECRETEKEY
+              valueFrom:
+                secretKeyRef:
+                  name: db-infos
+                  key: JWT_SECRETEKEY
 ---
 apiVersion: v1
 kind: Service
