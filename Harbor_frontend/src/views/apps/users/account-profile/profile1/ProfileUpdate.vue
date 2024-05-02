@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import axios from 'axios';
+import axios, { setClientHeaders } from '@/utils/axios';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -9,6 +9,7 @@ const employeeDetails = ref([]);
 const route = useRoute();
 const profileImage = ref('');
 let selectedImage;
+const token: string | null = localStorage.getItem('token');
 
 function fileUpload(event) {
   selectedImage = event.target.files[0];
@@ -23,6 +24,7 @@ onMounted(async () => {
   // 라우트 파라미터에서 사원번호(employeeId)를 추출
   const employeeId = route.params.employeeId;
   try {
+    setClientHeaders(token);
     const response = await axios.get(`${baseUrl}/employee/get/${employeeId}/detail`);
     employeeDetails.value = response.data.result;
     profileImage.value = employeeDetails.value.profileImagePath;
@@ -38,11 +40,8 @@ async function update() {
     formData.append('profileImage', selectedImage);
   }
 
-
-
   try {
-    const response = await axios.patch(`${baseUrl}/employee/${employeeDetails.value.employeeId}/update`, formData
-    );
+    await axios.patch(`${baseUrl}/employee/update`, formData);
     alert('수정 완료되었습니다.');
   } catch (error) {
     console.error('수정 중 오류 발생:', error);
@@ -63,9 +62,13 @@ async function update() {
           <v-card-text class="text-center">
             <img :src="profileImage" alt="avatar" width="150" class="v-avatar" />
             <p class="text-subtitle-2 text-disabled font-weight-medium my-4"></p>
-            <v-btn color="primary" style="position: relative; overflow: hidden;">
-              <input type="file" accept="image/*" @change="fileUpload"
-                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;">
+            <v-btn color="primary" style="position: relative; overflow: hidden">
+              <input
+                type="file"
+                accept="image/*"
+                @change="fileUpload"
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer"
+              />
               사진변경 (test)
             </v-btn>
           </v-card-text>
@@ -82,8 +85,15 @@ async function update() {
           <v-card-text>
             <v-row>
               <v-col cols="12">
-                <v-text-field type="text" v-model="employeeDetails.phone" label="전화번호" hint="Helper Text"
-                  color="primary" variant="outlined" persistent-hint></v-text-field>
+                <v-text-field
+                  type="text"
+                  v-model="employeeDetails.phone"
+                  label="전화번호"
+                  hint="Helper Text"
+                  color="primary"
+                  variant="outlined"
+                  persistent-hint
+                ></v-text-field>
               </v-col>
               <!-- <v-col cols="12">
                 <v-text-field
@@ -96,16 +106,34 @@ async function update() {
                 ></v-text-field>
               </v-col> -->
               <v-col cols="12" lg="6">
-                <v-text-field type="text" v-model="employeeDetails.name" label="이름" color="primary" variant="outlined"
-                  hide-details></v-text-field>
+                <v-text-field
+                  type="text"
+                  v-model="employeeDetails.name"
+                  label="이름"
+                  color="primary"
+                  variant="outlined"
+                  hide-details
+                ></v-text-field>
               </v-col>
               <v-col cols="12" lg="6">
-                <v-text-field type="text" v-model="employeeDetails.email" label="이메일" color="primary" variant="outlined"
-                  hide-details></v-text-field>
+                <v-text-field
+                  type="text"
+                  v-model="employeeDetails.email"
+                  label="이메일"
+                  color="primary"
+                  variant="outlined"
+                  hide-details
+                ></v-text-field>
               </v-col>
               <v-col cols="12" lg="6">
-                <v-text-field type="text" v-model="employeeDetails.employeeId" label="사원번호" color="primary"
-                  variant="outlined" hide-details></v-text-field>
+                <v-text-field
+                  type="text"
+                  v-model="employeeDetails.employeeId"
+                  label="사원번호"
+                  color="primary"
+                  variant="outlined"
+                  hide-details
+                ></v-text-field>
               </v-col>
             </v-row>
             <v-btn color="primary" class="mt-5" @click="update()">수정</v-btn>

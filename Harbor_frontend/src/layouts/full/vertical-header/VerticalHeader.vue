@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch, onMounted, computed } from 'vue';
 import { useCustomizerStore } from '../../../stores/customizer';
 import { useTokenStore } from '@/stores/apps/token';
 import axios, { setClientHeaders } from '@/utils/axios';
@@ -19,20 +19,9 @@ const expStore = useTokenStore();
 onMounted(() => {
   expStore.startTimer();
 });
-const minute = ref(expStore.minute);
-const second = ref(expStore.second);
-watch(
-  () => expStore.minute,
-  () => {
-    minute.value = expStore.minute;
-  }
-);
-watch(
-  () => expStore.second,
-  () => {
-    second.value = expStore.second;
-  }
-);
+
+const minute = computed(() => expStore.minute);
+const second = computed(() => expStore.second);
 const customizer = useCustomizerStore();
 const showSearch = ref(false);
 const priority = ref(customizer.setHorizontalLayout ? 0 : 0);
@@ -46,7 +35,7 @@ watch(priority, (newPriority) => {
 
 const reissueToken = async () => {
   const token = localStorage.getItem('token');
-  const employeeId = localStorage.getItem('사원번호');
+  const employeeId = localStorage.getItem('employeeId');
   setClientHeaders(token);
   const response = await axios.get(`${baseUrl}/login/account/reissue/${employeeId}`);
   console.log(response);
@@ -54,9 +43,9 @@ const reissueToken = async () => {
   if (newToken) {
     const decoded: string = jwtDecode(newToken);
     localStorage.setItem('token', newToken);
-    localStorage.setItem('사원번호', decoded.sub);
-    localStorage.setItem('이메일', decoded.myEmail);
-    localStorage.setItem('권한등급', decoded.role);
+    localStorage.setItem('employeeId', decoded.sub);
+    localStorage.setItem('myEmail', decoded.myEmail);
+    localStorage.setItem('role', decoded.role);
     expStore.startTimer();
   }
 };

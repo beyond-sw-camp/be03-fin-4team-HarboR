@@ -24,6 +24,6 @@ public interface AnnualRepository extends JpaRepository<Annual, Long> {
     @Query("SELECT a FROM Annual a WHERE a.adjustmentDate <= :endDate AND a.adjustmentEndDate >= :startDate AND a.adjustmentDate <= :startDate2 AND a.adjustmentEndDate >= :endDate2 AND a.annualId IN :attendanceIds")
     List<Annual> CheckMyVactionSchedule(@Param("endDate") LocalDateTime endDate, @Param("startDate") LocalDateTime startDate, @Param("startDate2") LocalDateTime startDate2, @Param("endDate2") LocalDateTime endDate2, @Param("attendanceIds") List<Long> attendanceIds);
 
-    @Query("SELECT e FROM Annual e WHERE e.firstSignId = :employeeId OR e.secondSignId = :employeeId OR e.thirdSignId = :employeeId")
-    List<Annual> findAllByFirstSignIdOrSecondSignIdOrThirdSignId(@Param(value = "employeeId") @NotEmpty String employeeId);
+    @Query("SELECT e FROM Annual e WHERE e.adjustment_delYn=:adjustment_delYn AND e.firstSignId = :employeeId OR e.secondSignId = :employeeId OR e.thirdSignId = :employeeId")
+    List<Annual> findAllByFirstSignIdOrSecondSignIdOrThirdSignIdAAndAdjustment_delYnIs(@Param(value = "employeeId") @NotEmpty String employeeId, @Param(value="adjustment_delYn") String adjustment_delYn);
 }

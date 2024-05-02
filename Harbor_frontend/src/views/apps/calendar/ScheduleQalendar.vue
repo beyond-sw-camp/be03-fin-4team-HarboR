@@ -1,18 +1,20 @@
 <template>
   <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
-  <div class="qalendar-wrapper">
-    <Qalendar
-      :events="events"
-      :config="config"
-      @updated-mode="updatedMode"
-      @event-was-dragged="handleEventDrag"
-      @event-was-resized="handleEventResize"
-      @edit-event="handleEditEvent"
-      @delete-event="handleDeleteEvent"
-      @datetime-was-clicked="handleDateTimeClicked"
-      @date-was-clicked="handlerDateClicked"
-    />
-  </div>
+  <UiParentCard title="개인 스케줄 캘린더 ">
+    <div class="qalendar-wrapper">
+      <Qalendar
+        :events="events"
+        :config="config"
+        @updated-mode="updatedMode"
+        @event-was-dragged="handleEventDrag"
+        @event-was-resized="handleEventResize"
+        @edit-event="handleEditEvent"
+        @delete-event="handleDeleteEvent"
+        @datetime-was-clicked="handleDateTimeClicked"
+        @date-was-clicked="handlerDateClicked"
+      />
+    </div>
+  </UiParentCard>
   <v-dialog transition="slide-y-transition" v-model="dialog">
     <v-card class="mx-auto px-6 py-4" max-width="420">
       <v-card-title>
@@ -57,7 +59,15 @@
             variant="underlined"
           ></v-text-field>
         </v-col>
-        <v-textarea v-model="newEvent.description" :v-bind="description" no-resize clearable label="내용" variant="outlined" placeholder="내용을 입력해주세요.">
+        <v-textarea
+          v-model="newEvent.description"
+          :v-bind="description"
+          no-resize
+          clearable
+          label="내용"
+          variant="outlined"
+          placeholder="내용을 입력해주세요."
+        >
         </v-textarea>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -72,6 +82,7 @@
 
 <script lang="ts" setup>
 import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
+import UiParentCard from '@/components/shared/UiParentCard.vue';
 import { Qalendar } from 'qalendar';
 import { onMounted, ref, watch } from 'vue';
 import axios, { setClientHeaders } from '@/utils/axios';
@@ -133,7 +144,7 @@ watch(endDate, (newEndDate, oldEndDate) => {
   }
 });
 
-const page = ref({ title: '개인 일정 캘린더' });
+const page = ref({ title: '일정 관리' });
 const breadcrumbs = ref([
   {
     title: '근태 관리',

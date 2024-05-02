@@ -1,10 +1,19 @@
 <script setup lang="ts">
 import axios, { setClientHeaders } from '@/utils/axios';
-import {onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useCodeStore } from '@/stores/codetrans';
 // icons
-import { MailIcon, MapPinIcon, PhoneIcon, MeepleIcon,BrandYcombinatorIcon,BuildingArchIcon,BrandInertiaIcon,ReportIcon } from 'vue-tabler-icons';
+import {
+  MailIcon,
+  MapPinIcon,
+  PhoneIcon,
+  MeepleIcon,
+  BrandYcombinatorIcon,
+  BuildingArchIcon,
+  BrandInertiaIcon,
+  ReportIcon
+} from 'vue-tabler-icons';
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 // 상태 관리를 위한 ref 정의
 const employeeDetails = ref([]);
@@ -16,7 +25,6 @@ const teamName = ref([]);
 // vue-router의 useRoute를 사용하여 현재 라우트 정보에 접근
 const route = useRoute();
 const token: string | null = localStorage.getItem('token');
-const route = useRoute(); 
 
 onMounted(async () => {
   // 라우트 파라미터에서 사원번호(employeeId)를 추출
@@ -35,9 +43,6 @@ onMounted(async () => {
     console.error('API 호출 중 오류 발생:', error);
   }
 });
-
-  
-
 </script>
 
 <template>
@@ -50,8 +55,8 @@ onMounted(async () => {
           </div>
           <v-divider></v-divider>
           <v-card-text class="text-center">
-            <img :src="employeeDetails.profileImagePath" alt="avatar" width="150" class="v-avatar"/>
-            <h2 class=" mt-3">{{ employeeDetails.name }}</h2>
+            <img :src="employeeDetails.profileImagePath" alt="avatar" width="150" class="v-avatar" />
+            <h2 class="mt-3">{{ employeeDetails.name }}</h2>
             <p class="text-subtitle-1 text-disabled font-weight-medium my-4">항상 행복하세요~</p>
           </v-card-text>
         </v-card>
@@ -68,23 +73,19 @@ onMounted(async () => {
                 <template v-slot:prepend>
                   <MeepleIcon size="20" stroke-width="1.5" class="mr-2" />
                 </template>
-                <v-list-item-title class="text-subtitle-1">
-                  이름
-                </v-list-item-title>
+                <v-list-item-title class="text-subtitle-1">  이름 </v-list-item-title>
                 <template v-slot:append>
                   <span class="text-subtitle-2 text-disabled font-weight-medium">{{ employeeDetails.name }}</span>
                 </template>
               </v-list-item>
               <v-divider></v-divider>
-              
+
               <!-- 소속 -->
               <v-list-item color="primary" class="py-4">
                 <template v-slot:prepend>
                   <BuildingArchIcon size="20" stroke-width="1.5" class="mr-2" />
                 </template>
-                <v-list-item-title class="text-subtitle-1">
-                  부서 / 팀
-                </v-list-item-title>
+                <v-list-item-title class="text-subtitle-1"> 부서 / 팀 </v-list-item-title>
                 <template v-slot:append>
                   <span class="text-subtitle-2 text-disabled font-weight-medium"> {{ teamName }} / {{ departmentName }}</span>
                 </template>
@@ -95,9 +96,7 @@ onMounted(async () => {
                 <template v-slot:prepend>
                   <BrandYcombinatorIcon size="20" stroke-width="1.5" class="mr-2" />
                 </template>
-                <v-list-item-title class="text-subtitle-1">
-                  직급
-                </v-list-item-title>
+                <v-list-item-title class="text-subtitle-1"> 직급 </v-list-item-title>
                 <template v-slot:append>
                   <span class="text-subtitle-2 text-disabled font-weight-medium">{{ positionName }}</span>
                 </template>
@@ -108,9 +107,7 @@ onMounted(async () => {
                 <template v-slot:prepend>
                   <ReportIcon size="20" stroke-width="1.5" class="mr-2" />
                 </template>
-                <v-list-item-title class="text-subtitle-1">
-                  직무
-                </v-list-item-title>
+                <v-list-item-title class="text-subtitle-1"> 직무 </v-list-item-title>
                 <template v-slot:append>
                   <span class="text-subtitle-2 text-disabled font-weight-medium">{{ dutyName }}</span>
                 </template>
@@ -121,37 +118,31 @@ onMounted(async () => {
                 <template v-slot:prepend>
                   <MailIcon size="20" stroke-width="1.5" class="mr-2" />
                 </template>
-                <v-list-item-title class="text-subtitle-1">
-                  Email
-                </v-list-item-title>
+                <v-list-item-title class="text-subtitle-1"> Email </v-list-item-title>
                 <template v-slot:append>
                   <span class="text-subtitle-2 text-disabled font-weight-medium">{{ employeeDetails.email }}</span>
                 </template>
               </v-list-item>
               <v-divider></v-divider>
-              
+
               <!-- 전화번호 -->
               <v-list-item color="primary" class="py-4">
                 <template v-slot:prepend>
                   <PhoneIcon size="20" stroke-width="1.5" class="mr-2" />
                 </template>
-                <v-list-item-title class="text-subtitle-1">
-                  전화번호
-                </v-list-item-title>
+                <v-list-item-title class="text-subtitle-1"> 전화번호 </v-list-item-title>
                 <template v-slot:append>
                   <span class="text-subtitle-2 text-disabled font-weight-medium">{{ employeeDetails.phone }}</span>
                 </template>
               </v-list-item>
               <v-divider></v-divider>
-              
+
               <!-- 입사일 -->
               <v-list-item color="primary" class="py-4">
                 <template v-slot:prepend>
                   <BrandInertiaIcon size="20" stroke-width="1.5" class="mr-2" />
                 </template>
-                <v-list-item-title class="text-subtitle-1">
-                  입사일
-                </v-list-item-title>
+                <v-list-item-title class="text-subtitle-1"> 입사일 </v-list-item-title>
                 <template v-slot:append>
                   <span class="text-subtitle-2 text-disabled font-weight-medium">{{ employeeDetails.joinDate }}</span>
                 </template>
@@ -163,9 +154,7 @@ onMounted(async () => {
                 <template v-slot:prepend>
                   <MapIcon size="20" stroke-width="1.5" class="mr-2" />
                 </template>
-                <v-list-item-title class="text-subtitle-1">
-                  주소
-                </v-list-item-title>
+                <v-list-item-title class="text-subtitle-1"> 주소 </v-list-item-title>
                 <template v-slot:append>
                   <span class="text-subtitle-2 text-disabled font-weight-medium">{{ employeeDetails.address }}</span>
                 </template>
@@ -177,11 +166,11 @@ onMounted(async () => {
                 <template v-slot:prepend>
                   <PhoneIcon size="20" stroke-width="1.5" class="mr-2" />
                 </template>
-                <v-list-item-title class="text-subtitle-1">
-                  계좌번호
-                </v-list-item-title>
+                <v-list-item-title class="text-subtitle-1"> 계좌번호 </v-list-item-title>
                 <template v-slot:append>
-                  <span class="text-subtitle-2 text-disabled font-weight-medium"> {{ bankName }} / {{ employeeDetails.accountNumber }}</span>
+                  <span class="text-subtitle-2 text-disabled font-weight-medium">
+                    {{ bankName }} / {{ employeeDetails.accountNumber }}</span
+                  >
                 </template>
               </v-list-item>
               <v-divider></v-divider>
@@ -190,6 +179,5 @@ onMounted(async () => {
         </v-card>
       </v-card>
     </v-col>
-    
   </v-row>
 </template>

@@ -22,15 +22,19 @@ export const useTokenStore = defineStore({
       const expiredTime = getExpiredTime();
       if (!expiredTime) return;
 
-      const now = Date.now() / 1000; // 현재 시간을 초 단위로 변환
-      const remainingTime = expiredTime - now; // 남은 시간을 계산
-
+      const now = Date.now() / 1000;
+      const remainingTime = expiredTime - now;
+      if (remainingTime < 1) {
+        alert('세션이 만료되었습니다.');
+        localStorage.clear();
+        location.reload();
+      }
       this.minute = Math.floor(remainingTime / 60);
       this.second = Math.floor(remainingTime % 60);
     },
     startTimer() {
       this.updateExpiredTime();
-      setInterval(this.updateExpiredTime, 1000); // 매 초마다 만료 시간을 업데이트
+      setInterval(() => this.updateExpiredTime(), 1000);
     }
   }
-});
+})
