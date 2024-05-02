@@ -87,7 +87,7 @@ jobs:
         run: |
           docker build \
           -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
-          -f ./Harbor_totla/Dockerfile ./Harbor_total
+          -f ./Harbor_total/Dockerfile ./Harbor_total
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
       ################ gateway #################
       - name: build and push docker image to ecr (gateway)
