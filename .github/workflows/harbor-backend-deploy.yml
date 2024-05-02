@@ -48,8 +48,8 @@ jobs:
       ################ employee #################
       - name: build and push docker image to ecr (employee)
         env:
-          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor
-          REPOSITORY: harbor-employee
+          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com
+          REPOSITORY: harbor
           IMAGE_TAG: latest
         run: |
           docker build \

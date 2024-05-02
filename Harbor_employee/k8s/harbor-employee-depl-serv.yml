@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: employee-backend
-          image: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor/team4-employee:latest
+          image: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor:latest
           ports:
             - containerPort: 8004
 
