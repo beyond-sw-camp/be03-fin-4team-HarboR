@@ -17,11 +17,11 @@ jobs:
           version: "v1.25.9"
         id: install
 
-      - name: configure aws #aws configure 팀 키값
+      - name: configure aws
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }} # 추가 해줘야함
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # 추가 해줘야함
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
       - name: update cluster information
@@ -33,7 +33,7 @@ jobs:
 
       ################ build and push #################
 
-      ################ batch (성공)#################
+      ############### batch #################
       - name: build and push docker image to ecr (batch)
         env:
           REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com
@@ -45,7 +45,7 @@ jobs:
           -f ./Harbor_batch/Dockerfile ./Harbor_batch
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
-      ################ employee (성공) #################
+      ################ employee  #################
       - name: build and push docker image to ecr (employee)
         env:
           REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com
@@ -103,7 +103,6 @@ jobs:
       
 
       ################ apply ################
-
       - name: eks kubectl batch apply
         run: |
           kubectl apply -f ./Harbor_batch/k8s/harbor-batch-depl-serv.yml
@@ -131,9 +130,5 @@ jobs:
 
       - name: eks kubectl gateway apply
         run: |
-          kubectl apply -f ./Harbor_total/k8s/harbor-gateway-depl-serv.yml
+          kubectl apply -f ./Harbor_gateway/k8s/harbor-gateway-depl-serv.yml
           kubectl rollout restart deployment gateway      
-
-#  kubectl create secret generic db-infos \
-#  --from-literal=AWS_ACCESS_KEY_ID=AKIAXYKJWV3K2Y6DCFYB \
-#  --from-literal=AWS_SECRET_ACCESS_KEY=4CJ61JZP2h3FHr5GkZDJb4DOytUyvJVtWAgxI
