@@ -37,5 +37,5 @@ logging:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 jwt:
-  secretKey: CE254B51A873FD7C90C9338C534787FFCDEA4DC217B49AF2CB7DA54661418349
+  secretKey: ${JWT_SECRETKEY}
 url: "http://localhost:8000"

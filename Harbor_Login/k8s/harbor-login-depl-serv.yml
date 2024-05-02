@@ -47,11 +47,11 @@ spec:
                 secretKeyRef:
                   name: db-infos
                   key: REDIS_HOST
-            - name: JWT_SECRETEKEY
+            - name: JWT_SECRETKEY
               valueFrom:
                 secretKeyRef:
                   name: db-infos
-                  key: JWT_SECRETEKEY
+                  key: JWT_SECRETKEY
 
 ---
 apiVersion: v1
