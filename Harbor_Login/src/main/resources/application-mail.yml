@@ -4,7 +4,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: windy7271@knou.ac.kr #앱 비밀번호 발급받은 google 계정
-    password: tcmu mszs keng ljkx #발급받은 앱 비밀번호
+    password: ${{ secrets.GOOGLE_PASSWORD }} #발급받은 앱 비밀번호
     properties:
       mail:
         smtp:
