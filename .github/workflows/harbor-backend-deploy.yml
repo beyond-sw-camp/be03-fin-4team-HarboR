@@ -33,7 +33,7 @@ jobs:
 
       ################ build and push #################
 
-      ############## batch #################
+      ############### batch #################
       - name: build and push docker image to ecr (batch)
         env:
           REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com
