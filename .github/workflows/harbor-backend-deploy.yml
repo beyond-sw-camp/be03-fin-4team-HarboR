@@ -42,7 +42,7 @@ jobs:
         run: |
           docker build \
           -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
-          -f ./admin/Dockerfile ./Harbor_batch
+          -f ./Harbor_batch/Dockerfile ./Harbor_batch
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
       ################ employee #################
@@ -54,7 +54,7 @@ jobs:
         run: |
           docker build \
           -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
-          -f ./board/Dockerfile ./Harbor_employee
+          -f ./Harbor_employee/Dockerfile ./Harbor_employee
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
       ################ login #################
       - name: build and push docker image to ecr (login)
@@ -65,7 +65,7 @@ jobs:
         run: |
           docker build \
           -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
-          -f ./batch/Dockerfile ./Harbor_login
+          -f ./Harbor_Login/Dockerfile ./Harbor_login
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
       ################ salary #################
       - name: build and push docker image to ecr (salary)
@@ -76,7 +76,7 @@ jobs:
         run: |
           docker build \
           -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
-          -f ./batch/Dockerfile ./Harbor_salary
+          -f ./Harbor_salary/Dockerfile ./Harbor_salary
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
       ################ total #################
       - name: build and push docker image to ecr (total)
@@ -87,7 +87,7 @@ jobs:
         run: |
           docker build \
           -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
-          -f ./batch/Dockerfile ./Harbor_total
+          -f ./Harbor_totla/Dockerfile ./Harbor_total
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
       ################ gateway #################
       - name: build and push docker image to ecr (gateway)
@@ -98,7 +98,7 @@ jobs:
         run: |
           docker build \
           -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
-          -f ./batch/Dockerfile ./Harbor_gateway
+          -f ./Harbor_gateway/Dockerfile ./Harbor_gateway
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG      
       
 
