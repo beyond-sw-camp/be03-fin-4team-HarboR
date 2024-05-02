@@ -473,11 +473,25 @@ const MainRoutes = {
       component: () => import('@/views/apps/users/list/noticedetail.vue')
     },
     {
-      name : "attendancedatail",
+      name: 'attendancedatail',
       path: '/dashboard/analytics/attendancedetail',
       component: () => import('@/views/apps/users/list/attendancedetail.vue')
     },
+    {
+      name: 'noticeCreate',
+      path: '/noticecreate',
+      component: () => import('@/views/apps/users/list/noticeCreate.vue')
+    },
+    {
+      name: 'severancePay',
+      path: '/severancePay',
+      component: () => import('@/views/apps/users/list/severancePay.vue')
+    },
+    {
+      name: 'ScheduleQalendar',
+      path: '/schedule/qalendar',
+      component: () => import('@/views/apps/calendar/ScheduleQalendar.vue')
+    }
   ]
 };
-
 export default MainRoutes;

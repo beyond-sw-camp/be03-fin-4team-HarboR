@@ -1,6 +1,6 @@
 package com.example.harbor_login.Notice.dto.request;
 
-import lombok.Data;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,16 +11,12 @@ import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class NoticeCreateReqDto {
-
-
     private String title;
-
     private String contents;
-
-    private String fileName;
-
     private MultipartFile filePath;
 
-    private LocalDateTime createdAt;
 }

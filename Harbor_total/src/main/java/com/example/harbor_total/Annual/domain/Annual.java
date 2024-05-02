@@ -20,8 +20,10 @@ import java.util.Date;
 * adjustmentUpdateDate: 승인 날짜
 * authorityPersonId: 최종 승인권자
 * */
+@Builder
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "HR_Annual")
@@ -39,7 +41,8 @@ public class Annual {
     private String firstApprovalDate;
     private String secondApprovalDate;
     private String thirdApprovalDate;
-    private String adjustment_delYn;
+    @Builder.Default
+    private String adjustment_delYn = "N";
     @OneToOne(mappedBy = "annuals")
     private Attendance attendance;
     public Annual(Double annualCount, LocalDateTime adjustmentDate, LocalDateTime adjustmentEndDate, String adjustmentComment, String firstSignId, String secondSignId, String thirdSignId, Attendance attendance) {

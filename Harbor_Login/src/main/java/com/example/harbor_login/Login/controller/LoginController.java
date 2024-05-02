@@ -8,6 +8,7 @@ import com.example.harbor_login.Login.service.EmailService;
 import com.example.harbor_login.Login.service.LoginService;
 import com.example.harbor_login.global.common.CommonResponse;
 import com.example.harbor_login.global.config.JwtTokenProvider;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -120,5 +121,20 @@ public class LoginController {
     @GetMapping("/detail")
     public GetUsersResponse getUsers(@RequestHeader("employeeId") String employeeId) {
         return loginService.getUserInfo(employeeId);
+    }
+
+    @GetMapping("/reissue/{employeeId}")
+    public ResponseEntity<CommonResponse> reissueToken(@PathVariable("employeeId") String employeeId){
+        System.out.println(employeeId);
+        Login member = loginService.getMemberByEmployeeId(employeeId);
+        String jwtToken = jwtTokenProvider.createToken(member.getEmail(), member.getRole().toString(), member.getEmployeeId());
+
+        Map<String, Object> member_info = new HashMap<>();
+        member_info.put("email", member.getEmail());
+        member_info.put("token", jwtToken);
+        member_info.put("role", member.getRole().name());
+        member_info.put("empyloeeId", member.getEmployeeId());
+
+        return new ResponseEntity<>(new CommonResponse("token reissue successful", member_info), HttpStatus.OK);
     }
 }

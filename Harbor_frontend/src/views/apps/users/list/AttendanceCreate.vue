@@ -19,7 +19,7 @@ const selectedWork = shallowRef('O04');
 const getCurrentDateTimeInKST = () => {
   const currentDateTime = new Date();
   // UTC 시간에 +9시간을 더해 한국시간으로 맞췄음
-  const koreanDateTime = new Date(currentDateTime.getTime() + (9 * 60 * 60 * 1000));
+  const koreanDateTime = new Date(currentDateTime.getTime() + 9 * 60 * 60 * 1000);
   return koreanDateTime.toISOString().slice(0, 16);
 };
 onMounted(() => {
@@ -34,14 +34,14 @@ async function annualremain() {
     setClientHeaders(token);
     const response = await axios.get(`${baseUrl}/total/employee/annualremain`, {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     });
     vacation.value = response.data.result;
   } catch (error) {
     console.log(error);
   }
-};
+}
 // 전자결재 리스트
 const modalVisible = ref(false);
 const content = ref('');
@@ -49,9 +49,9 @@ const auths = shallowRef<any[]>([]);
 const selecteFirst = ref<string>(''); // 선택된 값을 저장할 변수
 const selecteSecond = ref<string>(''); // 선택된 값을 저장할 변수
 const selecteThird = ref<string>(''); // 선택된 값을 저장할 변수
-const selectedFirstName = ref('승인자 지정'); // 선택된 값을 저장할 변수 
-const selectedSecondName = ref('승인자 지정'); // 선택된 값을 저장할 변수 
-const selectedThirdName = ref('승인자 지정'); // 선택된 값을 저장할 변수 
+const selectedFirstName = ref('승인자 지정'); // 선택된 값을 저장할 변수
+const selectedSecondName = ref('승인자 지정'); // 선택된 값을 저장할 변수
+const selectedThirdName = ref('승인자 지정'); // 선택된 값을 저장할 변수
 // 전자결제 모달창
 const openModal = () => {
   modalVisible.value = true;
@@ -63,23 +63,23 @@ async function authlist() {
     setClientHeaders(token);
     const response = await axios.get(`${baseUrl}/total/annual/read/authlist`, {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     });
     auths.value = response.data.result;
   } catch (error) {
     console.log(error);
   }
-};
+}
 function handleAuthorizerChange(authorizerName, selecte) {
-  if(selecte == 'first'){
-  selectedFirstName.value = authorizerName;
+  if (selecte == 'first') {
+    selectedFirstName.value = authorizerName;
   }
-  if(selecte == 'second'){
-  selectedSecondName.value = authorizerName;
+  if (selecte == 'second') {
+    selectedSecondName.value = authorizerName;
   }
-  if(selecte == 'third'){
-  selectedThirdName.value = authorizerName;
+  if (selecte == 'third') {
+    selectedThirdName.value = authorizerName;
   }
 }
 const closeModal = () => {
@@ -89,7 +89,7 @@ const closeModal = () => {
 const saveModal = () => {
   closeModal();
 };
-// 시간 관련 변수들 
+// 시간 관련 변수들
 const currentISODateTime = getCurrentDateTimeInKST();
 const startDate = ref(currentISODateTime);
 const endDate = ref(currentISODateTime);
@@ -116,7 +116,7 @@ async function attendanceReq() {
       adjustmentComment: content.value,
       firstSignId: selecteFirst.value,
       secondSignId: selecteSecond.value,
-      thirdSignId: selecteThird.value,
+      thirdSignId: selecteThird.value
     });
     // 회원가입이 성공하면 사용자에게 알림을 표시하거나 다른 작업을 수행할 수 있습니다.
     alert('전자결재완료');
@@ -125,8 +125,7 @@ async function attendanceReq() {
     console.error('전자결재:', error);
     alert('전자결재 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
   }
-};
-
+}
 </script>
 
 <template>
@@ -135,7 +134,7 @@ async function attendanceReq() {
       <v-card variant="flat">
         <v-card variant="outlined">
           <v-card-text class="text-center">
-            <h2 class=" mt-3"> 전자 결재</h2>
+            <h2 class="mt-3">전자 결재</h2>
           </v-card-text>
         </v-card>
       </v-card>
@@ -145,7 +144,6 @@ async function attendanceReq() {
       <v-card elevation="0">
         <v-card variant="outlined">
           <v-card-text class="mb-3">
-
             <v-divider></v-divider>
             <v-card-text class="px-0">
               <v-window>
@@ -154,9 +152,9 @@ async function attendanceReq() {
                     <v-row>
                       <!-- 직위 및 카테고리 -->
                       <v-col cols="12" sm="6">
-                        <h4 class="mb-2 text-h4">결재 종류 :
-                          <select v-model="selectedWork"
-                            style="text-align:center; width:100px; height:30px; border: 1px solid black;">
+                        <h4 class="mb-2 text-h4">
+                          결재 종류 :
+                          <select v-model="selectedWork" style="text-align: center; width: 100px; height: 30px; border: 1px solid black">
                             <option v-for="(work, index) in workList" :value="work.value" v-bind:key="index">
                               {{ work.name }}
                             </option>
@@ -175,7 +173,7 @@ async function attendanceReq() {
                                 <td class="py-2 text-subtitle-1 font-weight-black">1차 승인자</td>
                               </tr>
                               <tr>
-                                <td class="py-2 text-subtitle-1" style="color: blue;" @click="openModal"> {{ selectedFirstName }} </td>
+                                <td class="py-2 text-subtitle-1" style="color: blue" @click="openModal">{{ selectedFirstName }}</td>
                               </tr>
                             </v-table>
                           </v-col>
@@ -185,7 +183,7 @@ async function attendanceReq() {
                                 <td class="py-2 text-subtitle-1 font-weight-black">2차 승인자</td>
                               </tr>
                               <tr>
-                                <td class="py-2 text-subtitle-1" style="color: blue;" @click="openModal">{{ selectedSecondName }}</td>
+                                <td class="py-2 text-subtitle-1" style="color: blue" @click="openModal">{{ selectedSecondName }}</td>
                               </tr>
                             </v-table>
                           </v-col>
@@ -195,7 +193,7 @@ async function attendanceReq() {
                                 <td class="py-2 text-subtitle-1 font-weight-black">3차 승인자</td>
                               </tr>
                               <tr>
-                                <td class="py-2 text-subtitle-1" style="color: blue;" @click="openModal">{{selectedThirdName}}</td>
+                                <td class="py-2 text-subtitle-1" style="color: blue" @click="openModal">{{ selectedThirdName }}</td>
                               </tr>
                             </v-table>
                           </v-col>
@@ -214,21 +212,17 @@ async function attendanceReq() {
                       <v-row class="ml-3 py-5">
                         <v-col cols="6" sm="2">
                           시작 일시
-                          <input type="datetime-local" v-model="startDate" :max="maxDate" :min="minDate"
-                            @change="handleStartDateChange">
+                          <input type="datetime-local" v-model="startDate" :max="maxDate" :min="minDate" @change="handleStartDateChange" />
                         </v-col>
                         <v-col cols="6" sm="2" class="text-center">~</v-col>
                         <v-col cols="6" sm="2">
                           종료 일시
-                          <input type="datetime-local" v-model="endDate" :max="maxDate" :min="minDate"
-                            @change="handleEndDateChange">
+                          <input type="datetime-local" v-model="endDate" :max="maxDate" :min="minDate" @change="handleEndDateChange" />
                         </v-col>
                       </v-row>
                       <v-divider></v-divider>
                       <v-row class="text-center ml-3 py-5">
-                        <v-col cols="6" sm="2">
-                          잔여 연차 : {{ vacation }}
-                        </v-col>
+                        <v-col cols="6" sm="2"> 잔여 연차 : {{ vacation }} </v-col>
                         <!-- <v-col cols="6" sm="2">
                           신청 일수 :
                         </v-col>
@@ -239,7 +233,7 @@ async function attendanceReq() {
                       <v-divider></v-divider>
                       <v-card-text>
                         <v-sheet class="bg-lightprimary pa-2 pa-sm-6" rounded="sm">
-                          <textarea v-model="content" style="background-color: white; width: 100%; min-height: 100px;"></textarea>
+                          <textarea v-model="content" style="background-color: white; width: 100%; min-height: 100px"></textarea>
                         </v-sheet>
                       </v-card-text>
                     </v-card>
@@ -259,7 +253,7 @@ async function attendanceReq() {
   </v-row>
   <!-- 승인리스트 모달창 -->
   <div>
-    <v-dialog v-model="modalVisible" style="width: auto;">
+    <v-dialog v-model="modalVisible" style="width: auto">
       <v-card>
         <v-card-title>Select Country</v-card-title>
         <v-tabs v-model="tab" color="primary" class="my-2 border-bottom">
@@ -272,38 +266,44 @@ async function attendanceReq() {
           <!-- 1차승인 -->
           <div v-if="tab === 'one'">
             <v-radio-group v-model="selecteFirst" column>
-              <v-radio v-for="(authorizer, index) in auths.firstAuthorizer" :key="index" :label="authorizer.name"
-                :value="authorizer.employeeId" @change="handleAuthorizerChange(authorizer.name,'first')"></v-radio>
+              <v-radio
+                v-for="(authorizer, index) in auths.firstAuthorizer"
+                :key="index"
+                :label="authorizer.name"
+                :value="authorizer.employeeId"
+                @change="handleAuthorizerChange(authorizer.name, 'first')"
+              ></v-radio>
             </v-radio-group>
           </div>
           <!-- 2차승인 -->
           <div v-if="tab === 'two'">
             <!-- secondAuthorizer 배열이 비어 있지 않은 경우에만 라디오 버튼 그룹을 표시합니다. -->
-            <v-radio-group v-if="auths.secondAuthorizer && auths.secondAuthorizer.length > 0" v-model="selecteSecond"
-              column>
-              <v-radio v-for="(authorizer, index) in auths.secondAuthorizer" :key="index"
-                :label="authorizer.name" :value="authorizer.employeeId"
-                @change="handleAuthorizerChange(authorizer.name, 'second')"></v-radio>
+            <v-radio-group v-if="auths.secondAuthorizer && auths.secondAuthorizer.length > 0" v-model="selecteSecond" column>
+              <v-radio
+                v-for="(authorizer, index) in auths.secondAuthorizer"
+                :key="index"
+                :label="authorizer.name"
+                :value="authorizer.employeeId"
+                @change="handleAuthorizerChange(authorizer.name, 'second')"
+              ></v-radio>
             </v-radio-group>
             <!-- secondAuthorizer 배열이 비어 있는 경우 메시지를 표시합니다. -->
-            <div v-else class="text-center py-2">
-              2차 승인자가 없습니다.
-            </div>
+            <div v-else class="text-center py-2">2차 승인자가 없습니다.</div>
           </div>
           <!-- 3차승인 -->
           <div v-if="tab === 'three'">
             <!-- thirdAuthorizer 배열에 대해서도 동일한 로직을 적용할 수 있습니다. -->
-            <v-radio-group v-if="auths.thirdAuthorizer && auths.thirdAuthorizer.length > 0" v-model="selecteThird"
-              column>
-              <v-radio v-for="(authorizer, index) in auths.thirdAuthorizer" :key="index"
-                :label="authorizer.name" :value="authorizer.employeeId"
-                @change="handleAuthorizerChange(authorizer.name, 'third')"></v-radio>
+            <v-radio-group v-if="auths.thirdAuthorizer && auths.thirdAuthorizer.length > 0" v-model="selecteThird" column>
+              <v-radio
+                v-for="(authorizer, index) in auths.thirdAuthorizer"
+                :key="index"
+                :label="authorizer.name"
+                :value="authorizer.employeeId"
+                @change="handleAuthorizerChange(authorizer.name, 'third')"
+              ></v-radio>
             </v-radio-group>
-            <div v-else class="text-center py-2">
-              3차 승인자가 없습니다.
-            </div>
+            <div v-else class="text-center py-2">3차 승인자가 없습니다.</div>
           </div>
-
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>

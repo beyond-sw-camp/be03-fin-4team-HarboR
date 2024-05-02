@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref ,watch} from 'vue';
-import axios from 'axios';
+import { ref ,watch } from 'vue';
+import axios from '@/utils/axios';
 import { useAuthStore } from '@/stores/auth';
 import { Form } from 'vee-validate';
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
@@ -83,13 +83,13 @@ const closeModal = () => {
     }
   }
     modalOpen.value = false; // 아이디 찾기 모달 창이 열려있으면 닫기
-  
+
 };
 
 </script>
 
 <template>
-  
+
   <v-row>
     <v-col class="d-flex align-center">
       <v-divider class="custom-devider" />

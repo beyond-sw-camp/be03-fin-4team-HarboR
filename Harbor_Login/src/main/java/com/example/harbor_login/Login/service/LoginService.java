@@ -181,6 +181,10 @@ public class LoginService {
 
         return loginRepository.findAllByDelYnNotOrderByCreatedAt(false, pageable).map(LoginMemberResDto::mapToMemberResDto);
     }
+
+    public Login getMemberByEmployeeId(String employeeId) {
+        return loginRepository.findByEmployeeId(employeeId).orElseThrow(() -> new IllegalArgumentException("없는 회원입니다."));
+    }
 }
 
 

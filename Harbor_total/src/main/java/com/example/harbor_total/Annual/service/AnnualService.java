@@ -57,9 +57,8 @@ public class AnnualService {
         return annualListResDtoList;
     }
 
-    //Todo: 결재 요청 상세 내용은 어떻게 표시하는게 좋을까?
     public List<AnnualReceiveListResDto> getReceiveList(String employeeId) {
-        List<Annual> annualList = annualRepository.findAllByFirstSignIdOrSecondSignIdOrThirdSignId(employeeId);
+        List<Annual> annualList = annualRepository.findAllByFirstSignIdOrSecondSignIdOrThirdSignIdAAndAdjustment_delYnIs(employeeId, "N");
         List<AnnualReceiveListResDto> eworksListResDtos = new ArrayList<>();
         for(Annual annual : annualList){
             if(checkApproval(annual, employeeId) != null){
@@ -85,25 +84,28 @@ public class AnnualService {
         return eworksListResDtos;
     }
 
-    //Todo: 휴결재 처리
+    //Todo: 후결재 처리
     private Annual checkApproval(Annual annual, String employeeId) {
         LocalDateTime startDate = LocalDate.now().atStartOfDay();
         LocalDateTime endDate = LocalDate.now().atTime(23, 59, 59);
 
-        if(annual.getFirstSignId().equals(employeeId) && annual.getFirstApprovalDate() == null){
+        if(annual.getFirstSignId().equals(employeeId) && annual.getFirstApprovalDate() == null) {
             return annual;
-        } else if(annual.getSecondApprovalDate() != null && annual.getSecondSignId().equals(employeeId)){
-            // 1차 승인권자가 휴가인지 체크 ( 리스트가 비어있다면 휴가 처리 )
+        }
+        if(annual.getFirstApprovalDate() != null && annual.getSecondSignId().equals(employeeId)){
+            return annual;
+        } else if(annual.getFirstApprovalDate() == null) {
             List<Attendance> attendanceList = attendanceRepository.findAllByWorkStartTimeBetweenAndEmployeeEmployeeIdOrderByWorkStartTimeDesc(startDate, endDate, annual.getFirstSignId());
-            if(annual.getFirstApprovalDate() != null || !attendanceList.isEmpty()){
-                if(attendanceList.get(0).getWorkPolicy().equals("E07") && annual.getSecondApprovalDate() == null)
-                    return annual;
+            for(Attendance attendance : attendanceList){
+                if(attendance.getWorkPolicy().equals("E07")) return annual;
             }
-        } else if(annual.getThirdSignId() != null && annual.getThirdSignId().equals(employeeId)){
-            List<Attendance> attendanceList = attendanceRepository.findByWorkStartTimeBetweenAndEmployeeEmployeeId(startDate, endDate, annual.getSecondSignId());
-            if(annual.getSecondApprovalDate() != null || !attendanceList.isEmpty() && attendanceList.get(0).getWorkPolicy().equals("E07")){
-                if(annual.getThirdApprovalDate() == null)
-                    return annual;
+        }
+        if(annual.getFirstApprovalDate() != null && annual.getSecondApprovalDate() != null && annual.getThirdSignId().equals(employeeId)){
+            return annual;
+        } else if(annual.getFirstApprovalDate() == null || annual.getSecondApprovalDate() == null) {
+            List<Attendance> attendanceList = attendanceRepository.findAllByWorkStartTimeBetweenAndEmployeeEmployeeIdOrderByWorkStartTimeDesc(startDate, endDate, annual.getFirstSignId());
+            for(Attendance attendance : attendanceList){
+                if(attendance.getWorkPolicy().equals("E07")) return annual;
             }
         }
         return null;
@@ -114,10 +116,10 @@ public class AnnualService {
         Employee employee = employeeRepository.findByEmployeeId(employeeId)
                 .orElseThrow(() -> new IllegalArgumentException("없는 회원입니다."));
 
-        String firstAuthCode = employee.getDepartmentCode();
+        String firstAuthCode = employee.getTeamCode();
         String firstPositionCode = getPositionCode(employee.getPositionCode());
         List<AuthListResDto.Inform> firstInforms = new ArrayList<>();
-        List<Employee> firstAuthList = employeeRepository.findEmployeesByDepartmentCodeAndPositionCodeRange(
+        List<Employee> firstAuthList = employeeRepository.findEmployeesByTeamCodeAndPositionCodeRange(
                 firstPositionCode,
                 Position.valueOf(firstPositionCode).getHighPosition(),
                 firstAuthCode);
@@ -130,7 +132,7 @@ public class AnnualService {
             String secondAuthCode = Department.valueOf(firstAuthCode).getCode();
             String secondPositionCode = getPositionCode(firstPositionCode);
             List<AuthListResDto.Inform> secondInforms = new ArrayList<>();
-            List<Employee> secondAuthList = employeeRepository.findEmployeesByTeamCodeAndPositionCodeRange(
+            List<Employee> secondAuthList = employeeRepository.findEmployeesByDepartmentCodeAndPositionCodeRange(
                     secondPositionCode,
                     Position.valueOf(secondPositionCode).getHighPosition(),
                     secondAuthCode);
@@ -145,7 +147,7 @@ public class AnnualService {
             String thirdAuthCode = Department.valueOf(secondAuthCode).getCode();
             String thirdPositionCode = getPositionCode(secondPositionCode);
             List<AuthListResDto.Inform> thirdInforms = new ArrayList<>();
-            List<Employee> thirdAuthList = employeeRepository.findEmployeesByTeamCodeAndPositionCodeRange(
+            List<Employee> thirdAuthList = employeeRepository.findEmployeesByDepartmentCodeAndPositionCodeRange(
                     thirdPositionCode,
                     Position.valueOf(thirdPositionCode).getHighPosition(),
                     thirdAuthCode);

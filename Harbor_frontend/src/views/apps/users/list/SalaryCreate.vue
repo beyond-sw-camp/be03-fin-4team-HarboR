@@ -23,16 +23,13 @@ async function fetchSalary(employeeId: string) {
     }
     const response = await axios.get(`${baseUrl}/salary/create/${employeeId}`, {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     });
     console.log(`${employeeId}에 대한 지급완료`); // 성공적으로 급여 지급 시 알림
   } catch (error) {
     console.log(`${employeeId}에 대한 지급오류`);
     console.error(error);
   }
-};
+}
 </script>
-
-<template>
-</template>

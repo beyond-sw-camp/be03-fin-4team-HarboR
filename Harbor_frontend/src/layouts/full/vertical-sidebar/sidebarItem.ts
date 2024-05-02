@@ -85,7 +85,7 @@ const sidebarItem: menu[] = [
   {
     title: '내 일정관리',
     icon: ChartArcsIcon,
-    to: '/widget/statistics'
+    to: '/schedule/qalendar'
   },
   {
     title: '월별 캘린더',
@@ -144,7 +144,7 @@ const sidebarItem: menu[] = [
   {
     title: '퇴직금조회 ',
     icon: CoinOffIcon,
-    to: '/dashboard/analytics'
+    to: '/severancePay'
   },
   {
     title: '급여 지급버튼 ',

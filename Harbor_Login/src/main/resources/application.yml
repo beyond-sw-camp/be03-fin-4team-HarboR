@@ -9,6 +9,13 @@ server:
 spring:
   application:
     name: login
+  servlet:
+    multipart:
+      enabled: true
+      location: C:/HARBOR/
+      max-file-size: 100MB
+      max-request-size: 100MB
+      file-size-threshold: 1MB
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://localhost:3306/harbor_login

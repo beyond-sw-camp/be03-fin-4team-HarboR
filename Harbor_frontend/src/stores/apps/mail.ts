@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 // project imports
 import axios from '@/utils/axios';
-
+const baseUrl = `${import.meta.env.VITE_API_URL}`;
 export const useMailStore = defineStore({
   id: 'mail',
   state: () => ({
@@ -33,7 +33,7 @@ export const useMailStore = defineStore({
     // setRead
     async setRead(id: string) {
       try {
-        await axios.post('/api/mails/setRead', { id });
+        await axios.post(`${baseUrl}/login/notice/detail/${id}`);
       } catch (error) {
         alert(error);
       }
