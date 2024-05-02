@@ -1,6 +1,6 @@
 FROM openjdk:11 as stage1
 
-WORKDIR /app
+WORKDIR /Harbor_total
 
 # gradle 빌드시에 필요한 파일들을 workdir로 copy
 COPY gradlew .
@@ -17,7 +17,7 @@ RUN ./gradlew bootJar
 
 FROM openjdk:11
 
-WORKDIR /app
+WORKDIR /Harbor_total
 
 # 빌드된 JAR 파일을 복사
 COPY --from=stage1 /Harbor_total/build/libs/*.jar Harbor_total.jar

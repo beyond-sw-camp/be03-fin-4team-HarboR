@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: login-backend
-          image: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor/team4-login:latest
+          image: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor-login:latest
           ports:
             - containerPort: 8001
 

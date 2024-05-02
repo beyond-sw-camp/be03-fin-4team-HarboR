@@ -34,22 +34,22 @@ jobs:
       ################ build and push #################
 
       ################ batch #################
-#      - name: build and push docker image to ecr (batch)
-#        env:
-#          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor
-#          REPOSITORY: harbor-batch
-#          IMAGE_TAG: latest
-#        run: |
-#          docker build \
-#          -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
-#          -f ./Harbor_batch/Dockerfile ./Harbor_batch
-#          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+      - name: build and push docker image to ecr (batch)
+        env:
+          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com
+          REPOSITORY: harbor-batch
+          IMAGE_TAG: latest
+        run: |
+          docker build \
+          -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
+          -f ./Harbor_batch/Dockerfile ./Harbor_batch
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
       ################ employee #################
       - name: build and push docker image to ecr (employee)
         env:
           REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com
-          REPOSITORY: harbor
+          REPOSITORY: harbor-employee
           IMAGE_TAG: latest
         run: |
           docker build \
@@ -59,8 +59,8 @@ jobs:
       ################ login #################
       - name: build and push docker image to ecr (login)
         env:
-          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor # ECR주소
-          REPOSITORY: team4-Login
+          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com # ECR주소
+          REPOSITORY: harbor-login
           IMAGE_TAG: latest
         run: |
           docker build \
@@ -70,8 +70,8 @@ jobs:
       ################ salary #################
       - name: build and push docker image to ecr (salary)
         env:
-          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor # ECR주소
-          REPOSITORY: team4-salary
+          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com # ECR주소
+          REPOSITORY: harbor-salary
           IMAGE_TAG: latest
         run: |
           docker build \
@@ -81,8 +81,8 @@ jobs:
       ################ total #################
       - name: build and push docker image to ecr (total)
         env:
-          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor # ECR주소
-          REPOSITORY: team4-total
+          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com # ECR주소
+          REPOSITORY: harbor-total
           IMAGE_TAG: latest
         run: |
           docker build \
@@ -92,8 +92,8 @@ jobs:
       ################ gateway #################
       - name: build and push docker image to ecr (gateway)
         env:
-          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor # ECR주소
-          REPOSITORY: team4-gateway
+          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com # ECR주소
+          REPOSITORY: harbor-gateway
           IMAGE_TAG: latest
         run: |
           docker build \

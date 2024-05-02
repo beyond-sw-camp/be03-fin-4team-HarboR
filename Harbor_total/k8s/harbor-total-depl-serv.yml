@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: total-backend
-          image: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor/team4-total:latest
+          image: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor-total:latest
           ports:
             - containerPort: 8003
 
