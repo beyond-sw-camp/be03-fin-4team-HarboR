@@ -34,23 +34,23 @@ jobs:
       ################ build and push #################
 
       ################ batch #################
-      - name: build and push docker image to ecr (batch)
-        env:
-          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor
-          REPOSITORY: harbor-batch
-          IMAGE_TAG: latest
-        run: |
-          docker build \
-          -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
-          -f ./Harbor_batch/Dockerfile ./Harbor_batch
-          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+#      - name: build and push docker image to ecr (batch)
+#        env:
+#          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor
+#          REPOSITORY: harbor-batch
+#          IMAGE_TAG: latest
+#        run: |
+#          docker build \
+#          -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
+#          -f ./Harbor_batch/Dockerfile ./Harbor_batch
+#          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
       ################ employee #################
       - name: build and push docker image to ecr (employee)
         env:
           REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor
           REPOSITORY: harbor-employee
-          IMAGE_TAG: v6
+          IMAGE_TAG: latest
         run: |
           docker build \
           -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
@@ -61,7 +61,7 @@ jobs:
         env:
           REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor # ECR주소
           REPOSITORY: team4-Login
-          IMAGE_TAG: v6
+          IMAGE_TAG: latest
         run: |
           docker build \
           -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
@@ -72,7 +72,7 @@ jobs:
         env:
           REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor # ECR주소
           REPOSITORY: team4-salary
-          IMAGE_TAG: v6
+          IMAGE_TAG: latest
         run: |
           docker build \
           -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
@@ -83,7 +83,7 @@ jobs:
         env:
           REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor # ECR주소
           REPOSITORY: team4-total
-          IMAGE_TAG: v6
+          IMAGE_TAG: latest
         run: |
           docker build \
           -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
@@ -94,7 +94,7 @@ jobs:
         env:
           REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor # ECR주소
           REPOSITORY: team4-gateway
-          IMAGE_TAG: v6
+          IMAGE_TAG: latest
         run: |
           docker build \
           -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
