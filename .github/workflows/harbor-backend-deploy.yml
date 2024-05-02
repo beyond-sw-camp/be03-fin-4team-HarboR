@@ -33,7 +33,7 @@ jobs:
 
       ################ build and push #################
 
-      ################ batch #################
+      ################ batch (성공)#################
       - name: build and push docker image to ecr (batch)
         env:
           REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com
@@ -45,7 +45,7 @@ jobs:
           -f ./Harbor_batch/Dockerfile ./Harbor_batch
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
-      ################ employee #################
+      ################ employee (성공) #################
       - name: build and push docker image to ecr (employee)
         env:
           REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com
