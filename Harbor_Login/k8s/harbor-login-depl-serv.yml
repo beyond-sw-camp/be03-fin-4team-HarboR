@@ -54,15 +54,15 @@ spec:
                   key: JWT_SECRETKEY
 
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: login-service #ingress admin name과 동일해야 한다.
-spec:
-  type: ClusterIP
-  ports:
-    - name: http
-      port: 80
-      targetPort: 8001 # admin service port
-  selector:
-    app: login
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: login-service #ingress admin name과 동일해야 한다.
+#spec:
+#  type: ClusterIP
+#  ports:
+#    - name: http
+#      port: 80
+#      targetPort: 8001 # admin service port
+#  selector:
+#    app: login

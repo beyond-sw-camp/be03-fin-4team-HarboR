@@ -48,15 +48,15 @@ spec:
                   name: db-infos
                   key: JWT_SECRETEKEY
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: batch-service #ingress admin name과 동일해야 한다.
-spec:
-  type: ClusterIP
-  ports:
-    - name: http
-      port: 80
-      targetPort: 8005 # admin service port
-  selector:
-    app: batch
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: batch-service #ingress admin name과 동일해야 한다.
+#spec:
+#  type: ClusterIP
+#  ports:
+#    - name: http
+#      port: 80
+#      targetPort: 8005 # admin service port
+#  selector:
+#    app: batch

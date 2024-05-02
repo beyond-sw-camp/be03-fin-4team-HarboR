@@ -16,6 +16,7 @@ spring:
     hibernate:
       ddl-auto: update #update
     show-sql: true
+
   batch:
     #    job:
     #      names: ${job.name:NONE}

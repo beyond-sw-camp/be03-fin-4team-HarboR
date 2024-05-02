@@ -17,6 +17,37 @@ spring:
     name: gateway
   cloud:
     gateway:
+      routes:
+        - id: batch
+          predicates:
+            - Path=/batch/**
+          filters:
+            - StripPrefix=1
+          uri: lb://batch
+        - id: employee
+          predicates:
+            - Path=/employee/**
+          filters:
+            - StripPrefix=1
+          uri: lb://employee
+        - id: login
+          predicates:
+            - Path=/login/**
+          filters:
+            - StripPrefix=1
+          uri: lb://login
+        - id: salary
+          predicates:
+            - Path=/salary/**
+          filters:
+            - StripPrefix=1
+          uri: lb://salary
+        - id: total
+          predicates:
+            - Path=/total/**
+          filters:
+            - StripPrefix=1
+          uri: lb://total
       default-filters:
         - name: JwtGlobalFilter
           args:
