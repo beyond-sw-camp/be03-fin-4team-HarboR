@@ -5,9 +5,9 @@ spring:
     name: employee
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/harbor_employee
-    username: root
-    password: 1234
+    url: jdbc:mariadb://${DB_HOST}/harbor_employee
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MariaDBDialect
