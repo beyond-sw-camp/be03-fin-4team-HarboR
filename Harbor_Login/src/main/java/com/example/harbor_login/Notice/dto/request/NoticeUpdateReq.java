@@ -12,15 +12,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class NoticeUpdateReq {
-
     private String title;
-
     private String contents;
-
     private String fileName;
-
-    private MultipartFile filePath;
-
-
-
 }

@@ -1,8 +1,8 @@
 cloud:
   aws:
     credentials:
-      accessKey: AKIAXYKJWV3KZ4EIAP2D # IAM 사용자 엑세스 키
-      secretKey: iAO9JEvoRpRozKXwCj+K5bpPO5tlq1UAwocO2Asx # IAM 사용자 비밀 엑세스 키
+      accessKey: ${{AWS_S3_ACCESS_KEY}} # IAM 사용자 엑세스 키
+      secretKey: ${{AWS_S3_SECRET_KEY}} # IAM 사용자 비밀 엑세스 키
       instanceProfile: true
     s3:
       bucket: harborfilebucket # 버킷명

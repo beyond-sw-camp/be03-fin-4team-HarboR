@@ -62,23 +62,16 @@ public class NoticeService {
         notice.setImagePath(uploadUrl);
         return notice;
     }
-    public Notice NoticeUpdate(int noticeId, NoticeUpdateReq noticeUpdateReq) {
-        MultipartFile multipartFile = noticeUpdateReq.getFilePath();
-        String fileName = multipartFile.getOriginalFilename();
-
+    public void NoticeUpdate(int noticeId, NoticeUpdateReq noticeUpdateReq, MultipartFile multipartFile) throws IOException {
         Notice notice = noticeRepository.findByNoticeId(noticeId).orElseThrow(() -> new IllegalArgumentException("존재하지 않은 글입니다."));
-        notice.updateNotice(noticeUpdateReq.getTitle(), noticeUpdateReq.getContents(),
-                noticeUpdateReq.getFileName());
-        Notice notice1 = noticeRepository.save(notice);
-        Path path = Paths.get("/Users/wingk/Desktop/final", notice1.getNoticeId() + "_" + fileName);
-        notice1.setImagePath(path.toString());
-        try {
-            byte[] bytes = multipartFile.getBytes();
-            Files.write(path, bytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE);
-        } catch (IOException e) {
-            throw new IllegalArgumentException("image is not available");
+        notice.updateNotice(noticeUpdateReq.getTitle(), noticeUpdateReq.getContents());
+        String filePath = "";
+        if(multipartFile != null) {
+            if (noticeUpdateReq.getFileName() != null)
+                s3UploadUtil.delete(noticeUpdateReq.getFileName());
+            filePath = s3UploadUtil.upload(multipartFile, "images");
+            notice.setImagePath(filePath);
         }
-        return notice1;
     }
 
     public void NoticeDelete(int noticeId) {

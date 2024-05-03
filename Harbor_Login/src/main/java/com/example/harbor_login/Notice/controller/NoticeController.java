@@ -63,8 +63,10 @@ public class NoticeController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/update/{noticeId}")
-    public ResponseEntity<CommonResponse> updateNotice(@PathVariable("noticeId") int noticeId, NoticeUpdateReq noticeUpdateReq) {
-        noticeService.NoticeUpdate(noticeId, noticeUpdateReq);
+    public ResponseEntity<CommonResponse> updateNotice(@PathVariable("noticeId") int noticeId,
+                                                       @RequestPart NoticeUpdateReq request,
+                                                       @RequestPart(name = "file", required = false) MultipartFile multipartFile) throws IOException{
+        noticeService.NoticeUpdate(noticeId, request, multipartFile);
         return new ResponseEntity<>(new CommonResponse("공지사항 수정 성공", ""), HttpStatus.OK);
     }
 

@@ -44,12 +44,9 @@ public class Notice {
 
 
 
-    public void updateNotice(String title, String contents, String fileName){
-
+    public void updateNotice(String title, String contents){
         this.title = title;
         this.contents = contents;
-        this.fileName = fileName;
-
     }
     public void deleteNotice(){ // notice 삭제 시 호출
         this.delYn = true;
