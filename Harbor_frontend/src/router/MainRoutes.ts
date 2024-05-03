@@ -433,11 +433,6 @@ const MainRoutes = {
       component: () => import('@/views/apps/eCommerce/ProductList.vue')
     },
     {
-      name: 'TestCalender',
-      path: '/testcalendar',
-      component: () => import('@/views/apps/test/TestCalendar.vue')
-    },
-    {
       name: 'TestTimeline',
       path: '/testtimeline',
       component: () => import('@/views/apps/test/GSTC.vue')
@@ -491,6 +486,11 @@ const MainRoutes = {
       name: 'ScheduleQalendar',
       path: '/schedule/qalendar',
       component: () => import('@/views/apps/calendar/ScheduleQalendar.vue')
+    },
+    {
+      name: 'noticeUpdate',
+      path: '/noticeUpdate',
+      component: () => import('@/views/apps/users/list/noticeupdate.vue')
     }
   ]
 };

@@ -1,80 +1,3 @@
-<script setup lang="ts">
-import { ref } from 'vue';
-import { format } from 'date-fns';
-import axios from '@/utils/axios';
-import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
-
-const props = defineProps({
-  selectedDetail: Object || Array
-});
-
-const token: string | null = localStorage.getItem('token');
-const baseUrl = `${import.meta.env.VITE_API_URL}`;
-const splitUrl = ref(props.selectedDetail?.filePath.split('/'));
-const fileName = splitUrl.value.pop();
-const splitFileName = fileName.split('_');
-const finalFileName = splitFileName.slice(1).join('_');
-const decodedFileName = decodeURIComponent(finalFileName);
-
-const page = ref({ title: '공지사항' });
-const breadcrumbs = ref([
-  {
-    title: '기타',
-    disabled: false,
-    href: '/noticeList'
-  },
-  {
-    title: '공지사항',
-    disabled: true,
-    href: '#'
-  }
-]);
-
-const deleteItem = async () => {
-  try {
-    const noticeId = props.selectedDetail.noticeId;
-    const response = await axios.delete(`${baseUrl}/login/notice/delete/${noticeId}`);
-    alert('삭제성공');
-    location.reload();
-  } catch (error) {
-    console.error(error);
-  }
-};
-const editItem = async () => {};
-
-
-const downloadFile = async (filePath: string) => {
-  try {
-    if (filePath) {
-      // 파일 다운로드
-      console.log('앙');
-      const token = localStorage.getItem('token'); // 로컬 스토리지에서 토큰을 가져옴
-      if (token) {
-        const headers = {
-          Authorization: `Bearer ${token}`
-        };
-        console.log(filePath);
-        // 헤더에 토큰을 추가하여 요청을 보냄
-        await axios.get(`${baseUrl}/login/notice/download/${filePath}`, { headers, responseType: 'blob' }).then((response) => {
-          function replaceAll(str: string, searchStr: string, replaceStr: string) {
-            return str.split(searchStr).join(replaceStr);
-          }
-          const url = window.URL.createObjectURL(new Blob([response.data], { type: response.data.type }));
-          const link = document.createElement('a');
-          link.href = url;
-          const filename = replaceAll(decodeURI(response.headers.filename), '+', ' ');
-          link.setAttribute('download', filename);
-          document.body.appendChild(link);
-          link.click();
-        });
-      }
-    }
-  } catch (error) {
-    alert(error);
-  }
-};
-</script>
-
 <template>
   <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
   <v-card variant="flat">
@@ -123,6 +46,86 @@ const downloadFile = async (filePath: string) => {
     </v-card-text>
   </v-card>
 </template>
+
+<script setup lang="ts">
+import { ref } from 'vue';
+import { format } from 'date-fns';
+import axios from '@/utils/axios';
+import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
+import { useRouter } from 'vue-router';
+
+const props = defineProps({
+  selectedDetail: Object || Array
+});
+
+const router = useRouter();
+const token: string | null = localStorage.getItem('token');
+const baseUrl = `${import.meta.env.VITE_API_URL}`;
+const splitUrl = ref(props.selectedDetail?.filePath.split('/'));
+const fileName = splitUrl.value.pop();
+const splitFileName = fileName.split('_');
+const finalFileName = splitFileName.slice(1).join('_');
+const decodedFileName = decodeURIComponent(finalFileName);
+
+const page = ref({ title: '공지사항' });
+const breadcrumbs = ref([
+  {
+    title: '기타',
+    disabled: false,
+    href: '/noticeList'
+  },
+  {
+    title: '공지사항',
+    disabled: true,
+    href: '#'
+  }
+]);
+
+const deleteItem = async () => {
+  try {
+    const noticeId = props.selectedDetail.noticeId;
+    const response = await axios.delete(`${baseUrl}/login/notice/delete/${noticeId}`);
+    alert('삭제성공');
+    location.reload();
+  } catch (error) {
+    console.error(error);
+  }
+};
+const editItem = () => {
+  router.push('/noticeUpdate');
+};
+
+const downloadFile = async (filePath: string) => {
+  try {
+    if (filePath) {
+      // 파일 다운로드
+      console.log('앙');
+      const token = localStorage.getItem('token'); // 로컬 스토리지에서 토큰을 가져옴
+      if (token) {
+        const headers = {
+          Authorization: `Bearer ${token}`
+        };
+        console.log(filePath);
+        // 헤더에 토큰을 추가하여 요청을 보냄
+        await axios.get(`${baseUrl}/login/notice/download/${filePath}`, { headers, responseType: 'blob' }).then((response) => {
+          function replaceAll(str: string, searchStr: string, replaceStr: string) {
+            return str.split(searchStr).join(replaceStr);
+          }
+          const url = window.URL.createObjectURL(new Blob([response.data], { type: response.data.type }));
+          const link = document.createElement('a');
+          link.href = url;
+          const filename = replaceAll(decodeURI(response.headers.filename), '+', ' ');
+          link.setAttribute('download', filename);
+          document.body.appendChild(link);
+          link.click();
+        });
+      }
+    }
+  } catch (error) {
+    alert(error);
+  }
+};
+</script>
 
 <style>
 .delete-button,

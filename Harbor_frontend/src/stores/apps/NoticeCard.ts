@@ -6,7 +6,8 @@ export const useUserCardStore = defineStore({
   id: 'userCard',
   state: () => ({
     noticelist: [],
-    noticedetail: []
+    noticedetail: [],
+    selectNotice: { noticeId: '', noticeTitle: '', noticeContent: '', filePath: '' }
   }),
   getters: {},
   actions: {
@@ -28,5 +29,11 @@ export const useUserCardStore = defineStore({
         alert(error);
       }
     },
+    async saveSelectNotice(notice: { noticeId: string; title: string; contents: string; filePath: string }) {
+      this.selectNotice.noticeId = notice.noticeId;
+      this.selectNotice.noticeTitle = notice.title;
+      this.selectNotice.noticeContent = notice.contents;
+      this.selectNotice.filePath = notice.filePath;
+    }
   }
 });

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import axios, { setClientHeaders, setContentTypeHeaders } from '@/utils/axios'; // axios import
 import { useEditor, EditorContent } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
@@ -49,7 +49,6 @@ function fileUpload(event) {
     profileImage.value = reader.result;
   };
   reader.readAsDataURL(selectedImage);
-  console.log(selectedImage.name);
 }
 
 const props = defineProps({

@@ -55,17 +55,36 @@ export default {
             </v-btn>
             
             <!-- 퇴직금 계산 결과 표시 -->
-            <div v-if="severancePayResult !== null">
-              <h3>퇴직금 계산 결과 :</h3>
-              <!-- <p>{{ severancePayResult }}원</p> -->
-              <p>{{ formatSeverancePay(severancePayResult) }} 원</p>
-            </div>
+            <div v-if="severancePayResult !== null" class="receipt-style">
+  <h3>퇴직금 계산 결과 :</h3>
+  <p>{{ formatSeverancePay(severancePayResult) }} 원</p>
+</div>
           </div>
         </div>
       </div>
     </v-col>
   </v-row>
 </template>
+<style scoped>
+.receipt-style {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px dashed #ccc;
+  max-width: 500px;
+  margin: auto;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.receipt-style h3 {
+  text-align: center;
+  text-decoration: underline;
+}
+
+.receipt-style p {
+  font-size: 16px;
+  line-height: 1.5;
+}
+</style>
 
 <style>
 .severance-pay-button {

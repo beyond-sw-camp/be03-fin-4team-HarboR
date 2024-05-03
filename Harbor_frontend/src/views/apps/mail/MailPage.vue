@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useDisplay } from 'vuetify';
 import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
-import MailSidebar from '@/components/apps/mail/MailSidebar.vue';
-import MailListing from '@/components/apps/mail/MailListing.vue'; 
-import noticeList from '../users/list/noticeList.vue';
-const page = ref({ title: '공지사항' }); 
-const { lgAndUp } = useDisplay();
+import noticeList from '@/views/apps/users/list/noticeList.vue';
+
+const page = ref({ title: '공지사항' });
 const breadcrumbs = ref([
   {
     title: '기타',
@@ -23,8 +20,7 @@ const toggleSide = ref(false);
 </script>
 <template>
   <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
-
-  <v-row> 
+  <v-row>
     <v-col class="d-flex align-stretch overflow-auto">
       <v-card variant="flat">
         <div class="overflow-auto">
