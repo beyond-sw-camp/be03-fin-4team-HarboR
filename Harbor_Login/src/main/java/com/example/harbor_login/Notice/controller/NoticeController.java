@@ -1,12 +1,21 @@
 package com.example.harbor_login.Notice.controller;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.amazonaws.util.IOUtils;
 import com.ctc.wstx.util.StringUtil;
 import com.example.harbor_login.Notice.dto.request.NoticeCreateReqDto;
 import com.example.harbor_login.Notice.dto.request.NoticeUpdateReq;
 import com.example.harbor_login.Notice.service.NoticeService;
 import com.example.harbor_login.global.common.CommonResponse;
+import com.example.harbor_login.global.config.S3Config;
+import com.example.harbor_login.global.util.S3UploadUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +26,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,7 +43,7 @@ import java.nio.file.StandardCopyOption;
 @RequiredArgsConstructor
 @RequestMapping("/login/notice")
 public class NoticeController {
-
+    private final S3UploadUtil s3UploadUtil;
     private final NoticeService noticeService;
 
     @GetMapping("/list")
@@ -44,7 +54,7 @@ public class NoticeController {
     @PostMapping("/create")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CommonResponse> NoticeCreate(@RequestPart NoticeCreateReqDto request,
-                                                       @RequestPart(name = "file", required = false) MultipartFile multipartFile) {
+                                                       @RequestPart(name = "file", required = false) MultipartFile multipartFile) throws IOException {
         System.out.println(request);
         noticeService.NoticeCreate(request, multipartFile);
         return new ResponseEntity<>(new CommonResponse("공지사항 생성 성공", ""), HttpStatus.CREATED);
@@ -83,26 +93,17 @@ public class NoticeController {
 //
 //    }
 //    C:\Users\Playdata\Desktop\final\36_demo (2).zip
-    @PostMapping("/download/{fileName}")
-    public void download(HttpServletResponse response, @PathVariable("fileName") String fileName) throws Exception {
-        System.out.println("fileName = " + fileName);
-        try {
-            String path = "C:\\Users\\Playdata\\Desktop\\final\\"+fileName; // 경로에 접근할 때 역슬래시('\') 사용
-            System.out.println("path = " + path);
-            File file = new File(path);
-            response.setHeader("Content-Disposition", "attachment;filename=" + file.getName()); // 다운로드 되거나 로컬에 저장되는 용도로 쓰이는지를 알려주는 헤더
-
-            FileInputStream fileInputStream = new FileInputStream(path); // 파일 읽어오기
-            OutputStream out = response.getOutputStream();
-            System.out.println("out = " + out);
-            int read = 0;
-            byte[] buffer = new byte[1024];
-            while ((read = fileInputStream.read(buffer)) != -1) { // 1024바이트씩 계속 읽으면서 outputStream에 저장, -1이 나오면 더이상 읽을 파일이 없음
-                out.write(buffer, 0, read);
-            }
-
-        } catch (Exception e) {
-            throw new Exception("download error");
+    @GetMapping("/download/{fileKey}")
+    public ResponseEntity<?> downloadFile(@PathVariable String fileKey,
+                                          @RequestParam(required = false) String downloadFileName,
+                                          HttpServletRequest request,
+                                          HttpServletResponse response) {
+        // 서비스 메소드를 호출합니다.
+        boolean success = s3UploadUtil.download(fileKey, downloadFileName, request, response);
+        if (success) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }

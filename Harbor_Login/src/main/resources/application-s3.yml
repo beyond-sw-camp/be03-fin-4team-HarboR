@@ -1,0 +1,12 @@
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIAXYKJWV3KZ4EIAP2D # IAM 사용자 엑세스 키
+      secretKey: iAO9JEvoRpRozKXwCj+K5bpPO5tlq1UAwocO2Asx # IAM 사용자 비밀 엑세스 키
+      instanceProfile: true
+    s3:
+      bucket: harborfilebucket # 버킷명
+    region:
+      static: ap-northeast-2 # 리전
+    stack:
+      auto: false # Spring Cloud는 환경 또는 스택을 기반으로 이를 자동으로 감지

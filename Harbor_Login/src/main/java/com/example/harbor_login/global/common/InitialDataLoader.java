@@ -23,7 +23,7 @@ public class InitialDataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
         if (loginRepository.findByEmail("admin@test.com").isEmpty()) {
             Login login = Login.builder()
-                    .name("운영자")
+                    .name("admin")
                     .email("admin@test.com")
                     .password(passwordEncoder.encode("harbor123!!"))
                     .employeeId("HB20240001")

@@ -4,8 +4,17 @@ import { format } from 'date-fns';
 import axios from '@/utils/axios';
 import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
 
+const props = defineProps({
+  selectedDetail: Object || Array
+});
+
 const token: string | null = localStorage.getItem('token');
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
+const splitUrl = ref(props.selectedDetail?.filePath.split('/'));
+const fileName = splitUrl.value.pop();
+const splitFileName = fileName.split('_');
+const finalFileName = splitFileName.slice(1).join('_');
+const decodedFileName = decodeURIComponent(finalFileName);
 
 const page = ref({ title: '공지사항' });
 const breadcrumbs = ref([
@@ -33,9 +42,6 @@ const deleteItem = async () => {
 };
 const editItem = async () => {};
 
-const props = defineProps({
-  selectedDetail: Object || Array
-});
 
 const downloadFile = async (filePath: string) => {
   try {
@@ -47,13 +53,13 @@ const downloadFile = async (filePath: string) => {
         const headers = {
           Authorization: `Bearer ${token}`
         };
+        console.log(filePath);
         // 헤더에 토큰을 추가하여 요청을 보냄
-        console.log(headers);
-        await axios.post(`${baseUrl}/login/notice/download/{fileName}`, '', { headers }).then((response) => {
+        await axios.get(`${baseUrl}/login/notice/download/${filePath}`, { headers, responseType: 'blob' }).then((response) => {
           function replaceAll(str: string, searchStr: string, replaceStr: string) {
             return str.split(searchStr).join(replaceStr);
           }
-          const url = window.URL.createObjectURL(new Blob([response.data], { type: 'image/png' }));
+          const url = window.URL.createObjectURL(new Blob([response.data], { type: response.data.type }));
           const link = document.createElement('a');
           link.href = url;
           const filename = replaceAll(decodeURI(response.headers.filename), '+', ' ');
@@ -110,8 +116,8 @@ const downloadFile = async (filePath: string) => {
       </div>
       <div>
         <!-- 파일명을 클릭 가능한 링크로 만듭니다 -->
-        <span style="cursor: pointer; text-decoration: underline" @click="downloadFile(selectedDetail?.filePath)">
-          {{ selectedDetail?.filePath }}
+        <span style="cursor: pointer; text-decoration: underline" @click="downloadFile(selectedDetail?.filePath.split('images/')[1])">
+          {{ decodedFileName }}
         </span>
       </div>
     </v-card-text>
