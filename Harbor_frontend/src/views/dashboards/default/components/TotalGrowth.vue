@@ -1,130 +1,96 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { getPrimary, getSecondary, getLightPrimary, getLightSecondary } from '../../../forms/charts/apex-chart/UpdateColors';
+import { ref, onMounted, computed } from 'vue';
+import { MonthStore } from '@/stores/apps/monthUser';
+import type { Header } from 'vue3-easy-data-table';
+import { useCodeStore } from '@/stores/codetrans';
+const codeStore = useCodeStore();
+import 'vue3-easy-data-table/dist/style.css';
+const store = MonthStore();
+const token: string | null = localStorage.getItem('token');
 
-const select = ref({ state: 'Today', abbr: 'FL' });
-const items = [
-  { state: 'Today', abbr: 'FL' },
-  { state: 'This Month', abbr: 'GA' },
-  { state: 'This Year', abbr: 'NE' }
-];
+// 선택한 월 상태 변수
+const selectedMonth = ref<string>('');
 
-// chart 1
-const chartOptions1 = computed(() => {
-  return {
-    chart: {
-      type: 'bar',
-      height: 480,
-      fontFamily: `inherit`,
-      foreColor: '#a1aab2',
-      stacked: true
-    },
-    colors: [getLightPrimary.value, getPrimary.value, getSecondary.value, getLightSecondary.value],
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          legend: {
-            position: 'bottom',
-            offsetX: -10,
-            offsetY: 0
-          }
-        }
-      }
-    ],
-    plotOptions: {
-      bar: {
-        horizontal: false,
-        columnWidth: '50%'
-      }
-    },
-    xaxis: {
-      type: 'category',
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-    },
-    legend: {
-      show: true,
-      fontFamily: `'Roboto', sans-serif`,
-      position: 'bottom',
-      offsetX: 20,
-      labels: {
-        useSeriesColors: false
-      },
-      markers: {
-        width: 16,
-        height: 16,
-        radius: 5
-      },
-      itemMargin: {
-        horizontal: 15,
-        vertical: 8
-      }
-    },
-    fill: {
-      type: 'solid'
-    },
-    dataLabels: {
-      enabled: false
-    },
-    grid: {
-      show: true
-    }
-  };
+// 페이지 로드 시 데이터 가져오는 부분
+onMounted(async () => {
+  const today = new Date().toISOString().split('.')[0]; // 오늘 날짜를 ISO 형식으로 가져옴
+  store.fetchlistCards(token, selectedMonth.value || today); // 선택한 월이 없으면 오늘 날짜를 기본값으로 사용
+
+  // 주식 가격을 가져와서 업데이트
+  console.log(1)
+  const price = await fetchStockPrice();
+  document.getElementById('stock-price').textContent = price;
+
+  console.log(price)
 });
 
-// chart 1
-const lineChart1 = {
-  series: [
-    {
-      name: 'Investment',
-      data: [35, 125, 35, 35, 35, 80, 35, 20, 35, 45, 15, 75]
-    },
-    {
-      name: 'Loss',
-      data: [35, 15, 15, 35, 65, 40, 80, 25, 15, 85, 25, 75]
-    },
-    {
-      name: 'Profit',
-      data: [35, 145, 35, 35, 20, 105, 100, 10, 65, 45, 30, 10]
-    },
-    {
-      name: 'Maintenance',
-      data: [0, 0, 75, 0, 0, 115, 0, 0, 0, 0, 150, 0]
-    }
-  ]
+// 월 선택 변경 시 데이터 가져오는 부분
+const fetchData = () => {
+  const today = new Date().toISOString().split('.')[0]; // 오늘 날짜를 ISO 형식으로 가져옴
+  store.fetchlistCards(token, selectedMonth.value+"-01T00:00:00" || today); // 선택한 월이 없으면 오늘 날짜를 기본값으로 사용
 };
-</script>
 
+const headers: Header[] = [
+  { text: '날짜', value: 'attendanceDate', sortable: true },
+  { text: '시작 시간', value: 'workStartTime', sortable: true },
+  { text: '끝나는 시간', value: 'workEndTime', sortable: true },
+  { text: '정책', value: 'workPolicy', sortable: true },
+  { text: '지각', value: 'tardy', sortable: true },
+];
+type ListItem = {
+  attendanceDate: string;
+  workStartTime: string;
+  workEndTime: string;
+  workPolicy: string;
+  tardy: string;
+};
+
+const themeColor = ref('rgb(var(--v-theme-secondary))');
+
+const listCards = computed<ListItem[]>(() => {
+  return store.cards;
+});
+const getworkPolicyName = (workPolicy) => {
+  return codeStore.getWorkPolicyNameByCode(workPolicy);
+};
+const getTardyNameByCode = (tardy) => {
+  return codeStore.getTardyNameByCode(tardy);
+};
+async function fetchStockPrice() {
+  const response = await fetch('https://api.example.com/stock-price?symbol=272210');
+  const data = await response.json();
+  return data.price;
+}
+</script>
 <template>
-  <v-card elevation="0">
-    <v-card variant="outlined">
-      <v-card-text>
-        <v-row>
-          <v-col cols="12" sm="9">
-            <span class="text-subtitle-2 text-disabled font-weight-bold">Total Growth</span>
-            <h3 class="text-h3 mt-1">$2,324.00</h3>
-          </v-col>
-          <v-col cols="12" sm="3">
-            <v-select
-              color="primary"
-              variant="outlined"
-              hide-details
-              v-model="select"
-              :items="items"
-              item-title="state"
-              item-value="abbr"
-              label="Select"
-              persistent-hint
-              return-object
-              single-line
-            >
-            </v-select>
+  <v-row>
+    <v-col cols="12" md="12">
+      <UiParentCard title="한달 근무리스트">
+        <v-row justify="space-between" class="align-center mb-3">
+          <v-col cols="12" md="3">
+            <!-- 월 선택을 위한 input -->
+            <input type="month" v-model="selectedMonth" @change="fetchData" />
           </v-col>
         </v-row>
-        <div class="mt-4">
-          <apexchart type="bar" height="480" :options="chartOptions1" :series="lineChart1.series"> </apexchart>
+        <div class="overflow-auto">
+          <EasyDataTable :headers="headers" :items="listCards" table-class-name="customize-table action-position"
+            :theme-color="themeColor" :rows-per-page="31">
+            <template #item-attendanceDate="{ attendanceDate, workStartTime, workEndTime, workPolicy, tardy }">
+              <div class="d-flex align-center ga-4">
+                <div>
+                  <h5 class="text-h5">{{ attendanceDate }}</h5>
+                </div>
+              </div>
+            </template>
+            <template #item-workPolicy="{ workPolicy }">
+              <div>{{ getworkPolicyName(workPolicy) }}</div>
+            </template>
+            <template #item-tardy="{ tardy }">
+              <div>{{ getTardyNameByCode(tardy) }}</div>
+            </template>
+          </EasyDataTable>
         </div>
-      </v-card-text>
-    </v-card>
-  </v-card>
+      </UiParentCard>
+    </v-col>
+  </v-row>
 </template>

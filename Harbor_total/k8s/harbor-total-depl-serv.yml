@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: total
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: total
+  template:
+    metadata:
+      labels:
+        app: total
+    spec:
+      containers:
+        - name: total-backend
+          image: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor-total:latest
+          ports:
+            - containerPort: 8003
+
+          resources:
+            limits:
+              cpu: "1"
+              memory: "500Mi"
+            requests:
+              cpu: "0.5"
+              memory: "250Mi"
+          ##### Kubectl secrets #####
+          env:
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: db-infos
+                  key: DB_HOST
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-infos
+                  key: DB_USERNAME
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-infos
+                  key: DB_PASSWORD
+            - name: REDIS_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: db-infos
+                  key: REDIS_HOST
+            - name: JWT_SECRETKEY
+              valueFrom:
+                secretKeyRef:
+                  name: db-infos
+                  key: JWT_SECRETKEY
+---
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: total-service #ingress admin name과 동일해야 한다.
+#spec:
+#  type: ClusterIP
+#  ports:
+#    - name: http
+#      port: 80
+#      targetPort: 8003 # admin service port
+#  selector:
+#    app: total

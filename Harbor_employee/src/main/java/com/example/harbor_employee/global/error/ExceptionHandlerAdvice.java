@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.persistence.EntityNotFoundException;
+import java.io.IOException;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 
 @Slf4j
@@ -23,6 +25,18 @@ public class ExceptionHandlerAdvice {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Map<String, Object>> IllegalArguHandler(IllegalArgumentException e) {
         log.error("Handler IllegalArgumentException message : " + e.getMessage());
+        return ErrorResponseDto.makeMessage(HttpStatus.BAD_REQUEST, e.getMessage());
+    }
+
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<Map<String, Object>> IOExceptionArguHandler(IOException e) {
+        log.error("Handler IOException message : " + e.getMessage());
+        return ErrorResponseDto.makeMessage(HttpStatus.BAD_REQUEST, e.getMessage());
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<Map<String, Object>> NoSuchElementHandler(NoSuchElementException e) {
+        log.error("Handler IOException message : " + e.getMessage());
         return ErrorResponseDto.makeMessage(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 

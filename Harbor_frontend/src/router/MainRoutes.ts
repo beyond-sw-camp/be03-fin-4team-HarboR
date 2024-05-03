@@ -342,19 +342,9 @@ const MainRoutes = {
       component: () => import('@/views/apps/users/social-profile/GalleryPage.vue')
     },
     {
-      name: 'Profile 01',
-      path: '/app/user/account-profile/profile1',
+      name: 'Profile',
+      path: '/app/user/:employeeId/profile',
       component: () => import('@/views/apps/users/account-profile/profile1/ProfilePage1.vue')
-    },
-    {
-      name: 'Profile 02',
-      path: '/app/user/account-profile/profile2',
-      component: () => import('@/views/apps/users/account-profile/profile2/ProfilePage2.vue')
-    },
-    {
-      name: 'Profile 03',
-      path: '/app/user/account-profile/profile3',
-      component: () => import('@/views/apps/users/account-profile/profile3/ProfilePage3.vue')
     },
     {
       name: 'Style 01',
@@ -373,13 +363,29 @@ const MainRoutes = {
     },
     {
       name: 'List',
-      path: '/app/user/list1',
-      component: () => import('@/views/apps/users/list/ListPage1.vue')
+      path: '/app/user/list',
+      component: () => import('@/views/apps/users/list/EmployeeListPage.vue'),
+      props: true
     },
     {
-      name: 'List2',
-      path: '/app/user/list2',
-      component: () => import('@/views/apps/users/list/ListPage2.vue')
+      name: 'SalaryList',
+      path: '/app/user/salarylist',
+      component: () => import('@/views/apps/users/list/SalaryListPage.vue')
+    },
+    {
+      name: 'SalaryDetail',
+      path: '/app/user/salarydetail/:salaryId',
+      component: () => import('@/views/apps/users/list/SalaryDetail.vue')
+    },
+    {
+      name: 'SalaryCreate',
+      path: '/app/user/salaryCreate',
+      component: () => import('@/views/apps/users/list/SalaryCreate.vue')
+    },
+    {
+      name: 'SalaryDetail',
+      path: '/app/user/salarydetail/:salaryId',
+      component: () => import('@/views/apps/users/list/SalaryDetail.vue')
     },
     {
       name: 'Contact List',
@@ -425,7 +431,37 @@ const MainRoutes = {
       name: 'Product Listing',
       path: '/ecommerce/productlist',
       component: () => import('@/views/apps/eCommerce/ProductList.vue')
-    }
+    },
+    {
+      name: 'TestCalender',
+      path: '/testcalendar',
+      component: () => import('@/views/apps/test/TestCalendar.vue')
+    },
+    {
+      name: 'TestTimeline',
+      path: '/testtimeline',
+      component: () => import('@/views/apps/test/GSTC.vue')
+    },
+    {
+      name: 'TestQalendar',
+      path: '/testqalendar',
+      component: () => import('@/views/apps/test/TestQalendar.vue')
+    },
+    {
+      name: 'noticeList',
+      path: '/noticeList',
+      component: () => import('@/views/apps/users/list/noticeList.vue')
+    },
+    {
+      name: 'noticedetail',
+      path: '/noticedetail/:id',
+      component: () => import('@/views/apps/users/list/noticedetail.vue')
+    },
+    {
+      name : "attendancedatail",
+      path: '/dashboard/analytics/attendancedetail',
+      component: () => import('@/views/apps/users/list/attendancedetail.vue')
+    },
   ]
 };
 

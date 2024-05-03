@@ -19,17 +19,16 @@ public class JwtTokenProvider {
 
     //사용자 이메일과 롤
     public String createToken(String email, String role, String employeeId){
-        Claims claims = Jwts.claims().setSubject(email);
+        Claims claims = Jwts.claims().setSubject(employeeId);
         claims.put("role", role);
         claims.put("myEmail", email);
-        claims.put("employeeId", employeeId); // 직원 ID 추가
 
         Date now = new Date();
 
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + expiration*60*1000L))
+                .setExpiration(new Date(now.getTime() + expiration*60*100000L))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }

@@ -1,20 +1,23 @@
 import { defineStore } from 'pinia';
 // project imports
-import axios from '@/utils/axios';
-
+import axios, { setClientHeaders } from '@/utils/axios';
+const baseUrl = `${import.meta.env.VITE_API_URL}`;
 export const useUserCardStore = defineStore({
   id: 'userCard',
   state: () => ({
     cards: [],
     list: [],
-    list2: []
+    list2: [],
+    noticelist: [],
+    noticedetail: []
   }),
   getters: {},
   actions: {
     // Fetch cards from action
     async fetchCards() {
       try {
-        const response = await axios.get('/api/details-card/list');
+        // const response = await axios.get('/api/details-card/list');
+        const response = await axios.get(`${baseUrl}/employee/get/list`);
         this.cards = response.data;
       } catch (error) {
         alert(error);
@@ -30,10 +33,11 @@ export const useUserCardStore = defineStore({
       }
     },
     // Fetch cards from action
-    async fetchlistCards() {
+    async fetchlistCards(token: string | null) {
       try {
-        const response = await axios.get('/api/avatar-list/s1/list');
-        this.list = response.data;
+        setClientHeaders(token);
+        const response = await axios.get(`${baseUrl}/employee/get/list`);
+        this.list = response.data.result;
       } catch (error) {
         alert(error);
       }
@@ -41,11 +45,28 @@ export const useUserCardStore = defineStore({
     // Fetch cards from action
     async fetchlist2Cards() {
       try {
-        const response = await axios.get('/api/avatar-list/s2/list');
+        const response = await axios.get(`${baseUrl}/employee/get/list`);
         this.list2 = response.data;
       } catch (error) {
         alert(error);
       }
-    }
+    },
+    async noticeCards(token: string | null) {
+      try {
+        setClientHeaders(token);
+        const response = await axios.get(`${baseUrl}/login/notice/list`);
+        this.noticelist = response.data.result.content;
+      } catch (error) {
+        alert(error);
+      }
+    },
+    async noticedetailCards(noticeId: string) {
+      try {
+        const response = await axios.get(`${baseUrl}/login/notice/detail/${noticeId}`);
+        this.noticedetail = response.data.result.content;
+      } catch (error) {
+        alert(error);
+      }
+    },
   }
 });

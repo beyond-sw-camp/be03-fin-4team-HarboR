@@ -30,7 +30,6 @@ public class JwtAuthFilter extends GenericFilter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        try {
             String bearerToken = ((HttpServletRequest)request).getHeader("Authorization");
             if(bearerToken != null) {
                 //bearer token에서 token값만 추출
@@ -42,13 +41,13 @@ public class JwtAuthFilter extends GenericFilter {
                 System.out.println("토큰 검사 실행");
 
                 Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
-                String employeeId = claims.get("employeeId").toString();
+                String email = claims.get("myEmail").toString();
                 //Authentication 객체를 생성하기 위한 UserDetails 생성
                 CustomUserDetails customUserDetails = CustomUserDetails.builder()
                         .role(claims.get("role").toString())
                         .username(claims.getSubject())
                         .password("")
-                        .employeeId(employeeId)
+                        .email(email)
                         .build();
 
                 customUserDetails.getAuthorities().add(new SimpleGrantedAuthority("ROLE_" + claims.get("role")));
@@ -59,11 +58,5 @@ public class JwtAuthFilter extends GenericFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
             chain.doFilter(request, response);
-
-        } catch (Exception e) {
-            HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-            httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
-            httpServletResponse.setContentType("application/json");
-        }
     }
 }

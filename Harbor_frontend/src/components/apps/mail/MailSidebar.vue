@@ -75,38 +75,7 @@ const items = shallowRef<ItemsType[]>([
 const dialog = ref(false);
 </script>
 <template>
-  <div>
-    <v-btn color="primary" block size="large" @click="dialog = true"><CirclePlusIcon />&nbsp; Compose</v-btn>
-    <v-list>
-      <template v-for="(item, i) in items" :key="i">
-        <v-divider v-if="item.divider" class="my-6"></v-divider>
-        <v-list-subheader v-else-if="item.header">{{ item.header }}</v-list-subheader>
-        <v-list-item
-          :value="item"
-          :active="filter === item.slug"
-          @click="handleFilter(`${item.slug}`)"
-          color="secondary"
-          class="rounded-sm no-spacer"
-          v-else
-        >
-          <!---If icon-->
-          <template v-slot:prepend>
-            <v-icon :class="`icon-width ${item.iconColor}`">{{ item.icon }}</v-icon>
-          </template>
-          <v-list-item-title>{{ item.text }}</v-list-item-title>
-          <!---If any chip or label-->
-          <template v-slot:append v-if="item.label">
-            <v-chip class="sidebarchip hide-menu" :size="'small'">
-              {{ item.label }}
-            </v-chip>
-          </template>
-        </v-list-item>
-      </template>
-    </v-list>
-    <v-dialog v-model="dialog" maxWidth="600" height="700">
-      <MailCompose @closeDialog="dialog = false" />
-    </v-dialog>
-  </div>
+
 </template>
 <style lang="scss">
 .v-list-item__prepend > .v-icon.icon-width {

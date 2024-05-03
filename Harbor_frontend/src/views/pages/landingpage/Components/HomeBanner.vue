@@ -5,6 +5,9 @@ import bg1 from '@/assets/images/landing/bg-hero-block-light.png';
 import widget1 from '@/assets/images/landing/widget-1.png';
 import widget2 from '@/assets/images/landing/widget-2.png';
 import tech from '@/assets/images/landing/tech.svg';
+
+
+
 </script>
 
 <template>
@@ -14,26 +17,18 @@ import tech from '@/assets/images/landing/tech.svg';
         <v-col cols="12" lg="5" md="5">
           <div class="pr-lg-4 text-md-left text-center">
             <h1 class="bannerText my-5" data-aos="fade-up" data-aos-duration="500">
-              Build Your Next Project With <span class="text-primary">Berry</span>
+              한화시스템 BEYOND SW캠프<span class="text-primary">HarboR</span>
             </h1>
             <p class="mb-8" data-aos="fade-up" data-aos-duration="800">
-              Berry is Vue3 based admin template which helps you to build faster and beautiful web applications.
+              직원들이 편안한 HR 만들기 위해 HarboR는 노력하고 있습니다.
             </p>
             <div data-aos="fade-up" data-aos-duration="1000">
               <v-btn color="secondary" size="large" class="mr-2" to="/dashboard/default"> 
                 <template v-slot:prepend>
                   <v-icon style="margin-bottom: -2px;">mdi-play</v-icon>
                 </template>
-                Live Preview 
+                들어가기
               </v-btn>
-              <v-btn
-                color="primary"
-                size="large"
-                variant="text"
-                target="_"
-                href="https://store.vuetifyjs.com/products/berry-vuetify-admin-template"
-                >Purchase Now</v-btn
-              >
             </div>
             <img data-aos="fade-up" data-aos-duration="1100" :src="tech" alt="technology" class="mt-8" />
           </div>

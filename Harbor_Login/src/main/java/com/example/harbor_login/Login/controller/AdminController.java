@@ -28,12 +28,10 @@ public class AdminController {
 
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/active/{email}")
+    @GetMapping("/active/{email}")
     public ResponseEntity<CommonResponse> mailConfirm(@PathVariable(value = "email") String email, @AuthenticationPrincipal CustomUserDetails userDetails) {
-
         emailService.sendEmail(email);
         loginService.findByEmail(email);
-
         return new ResponseEntity<>(new CommonResponse("Employee number transmitted successfully", email), HttpStatus.OK);
     }
     @PreAuthorize("hasRole('ADMIN')")
@@ -43,9 +41,15 @@ public class AdminController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/delete/{employeeId}")
-    public ResponseEntity<CommonResponse> deleteUser(@PathVariable(value = "employeeId") String employeeId) {
+    @DeleteMapping("/delete/{email}")
+    public ResponseEntity<CommonResponse> deleteUser(@PathVariable(value = "email") String email) {
 
-        return new ResponseEntity<>(new CommonResponse<>("Employee delete successfully", loginService.delete(employeeId)), HttpStatus.OK);
+        return new ResponseEntity<>(new CommonResponse<>("Employee delete successfully", loginService.delete(email)), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/getcountallemployee")
+    public ResponseEntity<CommonResponse> getcountallemployee(Pageable pageable) {
+        return new ResponseEntity<>(new CommonResponse<>("get all employee count", loginService.getcountallemployee(pageable)), HttpStatus.OK);
     }
 }

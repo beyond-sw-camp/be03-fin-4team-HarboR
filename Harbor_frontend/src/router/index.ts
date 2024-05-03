@@ -26,20 +26,20 @@ interface User {
 interface AuthStore {
   user: User | null;
   returnUrl: string | null;
-  login(username: string, password: string): Promise<void>;
+  login(email: string | undefined, employeeId: string | undefined, password: string): Promise<void>;
   logout(): void;
 }
 
 router.beforeEach(async (to, from, next) => {
   // redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ['/auth/login1'];
+  const publicPages = ['/auth/login'];
   const authRequired = !publicPages.includes(to.path);
   const auth: AuthStore = useAuthStore();
-
+  const token = localStorage.getItem('token');
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (authRequired && !auth.user) {
+    if (authRequired && !token) {
       auth.returnUrl = to.fullPath;
-      return next('/auth/login1');
+      return next('/auth/login');
     } else next();
   } else {
     next();

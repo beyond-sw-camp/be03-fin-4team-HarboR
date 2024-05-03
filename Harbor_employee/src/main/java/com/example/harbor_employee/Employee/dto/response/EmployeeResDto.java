@@ -10,9 +10,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EmployeeResDto {
-    String employeeId;
-    String department;
-    String position;
-    String team;
-    String name;
+    private String employeeId;
+    private String department;
+    private String position;
+    private String team;
+    private String name;
+    private String status;
+    private String profileImagePath;
+    private String email;
+    private String phone;
 }

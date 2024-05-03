@@ -1,14 +1,14 @@
 package com.example.harbor_login.Login.service;
-
+import javax.mail.internet.MimeMessage;
 import com.example.harbor_login.Login.domain.Login;
 import com.example.harbor_login.Login.repository.LoginRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.mail.internet.MimeMessage;
 import java.util.Calendar;
 
 @Service
@@ -17,7 +17,10 @@ import java.util.Calendar;
 @Slf4j
 public class EmailService {
     private final LoginRepository loginRepository;
-    private final JavaMailSender javaMailSender;  // 의존성 주입을 통해 필요한 객체를 가져옴
+    private final JavaMailSender javaMailSender;
+    private static final String FROM_ADDRESS = "아이디@gmail.com";
+    private final PasswordEncoder passwordEncoder;
+
     private static String number;  // 랜덤 인증 코드
     private static final String SenderName = "windy7271@knou.ac.kr";
 
@@ -26,11 +29,18 @@ public class EmailService {
         MimeMessage message = createMail(email);
         javaMailSender.send(message);
     }
+
+    public void sendEmailPw(String email){
+        System.out.println();
+        MimeMessage message = createPwMail(email);
+        javaMailSender.send(message);
+    }
+
     private String CreateEmployeeId() {
-        // 올해 년도
+        // 올해 년도        member.updatePassword(passwordEncoder.encode(tempPassword);
         int year = Calendar.getInstance().get(Calendar.YEAR);
         String maxEmployeeNumber = loginRepository.findMaxEmployeeNumber();
-        log.info("신규 입사자 Emplyoee id : " + maxEmployeeNumber);
+        log.info("신규 입사자 Employee id : " + maxEmployeeNumber);
 
         // 만약 최대 사원번호가 없으면 HB + 올해 년도 + 0001 로 사원번호
         int nextNumber = 1;
@@ -49,7 +59,7 @@ public class EmailService {
     }
 
     // 메일 양식 작성
-    public MimeMessage createMail(String mail){
+    public MimeMessage createMail(String mail) {
         Login member = loginRepository.findByEmail(mail)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않은 이메일입니다."));
         if (member.getDelYn()) {
@@ -77,10 +87,68 @@ public class EmailService {
             body += "<div align='center' style='border:1px solid black; font-family:verdana;'>";
             body += "<h1 style='color:blue'>" + number + "</h1>";
             body += "<h3>" + "감사합니다." + "</h3>";
-            message.setText(body,"UTF-8", "html");
+            message.setText(body, "UTF-8", "html");
         } catch (Exception e) {
             e.printStackTrace();
         }
         return message;
     }
+
+
+    public MimeMessage createPwMail(String mail){
+        Login member = loginRepository.findByEmail(mail)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않은 이메일입니다."));
+        System.out.println("1");
+        // 임시 비밀번호 생성
+        String tempPassword = getTempPassword();
+        MimeMessage message = javaMailSender.createMimeMessage();
+        System.out.println("2");
+        try {
+            message.setFrom(SenderName);
+            message.setRecipients(MimeMessage.RecipientType.TO, mail);
+            message.setSubject("[WalkingMate] 임시 비밀번호 발급");
+
+            String body = "";
+            body += "<h1>" + "안녕하세요." + "</h1>";
+            body += "<h1>" + "임시비밀번호를 발급합니다." + "</h1>";
+            body += "<h3>" + "새로운 비밀번호로 변경 바랍니다." + "</h3><br>";
+
+            body += "<div align='center' style='border:1px solid black; font-family:verdana;'>";
+            body += "<h1 style='color:blue'>" + tempPassword + "</h1>"; // 임시 비밀번호를 이메일 본문에 추가
+            body += "<h3>" + "감사합니다." + "</h3>";
+            message.setText(body, "UTF-8", "html");
+
+            tempPassword = passwordEncoder.encode(tempPassword);
+            member.updatePassword(tempPassword);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return message;
+    }
+
+    public String getTempPassword() {
+        char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+        String str = "";
+
+        int idx;
+        for (int i = 0; i < 10; i++) {
+            idx = (int) (charSet.length * Math.random());
+            str += charSet[idx];
+        }
+
+        return str;
+    }
+
+//
+//    public void userChange(ChargeRequestDto requestDto) {
+//        Login user = loginRepository.findByEmployeeId(requestDto.getEmployeeId()).get();
+//        if (user==null && !user.getPassword().equals(requestDto.getPassword())) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+//        } else {
+//            String pw = passwordEncoder.encode(requestDto.getChangePw());
+//            loginRepository.updatePw(pw, user.getEmployeeId());
+//        }
+//    }
 }
