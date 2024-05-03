@@ -398,11 +398,6 @@ const MainRoutes = {
       component: () => import('@/views/apps/contacts/CardPage.vue')
     },
     {
-      name: 'Mail',
-      path: '/app/mail',
-      component: () => import('@/views/apps/mail/MailPage.vue')
-    },
-    {
       name: 'Kanban',
       path: '/app/kanban',
       component: () => import('@/views/apps/kanban/KanbanPage.vue')
@@ -463,11 +458,6 @@ const MainRoutes = {
       component: () => import('@/views/apps/users/list/AttendanceListRes.vue')
     },
     {
-      name: 'noticeList',
-      path: '/noticeList',
-      component: () => import('@/views/apps/users/list/noticeList.vue')
-    },
-    {
       name: 'noticedetail',
       path: '/noticedetail/:id',
       component: () => import('@/views/apps/users/list/noticedetail.vue')
@@ -491,7 +481,17 @@ const MainRoutes = {
       name: 'ScheduleQalendar',
       path: '/schedule/qalendar',
       component: () => import('@/views/apps/calendar/ScheduleQalendar.vue')
-    }
+    },
+    {
+      name: 'noticeUpdate',
+      path: '/noticeUpdate',
+      component: () => import('@/views/apps/users/list/noticeupdate.vue')
+    },
+    {
+      name: 'Mail',
+      path: '/noticeList',
+      component: () => import('@/views/apps/mail/MailPage.vue')
+    },
   ]
 };
 export default MainRoutes;

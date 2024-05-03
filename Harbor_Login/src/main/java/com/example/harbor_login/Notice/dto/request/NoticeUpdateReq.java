@@ -17,8 +17,6 @@ public class NoticeUpdateReq {
 
     private String contents;
 
-    private String fileName;
-
     private MultipartFile filePath;
 
 

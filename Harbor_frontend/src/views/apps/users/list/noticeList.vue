@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
-import { useUserCardStore } from '@/stores/apps/UserCard';
+import { useUserCardStore } from '@/stores/apps/NoticeCard';
 import 'vue3-easy-data-table/dist/style.css';
-import { useMailStore } from '@/stores/apps/mail';
 import noticedetail from '@/views/apps/users/list/noticedetail.vue';
 import { useRouter } from 'vue-router';
-
-const router = useRouter();
-
-const mailstore = useMailStore();
+import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
 
 const store = useUserCardStore();
+const router = useRouter();
+
 const searchValue = ref('');
 const token: string | null = localStorage.getItem('token');
 onMounted(() => {
@@ -52,12 +50,15 @@ const selectNotice = ref<ListItem | null>(null);
 const showRow = async (item: ListItem) => {
   noticeDetails.value = true;
   selectNotice.value = item;
+  store.saveSelectNotice(item);
 };
 
 const toNoticeCard = () => {
   router.push({ path: '/noticecreate' });
 };
 defineEmits(['sToggle']);
+
+
 </script>
 <template>
   <!-- 검색창 -->
@@ -69,7 +70,7 @@ defineEmits(['sToggle']);
         v-model="searchValue"
         prepend-inner-icon="mdi-magnify"
         persistent-placeholder
-        placeholder="Search Mail"
+        placeholder="검색"
         hide-details
         density="compact"
         class="max-width-300"
