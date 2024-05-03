@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import axios, { setClientHeaders } from '@/utils/axios'; // axios import
+import axios, { setClientHeaders, setContentTypeHeaders } from '@/utils/axios'; // axios import
 import { useEditor, EditorContent } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
@@ -78,6 +78,8 @@ async function createNotice() {
   formData.append('request', blob);
   try {
     setClientHeaders(token);
+    setContentTypeHeaders('multipart/form-data');
+
     const response = await axios.post(`${baseUrl}/login/notice/create`, formData);
 
     console.log('Notice created successfully:', response);
