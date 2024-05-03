@@ -34,4 +34,4 @@ jobs:
 
       - name: deploy to s3 # dist내용 s3 버킷에 복사 // recursive 파일체계
         run: |
-          aws s3 cp ./harbor-front/dist s3://harbor-front/ —recursive
+          aws s3 cp ./Harbor_frontend/dist s3://harbor-front/ —recursive
