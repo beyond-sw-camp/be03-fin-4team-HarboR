@@ -17,11 +17,11 @@ jobs:
           node-version: '20'
 
       - name: npm install
-        working-directory: /Harbor-frontend
+        working-directory: ./Harbor_frontend
         run: npm install
 
       - name: npm build
-        working-directory: /Harbor-frontend
+        working-directory: ./Harbor_frontend
 
         run: npm run build
 
