@@ -47,6 +47,11 @@ spec:
                 secretKeyRef:
                   name: db-infos
                   key: JWT_SECRETEKEY
+            - name: HOST
+              valueFrom:
+                secretKeyRef:
+                  name: db-infos
+                  key: HOST
 ---
 #apiVersion: v1
 #kind: Service
