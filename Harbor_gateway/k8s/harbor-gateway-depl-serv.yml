@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gateway
+  name: gateway-depl
 spec:
   replicas: 1
   selector:
@@ -16,7 +16,7 @@ spec:
         - name: gateway-backend
           image: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor-employee:latest
           ports:
-            - containerPort: 8000
+            - containerPort: 8080
 
           resources:
             limits:
@@ -62,6 +62,6 @@ spec:
   ports:
     - name: http
       port: 80
-      targetPort: 8000
+      targetPort: 8080
   selector:
     app: gateway

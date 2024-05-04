@@ -32,7 +32,7 @@ dependencies {
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+//	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
 
 	implementation group: 'org.apache.poi', name: 'poi', version: '5.0.0'
@@ -42,6 +42,10 @@ dependencies {
 	implementation 'org.springframework.kafka:spring-kafka'
 
 	implementation 'org.jsoup:jsoup:1.14.2'
+
+	implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-client'
+	implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-client-config'
+	implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-client-loadbalancer'
 }
 dependencyManagement {
 	imports {

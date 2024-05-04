@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: batch
+  name: batch-depl
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: batch
@@ -53,15 +53,29 @@ spec:
                   name: db-infos
                   key: HOST
 ---
-#apiVersion: v1
-#kind: Service
-#metadata:
-#  name: batch-service #ingress admin name과 동일해야 한다.
-#spec:
-#  type: ClusterIP
-#  ports:
-#    - name: http
-#      port: 80
-#      targetPort: 8005 # admin service port
-#  selector:
-#    app: batch
+apiVersion: v1
+kind: Service
+metadata:
+  name: batch-service
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8005
+  selector:
+    app: batch
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: fabric8-rbac
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: default # pod의 네임스페이스
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io

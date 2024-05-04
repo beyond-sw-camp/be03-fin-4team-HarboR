@@ -4,8 +4,6 @@ spring:
       "local" : "local, mail"
     active : local
 ---
-server:
-  port: 8001
 spring:
   application:
     name: login
@@ -21,14 +19,10 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-  # eureka ??? ?? name?? ??? ?? ??.
-eureka:
-  client:
-    service-url:
-      defaultZone: http://127.0.0.1:8761/eureka
-    enabled: true
-  instance:
-    instance-id: ${spring.application.name}:${random.value}
+  cloud:
+    kubernetes:
+      discovery:
+        all-namespaces: true #모든 네임스페이스에서 활성화
 logging:
   level:
     root: info
@@ -36,6 +30,3 @@ logging:
 jwt:
   expiration: 30
   secretKey: ${JWT_SECRETKEY}
-
-#  CE254B51A873FD7C90C9338C534787FFCDEA4DC217B49AF2CB7DA54661418349
-url: "http://localhost:8000"

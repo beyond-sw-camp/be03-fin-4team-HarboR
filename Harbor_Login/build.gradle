@@ -43,6 +43,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.springframework.kafka:spring-kafka'
 
+    implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-client'
+    implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-client-all'
+    implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-client-loadbalancer'
+
 
 }
 dependencyManagement {
@@ -54,4 +58,9 @@ dependencyManagement {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+dependencyManagement{
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }

@@ -1,40 +1,44 @@
 server:
-  port: 8000
+  port: 8080
   error:
     include-binding-errors: always
     include-message: always
-
 spring:
   application:
     name: gateway
   cloud:
+    kubernetes:
+      discovery:
+        all-namespaces: true
+      loadbalancer:
+        mode: service
     gateway:
       routes:
-        - id: batch
+        - id: batch-service
           predicates:
             - Path=/batch/**
           filters:
             - StripPrefix=1
           uri: lb://batch
-        - id: employee
+        - id: employee-service
           predicates:
             - Path=/employee/**
           filters:
             - StripPrefix=1
           uri: lb://employee
-        - id: login
+        - id: login-service
           predicates:
             - Path=/login/**
           filters:
             - StripPrefix=1
           uri: lb://login
-        - id: salary
+        - id: salary-service
           predicates:
             - Path=/salary/**
           filters:
             - StripPrefix=1
           uri: lb://salary
-        - id: total
+        - id: total-service
           predicates:
             - Path=/total/**
           filters:

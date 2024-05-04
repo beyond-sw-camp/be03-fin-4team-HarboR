@@ -1,11 +1,8 @@
-server:
-  port: 8005
 spring:
   application:
-    name: batch
+    name: batch-service # name 등록
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    #    url: jdbc:mariadb://som_db/som?allowPublicKeyRetrieval=true&useSSL=false
     url: jdbc:mariadb://${DB_HOST}:3306/harbor_employee
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
@@ -16,10 +13,12 @@ spring:
     hibernate:
       ddl-auto: update #update
     show-sql: true
-
+#    클라우더
+  cloud:
+    kubernetes:
+      discovery:
+        all-namespaces: true #모든 네임스페이스에서 활성화
   batch:
-    #    job:
-    #      names: ${job.name:NONE}
     jdbc:
       initialize-schema: ALWAYS
   redis:
