@@ -16,7 +16,7 @@ spec:
         - name: login-backend
           image: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor-login:latest
           ports:
-            - containerPort: 8001
+            - containerPort: 8080
 
           resources:
             limits:
@@ -63,7 +63,7 @@ spec:
   ports:
     - name: http
       port: 80
-      targetPort: 8001 # admin service port
+      targetPort: 8080 # admin service port
   selector:
     app: login
 
