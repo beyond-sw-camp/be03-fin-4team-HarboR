@@ -1,9 +1,9 @@
 
-name: harbor SOM-Backend
+name: Harbor-Backend
 on:
   push:
     branches:
-      - feature/0430
+      - harbor-backend
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
