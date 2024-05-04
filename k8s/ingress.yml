@@ -13,10 +13,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - "server.greatjang.shop" #수정 필요
+    - "server.songboseok.shop" #수정 필요
     secretName: harbor-com-tls
   rules:
-    - host: server.greatjang.shop # 수정 필요
+    - host: server.songboseok.shop # 수정 필요
       http:
         paths:
           - path: /(.*) #모든 url요청을 gateway 던

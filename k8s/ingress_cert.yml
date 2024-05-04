@@ -41,6 +41,6 @@ spec:
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
-  commonName: server.greatjang.shop  # 서버 이름 교체
+  commonName: server.songboseok.shop  # 서버 이름 교체
   dnsNames:
-    - server.greatjang.shop # 서버 이름 교체
+    - server.songboseok.shop # 서버 이름 교체
