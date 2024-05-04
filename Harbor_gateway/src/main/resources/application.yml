@@ -16,34 +16,34 @@ spring:
       routes:
         - id: batch-service
           predicates:
-            - Path=/batch/**
+            - Path=/batch-service/**
           filters:
             - StripPrefix=1
-          uri: lb://batch
+          uri: lb://batch-service
         - id: employee-service
           predicates:
-            - Path=/employee/**
+            - Path=/employee-service/**
           filters:
             - StripPrefix=1
-          uri: lb://employee
+          uri: lb://employee-service
         - id: login-service
           predicates:
-            - Path=/login/**
+            - Path=/login-service/**
           filters:
             - StripPrefix=1
-          uri: lb://login
+          uri: lb://login-service
         - id: salary-service
           predicates:
-            - Path=/salary/**
+            - Path=/salary-service/**
           filters:
             - StripPrefix=1
-          uri: lb://salary
+          uri: lb://salary-service
         - id: total-service
           predicates:
-            - Path=/total/**
+            - Path=/total-service/**
           filters:
             - StripPrefix=1
-          uri: lb://total
+          uri: lb://total-service
 #      default-filters:
 #        - name: JwtGlobalFilter
 #          args:
