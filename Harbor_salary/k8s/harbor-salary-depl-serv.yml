@@ -16,7 +16,7 @@ spec:
         - name: gateway-backend
           image: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor-salary:latest
           ports:
-            - containerPort: 8002
+            - containerPort: 8080
 
           resources:
             limits:
@@ -62,7 +62,7 @@ spec:
   ports:
     - name: http
       port: 80
-      targetPort: 8002 # admin service port
+      targetPort: 8080 # admin service port
   selector:
     app: salary
 
