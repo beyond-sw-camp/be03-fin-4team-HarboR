@@ -44,23 +44,23 @@ spring:
           filters:
             - StripPrefix=1
           uri: lb://total-service
-#      default-filters:
-#        - name: JwtGlobalFilter
-#          args:
-#            baseMessage: gateway filter
-#            preLogger: true
-#            postLogger: true
-#      globalcors:
-#        cors-configurations:
-#          '[/**]':
-#            allowedOrigins: "http://localhost:3000"
-#            allow-credentials: true
-#            allowedHeaders: "*"
-#            allowedMethods:
-#              - GET
-#              - POST
-#              - PUT
-#              - DELETE
-#              - PATCH
+      default-filters:
+        - name: JwtGlobalFilter
+          args:
+            baseMessage: gateway filter
+            preLogger: true
+            postLogger: true
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"
+            allow-credentials: true
+            allowedHeaders: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - PATCH
 jwt:
   secretKey: ${JWT_SECRETKEY}

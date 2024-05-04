@@ -6,7 +6,7 @@ spring:
 ---
 spring:
   application:
-    name: login
+    name: login-service
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://${DB_HOST}/harbor_login
