@@ -18,9 +18,9 @@ spring:
       file-size-threshold: 1MB
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://database-1.cbku8mggudio.ap-northeast-2.rds.amazonaws.com:3306/harbor_login
-    username: admin
-    password: harbor123
+    url: jdbc:mariadb://${DB_HOST}/harbor_login
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MariaDBDialect
@@ -42,6 +42,6 @@ logging:
     com.example.harbor_login.client: DEBUG
 jwt:
   expiration: 30
-  secretKey: CE254B51A873FD7C90C9338C534787FFCDEA4DC217B49AF2CB7DA54661418349
+  secretKey: ${JWT_SECRETKEY}
 
 url: "http://localhost:8000"

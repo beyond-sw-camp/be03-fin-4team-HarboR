@@ -4,19 +4,42 @@ server:
     include-binding-errors: always
     include-message: always
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://127.0.0.1:8761/eureka # 다른걸로 ??
-    enabled: true
-  instance:
-    instance-id: ${spring.application.name}:${random.value}
-
 spring:
   application:
     name: gateway
   cloud:
     gateway:
+      routes:
+        - id: batch
+          predicates:
+            - Path=/batch/**
+          filters:
+            - StripPrefix=1
+          uri: lb://batch
+        - id: employee
+          predicates:
+            - Path=/employee/**
+          filters:
+            - StripPrefix=1
+          uri: lb://employee
+        - id: login
+          predicates:
+            - Path=/login/**
+          filters:
+            - StripPrefix=1
+          uri: lb://login
+        - id: salary
+          predicates:
+            - Path=/salary/**
+          filters:
+            - StripPrefix=1
+          uri: lb://salary
+        - id: total
+          predicates:
+            - Path=/total/**
+          filters:
+            - StripPrefix=1
+          uri: lb://total
       default-filters:
         - name: JwtGlobalFilter
           args:
@@ -36,4 +59,4 @@ spring:
               - DELETE
               - PATCH
 jwt:
-  secretKey: CE254B51A873FD7C90C9338C534787FFCDEA4DC217B49AF2CB7DA54661418349
+  secretKey: ${JWT_SECRETKEY}
