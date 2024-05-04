@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: batch-backend
-          image: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor-employee:latest
+          image: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor-batch:latest
           ports:
             - containerPort: 8005
 
