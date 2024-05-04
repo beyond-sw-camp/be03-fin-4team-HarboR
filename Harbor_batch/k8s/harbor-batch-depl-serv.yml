@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: batch-backend
-          image: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor-employee:latest
+          image: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor-batch:latest
           ports:
             - containerPort: 8005
 
@@ -47,6 +47,11 @@ spec:
                 secretKeyRef:
                   name: db-infos
                   key: JWT_SECRETEKEY
+            - name: HOST
+              valueFrom:
+                secretKeyRef:
+                  name: db-infos
+                  key: HOST
 ---
 #apiVersion: v1
 #kind: Service

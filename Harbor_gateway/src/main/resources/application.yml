@@ -4,14 +4,6 @@ server:
     include-binding-errors: always
     include-message: always
 
-#eureka:
-#  client:
-#    service-url:
-#      defaultZone: http://127.0.0.1:8761/eureka # 다른걸로 ??
-#    enabled: true
-#  instance:
-#    instance-id: ${spring.application.name}:${random.value}
-
 spring:
   application:
     name: gateway

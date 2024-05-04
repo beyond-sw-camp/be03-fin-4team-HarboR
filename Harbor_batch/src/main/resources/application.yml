@@ -22,3 +22,6 @@ spring:
     #      names: ${job.name:NONE}
     jdbc:
       initialize-schema: ALWAYS
+  redis:
+    host: ${HOST}
+    port: 6379
