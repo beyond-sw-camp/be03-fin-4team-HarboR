@@ -33,6 +33,17 @@ jobs:
 
       ################ build and push #################
 
+      ################ gateway #################
+      - name: build and push docker image to ecr (gateway)
+        env:
+          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com # ECR주소
+          REPOSITORY: harbor-gateway
+          IMAGE_TAG: latest
+        run: |
+          docker build \
+          -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
+          -f ./Harbor_gateway/Dockerfile ./Harbor_gateway
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
       ############### batch #################
       - name: build and push docker image to ecr (batch)
         env:
@@ -89,20 +100,15 @@ jobs:
           -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
           -f ./Harbor_total/Dockerfile ./Harbor_total
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
-      ################ gateway #################
-      - name: build and push docker image to ecr (gateway)
-        env:
-          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com # ECR주소
-          REPOSITORY: harbor-gateway
-          IMAGE_TAG: latest
-        run: |
-          docker build \
-          -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
-          -f ./Harbor_gateway/Dockerfile ./Harbor_gateway
-          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+      
 
 
       ################ apply ################
+
+      - name: eks kubectl gateway apply
+        run: |
+          kubectl apply -f ./Harbor_gateway/k8s/harbor-gateway-depl-serv.yml
+          kubectl rollout restart deployment gateway-depl
       - name: eks kubectl batch apply
         run: |
           kubectl apply -f ./Harbor_batch/k8s/harbor-batch-depl-serv.yml
@@ -128,7 +134,4 @@ jobs:
           kubectl apply -f ./Harbor_total/k8s/harbor-total-depl-serv.yml
           kubectl rollout restart deployment total-depl
 
-      - name: eks kubectl gateway apply
-        run: |
-          kubectl apply -f ./Harbor_gateway/k8s/harbor-gateway-depl-serv.yml
-          kubectl rollout restart deployment gateway-depl
+      
