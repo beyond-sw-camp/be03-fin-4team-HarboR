@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: login
+  name: login-depl
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: login
@@ -54,15 +54,29 @@ spec:
                   key: JWT_SECRETKEY
 
 ---
-#apiVersion: v1
-#kind: Service
-#metadata:
-#  name: login-service #ingress admin name과 동일해야 한다.
-#spec:
-#  type: ClusterIP
-#  ports:
-#    - name: http
-#      port: 80
-#      targetPort: 8001 # admin service port
-#  selector:
-#    app: login
+apiVersion: v1
+kind: Service
+metadata:
+  name: login-service #ingress admin name과 동일해야 한다.
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8001 # admin service port
+  selector:
+    app: login
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: fabric8-rbac
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: default # pod의 네임스페이스
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
