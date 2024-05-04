@@ -23,5 +23,5 @@ spring:
     jdbc:
       initialize-schema: ALWAYS
   redis:
-    host: ${REDIS_HOST}
+    host: ${HOST}
     port: 6379
