@@ -1,8 +1,6 @@
-server:
-  port: 8004
 spring:
   application:
-    name: employee
+    name: employee-service
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://${DB_HOST}/harbor_employee
@@ -20,17 +18,14 @@ spring:
         format_sql: true
         highlight_sql: true
     show-sql: true
+  cloud:
+    kubernetes:
+      discovery:
+        all-namespaces: true #모든 네임스페이스에서 활성화
   redis:
     host: ${HOST}
     port: 6379
   # eureka ??? ?? name?? ??? ?? ??.
-eureka:
-  client:
-    service-url:
-      defaultZone: http://127.0.0.1:8761/eureka
-    enabled: true
-  instance:
-    instance-id: ${spring.application.name}:${random.value}
 logging:
   level:
     root: info
@@ -38,4 +33,3 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 jwt:
   secretKey: ${JWT_SECRETKEY}
-url: "http://localhost:8000"

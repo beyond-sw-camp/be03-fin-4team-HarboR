@@ -32,10 +32,10 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: nginx-harbor-com-tls
+  name: harbor-com-tls
   namespace: default
 spec:
-  secretName: nginx-harbor-com-tls
+  secretName: harbor-com-tls
   duration: 2160h #90 일
   renewBefore: 360h #before 15일
   issuerRef:
