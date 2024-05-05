@@ -27,7 +27,7 @@ public class JwtGlobalFilter implements GlobalFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-
+        log.info("필터 거쳐갑니다~");
         ServerHttpRequest request = exchange.getRequest();
         String reqUri = request.getURI().getPath();
         AntPathMatcher antPathMatcher = new AntPathMatcher();
