@@ -53,7 +53,9 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOrigins: "http://www.songboseok.shop" "https://www.songboseok.shop"
+            allowedOrigins:
+              - "http://www.songboseok.shop"
+              - "https://www.songboseok.shop"
             allow-credentials: true
             allowedHeaders: "*"
             allowedMethods:
