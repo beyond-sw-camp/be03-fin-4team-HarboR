@@ -62,6 +62,11 @@ spec:
                 secretKeyRef:
                   name: db-infos
                   key: S3PASSWORD
+            - name: GOOGLE_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: db-infos
+                  key: GOOGLE_EMAIL
 
 ---
 apiVersion: v1
