@@ -52,6 +52,16 @@ spec:
                 secretKeyRef:
                   name: db-infos
                   key: JWT_SECRETKEY
+            - name: AWS_S3_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: db-infos
+                  key: S3KEY
+            - name: AWS_S3_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: db-infos
+                  key: S3PASSWORD
 
 ---
 apiVersion: v1
