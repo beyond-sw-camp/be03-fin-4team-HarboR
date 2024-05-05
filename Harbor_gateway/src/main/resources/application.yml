@@ -16,31 +16,31 @@ spring:
       routes:
         - id: batch-service
           predicates:
-            - Path=/batch-service/**
+            - Path=/batch/**
           filters:
             - StripPrefix=1
           uri: lb://batch-service
         - id: employee-service
           predicates:
-            - Path=/employee-service/**
+            - Path=/employee/**
           filters:
             - StripPrefix=1
           uri: lb://employee-service
         - id: login-service
           predicates:
-            - Path=/login-service/**
+            - Path=/login/**
           filters:
             - StripPrefix=1
           uri: lb://login-service
         - id: salary-service
           predicates:
-            - Path=/salary-service/**
+            - Path=/salary/**
           filters:
             - StripPrefix=1
           uri: lb://salary-service
         - id: total-service
           predicates:
-            - Path=/total-service/**
+            - Path=/total/**
           filters:
             - StripPrefix=1
           uri: lb://total-service
