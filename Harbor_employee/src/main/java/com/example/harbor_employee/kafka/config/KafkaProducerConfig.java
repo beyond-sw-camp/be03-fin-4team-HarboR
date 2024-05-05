@@ -20,7 +20,8 @@ public class KafkaProducerConfig {
     @Bean
     public ProducerFactory<String, Object> producerFactory() {
         Map<String, Object> config = new HashMap<>();
-        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "b-1.harbormsk.jvqi25.c2.kafka.ap-northeast-2.amazonaws.com:9092,b-2.harbormsk.jvqi25.c2.kafka.ap-northeast-2.amazonaws.com:9092");
+        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "b-1.harbormsk.jvqi25.c2.kafka.ap-northeast-2.amazonaws.com:9092,b-2.harbormsk.jvqi25.c2.kafka.ap-northeast-2.amazonaws.com:9092");
+        config.put(ProducerConfig.ACKS_CONFIG, "all");
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 
