@@ -24,7 +24,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping("/login/account")
+@RequestMapping("/account")
 @RequiredArgsConstructor
 public class LoginController {
     private final LoginService loginService;

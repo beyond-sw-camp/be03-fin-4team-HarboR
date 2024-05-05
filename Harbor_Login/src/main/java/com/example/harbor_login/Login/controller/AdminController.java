@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/login/admin")
+@RequestMapping("/admin")
 @RequiredArgsConstructor
 public class AdminController {
 
