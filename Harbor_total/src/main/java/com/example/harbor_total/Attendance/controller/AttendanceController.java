@@ -13,7 +13,7 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/total/attendance")
+@RequestMapping("/attendance")
 @Slf4j
 public class AttendanceController {
     private final AttendanceService commuteService;

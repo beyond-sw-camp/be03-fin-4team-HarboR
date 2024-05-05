@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RequiredArgsConstructor
-@RequestMapping(value = "/login/aws-s3")
+@RequestMapping(value = "/aws-s3")
 @RestController
 public class S3UploadUtilTest {
 

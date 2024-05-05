@@ -16,7 +16,6 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/employee")
 public class stockController {
     private final StockService stockService;
 

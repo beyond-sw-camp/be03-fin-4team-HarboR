@@ -22,7 +22,7 @@ import java.io.*;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/login/notice")
+@RequestMapping("/notice")
 public class NoticeController {
     private final S3UploadUtil s3UploadUtil;
     private final NoticeService noticeService;

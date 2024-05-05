@@ -26,7 +26,6 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@RequestMapping("/employee")
 public class EmployeeController {
     private final EmployeeService employeeService;
     private final TotalClient totalClient;

@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "Employee", url = "http://localhost:8004")
+@FeignClient(name = "employee-service")
 public interface LoginToEmployeeClient {
-    @PostMapping("employee/create")
+    @PostMapping("/create")
     HttpStatus createEmployee(@RequestBody LoginMemberResDto request);
 }
