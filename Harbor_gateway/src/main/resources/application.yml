@@ -13,6 +13,12 @@ spring:
       loadbalancer:
         mode: service
     gateway:
+      default-filters:
+        - name: JwtGlobalFilter
+          args:
+            baseMessage: gateway filter
+            preLogger: true
+            postLogger: true
       routes:
         - id: batch-service
           predicates:
@@ -44,12 +50,6 @@ spring:
           filters:
             - StripPrefix=1
           uri: lb://total-service
-#      default-filters:
-#        - name: JwtGlobalFilter
-#          args:
-#            baseMessage: gateway filter
-#            preLogger: true
-#            postLogger: true
       globalcors:
         cors-configurations:
           '[/**]':
