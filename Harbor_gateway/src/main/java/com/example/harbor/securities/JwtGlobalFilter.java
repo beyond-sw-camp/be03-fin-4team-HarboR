@@ -23,11 +23,10 @@ public class JwtGlobalFilter implements GlobalFilter {
     @Value("${jwt.secretKey}")
     private String secretKey;
 
-    private final List<String> allowUrl = Arrays.asList("/login/account/**", "/signup", "/login/notice/download/**");
+    private final List<String> allowUrl = Arrays.asList("/account/**", "/signup", "/notice/download/**");
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        log.info("필터 거쳐갑니다~");
         ServerHttpRequest request = exchange.getRequest();
         String reqUri = request.getURI().getPath();
         AntPathMatcher antPathMatcher = new AntPathMatcher();
