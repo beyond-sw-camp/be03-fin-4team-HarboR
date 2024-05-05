@@ -8,7 +8,7 @@ spring:
 ---
 spring:
   application:
-    name: login-service
+    name: login #Kubernetes의 Service 리소스의 selector.app 과 일치
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://${DB_HOST}/harbor_login
