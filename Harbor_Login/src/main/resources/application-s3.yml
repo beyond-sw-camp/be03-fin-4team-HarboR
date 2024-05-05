@@ -8,4 +8,4 @@ cloud:
     region:
       static: ap-northeast-2 # 리전
     stack:
-      auto: true # Spring Cloud는 환경 또는 스택을 기반으로 이를 자동으로 감지
+      auto: false # Spring Cloud는 환경 또는 스택을 기반으로 이를 자동으로 감지
