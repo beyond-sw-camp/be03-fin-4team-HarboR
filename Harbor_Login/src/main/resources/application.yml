@@ -5,6 +5,10 @@ spring:
     active : local
 ---
 spring:
+  cloud:
+    kubernetes:
+      discovery:
+        all-namespaces: true #모든 네임스페이스에서 활성화
   application:
     name: login
   datasource:
@@ -19,10 +23,6 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-  cloud:
-    kubernetes:
-      discovery:
-        all-namespaces: true #모든 네임스페이스에서 활성화
 logging:
   level:
     root: info

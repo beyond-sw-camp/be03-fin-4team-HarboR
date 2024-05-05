@@ -57,7 +57,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: login-service #ingress admin name과 동일해야 한다.
+  name: login-service
 spec:
   type: ClusterIP
   ports:
