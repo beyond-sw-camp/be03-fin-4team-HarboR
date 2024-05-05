@@ -45,28 +45,28 @@ jobs:
           -f ./Harbor_gateway/Dockerfile ./Harbor_gateway
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
       ############### batch #################
-      - name: build and push docker image to ecr (batch)
-        env:
-          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com
-          REPOSITORY: harbor-batch
-          IMAGE_TAG: latest
-        run: |
-          docker build \
-          -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
-          -f ./Harbor_batch/Dockerfile ./Harbor_batch
-          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
-
-      ################ employee  #################
-      - name: build and push docker image to ecr (employee)
-        env:
-          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com
-          REPOSITORY: harbor-employee
-          IMAGE_TAG: latest
-        run: |
-          docker build \
-          -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
-          -f ./Harbor_employee/Dockerfile ./Harbor_employee
-          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+#      - name: build and push docker image to ecr (batch)
+#        env:
+#          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com
+#          REPOSITORY: harbor-batch
+#          IMAGE_TAG: latest
+#        run: |
+#          docker build \
+#          -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
+#          -f ./Harbor_batch/Dockerfile ./Harbor_batch
+#          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+#
+#      ################ employee  #################
+#      - name: build and push docker image to ecr (employee)
+#        env:
+#          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com
+#          REPOSITORY: harbor-employee
+#          IMAGE_TAG: latest
+#        run: |
+#          docker build \
+#          -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
+#          -f ./Harbor_employee/Dockerfile ./Harbor_employee
+#          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
       ################ login #################
       - name: build and push docker image to ecr (login)
         env:
@@ -79,27 +79,27 @@ jobs:
           -f ./Harbor_Login/Dockerfile ./Harbor_Login
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
       ################ salary #################
-      - name: build and push docker image to ecr (salary)
-        env:
-          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com # ECR주소
-          REPOSITORY: harbor-salary
-          IMAGE_TAG: latest
-        run: |
-          docker build \
-          -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
-          -f ./Harbor_salary/Dockerfile ./Harbor_salary
-          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
-      ################ total #################
-      - name: build and push docker image to ecr (total)
-        env:
-          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com # ECR주소
-          REPOSITORY: harbor-total
-          IMAGE_TAG: latest
-        run: |
-          docker build \
-          -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
-          -f ./Harbor_total/Dockerfile ./Harbor_total
-          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+#      - name: build and push docker image to ecr (salary)
+#        env:
+#          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com # ECR주소
+#          REPOSITORY: harbor-salary
+#          IMAGE_TAG: latest
+#        run: |
+#          docker build \
+#          -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
+#          -f ./Harbor_salary/Dockerfile ./Harbor_salary
+#          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+#      ################ total #################
+#      - name: build and push docker image to ecr (total)
+#        env:
+#          REGISTRY: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com # ECR주소
+#          REPOSITORY: harbor-total
+#          IMAGE_TAG: latest
+#        run: |
+#          docker build \
+#          -t $REGISTRY/$REPOSITORY:$IMAGE_TAG \
+#          -f ./Harbor_total/Dockerfile ./Harbor_total
+#          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 #
 
 
@@ -110,29 +110,29 @@ jobs:
           kubectl apply -f ./Harbor_gateway/k8s/harbor-gateway-depl-serv.yml
           kubectl rollout restart deployment gateway-depl
 
-      - name: eks kubectl batch apply
-        run: |
-          kubectl apply -f ./Harbor_batch/k8s/harbor-batch-depl-serv.yml
-          kubectl rollout restart deployment batch-depl
-
-      - name: eks kubectl employee apply
-        run: |
-          kubectl apply -f ./Harbor_employee/k8s/harbor-employee-depl-serv.yml
-          kubectl rollout restart deployment employee-depl
+#      - name: eks kubectl batch apply
+#        run: |
+#          kubectl apply -f ./Harbor_batch/k8s/harbor-batch-depl-serv.yml
+#          kubectl rollout restart deployment batch-depl
+#
+#      - name: eks kubectl employee apply
+#        run: |
+#          kubectl apply -f ./Harbor_employee/k8s/harbor-employee-depl-serv.yml
+#          kubectl rollout restart deployment employee-depl
 
       - name: eks kubectl login apply
         run: |
           kubectl apply -f ./Harbor_Login/k8s/harbor-login-depl-serv.yml
           kubectl rollout restart deployment login-depl
 #
-      - name: eks kubectl salary apply
-        run: |
-          kubectl apply -f ./Harbor_salary/k8s/harbor-salary-depl-serv.yml
-          kubectl rollout restart deployment salary-depl
-
-      - name: eks kubectl total apply
-        run: |
-          kubectl apply -f ./Harbor_total/k8s/harbor-total-depl-serv.yml
-          kubectl rollout restart deployment total-depl
+#      - name: eks kubectl salary apply
+#        run: |
+#          kubectl apply -f ./Harbor_salary/k8s/harbor-salary-depl-serv.yml
+#          kubectl rollout restart deployment salary-depl
+#
+#      - name: eks kubectl total apply
+#        run: |
+#          kubectl apply -f ./Harbor_total/k8s/harbor-total-depl-serv.yml
+#          kubectl rollout restart deployment total-depl
 
       
