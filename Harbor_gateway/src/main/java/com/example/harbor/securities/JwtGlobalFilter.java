@@ -2,6 +2,7 @@ package com.example.harbor.securities;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -17,6 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
+@Slf4j
 public class JwtGlobalFilter implements GlobalFilter {
     @Value("${jwt.secretKey}")
     private String secretKey;
@@ -29,6 +31,7 @@ public class JwtGlobalFilter implements GlobalFilter {
         ServerHttpRequest request = exchange.getRequest();
         String reqUri = request.getURI().getPath();
         AntPathMatcher antPathMatcher = new AntPathMatcher();
+        log.info(reqUri);
         boolean isAllowed = allowUrl.stream().anyMatch(uri -> antPathMatcher.match(uri, reqUri));
         if (isAllowed) {
             return chain.filter(exchange);

@@ -19,41 +19,43 @@ spring:
             - Path=/batch/**
           filters:
             - StripPrefix=1
-          uri: lb://batch
+          uri: lb://batch-service # k8s 에 등록된거로 감.
         - id: employee-service
           predicates:
             - Path=/employee/**
           filters:
             - StripPrefix=1
-          uri: lb://employee
+          uri: lb://employee-service
         - id: login-service
           predicates:
             - Path=/login/**
           filters:
             - StripPrefix=1
-          uri: lb://login
+          uri: lb://login-service
         - id: salary-service
           predicates:
             - Path=/salary/**
           filters:
             - StripPrefix=1
-          uri: lb://salary
+          uri: lb://salary-service
         - id: total-service
           predicates:
             - Path=/total/**
           filters:
             - StripPrefix=1
-          uri: lb://total
-      default-filters:
-        - name: JwtGlobalFilter
-          args:
-            baseMessage: gateway filter
-            preLogger: true
-            postLogger: true
+          uri: lb://total-service
+#      default-filters:
+#        - name: JwtGlobalFilter
+#          args:
+#            baseMessage: gateway filter
+#            preLogger: true
+#            postLogger: true
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOrigins: "http://www.songboseok.shop","http://www.songboseok.shop"
+            allowedOrigins:
+              - "http://www.songboseok.shop"
+              - "https://www.songboseok.shop"
             allow-credentials: true
             allowedHeaders: "*"
             allowedMethods:

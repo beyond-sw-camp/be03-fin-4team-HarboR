@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: gateway-backend
-          image: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor-employee:latest
+          image: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor-gateway:latest
           ports:
             - containerPort: 8080
 
@@ -42,11 +42,11 @@ spec:
                 secretKeyRef:
                   name: db-infos
                   key: DB_PASSWORD
-            - name: REDIS_HOST
+            - name: HOST
               valueFrom:
                 secretKeyRef:
                   name: db-infos
-                  key: REDIS_HOST
+                  key: HOST
             - name: JWT_SECRETKEY
               valueFrom:
                 secretKeyRef:
