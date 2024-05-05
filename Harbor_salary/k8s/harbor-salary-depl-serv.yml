@@ -13,7 +13,7 @@ spec:
         app: salary
     spec:
       containers:
-        - name: gateway-backend
+        - name: salary-backend
           image: 533267394261.dkr.ecr.ap-northeast-2.amazonaws.com/harbor-salary:latest
           ports:
             - containerPort: 8080
