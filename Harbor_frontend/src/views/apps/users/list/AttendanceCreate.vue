@@ -106,8 +106,10 @@ const handleStartDateChange = (event) => {
 };
 // 종료일시 세팅 함수
 const handleEndDateChange = (event) => {
+  console.log(event);
   const selectedDateTime = event.target.value;
-  clickedEndDateInfo.value = selectedDateTime;
+  clickedStartDateInfo.value = selectedDateTime;
+  console.log(clickedStartDateInfo.value);
 };
 async function attendanceReq() {
   try {

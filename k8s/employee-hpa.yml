@@ -1,7 +1,7 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: harbor-boot-hpa
+  name: employee-hpa
   labels:
     app: employee
 spec:
