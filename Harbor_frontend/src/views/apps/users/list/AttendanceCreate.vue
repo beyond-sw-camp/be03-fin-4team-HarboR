@@ -101,6 +101,12 @@ const minDate = currentISODateTime;
 const handleStartDateChange = (event) => {
   const selectedDateTime = event.target.value;
   clickedStartDateInfo.value = selectedDateTime;
+
+  // 날짜와 시간이 모두 선택되었는지 확인
+  if (selectedDateTime && selectedDateTime.length === 16) {
+    // input 요소를 숨김
+    event.target.style.display = 'none';
+  }
 };
 // 종료일시 세팅 함수
 const handleEndDateChange = (event) => {
