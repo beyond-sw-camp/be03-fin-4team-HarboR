@@ -34,6 +34,7 @@ onMounted(async () => {
 });
 async function update() {
   const formData = new FormData();
+  formData.append('employeeId', employeeDetails.value.employeeId);
   formData.append('phone', employeeDetails.value.phone);
   formData.append('address', employeeDetails.value.address);
   if (selectedImage) {
