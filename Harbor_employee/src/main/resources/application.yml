@@ -39,3 +39,9 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 jwt:
   secretKey: ${JWT_SECRETKEY}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
