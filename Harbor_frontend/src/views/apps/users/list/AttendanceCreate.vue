@@ -102,16 +102,6 @@ const handleStartDateChange = (event) => {
   const selectedDateTime = event.target.value;
   clickedStartDateInfo.value = selectedDateTime;
 };
-
-const handleBlurEvent = (event) => {
-  const selectedDateTime = event.target.value;
-
-  // 날짜와 시간이 모두 선택되었는지 확인
-  if (selectedDateTime && selectedDateTime.length === 16) {
-    // input 요소를 숨김
-    event.target.style.display = 'none';
-  }
-};
 // 종료일시 세팅 함수
 const handleEndDateChange = (event) => {
   const selectedDateTime = event.target.value;
@@ -222,14 +212,7 @@ async function attendanceReq() {
                       <v-row class="ml-3 py-5">
                         <v-col cols="6" sm="2">
                           시작 일시
-                          <input
-                            type="datetime-local"
-                            v-model="startDate"
-                            :max="maxDate"
-                            :min="minDate"
-                            @change="handleStartDateChange"
-                            @blur="handleBlurEvent"
-                          />
+                          <input type="datetime-local" v-model="startDate" :max="maxDate" :min="minDate" @change="handleStartDateChange" />
                         </v-col>
                         <v-col cols="6" sm="2" class="text-center">~</v-col>
                         <v-col cols="6" sm="2">
