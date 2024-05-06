@@ -57,6 +57,16 @@ spec:
                 secretKeyRef:
                   name: db-infos
                   key: HOST
+            - name: S3KEY
+              valueFrom:
+                secretKeyRef:
+                  name: db-infos
+                  key: S3KEY
+            - name: S3PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-infos
+                  key: S3PASSWORD
 ---
 apiVersion: v1
 kind: Service

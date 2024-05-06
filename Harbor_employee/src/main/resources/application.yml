@@ -1,4 +1,10 @@
 spring:
+  profiles:
+    group:
+      "local" : "local, s3"
+    active : local
+---
+spring:
   application:
     name: employee-service
   datasource:

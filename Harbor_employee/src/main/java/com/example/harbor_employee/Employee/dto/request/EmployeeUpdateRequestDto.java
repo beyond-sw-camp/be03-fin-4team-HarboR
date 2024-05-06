@@ -5,7 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class EmployeeUpdateRequestDto {
-    private MultipartFile profileImage;
+    private MultipartFile profileImage = null;
     private String phone;
     private String address;
 }
