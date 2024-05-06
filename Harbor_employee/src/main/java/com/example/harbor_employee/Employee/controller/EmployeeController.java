@@ -73,9 +73,10 @@ public class EmployeeController {
 
     //    front에서 admin도 수정 api가 보이는 식으로
     @PatchMapping("/update")
-    public ResponseEntity<CommonResponse> updateEmployee(EmployeeUpdateRequestDto request) throws IOException {
+    public ResponseEntity<CommonResponse> updateEmployee(@RequestPart EmployeeUpdateRequestDto request,
+                                                         @RequestPart(value = "file", required = false) MultipartFile file) throws IOException {
         System.out.println(request);
-        return new ResponseEntity<>(new CommonResponse("유저 정보 업데이트",employeeService.updateEmployee(request)), HttpStatus.OK);
+        return new ResponseEntity<>(new CommonResponse("유저 정보 업데이트",employeeService.updateEmployee(request, file)), HttpStatus.OK);
     }
 
     @PostMapping("/create")

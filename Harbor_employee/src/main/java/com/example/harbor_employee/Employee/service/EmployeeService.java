@@ -145,14 +145,12 @@ public class EmployeeService {
         return null;
     }
 
-    public EmployeeDetailResDto updateEmployee(EmployeeUpdateRequestDto request) throws IOException {
+    public EmployeeDetailResDto updateEmployee(EmployeeUpdateRequestDto request, MultipartFile file) throws IOException {
         Employee employee = employeeRepository.findByEmployeeId(request.getEmployeeId()).orElseThrow(() -> new IllegalArgumentException(" 없는 employee 입니다 "));
         String filePath = "";
         employee.updateEmployee(filePath,request.getPhone(),request.getAddress());
-        if(request.getProfileImage() != null) {
-            if(employee.getProfileImage() != null)
-                s3UploadUtil.delete(request.getProfileImage().getOriginalFilename());
-            filePath = s3UploadUtil.upload(request.getProfileImage(), "profile");
+        if(file != null) {
+            filePath = s3UploadUtil.upload(file, "profile");
             employee.setImage(filePath);
         }
         return EmployeeDetailResDto.toDto(employee);
