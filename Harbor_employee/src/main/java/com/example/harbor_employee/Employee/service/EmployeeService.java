@@ -268,7 +268,7 @@ public class EmployeeService {
                             .name(employee.getName())
                             .email(employee.getEmail())
                             .build();
-                    testProducer.sendToKafka("first_create_user_data", kafkaDetailDto);
+                    testProducer.sendToKafka("createUser", kafkaDetailDto);
                 }
             }
             return dataList;
