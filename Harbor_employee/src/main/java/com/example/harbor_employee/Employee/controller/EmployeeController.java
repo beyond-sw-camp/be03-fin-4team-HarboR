@@ -67,13 +67,14 @@ public class EmployeeController {
         return new ResponseEntity<>(new CommonResponse("유저 정보 자세히 보기", employeeService.findByEmployeeId(employeeId)), HttpStatus.OK);
     }
     /**
-     * @param employeeId: 인증 정보에 담긴 name을 이용(employeeId)
+     * @param request: 인증 정보에 담긴 name을 이용(employeeId)
      * @return 인증된 사용자의 상세 정보 조회
      */
 
     //    front에서 admin도 수정 api가 보이는 식으로
     @PatchMapping("/update")
     public ResponseEntity<CommonResponse> updateEmployee(EmployeeUpdateRequestDto request) throws IOException {
+        System.out.println(request);
         return new ResponseEntity<>(new CommonResponse("유저 정보 업데이트",employeeService.updateEmployee(request)), HttpStatus.OK);
     }
 
