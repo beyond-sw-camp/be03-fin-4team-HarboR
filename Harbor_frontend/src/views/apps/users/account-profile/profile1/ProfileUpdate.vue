@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import axios, { setClientHeaders } from '@/utils/axios';
+import axios, { setClientHeaders, setContentTypeHeaders } from '@/utils/axios';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -46,6 +46,7 @@ async function update() {
   }
   formData.append('request', blob);
   try {
+    setContentTypeHeaders('multipart/form-data');
     await axios.patch(`${baseUrl}/employee/update`, formData);
     alert('수정 완료되었습니다.');
   } catch (error) {
