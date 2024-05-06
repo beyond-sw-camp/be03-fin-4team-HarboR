@@ -34,13 +34,17 @@ onMounted(async () => {
 });
 async function update() {
   const formData = new FormData();
-  formData.append('employeeId', employeeDetails.value.employeeId);
-  formData.append('phone', employeeDetails.value.phone);
-  formData.append('address', employeeDetails.value.address);
-  if (selectedImage) {
-    formData.append('profileImage', selectedImage);
-  }
+  const noticeForm = {
+    employeeId: employeeDetails.value.employeeId,
+    phone: employeeDetails.value.phone,
+    address: employeeDetails.value.address
+  };
 
+  const blob = new Blob([JSON.stringify(noticeForm, null, 2)], { type: 'application/json' });
+  if (selectedImage) {
+    formData.append('file', selectedImage);
+  }
+  formData.append('request', blob);
   try {
     await axios.patch(`${baseUrl}/employee/update`, formData);
     alert('수정 완료되었습니다.');
