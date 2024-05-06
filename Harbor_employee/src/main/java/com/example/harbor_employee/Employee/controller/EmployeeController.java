@@ -73,8 +73,8 @@ public class EmployeeController {
 
     //    front에서 admin도 수정 api가 보이는 식으로
     @PatchMapping("/update")
-    public ResponseEntity<CommonResponse> updateEmployee(@RequestHeader(name = "employeeId") String employeeId, EmployeeUpdateRequestDto request) throws IOException {
-        return new ResponseEntity<>(new CommonResponse("유저 정보 업데이트",employeeService.updateEmployee(request,employeeId)), HttpStatus.OK);
+    public ResponseEntity<CommonResponse> updateEmployee(EmployeeUpdateRequestDto request) throws IOException {
+        return new ResponseEntity<>(new CommonResponse("유저 정보 업데이트",employeeService.updateEmployee(request)), HttpStatus.OK);
     }
 
     @PostMapping("/create")

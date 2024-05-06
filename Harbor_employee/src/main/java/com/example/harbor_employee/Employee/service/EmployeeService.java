@@ -145,8 +145,8 @@ public class EmployeeService {
         return null;
     }
 
-    public EmployeeDetailResDto updateEmployee(EmployeeUpdateRequestDto request, String employeeId) throws IOException {
-        Employee employee = employeeRepository.findByEmployeeId(employeeId).orElseThrow(() -> new IllegalArgumentException(" 없는 employee 입니다 "));
+    public EmployeeDetailResDto updateEmployee(EmployeeUpdateRequestDto request) throws IOException {
+        Employee employee = employeeRepository.findByEmployeeId(request.getEmployeeId()).orElseThrow(() -> new IllegalArgumentException(" 없는 employee 입니다 "));
         String filePath = "";
         employee.updateEmployee(filePath,request.getPhone(),request.getAddress());
         if(request.getProfileImage() != null) {
