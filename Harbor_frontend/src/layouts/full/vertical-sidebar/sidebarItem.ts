@@ -1,6 +1,7 @@
 import {
   BrandGravatarIcon,
   ClipboardTextIcon,
+  HomeIcon,
   MenuIcon,
   CoinIcon,
   CoinsIcon,
@@ -64,12 +65,14 @@ export interface menu {
 }
 
 const sidebarItem: menu[] = [
-  { header: '인사관리' },
+  
   {
-    title: '내정보',
-    icon: DashboardIcon,
+    title: '홈',
+    icon: HomeIcon,
     to: '/dashboard/default'
   },
+
+  { header: '인사관리' },
   {
     title: '사원 목록',
     icon: DeviceAnalyticsIcon,
