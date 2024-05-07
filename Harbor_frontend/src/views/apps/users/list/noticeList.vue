@@ -45,7 +45,7 @@ const headers = [
 const items = ref(listCards);
 
 const noticeDetails = ref(false);
-const selectNotice = ref<ListItem>(null);
+const selectNotice = ref<ListItem | null>(null);
 
 const showRow = async (item: ListItem) => {
   noticeDetails.value = true;
