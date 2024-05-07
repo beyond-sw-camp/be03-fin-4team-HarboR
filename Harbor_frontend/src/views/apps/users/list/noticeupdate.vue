@@ -84,7 +84,9 @@ const editItem = async () => {
     setClientHeaders(token);
     setContentTypeHeaders('multipart/form-data');
     const response = await axios.patch(`${baseUrl}/login/notice/update/${noticeId}`, formData);
-
+    if (response.status == 413) {
+      alert('파일 용량이 너무 큽니다.');
+    }
     console.log('Notice created successfully:', response);
     router.push('/noticeList');
   } catch (error) {
