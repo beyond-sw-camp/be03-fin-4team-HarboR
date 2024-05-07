@@ -23,4 +23,4 @@ WORKDIR /Harbor_salary
 COPY --from=stage1 /Harbor_salary/build/libs/*.jar Harbor_salary.jar
 
 # 애플리케이션 실행
-ENTRYPOINT [ "java", "-jar", "Harbor_salary.jar" ]
+ENTRYPOINT ["java", "-Duser.timezone=Asia/Seoul", "-jar", "Harbor_salary.jar"]

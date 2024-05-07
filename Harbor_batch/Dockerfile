@@ -16,4 +16,4 @@ WORKDIR /Harbor_batch
 COPY --from=build /Harbor_batch/build/libs/*.jar Harbor_batch.jar
 # 컨테이너가 시작될 때 애플리케이션을 실행합니다.
 
-ENTRYPOINT ["java", "-jar", "Harbor_batch.jar"]
+ENTRYPOINT ["java", "-Duser.timezone=Asia/Seoul", "-jar", "Harbor_batch.jar"]
