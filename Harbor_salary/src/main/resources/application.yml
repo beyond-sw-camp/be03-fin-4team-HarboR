@@ -23,9 +23,8 @@ logging:
     com.example.harbor_login.client: DEBUG
 jwt:
   secretKey: ${JWT_SECRETKEY}
-
 management:
   endpoints:
     web:
       exposure:
-        include: health
+        include: "*"

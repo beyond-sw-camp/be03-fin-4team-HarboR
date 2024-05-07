@@ -37,9 +37,8 @@ logging:
 jwt:
   expiration: 30
   secretKey: ${JWT_SECRETKEY}
-
 management:
   endpoints:
     web:
       exposure:
-        include: health
+        include: "*"

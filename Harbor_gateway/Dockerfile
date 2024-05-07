@@ -23,4 +23,4 @@ WORKDIR /Harbor_gateway
 COPY --from=stage1 /Harbor_gateway/build/libs/*.jar Harbor_gateway.jar
 
 # 애플리케이션 실행
-ENTRYPOINT [ "java", "-jar", "Harbor_gateway.jar" ]
+ENTRYPOINT ["java", "-Duser.timezone=Asia/Seoul", "-jar", "Harbor_gateway.jar"]
