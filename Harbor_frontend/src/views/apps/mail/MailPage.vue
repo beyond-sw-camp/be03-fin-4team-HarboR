@@ -7,9 +7,6 @@ import noticeList from '@/views/apps/users/list/noticeList.vue';
 const { lgAndUp } = useDisplay();
 
 const page = ref({ title: '공지사항' });
-import noticeList from '@/views/apps/users/list/noticeList.vue';
-
-const page = ref({ title: '공지사항' });
 const breadcrumbs = ref([
   {
     title: '기타',
