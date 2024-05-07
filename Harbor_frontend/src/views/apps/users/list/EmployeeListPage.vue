@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed,shallowRef } from 'vue';
 import { useUserCardStore } from '@/stores/apps/UserCard';
 // common components
-import type { Header } from 'vue3-easy-data-table';
+import type { Header, ServerOptions } from 'vue3-easy-data-table';
 import 'vue3-easy-data-table/dist/style.css';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
 import { useCodeStore } from '@/stores/codetrans';
@@ -27,14 +27,14 @@ type ListItem = {
   name: string;
   verify: boolean;
   employeeId: string;
+  status: string;
   // Add other properties as needed
 };
 const listCards = computed<ListItem[]>(() => {
   return store.list;
 });
-console.log(1);
-const searchField = ref('name');
-const searchValue = ref('');
+console.log(listCards.value);
+
 
 const headers: Header[] = [
   { text: '사원 정보', value: 'name', sortable: true },
@@ -48,14 +48,36 @@ const themeColor = ref('rgb(var(--v-theme-secondary))');
 const showRow = (item: ListItem) => {
   location.href = `/app/user/${item.employeeId}/profile`;
 };
+//pageable 위한 함수
+const currentPage = ref(0);
+const changePage = (newPage) => {
+  currentPage.value = newPage;
+   const type = searchField.value;
+  const value = searchValue.value;
+  store.fetchlistCards(token, newPage, type, value);
+};
+// 검색 함수
+function changeSearch() {
+  const type = searchField.value;
+  const value = searchValue.value;
+  const page = currentPage.value;
+  store.fetchlistCards(token, page, type, value);
+}
+const searchField = ref('name');
+const searchValue = ref('');
+
+const searchList = shallowRef([
+  { name: '이름', value: 'name' },
+  { name: '사원아이디', value: 'employeeId' },
+]);
 </script>
 <template>
   <v-row>
     <v-col cols="12" md="12">
       <UiParentCard title="Customer List">
         <v-row justify="space-between" class="align-center mb-3">
-          <v-col cols="12" md="3">
-            <v-text-field
+          <v-col cols="12" md="3" class="d-flex align-center">
+              <v-text-field
               type="text"
               variant="outlined"
               persistent-placeholder
@@ -64,29 +86,24 @@ const showRow = (item: ListItem) => {
               density="compact"
               hide-details
               prepend-inner-icon="mdi-magnify"
-            />
+              class="mr-2"
+              />
+              <v-btn @click="changeSearch()">검색하기</v-btn>
           </v-col>
           <v-col cols="12" md="3">
-            <v-select
-              label="Select"
-              v-model="searchField"
-              variant="outlined"
-              @update:model-value="searchByName"
-              :items="['', 'name', 'position', 'department']"
-            ></v-select>
+            <!-- <v-select label="Select" v-model="searchField" variant="outlined" @update:model-value="searchByName"
+              :items="['', 'name', 'position', 'department']"></v-select> -->
+              <select v-model="searchField" style="text-align: center; width: 100px; height: 30px; border: 1px solid black; border-radius: 5px; background-color: #f5f5f5;">
+  <option v-for="(work, index) in searchList" :value="work.value" v-bind:key="index">
+    {{ work.name }}
+  </option>
+</select>
+
           </v-col>
         </v-row>
         <div class="overflow-auto">
-          <EasyDataTable
-            :headers="headers"
-            :items="items"
-            table-class-name="customize-table action-position"
-            @click-row="showRow"
-            :theme-color="themeColor"
-            :search-field="searchField"
-            :search-value="searchValue"
-            :rows-per-page="8"
-          >
+          <EasyDataTable :headers="headers" :items="items" table-class-name="customize-table action-position"
+            @click-row="showRow" :theme-color="themeColor" :rows-per-page="20" hide-footer>
             <template #item-name="{ name, email, profileImagePath, verify, employeeId }">
               <div class="d-flex align-center ga-4">
                 <img :src="profileImagePath" alt="avatar" width="40" />
@@ -114,9 +131,13 @@ const showRow = (item: ListItem) => {
               </div>
             </template>
             <template #item-status="{ status }">
-              <v-chip color="success" v-if="status === 'Active'" size="small"> Active </v-chip>
-              <v-chip color="error" v-if="status === 'Rejected'" size="small"> Rejected </v-chip>
-              <v-chip color="warning" v-if="status === 'Pending'" size="small"> Pending </v-chip>
+              <v-chip color="error" v-if="status === null || status === 'O02'" size="small"> 퇴근 </v-chip>
+              <v-chip color="success"
+                v-else-if="status === 'O01' || status === 'O06' || status === 'O07' || status === 'O08'" size="small"> 출근
+              </v-chip>
+              <v-chip color="warning" v-else-if="status === 'O04' || status === 'O09'" size="small"> 휴가 </v-chip>
+              <v-chip v-else-if="status === 'O05'" size="small"> 휴계 </v-chip>
+              <v-chip color="info" v-else-if="status === 'O03'" size="small"> 출장 </v-chip>
             </template>
             <template #item-position="{ position }">
               <div>
@@ -134,6 +155,11 @@ const showRow = (item: ListItem) => {
               </div>
             </template>
           </EasyDataTable>
+          <div class="my-3 mr-5  itme-right">
+            <v-btn @click="changePage(currentPage - 1)" :disabled="currentPage == 0">이전</v-btn>
+            <span class="mx-6">{{ currentPage+1 }}</span>
+            <v-btn @click="changePage(currentPage + 1)">다음</v-btn>
+          </div>
         </div>
       </UiParentCard>
     </v-col>
@@ -157,7 +183,9 @@ const showRow = (item: ListItem) => {
     }
   }
 }
-
+.itme-right {
+  text-align: right;
+}
 @media (max-width: 475px) {
   .easy-data-table__rows-selector {
     width: 50px !important;

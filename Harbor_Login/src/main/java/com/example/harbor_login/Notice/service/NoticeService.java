@@ -6,6 +6,7 @@ import com.example.harbor_login.Notice.dto.request.NoticeUpdateReq;
 import com.example.harbor_login.Notice.dto.response.NoticeDetailRes;
 import com.example.harbor_login.Notice.dto.response.NoticeListRes;
 import com.example.harbor_login.Notice.repository.NoticeRepository;
+import com.example.harbor_login.global.util.S3UploadUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -30,9 +31,11 @@ import java.nio.file.StandardOpenOption;
 @Service
 public class NoticeService {
     private final NoticeRepository noticeRepository;
+    private final S3UploadUtil s3UploadUtil;
 
-    public NoticeService(NoticeRepository noticeRepository) {
+    public NoticeService(NoticeRepository noticeRepository, S3UploadUtil s3UploadUtil) {
         this.noticeRepository = noticeRepository;
+        this.s3UploadUtil = s3UploadUtil;
     }
 //    private final Path fileStorageLocation;
 
@@ -42,7 +45,7 @@ public class NoticeService {
 //    }
 
 
-    public Notice NoticeCreate(NoticeCreateReqDto noticeCreateReqDto, MultipartFile multipartFile) {
+    public Notice NoticeCreate(NoticeCreateReqDto noticeCreateReqDto, MultipartFile multipartFile) throws IOException {
         MultipartFile multipartFile1= noticeCreateReqDto.getFilePath();
         String fileName = multipartFile.getOriginalFilename();
 
@@ -55,30 +58,19 @@ public class NoticeService {
                 // 다른 필드들도 필요에 따라 추가할 수 있음
                 .build();
         Notice notice = noticeRepository.save(new_notice);
-        Path path = Paths.get("C:/Users/Playdata/Desktop/final", notice.getNoticeId() + "_" + fileName);
-        notice.setImagePath(path.toString());
-        try {
-            byte[] bytes = multipartFile.getBytes();
-            Files.write(path, bytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE);
-        } catch (IOException e) {
-            throw new IllegalArgumentException("image is not available");
-        }
+        String uploadUrl = s3UploadUtil.upload(multipartFile, "images");
+        notice.setImagePath(uploadUrl);
         return notice;
     }
-    public Notice NoticeUpdate(int noticeId, NoticeUpdateReq noticeUpdateReq) {
-        MultipartFile multipartFile = noticeUpdateReq.getFilePath();
-        String fileName = multipartFile.getOriginalFilename();
-
+    public void NoticeUpdate(int noticeId, NoticeUpdateReq noticeUpdateReq, MultipartFile multipartFile) throws IOException {
         Notice notice = noticeRepository.findByNoticeId(noticeId).orElseThrow(() -> new IllegalArgumentException("존재하지 않은 글입니다."));
         notice.updateNotice(noticeUpdateReq.getTitle(), noticeUpdateReq.getContents());
-        Notice notice1 = noticeRepository.save(notice);
-        Path path = Paths.get("/Users/wingk/Desktop/final", notice1.getNoticeId() + "_" + fileName);
-        notice1.setImagePath(path.toString());
-        try {
-            byte[] bytes = multipartFile.getBytes();
-            Files.write(path, bytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE);
-        } catch (IOException e) {
-            throw new IllegalArgumentException("image is not available");
+        String filePath = "";
+        if(multipartFile != null) {
+            if (noticeUpdateReq.getFileName() != null)
+                s3UploadUtil.delete(noticeUpdateReq.getFileName());
+            filePath = s3UploadUtil.upload(multipartFile, "images");
+            notice.setImagePath(filePath);
         }
         return notice1;
     }

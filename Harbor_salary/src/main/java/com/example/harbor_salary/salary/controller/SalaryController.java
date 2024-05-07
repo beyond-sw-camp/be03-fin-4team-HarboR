@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
-@RequestMapping("/salary")
 public class SalaryController {
 
     private final SalaryService salaryService;

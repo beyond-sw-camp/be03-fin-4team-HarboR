@@ -10,6 +10,7 @@ import com.example.harbor_employee.client.TotalClient;
 import com.example.harbor_employee.client.dto.EmployeeStatusDto;
 import com.example.harbor_employee.global.util.EmployeeSpecification;
 import com.example.harbor_employee.client.dto.LoginMemberResDto;
+import com.example.harbor_employee.global.util.S3UploadUtil;
 import com.example.harbor_employee.kafka.dto.KafkaDetailDto;
 import com.example.harbor_employee.kafka.TestProducer;
 import lombok.extern.slf4j.Slf4j;
@@ -44,11 +45,13 @@ public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final TestProducer testProducer;
     private final TotalClient totalClient;
+    private final S3UploadUtil s3UploadUtil;
 
-    public EmployeeService(EmployeeRepository employeeRepository, TestProducer testProducer, TotalClient totalClient) {
+    public EmployeeService(EmployeeRepository employeeRepository, TestProducer testProducer, TotalClient totalClient, S3UploadUtil s3UploadUtil) {
         this.employeeRepository = employeeRepository;
         this.testProducer = testProducer;
         this.totalClient = totalClient;
+        this.s3UploadUtil = s3UploadUtil;
     }
 
     public List<EmployeeResDto> findAll(EmployeeSearchDto employeeSearchDto, Pageable pageable) {
@@ -142,21 +145,13 @@ public class EmployeeService {
         return null;
     }
 
-    public EmployeeDetailResDto updateEmployee(EmployeeUpdateRequestDto request, String employeeId) {
-        Employee employee = employeeRepository.findByEmployeeId(employeeId).orElseThrow(() -> new IllegalArgumentException(" 없는 employee 입니다 "));
-
-        MultipartFile multipartFile = request.getProfileImage();
-        String fileName = multipartFile.getOriginalFilename();
-
-        Path path = Paths.get("C:/Users/wonta/Desktop/tmp", employee.getEmployeeId() + "_" + fileName);
-        employee.setImage(path.toString());
-        employee.updateEmployee(path.toString(),request.getPhone(),request.getAddress());
-
-        try {
-            byte[] bytes = multipartFile.getBytes();
-            Files.write(path, bytes, StandardOpenOption.CREATE, StandardOpenOption.WRITE); // 없으면 넣고 있으면 덮어쓰기
-        } catch (IOException e) {
-            throw new IllegalArgumentException("image not available");
+    public EmployeeDetailResDto updateEmployee(EmployeeUpdateRequestDto request, MultipartFile file) throws IOException {
+        Employee employee = employeeRepository.findByEmployeeId(request.getEmployeeId()).orElseThrow(() -> new IllegalArgumentException(" 없는 employee 입니다 "));
+        String filePath = "";
+        employee.updateEmployee(filePath,request.getPhone(),request.getAddress());
+        if(file != null) {
+            filePath = s3UploadUtil.upload(file, "profile");
+            employee.setImage(filePath);
         }
         return EmployeeDetailResDto.toDto(employee);
     }
@@ -268,7 +263,7 @@ public class EmployeeService {
                             .name(employee.getName())
                             .email(employee.getEmail())
                             .build();
-                    testProducer.sendToKafka("first_create_user_data", kafkaDetailDto);
+                    testProducer.sendToKafka("createUser", kafkaDetailDto);
                 }
             }
             return dataList;

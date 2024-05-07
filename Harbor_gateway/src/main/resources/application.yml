@@ -1,32 +1,61 @@
 server:
-  port: 8000
+  port: 8080
   error:
     include-binding-errors: always
     include-message: always
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://127.0.0.1:8761/eureka # 다른걸로 ??
-    enabled: true
-  instance:
-    instance-id: ${spring.application.name}:${random.value}
-
 spring:
   application:
     name: gateway
   cloud:
+    kubernetes:
+      discovery:
+        all-namespaces: true
+      loadbalancer:
+        mode: service
     gateway:
-      default-filters:
-        - name: JwtGlobalFilter
-          args:
-            baseMessage: gateway filter
-            preLogger: true
-            postLogger: true
+#      default-filters:
+#        - name: JwtGlobalFilter
+#          args:
+#            baseMessage: gateway filter
+#            preLogger: true
+#            postLogger: true
+      routes:
+        - id: batch-service
+          predicates:
+            - Path=/batch/**
+          filters:
+            - StripPrefix=1
+          uri: lb://batch-service # k8s 에 등록된거로 감.
+        - id: employee-service
+          predicates:
+            - Path=/employee/**
+          filters:
+            - StripPrefix=1
+          uri: lb://employee-service
+        - id: login-service
+          predicates:
+            - Path=/login/**
+          filters:
+            - StripPrefix=1
+          uri: lb://login-service
+        - id: salary-service
+          predicates:
+            - Path=/salary/**
+          filters:
+            - StripPrefix=1
+          uri: lb://salary-service
+        - id: total-service
+          predicates:
+            - Path=/total/**
+          filters:
+            - StripPrefix=1
+          uri: lb://total-service
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOrigins: "http://localhost:3000"
+            allowedOrigins:
+              - "http://www.songboseok.shop"
+              - "https://www.songboseok.shop"
             allow-credentials: true
             allowedHeaders: "*"
             allowedMethods:
@@ -36,4 +65,4 @@ spring:
               - DELETE
               - PATCH
 jwt:
-  secretKey: CE254B51A873FD7C90C9338C534787FFCDEA4DC217B49AF2CB7DA54661418349
+  secretKey: ${JWT_SECRETKEY}

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/login/admin")
+@RequestMapping("/admin")
 @RequiredArgsConstructor
 public class AdminController {
 
@@ -35,7 +35,7 @@ public class AdminController {
 
     @DeleteMapping("/delete/{email}")
     public ResponseEntity<CommonResponse> deleteUser(@PathVariable(value = "email") String email) {
-
+        System.out.println("email = " + email);
         return new ResponseEntity<>(new CommonResponse<>("Employee delete successfully", loginService.delete(email)), HttpStatus.OK);
     }
 

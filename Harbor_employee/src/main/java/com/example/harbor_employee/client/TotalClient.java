@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@FeignClient(name = "Total")
+@FeignClient(name = "total-service")
 public interface TotalClient {
-    @GetMapping(value = "/total/attendance/status", produces = "application/json", consumes = "application/json")
+    @GetMapping(value = "/attendance/status", produces = "application/json", consumes = "application/json")
     List<EmployeeStatusDto> getStatus(@RequestParam("id") List<String> employeeId);
 }

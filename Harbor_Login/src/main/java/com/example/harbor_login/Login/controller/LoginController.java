@@ -24,7 +24,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping("/login/account")
+@RequestMapping("/account")
 @RequiredArgsConstructor
 public class LoginController {
     private final LoginService loginService;
@@ -32,7 +32,10 @@ public class LoginController {
     private final EmailService emailService;
     private JavaMailSender javaMailSender;
 
-
+    @GetMapping("/test")
+    public String test() {
+        return "성공";
+    }
     @PostMapping("/signup")
     public ResponseEntity<CommonResponse> signup(@Valid @RequestBody LoginSignUpReqDto loginSignUpReqDto, BindingResult bindingResult) throws BindException {
         log.info("bindingResult = " + bindingResult);
@@ -114,6 +117,7 @@ public class LoginController {
 
     @PatchMapping("/changePw")
     public ResponseEntity<CommonResponse> pwCharge(@RequestBody ChargeRequestDto chargeRequestDto) {
+        System.out.println("chargeRequestDto = " + chargeRequestDto);
         loginService.PwChange(chargeRequestDto);
         return new ResponseEntity<>(new CommonResponse("Password successfully change", ""), HttpStatus.OK);
     }

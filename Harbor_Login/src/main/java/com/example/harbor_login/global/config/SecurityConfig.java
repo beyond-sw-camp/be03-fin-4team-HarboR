@@ -32,14 +32,14 @@ public class SecurityConfig {
         return httpSecurity
                 .cors().and()
                 .csrf().disable()
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/**","/login/account/**","/login/internal/**", "/login/notice/**")
-                .permitAll()
+                .antMatchers("/**","/login/account/**","/login/internal/**", "/login/notice/**").permitAll()
+                .antMatchers("/actuator/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                .addFilterAfter(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 }
