@@ -92,6 +92,10 @@
 ## 📄 배포결과 테스트
 [배포결과테스트.pptx](https://github.com/keepself/be03-fin-HarboR/files/15228791/default.pptx)
 
+
+## 📄WBS
+<a href= "https://docs.google.com/spreadsheets/d/1VWcKfrer7uPG9SLIzj5LipWOVl53_diq0vEJ3clBmNU/edit#gid=176614884">WBS 바로가기</a>
+
 </details>
 
 <br>
@@ -151,8 +155,6 @@ Route53은 사용자의 DNS 요청을 CloudFront로 라우팅하여 사용자에
 
 </details>
 
-## WBS
-<a href= "https://docs.google.com/spreadsheets/d/1VWcKfrer7uPG9SLIzj5LipWOVl53_diq0vEJ3clBmNU/edit#gid=176614884">WBS 바로가기</a>
 
 
 
