@@ -6,7 +6,7 @@ import axios from 'axios';
 const token = localStorage.getItem('token');
 
 const axiosServices = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: 'https://www.songboseok.shop',
   headers: {
     Authorization: `Bearer ${token}`,
     'Content-Type': 'application/json'
