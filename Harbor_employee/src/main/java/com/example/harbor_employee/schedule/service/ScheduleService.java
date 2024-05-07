@@ -5,6 +5,7 @@ import com.example.harbor_employee.Employee.repository.EmployeeRepository;
 import com.example.harbor_employee.schedule.domain.Schedule;
 import com.example.harbor_employee.schedule.dto.ScheduleCreateReq;
 import com.example.harbor_employee.schedule.dto.ScheduleListRes;
+import com.example.harbor_employee.schedule.dto.ScheduleTeamListRes;
 import com.example.harbor_employee.schedule.dto.ScheduleUpdateReq;
 import com.example.harbor_employee.schedule.repository.ScheduleRepository;
 import org.springframework.stereotype.Service;
@@ -46,6 +47,16 @@ public class ScheduleService {
                 .stream()
                 .map(ScheduleListRes::mapToSchedule)
                 .collect(Collectors.toList());
+    }
+
+    public List<ScheduleTeamListRes> findAllTeamSchedule(String employeeId) {
+        Employee employee = employeeRepository.findByEmployeeId(employeeId).orElseThrow(() -> new IllegalArgumentException("없는 회원입니다."));
+        List<Schedule> scheduleList = scheduleRepository.findAllByDelYnIsAndEmployee_DepartmentCode(false, employee.getDepartmentCode());
+        return scheduleList.stream()
+                .map(schedule -> ScheduleTeamListRes.mapToSchedule(schedule, schedule.getEmployee().getName()))
+                .collect(Collectors.toList());
+
+
     }
 
     public void scheduleUpdate(Long scheduleId, ScheduleUpdateReq scheduleUpdateReq) {

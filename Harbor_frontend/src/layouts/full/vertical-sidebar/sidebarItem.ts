@@ -90,7 +90,7 @@ const sidebarItem: menu[] = [
   {
     title: '월별 캘린더',
     icon: ClipboardIcon,
-    to: '/widget/data'
+    to: '/team/schedule'
   },
 
   { divider: true },
