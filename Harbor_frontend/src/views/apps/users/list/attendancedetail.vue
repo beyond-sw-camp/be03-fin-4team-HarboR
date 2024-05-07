@@ -14,7 +14,7 @@ const isLoading = ref(false);
 
 onMounted(async () => {
   console.log('1');
-  cards.value = await store.getAttendanceList(token);
+  cards.value = await store.getAttendanceList();
 });
 
 const headers: Header[] = [
@@ -71,7 +71,7 @@ const handleFileUploadAttendance = async (event) => {
   isLoading.value = true; // 로딩 시작
   const file = event.target.files[0];
   try {
-    const result = await store.uploadAttendanceFile(token, file); // await 키워드 추가
+    const result = await store.uploadAttendanceFile(file); // await 키워드 추가
     alert('성공');
     location.reload();
   } catch (error) {
