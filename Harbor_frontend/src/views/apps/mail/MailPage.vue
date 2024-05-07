@@ -30,7 +30,6 @@ const toggleSide = ref(false);
     <v-col class="d-flex align-stretch overflow-auto">
       <v-card variant="flat">
         <div class="overflow-auto">
-          <!-- 테스트 -->
           <noticeList @s-Toggle="toggleSide = !toggleSide" />
         </div>
       </v-card>

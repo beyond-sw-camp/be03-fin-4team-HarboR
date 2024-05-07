@@ -52,7 +52,7 @@ const showRow = (item: ListItem) => {
 const currentPage = ref(0);
 const changePage = (newPage) => {
   currentPage.value = newPage;
-   const type = searchField.value;
+  const type = searchField.value;
   const value = searchValue.value;
   store.fetchlistCards(token, newPage, type, value);
 };
