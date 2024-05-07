@@ -13,21 +13,14 @@ const sidebarMenu = shallowRef(sidebarItems);
 </script>
 
 <template>
-  <v-navigation-drawer
-    left
-    v-model="customizer.Sidebar_drawer"
-    elevation="0"
-    rail-width="75"
-    mobile-breakpoint="lg"
-    app
-    class="leftSidebar"
-    :rail="customizer.mini_sidebar"
-    expand-on-hover
-  >
+  <v-navigation-drawer left v-model="customizer.Sidebar_drawer" elevation="0" rail-width="75" mobile-breakpoint="lg" app
+    class="leftSidebar" :rail="customizer.mini_sidebar" expand-on-hover>
     <!---Logo part -->
 
-    <div class="pa-5">
-      <Logo />
+    <div class="pa-5" style="display: flex; align-items: center;">
+      <!-- <Logo /> -->
+      <img src="@/assets/images/logos/harborlogo.png" style="height: 58px;">
+      <h3 style="margin-left: 10px;">HarboR</h3>
     </div>
     <!-- ---------------------------------------------- -->
     <!---Navigation -->
