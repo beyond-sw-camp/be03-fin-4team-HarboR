@@ -37,6 +37,7 @@ public class AnnualService {
 
     public List<AnnualListResDto> getSendList(String employeeId) {
         List<Attendance> attendanceList = attendanceRepository.findAllByEmployee_EmployeeId(employeeId);
+        System.out.println("attendanceList = " + attendanceList);
         List<AnnualListResDto> annualListResDtoList = new ArrayList<>();
         for(Attendance attendence : attendanceList){
             AnnualListResDto annualListResDto = AnnualListResDto.create(
@@ -116,10 +117,10 @@ public class AnnualService {
         Employee employee = employeeRepository.findByEmployeeId(employeeId)
                 .orElseThrow(() -> new IllegalArgumentException("없는 회원입니다."));
 
-        String firstAuthCode = employee.getTeamCode();
+        String firstAuthCode = employee.getDepartmentCode();
         String firstPositionCode = getPositionCode(employee.getPositionCode());
         List<AuthListResDto.Inform> firstInforms = new ArrayList<>();
-        List<Employee> firstAuthList = employeeRepository.findEmployeesByTeamCodeAndPositionCodeRange(
+        List<Employee> firstAuthList = employeeRepository.findEmployeesByDepartmentCodeAndPositionCodeRange(
                 firstPositionCode,
                 Position.valueOf(firstPositionCode).getHighPosition(),
                 firstAuthCode);
@@ -132,7 +133,7 @@ public class AnnualService {
             String secondAuthCode = Department.valueOf(firstAuthCode).getCode();
             String secondPositionCode = getPositionCode(firstPositionCode);
             List<AuthListResDto.Inform> secondInforms = new ArrayList<>();
-            List<Employee> secondAuthList = employeeRepository.findEmployeesByDepartmentCodeAndPositionCodeRange(
+            List<Employee> secondAuthList = employeeRepository.findEmployeesByTeamCodeAndPositionCodeRange(
                     secondPositionCode,
                     Position.valueOf(secondPositionCode).getHighPosition(),
                     secondAuthCode);
@@ -147,7 +148,7 @@ public class AnnualService {
             String thirdAuthCode = Department.valueOf(secondAuthCode).getCode();
             String thirdPositionCode = getPositionCode(secondPositionCode);
             List<AuthListResDto.Inform> thirdInforms = new ArrayList<>();
-            List<Employee> thirdAuthList = employeeRepository.findEmployeesByDepartmentCodeAndPositionCodeRange(
+            List<Employee> thirdAuthList = employeeRepository.findEmployeesByTeamCodeAndPositionCodeRange(
                     thirdPositionCode,
                     Position.valueOf(thirdPositionCode).getHighPosition(),
                     thirdAuthCode);
