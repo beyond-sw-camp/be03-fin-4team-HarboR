@@ -117,6 +117,7 @@ public class LoginController {
 
     @PatchMapping("/changePw")
     public ResponseEntity<CommonResponse> pwCharge(@RequestBody ChargeRequestDto chargeRequestDto) {
+        System.out.println("chargeRequestDto = " + chargeRequestDto);
         loginService.PwChange(chargeRequestDto);
         return new ResponseEntity<>(new CommonResponse("Password successfully change", ""), HttpStatus.OK);
     }

@@ -72,6 +72,7 @@ public class NoticeService {
             filePath = s3UploadUtil.upload(multipartFile, "images");
             notice.setImagePath(filePath);
         }
+        return notice1;
     }
 
     public void NoticeDelete(int noticeId) {

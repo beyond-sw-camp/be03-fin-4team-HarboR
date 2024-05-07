@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
+import MailSidebar from '@/components/apps/mail/MailSidebar.vue';
+import MailListing from '@/components/apps/mail/MailListing.vue'; 
+import noticeList from '@/views/apps/users/list/noticeList.vue';
+const { lgAndUp } = useDisplay();
+
+const page = ref({ title: '공지사항' });
 import noticeList from '@/views/apps/users/list/noticeList.vue';
 
 const page = ref({ title: '공지사항' });

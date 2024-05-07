@@ -32,10 +32,10 @@ export const useUserCardStore = defineStore({
       }
     },
     // Fetch cards from action
-    async fetchlistCards(token: string | null) {
+    async fetchlistCards(token: string | null , page: number , searchField: string | null, searchValue: string | null) {
       try {
         setClientHeaders(token);
-        const response = await axios.get(`${baseUrl}/employee/get/list`);
+        const response = await axios.get(`${baseUrl}/employee/get/list?page=${page}&${searchField}=${searchValue}`);
         this.list = response.data.result;
       } catch (error) {
         alert(error);

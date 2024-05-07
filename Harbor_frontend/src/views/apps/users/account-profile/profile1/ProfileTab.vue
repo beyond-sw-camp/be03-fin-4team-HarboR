@@ -25,6 +25,8 @@ const teamName = ref([]);
 // vue-router의 useRoute를 사용하여 현재 라우트 정보에 접근
 const route = useRoute();
 const token: string | null = localStorage.getItem('token');
+const getEmployeeId : string | null = localStorage.getItem('employeeId');
+const routeEmployeeId = route.params.employeeId;
 
 onMounted(async () => {
   // 라우트 파라미터에서 사원번호(employeeId)를 추출
@@ -138,7 +140,7 @@ onMounted(async () => {
               <v-divider></v-divider>
 
               <!-- 입사일 -->
-              <v-list-item color="primary" class="py-4">
+              <v-list-item color="primary" class="py-4" v-if="getEmployeeId === routeEmployeeId">
                 <template v-slot:prepend>
                   <BrandInertiaIcon size="20" stroke-width="1.5" class="mr-2" />
                 </template>
@@ -150,7 +152,7 @@ onMounted(async () => {
               <v-divider></v-divider>
 
               <!-- 주소 -->
-              <v-list-item color="primary" class="py-4">
+              <v-list-item color="primary" class="py-4" v-if="getEmployeeId === routeEmployeeId">
                 <template v-slot:prepend>
                   <MapIcon size="20" stroke-width="1.5" class="mr-2" />
                 </template>
@@ -161,8 +163,8 @@ onMounted(async () => {
               </v-list-item>
               <v-divider></v-divider>
 
-              <!-- 전화번호 -->
-              <v-list-item color="primary" class="py-4">
+              <!-- 계좌번호 -->
+              <v-list-item color="primary" class="py-4" v-if="getEmployeeId === routeEmployeeId">
                 <template v-slot:prepend>
                   <PhoneIcon size="20" stroke-width="1.5" class="mr-2" />
                 </template>
