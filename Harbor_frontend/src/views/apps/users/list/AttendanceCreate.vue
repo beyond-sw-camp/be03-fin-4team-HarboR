@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import { ref, shallowRef, onMounted } from 'vue';
 import axios, { setClientHeaders } from '@/utils/axios';
-import { router } from '@/router';
 
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
-const token: string | null = localStorage.getItem('token');
 const tab = ref(null);
 const workList = shallowRef([
   { name: '출장', value: 'O03' },
@@ -30,8 +28,7 @@ const vacation = ref('');
 // 남은 휴가 확인 api 호출
 async function annualremain() {
   try {
-    const token = localStorage.getItem('token');
-    setClientHeaders(token);
+    setClientHeaders();
     const response = await axios.get(`${baseUrl}/total/employee/annualremain`, {
       headers: {
         Authorization: `Bearer ${token}`
@@ -59,8 +56,7 @@ const openModal = () => {
 };
 async function authlist() {
   try {
-    const token = localStorage.getItem('token');
-    setClientHeaders(token);
+    setClientHeaders();
     const response = await axios.get(`${baseUrl}/total/annual/read/authlist`, {
       headers: {
         Authorization: `Bearer ${token}`

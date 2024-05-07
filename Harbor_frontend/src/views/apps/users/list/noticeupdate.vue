@@ -58,7 +58,6 @@ function fileUpload(event) {
   reader.readAsDataURL(selectedImage);
 }
 
-const token: string | null = localStorage.getItem('token');
 const editItem = async () => {
   if (!editor.value) {
     console.error('Editor is not initialized');
@@ -81,13 +80,13 @@ const editItem = async () => {
   console.log(formData.get('file'));
   console.log(formData.get('request'));
   try {
-    setClientHeaders(token);
+    setClientHeaders();
     setContentTypeHeaders('multipart/form-data');
     const response = await axios.patch(`${baseUrl}/login/notice/update/${noticeId}`, formData);
-
     console.log('Notice created successfully:', response);
     router.push('/noticeList');
   } catch (error) {
+    alert('파일의 용량이 너무 큽니다.');
     console.error('Error creating notice:', error);
   }
 };

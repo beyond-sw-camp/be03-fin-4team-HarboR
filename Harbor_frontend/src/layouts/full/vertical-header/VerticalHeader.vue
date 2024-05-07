@@ -34,9 +34,8 @@ watch(priority, (newPriority) => {
 });
 
 const reissueToken = async () => {
-  const token = localStorage.getItem('token');
   const employeeId = localStorage.getItem('employeeId');
-  setClientHeaders(token);
+  setClientHeaders();
   const response = await axios.get(`${baseUrl}/login/account/reissue/${employeeId}`);
   console.log(response);
   const newToken = response.data.result.token;

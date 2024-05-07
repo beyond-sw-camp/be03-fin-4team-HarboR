@@ -6,15 +6,13 @@ import html2pdf from "html2pdf.js";
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 const route = useRoute();
 const salary = ref([]);
-const token: string | null = localStorage.getItem('token');
 onMounted(() => {
   fetchSalary();
 });
 async function fetchSalary() {
   const salaryId = route.params.salaryId;
   try {
-    const token = localStorage.getItem('token');
-    setClientHeaders(token);
+    setClientHeaders();
     const response = await axios.get(`${baseUrl}/salary/mysalary/${salaryId}`, {
       headers: {
         Authorization: `Bearer ${token}`,

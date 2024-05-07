@@ -2,31 +2,31 @@
 import { ref } from 'vue';
 import axios from 'axios';
 
-const baseUrl = import.meta.env.VITE_API_URL; 
+const baseUrl = import.meta.env.VITE_API_URL;
 
 const handleButtonClick = async (type: string) => {
   try {
-    const token = localStorage.getItem('token'); 
+    const token = localStorage.getItem('token');
     if (!token) {
-      console.error('토큰이 존재하지 않습니다.'); 
+      console.error('토큰이 존재하지 않습니다.');
       return;
     }
-    let url = ''; 
+    let url = '';
     if (type === '출근') {
       url = `${baseUrl}/total/commute/attendance`;
     } else if (type === '퇴근') {
-      url = `${baseUrl}/total/commute/leavework`; 
+      url = `${baseUrl}/total/commute/leavework`;
     } else {
       console.error('잘못된 유형입니다.');
       return;
     }
     const response = await axios.get(url, {
       headers: {
-        Authorization: `Bearer ${token}`, 
-      },
+        Authorization: `Bearer ${token}`
+      }
     });
-    alert(response.data.message); 
-    location.reload(); 
+    alert(response.data.message);
+    location.reload();
   } catch (error) {
     // 오류 발생 시 오류 메시지를 알림으로 보여주기
     alert(error.response.data.error_message);
