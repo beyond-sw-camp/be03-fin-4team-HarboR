@@ -17,7 +17,7 @@ import AuthRegister from '../authForms/AuthRegister.vue';
                     <!---Left Part Logo -->
                     <v-row>
                       <v-col cols="12" class="text-center">
-                        <Logo />
+      <img src="@/assets/images/logos/harborlogo.png" style="height: 58px;">
                         <h2 class="text-secondary text-h2 mt-8">회원가입</h2>
                       </v-col>
                     </v-row>

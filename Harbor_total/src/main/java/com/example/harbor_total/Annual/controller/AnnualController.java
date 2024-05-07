@@ -31,6 +31,7 @@ public class AnnualController {
      */
     @GetMapping("/read/send")
     public ResponseEntity<CommonResponse> readSendEworksList(@RequestHeader("employeeId") String employeeId){
+        System.out.println("employeeId = " + employeeId);
         return new ResponseEntity<>(new CommonResponse("요청 리스트 출력 완료", annualService.getSendList(employeeId)), HttpStatus.OK);
     }
 

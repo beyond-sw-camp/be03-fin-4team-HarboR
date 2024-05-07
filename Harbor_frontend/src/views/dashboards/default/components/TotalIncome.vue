@@ -2,27 +2,16 @@
 import { ref } from 'vue';
 import axios from 'axios';
 
-const baseUrl = import.meta.env.VITE_API_URL;
-const modalOpen = ref(false);
-const modalContent = ref('');
+const baseUrl = import.meta.env.VITE_API_URL; 
 
-const openModal = (title) => {
-  modalContent.value = title;
-  modalOpen.value = true;
-};
-
-const closeModal = () => {
-  modalOpen.value = false;
-};
-
-const handleButtonClick = async (type) => {
+const handleButtonClick = async (type: string) => {
   try {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token'); 
     if (!token) {
-      console.error('토큰이 존재하지 않습니다.');
+      console.error('토큰이 존재하지 않습니다.'); 
       return;
     }
-    let url = ''; // URL 변수 초기화
+    let url = ''; 
     if (type === '출근') {
       url = `${baseUrl}/total/commute/attendance`;
     } else if (type === '퇴근') {
@@ -33,36 +22,24 @@ const handleButtonClick = async (type) => {
     }
     const response = await axios.get(url, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`, 
       },
     });
-    alert(response.data.message)
-    closeModal()
-    location.reload()
+    alert(response.data.message); 
+    location.reload(); 
   } catch (error) {
-    alert(error.response.data.error_message)
-    closeModal()
+    // 오류 발생 시 오류 메시지를 알림으로 보여주기
+    alert(error.response.data.error_message);
   }
 };
 </script>
-const baseUrl = `${import.meta.env.VITE_API_URL}`;
+
 <template>
   <div>
-    <v-dialog v-model="modalOpen" max-width="400"> <!-- max-width 변경 -->
-      <v-card class="d-flex justify-center"> <!-- 컨텐츠를 가운데로 정렬 -->
-        <v-card-text>
-          <v-btn color="primary" @click="handleButtonClick(modalContent)">{{ modalContent }}버튼</v-btn>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn color="primary" @click="closeModal">닫기</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <v-card elevation="0" class="bg-primary overflow-hidden bubble-shape-sm bubble-primary mb-6">
+    <v-card elevation="0" class="bg-primary overflow-hidden bubble-shape-sm bubble-primary mb-6" @click="handleButtonClick('출근')">
       <v-card-text class="pa-5">
         <div class="d-flex align-center ga-4">
-          <v-btn color="darkprimary" icon rounded="sm" variant="flat" @click="openModal('출근')">
+          <v-btn color="darkprimary" icon rounded="sm" variant="flat">
             <TableIcon stroke-width="1.5" width="25" />
           </v-btn>
           <div>
@@ -73,10 +50,11 @@ const baseUrl = `${import.meta.env.VITE_API_URL}`;
       </v-card-text>
     </v-card>
 
-    <v-card elevation="0" class="bubble-shape-sm overflow-hidden bubble-warning">
+    <!-- 퇴근 버튼에 대한 수정 부분 -->
+    <v-card elevation="0" class="bubble-shape-sm overflow-hidden bubble-warning" @click="handleButtonClick('퇴근')">
       <v-card-text class="pa-5">
         <div class="d-flex align-center ga-4">
-          <v-btn color="lightwarning" icon rounded="sm" variant="flat" @click="openModal('퇴근')">
+          <v-btn color="lightwarning" icon rounded="sm" variant="flat">
             <BuildingStoreIcon stroke-width="1.5" width="25" class="text-warning" />
           </v-btn>
           <div>

@@ -1,6 +1,9 @@
+// sidebarItem.ts
+
 import {
   BrandGravatarIcon,
   ClipboardTextIcon,
+  HomeIcon,
   MenuIcon,
   CoinIcon,
   CoinsIcon,
@@ -64,21 +67,18 @@ export interface menu {
 }
 
 const sidebarItem: menu[] = [
-  { header: '인사관리' },
+  
   {
-    title: '내정보',
-    icon: DashboardIcon,
+    title: '홈',
+    icon: HomeIcon,
     to: '/dashboard/default'
   },
+
+  { header: '인사관리' },
   {
     title: '사원 목록',
     icon: DeviceAnalyticsIcon,
     to: '/app/user/list'
-  },
-  {
-    title: '사원 승인(인사과)',
-    icon: DeviceAnalyticsIcon,
-    to: '/dashboard/analytics'
   },
   { divider: true },
   { header: '근태관리' },
@@ -92,7 +92,6 @@ const sidebarItem: menu[] = [
     icon: ClipboardIcon,
     to: '/team/schedule'
   },
-
   { divider: true },
   { header: '전자결재 관리' },
   {
@@ -104,35 +103,11 @@ const sidebarItem: menu[] = [
     title: '전자결재 상신',
     icon: UserCheckIcon,
     to: '/attendance/list/req',
-    // children: [
-    //   {
-    //     title: '결재 진행',
-    //     icon: CircleIcon,
-    //     to: '/app/user/social/posts'
-    //   },
-    //   {
-    //     title: '결재 완료',
-    //     icon: CircleIcon,
-    //     to: '/app/user/account-profile',
-    //   },
-    // ]
   },
   {
     title: '전자결재 수신',
     icon: UserCheckIcon,
     to: '/attendance/list/res',
-    // children: [
-    //   {
-    //     title: '결재 요청',
-    //     icon: CircleIcon,
-    //     to: '/app/user/social/posts'
-    //   },
-    //   {
-    //     title: '결재 내역',
-    //     icon: CircleIcon,
-    //     to: '/app/user/account-profile',
-    //   },
-    // ]
   },
   { divider: true },
   { header: '급여 명세 관리' },
@@ -157,6 +132,16 @@ const sidebarItem: menu[] = [
     icon: ClipboardTextIcon,
     to: '/noticeList'
   },
+];
 
-]
+// Check role from localStorage
+const role = localStorage.getItem('role');
+if (role === 'ADMIN') {
+  sidebarItem.splice(3, 0, {
+    title: '사원 승인(인사과)',
+    icon: DeviceAnalyticsIcon,
+    to: '/dashboard/analytics'
+  });
+}
+
 export default sidebarItem;

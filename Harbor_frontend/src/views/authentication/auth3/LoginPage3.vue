@@ -17,7 +17,7 @@ import AuthLogin from '../authForms/AuthLogin.vue';
                     <!---Left Part Logo -->
                     <v-row>
                       <v-col cols="12" class="text-center">
-                        <Logo />
+                        <img src="@/assets/images/logos/harborlogo.png" style="height: 58px;">
                       </v-col>
                     </v-row>
                     <!---Left Part Logo -->

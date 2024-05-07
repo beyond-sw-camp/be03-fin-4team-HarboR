@@ -13,7 +13,7 @@ const props = defineProps({
   <!-- ---------------------------------------------- -->
   <!-- searchbar -->
   <!-- ---------------------------------------------- -->
-  <v-text-field persistent-placeholder placeholder="Search" color="primary" variant="outlined" hide-details>
+  <!-- <v-text-field persistent-placeholder placeholder="Search" color="primary" variant="outlined" hide-details>
     <template v-slot:prepend-inner>
       <SearchIcon stroke-width="1.5" size="17" class="text-lightText SearchIcon" />
     </template>
@@ -33,5 +33,5 @@ const props = defineProps({
         <XIcon stroke-width="1.5" size="20" />
       </v-btn>
     </template>
-  </v-text-field>
+  </v-text-field> -->
 </template>

@@ -37,6 +37,7 @@ public class AnnualService {
 
     public List<AnnualListResDto> getSendList(String employeeId) {
         List<Attendance> attendanceList = attendanceRepository.findAllByEmployee_EmployeeId(employeeId);
+        System.out.println("attendanceList = " + attendanceList);
         List<AnnualListResDto> annualListResDtoList = new ArrayList<>();
         for(Attendance attendence : attendanceList){
             AnnualListResDto annualListResDto = AnnualListResDto.create(

@@ -399,7 +399,7 @@ const MainRoutes = {
     },
     {
       name: 'Mail',
-      path: '/app/mail',
+      path: '/noticeList',
       component: () => import('@/views/apps/mail/MailPage.vue')
     },
     {
@@ -457,11 +457,11 @@ const MainRoutes = {
       path: '/attendance/list/res',
       component: () => import('@/views/apps/users/list/AttendanceListRes.vue')
     },
-    {
-      name: 'noticeList',
-      path: '/noticeList',
-      component: () => import('@/views/apps/users/list/noticeList.vue')
-    },
+    // {
+    //   name: 'noticeList',
+    //   path: '/noticeList',
+    //   component: () => import('@/views/apps/users/list/noticeList.vue')
+    // },
     {
       name: 'noticedetail',
       path: '/noticedetail/:id',
@@ -470,7 +470,7 @@ const MainRoutes = {
     {
       name: 'attendancedatail',
       path: '/dashboard/analytics/attendancedetail',
-      component: () => import('@/views/apps/users/list/attendancedetail.vue')
+      component: () => import('@/views/apps/users/list/AttendanceDetail.vue')
     },
     {
       name: 'noticeCreate',
@@ -491,7 +491,7 @@ const MainRoutes = {
       name: 'TeamSchedule',
       path: '/team/schedule',
       component: () => import('@/views/apps/calendar/TeamScheduleQalendar.vue')
-    }
+    },
     {
       name: 'noticeUpdate',
       path: '/noticeUpdate',

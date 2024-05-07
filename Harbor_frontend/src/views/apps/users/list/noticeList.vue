@@ -57,6 +57,8 @@ const toNoticeCard = () => {
   router.push({ path: '/noticecreate' });
 };
 defineEmits(['sToggle']);
+
+
 </script>
 
 <template>

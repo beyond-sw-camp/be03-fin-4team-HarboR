@@ -53,16 +53,20 @@ public class LoginService {
     }
 
     public Login emailsignin(EmailLoginReqDto emailLoginReqDto) {
-        // 이메일을 기준으로 회원을 찾음
         Login member = loginRepository.findByEmail(emailLoginReqDto.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않은 이메일입니다."));
 
-        // 비밀번호 검증
         if (!passwordEncoder.matches(emailLoginReqDto.getPassword(), member.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
+
+        if (!member.getDelYn()) {
+            throw new IllegalArgumentException("사원번호가 발급되지 않아 로그인할 수 없습니다.");
+        }
+
         return member;
     }
+
 
     public Login EmployeeIdsignin(EmployeeLoginReqDto employeeLoginReqDto) {
         Login member = loginRepository.findByEmployeeId(employeeLoginReqDto.getEmployeeId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않은 이메일입니다."));
@@ -93,7 +97,6 @@ public class LoginService {
 
     public String delete(String email) {
         Login login = loginRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("없는 회원입니다."));
-
         loginRepository.delete(login);
         return login.getEmployeeId();
     }
