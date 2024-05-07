@@ -20,6 +20,13 @@ export const setClientHeaders = (token: string | null) => {
   });
 };
 
+export const setContentTypeHeaders = (type: string) => {
+  axiosServices.interceptors.request.use(function (config) {
+    config.headers['Content-Type'] = type;
+    return config;
+  });
+};
+
 // interceptor for http
 axiosServices.interceptors.response.use(
   (response) => response,

@@ -70,8 +70,7 @@ public class NoticeService {
         String fileName = multipartFile.getOriginalFilename();
 
         Notice notice = noticeRepository.findByNoticeId(noticeId).orElseThrow(() -> new IllegalArgumentException("존재하지 않은 글입니다."));
-        notice.updateNotice(noticeUpdateReq.getTitle(), noticeUpdateReq.getContents(),
-                noticeUpdateReq.getFileName());
+        notice.updateNotice(noticeUpdateReq.getTitle(), noticeUpdateReq.getContents());
         Notice notice1 = noticeRepository.save(notice);
         Path path = Paths.get("/Users/wingk/Desktop/final", notice1.getNoticeId() + "_" + fileName);
         notice1.setImagePath(path.toString());

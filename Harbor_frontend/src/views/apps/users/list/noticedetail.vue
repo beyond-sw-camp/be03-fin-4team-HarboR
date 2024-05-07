@@ -3,23 +3,12 @@ import { ref } from 'vue';
 import { format } from 'date-fns';
 import axios from '@/utils/axios';
 import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
+import { useRouter } from 'vue-router';
 
 const token: string | null = localStorage.getItem('token');
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 
-const page = ref({ title: '공지사항' });
-const breadcrumbs = ref([
-  {
-    title: '기타',
-    disabled: false,
-    href: '/noticeList'
-  },
-  {
-    title: '공지사항',
-    disabled: true,
-    href: '#'
-  }
-]);
+
 
 const deleteItem = async () => {
   try {
@@ -31,11 +20,37 @@ const deleteItem = async () => {
     console.error(error);
   }
 };
-const editItem = async () => {};
+// const editItem1 = () => {
+  
+//   router.push({
+//     name: 'noticeUpdate',
+//     params: {
+//       noticeTitle: props.selectedDetail.title, 
+//       noticeContent: props.selectedDetail.contents
+//     }
+//   });
+// };
 
 const props = defineProps({
   selectedDetail: Object || Array
 });
+
+const selectedList = ref({
+  noticeId: '',
+  noticeTitle: '',
+  noticeContents: '',
+  filePath : '',
+  fileName:''
+});
+
+const editItem = () => {
+  selectedList.value.noticeId = props.selectedDetail?.noticeId;
+  selectedList.value.noticeTitle = props.selectedDetail?.noticeTitle;
+  selectedList.value.noticeContents = props.selectedDetail?.noticeContent;
+  selectedList.value.filePath = props.selectedDetail?.filePath;
+
+  router.push('/noticeUpdate')
+}
 
 const downloadFile = async (filePath: string) => {
   try {
@@ -67,10 +82,26 @@ const downloadFile = async (filePath: string) => {
     alert(error);
   }
 };
+
+const router = useRouter();
+
+// const editItem = () => {
+//   console.log(props.selectedDetail);
+//   console.log(props.selectedDetail?.noticeId)
+//   router.push({
+//     name: 'noticeUpdate', // 라우터 이름으로 이동
+//     params: {
+//       noticeId: props.selectedDetail?.noticeId, // URL 파라미터로 공지사항 ID 전달
+//       noticeTitle: props.selectedDetail?.title, // URL 파라미터로 제목 전달
+//       noticeContent: props.selectedDetail?.contents // URL 파라미터로 내용 전달
+//     }
+//   });
+// };
+
+
 </script>
 
 <template>
-  <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
   <v-card variant="flat">
     <v-card-item>
       <div class="d-sm-flex align-center justify-space-between">
@@ -104,8 +135,10 @@ const downloadFile = async (filePath: string) => {
       <div class="d-flex flex-column justify-content-between" style="height: 100%">
         <!-- 여기에 다른 내용 추가 가능 -->
         <div class="align-self-end">
-          <v-button class="edit-button" @click="editItem">수정하기</v-button>
-          <v-button class="delete-button" @click="deleteItem">삭제하기</v-button>
+          <v-btn color="blue darken-2" class="white--text" @click="editItem">
+            수정하기
+          </v-btn>
+          <v-btn class="delete-button" @click="deleteItem">삭제하기</v-btn>
         </div>
       </div>
       <div>

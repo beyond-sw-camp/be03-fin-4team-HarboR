@@ -6,7 +6,8 @@ export const useUserCardStore = defineStore({
   id: 'userCard',
   state: () => ({
     noticelist: [],
-    noticedetail: []
+    noticedetail: [],
+    selectNotice: {noticeId: '', noticeTitle: '', noticeContent: '', filePath: '' }
   }),
   getters: {},
   actions: {
@@ -15,6 +16,7 @@ export const useUserCardStore = defineStore({
         setClientHeaders(token);
         const response = await axios.get(`${baseUrl}/login/notice/list`);
         this.noticelist = response.data.result.content;
+        console.log(this.noticelist)
       } catch (error) {
         alert(error);
       }
@@ -28,5 +30,12 @@ export const useUserCardStore = defineStore({
         alert(error);
       }
     },
+    async saveSelectNotice(notice: any){
+      this.selectNotice.noticeId = notice.noticeId;
+      this.selectNotice.noticeTitle = notice.title;
+      this.selectNotice.noticeContent = notice.contents;
+      this.selectNotice.filePath = notice.filePath
+    
+    }
   }
 });
