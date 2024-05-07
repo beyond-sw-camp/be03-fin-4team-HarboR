@@ -55,8 +55,6 @@ public class ScheduleService {
         return scheduleList.stream()
                 .map(schedule -> ScheduleTeamListRes.mapToSchedule(schedule, schedule.getEmployee().getName()))
                 .collect(Collectors.toList());
-
-
     }
 
     public void scheduleUpdate(Long scheduleId, ScheduleUpdateReq scheduleUpdateReq) {

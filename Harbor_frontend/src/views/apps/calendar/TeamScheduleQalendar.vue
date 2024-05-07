@@ -29,6 +29,24 @@ const breadcrumbs = ref([
   }
 ]);
 
+const config = {
+  month: {
+    showTrailingAndLeadingDates: false
+  },
+  week: {
+    startsOn: 'sunday',
+    nDays: 7,
+    scrollToHour: 5
+  },
+  style: {
+    fontFamily: 'Roboto'
+  },
+  defaultMode: 'week',
+  isSilent: true,
+  showCurrentTime: true,
+  issmall: true
+};
+
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 const events: IterableIterator<Event> = ref([]);
 
@@ -51,7 +69,7 @@ const reloadEvents = async (): Promise<Event[]> => {
       end: schedule.scheduleEndDate + extractHourMinute(schedule.scheduleEndTime)
     },
     color: schedule.scheduleColor,
-    isEditable: true,
+    isEditable: false,
     id: schedule.scheduleId,
     description: schedule.scheduleComment
   }));

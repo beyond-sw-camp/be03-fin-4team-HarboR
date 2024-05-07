@@ -326,7 +326,7 @@ const createEvent = async () => {
   const schedule = toScheduleDTO(newEvent.value);
   await axios.post(`${baseUrl}/employee/schedule/create`, schedule);
   newEvent.value = {
-    id: '',
+    id: 0,
     title: '',
     description: '',
     time: {
