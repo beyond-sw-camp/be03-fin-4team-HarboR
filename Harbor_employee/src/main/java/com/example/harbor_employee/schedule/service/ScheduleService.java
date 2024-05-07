@@ -78,13 +78,8 @@ public class ScheduleService {
     }
 
     public Schedule scheduleDetail(Long scheduleId) {
-        Schedule schedule = scheduleRepository.findByScheduleId(scheduleId)
+        return scheduleRepository.findByScheduleId(scheduleId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스케줄 입니다"));
-        if (schedule.isDelYn()) {
-            return null; // 또는 원하는 처리를 하세요.
-        } else {
-            return schedule;
-        }
     }
 }
 

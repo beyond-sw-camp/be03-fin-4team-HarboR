@@ -62,7 +62,5 @@ public class ScheduleController {
     public ResponseEntity<CommonResponse> ScheduleDetail(@PathVariable("scheduleId") Long scheduleId){
         Schedule schedule = scheduleService.scheduleDetail(scheduleId);
         return new ResponseEntity<>(new CommonResponse("디테일입니다.", schedule), HttpStatus.OK);
-
-
     }
 }
