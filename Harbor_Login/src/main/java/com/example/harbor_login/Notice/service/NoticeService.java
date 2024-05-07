@@ -46,9 +46,8 @@ public class NoticeService {
 
 
     public Notice NoticeCreate(NoticeCreateReqDto noticeCreateReqDto, MultipartFile multipartFile) throws IOException {
-        MultipartFile multipartFile1= noticeCreateReqDto.getFilePath();
-        String fileName = multipartFile.getOriginalFilename();
-
+        MultipartFile multipartFile1 = noticeCreateReqDto.getFilePath();
+        String uploadUrl = null;
         Notice new_notice = Notice.builder()
                 .title(noticeCreateReqDto.getTitle()) // NoticeResDto에서 title을 가져와서 설정
                 .contents(noticeCreateReqDto.getContents())
@@ -57,8 +56,10 @@ public class NoticeService {
                 // NoticeResDto에서 content를 가져와서 설정
                 // 다른 필드들도 필요에 따라 추가할 수 있음
                 .build();
+        if (multipartFile != null) {
+            uploadUrl = s3UploadUtil.upload(multipartFile, "images");
+        }
         Notice notice = noticeRepository.save(new_notice);
-        String uploadUrl = s3UploadUtil.upload(multipartFile, "images");
         notice.setImagePath(uploadUrl);
         return notice;
     }
