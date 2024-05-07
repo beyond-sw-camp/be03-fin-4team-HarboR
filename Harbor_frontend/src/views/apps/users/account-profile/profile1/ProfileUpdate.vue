@@ -18,8 +18,10 @@ function fileUpload(event) {
   selectedImage = event.target.files[0];
   const reader = new FileReader();
   reader.onload = () => {
-    console.log(reader.result);
-    profileImage.value = reader.result;
+    if (!reader.result.data.startsWith('image/')) {
+      alert('옳지 않은 파일 형식입니다.');
+      profileImage.value = null;
+    } else profileImage.value = reader.result;
   };
   reader.readAsDataURL(selectedImage);
 }
