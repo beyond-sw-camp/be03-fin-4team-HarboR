@@ -10,26 +10,39 @@ const email = ref('');
 const Regform = ref();
 const name = ref('');
 const birth = ref('');
+const passwordConfirmation = ref('');
+const show2 = ref(false)
+const isFormValid = ref(false);
+
 const nameRules = ref([
   (v: string) => !!v || '이름을 입력해주세요'
 ]);
+const passwordConfirmationRules = ref([
+  (v: string) => !!v || '비밀번호 재입력을 입력해주세요',
+  (v: string) => v === password.value || '비밀번호와 일치하지 않습니다'
+]);
+
 const birthRules = ref([
   (v: string) => !!v || '생년월일을 입력해주세요',
   (v: string) => (v && v.length === 6) || 'EX : 980924'
 ]);
 const passwordRules = ref([
   (v: string) => !!v || '비밀번호를 입력해주세요',
-  (v: string) => (v && v.length >= 8 && v.length <= 20) || '비밀번호를 8자에서 20자 사이로 입력해주세요'
+  (v: string) => /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/.test(v) || '특수문자, 영어, 숫자를 포함하여 8자에서 20자 사이로 입력해주세요'
 ]);
 const emailRules = ref([(v: string) => !!v || '이메일을 입력해주세요', (v: string) => /.+@.+\..+/.test(v) || '이메일 형식에 맞춰주세요']);
 
 async function validate() {
   try {
-    // v-form 컴포넌트의 validate 메서드를 호출하여 입력 값의 유효성을 검사합니다.
     const isValid = await Regform.value.validate();
-    // 유효성 검사에 실패하면 함수를 종료합니다.
-    if (!isValid) {
-      alert("형식을 모두 채워주세요")
+    isFormValid.value = isValid;
+    if (isValid === false) {
+        console.log(2);
+        alert("형식을 모두 채워주세요");
+      return;
+    }
+    if (password.value !== passwordConfirmation.value) {
+      alert("비밀번호와 비밀번호 재설정이 일치하지 않습니다.");
       return;
     }
     // 회원가입 로직을 수행합니다. 여기에 필요한 HTTP 요청 등의 로직을 추가하면 됩니다.
@@ -45,7 +58,7 @@ async function validate() {
     router.push('/auth/login');
   } catch (error) {
     console.error('회원가입 중 오류 발생:', error);
-    alert('회원가입 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+    alert(error.response.data.error_message);
   }
 }
 
@@ -86,7 +99,22 @@ async function validate() {
       :type="show1 ? 'text' : 'password'"
       @click:append-inner="show1 = !show1"
       class="pwdInput"
-    ></v-text-field>
+      ></v-text-field>
+      <v-text-field
+        v-model="passwordConfirmation"
+        :rules="passwordConfirmationRules"
+        label="비밀번호 재입력"
+        required
+        density="comfortable"
+        variant="outlined"
+        color="primary"
+        hide-details="auto"
+        :append-inner-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+        :type="show2 ? 'text' : 'password'"
+        @click:append-inner="show2 = !show2"
+        class="pwdInput2"
+        style="margin-top: 14px;"
+      ></v-text-field>
     <v-text-field
       v-model="birth"
       :rules="birthRules"
@@ -98,18 +126,6 @@ async function validate() {
       variant="outlined"
       color="primary"
     ></v-text-field>
-    <!-- <div class="d-sm-inline-flex align-center mt-2 mb-7 mb-sm-0 font-weight-bold">
-      <v-checkbox
-        v-model="checkbox"
-        :rules="[(v: any) => !!v || 'You must agree to continue!']"
-        label="이용 약관에 동의하시겠습니까?"
-        required
-        color="primary"
-        class="ms-n2"
-        hide-details
-      ></v-checkbox>
-      <a href="https://www.kakao.com/main" class="ml-1 text-lightText">이용약관</a>
-    </div> -->
     <v-btn color="secondary" block class="mt-2" variant="flat" size="large" @click="validate()">승인 요청</v-btn>
   </v-form>
   <div class="mt-5 text-right">
