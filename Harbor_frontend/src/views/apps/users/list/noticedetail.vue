@@ -39,7 +39,11 @@
       </div>
       <div>
         <!-- 파일명을 클릭 가능한 링크로 만듭니다 -->
-        <span style="cursor: pointer; text-decoration: underline" @click="downloadFile(selectedDetail?.filePath.split('images/')[1])">
+        <span
+          style="cursor: pointer; text-decoration: underline"
+          v-if="selectedDetail?.filePath"
+          @click="downloadFile(selectedDetail?.filePath.split('images/')[1])"
+        >
           {{ decodedFileName }}
         </span>
       </div>
