@@ -29,7 +29,4 @@ public class EmployeeController {
     public ResponseEntity<CommonResponse> employeeName(@PathVariable("employeeId") String employeeId) {
         return new ResponseEntity<>(new CommonResponse("이름 확인", employeeService.employeeName(employeeId)), HttpStatus.OK);
     }
-
-    @GetMapping("/health")
-    public
 }
