@@ -97,7 +97,7 @@ public class AnnualService {
         } else if(annual.getFirstApprovalDate() == null) {
             List<Attendance> attendanceList = attendanceRepository.findAllByWorkStartTimeBetweenAndEmployeeEmployeeIdOrderByWorkStartTimeDesc(startDate, endDate, annual.getFirstSignId());
             for(Attendance attendance : attendanceList){
-                if(attendance.getWorkPolicy().equals("E07")) return annual;
+                if(attendance.getWorkPolicy().equals("O04")) return annual;
             }
         }
         if(annual.getFirstApprovalDate() != null && annual.getSecondApprovalDate() != null && annual.getThirdSignId().equals(employeeId)){
@@ -105,7 +105,7 @@ public class AnnualService {
         } else if(annual.getFirstApprovalDate() == null || annual.getSecondApprovalDate() == null) {
             List<Attendance> attendanceList = attendanceRepository.findAllByWorkStartTimeBetweenAndEmployeeEmployeeIdOrderByWorkStartTimeDesc(startDate, endDate, annual.getFirstSignId());
             for(Attendance attendance : attendanceList){
-                if(attendance.getWorkPolicy().equals("E07")) return annual;
+                if(attendance.getWorkPolicy().equals("O04")) return annual;
             }
         }
         return null;
@@ -116,7 +116,7 @@ public class AnnualService {
         Employee employee = employeeRepository.findByEmployeeId(employeeId)
                 .orElseThrow(() -> new IllegalArgumentException("없는 회원입니다."));
 
-        String firstAuthCode = employee.getTeamCode();
+        String firstAuthCode = employee.getDepartmentCode();
         String firstPositionCode = getPositionCode(employee.getPositionCode());
         List<AuthListResDto.Inform> firstInforms = new ArrayList<>();
         List<Employee> firstAuthList = employeeRepository.findEmployeesByDepartmentCodeAndPositionCodeRange(
