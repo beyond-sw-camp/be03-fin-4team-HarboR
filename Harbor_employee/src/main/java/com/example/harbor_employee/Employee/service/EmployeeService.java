@@ -146,6 +146,9 @@ public class EmployeeService {
     }
 
     public EmployeeDetailResDto updateEmployee(EmployeeUpdateRequestDto request, MultipartFile file) throws IOException {
+        if(Objects.requireNonNull(file.getContentType()).startsWith("image/")){
+            throw new IOException("적절하지 않은 파일 확장자입니다.");
+        }
         Employee employee = employeeRepository.findByEmployeeId(request.getEmployeeId()).orElseThrow(() -> new IllegalArgumentException(" 없는 employee 입니다 "));
         String filePath = "";
         employee.updateEmployee(filePath,request.getPhone(),request.getAddress());
