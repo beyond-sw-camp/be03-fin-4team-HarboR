@@ -20,7 +20,7 @@ type ListItem = {
   title: string; // 제목
   createdAt: string; // 작성일자
   contents: string;
-  filePath: string;
+  filePath?: string | null;
 };
 const listCards = computed<ListItem[]>(() => {
   // noticeId 기준 내림차순 정렬
@@ -57,7 +57,6 @@ const toNoticeCard = () => {
   router.push({ path: '/noticecreate' });
 };
 defineEmits(['sToggle']);
-
 
 </script>
 
