@@ -8,7 +8,6 @@ import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
 import { useUserCardStore } from '@/stores/apps/NoticeCard';
 import { useRouter } from 'vue-router';
 import axios, { setClientHeaders, setContentTypeHeaders } from '@/utils/axios';
-import { setUncaughtExceptionCaptureCallback } from 'process';
 
 const router = useRouter();
 const store = useUserCardStore();
@@ -84,7 +83,6 @@ const editItem = async () => {
     setClientHeaders();
     setContentTypeHeaders('multipart/form-data');
     const response = await axios.patch(`${baseUrl}/login/notice/update/${noticeId}`, formData);
-    if (response.status == 413) throw setUncaughtExceptionCaptureCallback(() => alert('파일의 용량이 너무 큽니다.'));
     console.log('Notice created successfully:', response);
     router.push('/noticeList');
   } catch (error) {

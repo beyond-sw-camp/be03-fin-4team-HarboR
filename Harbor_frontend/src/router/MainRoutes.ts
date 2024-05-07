@@ -470,7 +470,7 @@ const MainRoutes = {
     {
       name: 'attendancedatail',
       path: '/dashboard/analytics/attendancedetail',
-      component: () => import('@/views/apps/users/list/AttendanceDetail.vue')
+      component: () => import('@/views/apps/users/list/Attendancedetail.vue')
     },
     {
       name: 'noticeCreate',
