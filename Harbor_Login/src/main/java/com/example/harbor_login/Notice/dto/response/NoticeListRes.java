@@ -23,14 +23,12 @@ public class NoticeListRes {
     private String filePath;
 
     public static NoticeListRes mapToNotice(Notice notice) {
-        String path = "";
-        if(!notice.getFilePath().isBlank()) path = notice.getFilePath().split("images/")[1];
         return NoticeListRes.builder()
                 .noticeId(notice.getNoticeId())
                 .title(notice.getTitle())
                 .contents(notice.getContents())
                 .createdAt(LocalDate.from(notice.getCreatedAt()))
-                .filePath(path)
+                .filePath(notice.getFilePath())
                 .build();
     }
 }

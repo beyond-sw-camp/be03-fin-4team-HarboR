@@ -84,7 +84,6 @@ public class NoticeService {
 
     public Page<NoticeListRes> findAll(Pageable pageable) {
         return noticeRepository.findAllByDelYnOrderByCreatedAt(false,  pageable).map(NoticeListRes::mapToNotice);
-
     }
 
 //
