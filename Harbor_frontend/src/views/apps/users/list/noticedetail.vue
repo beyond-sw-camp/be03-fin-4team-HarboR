@@ -1,107 +1,5 @@
-<script setup lang="ts">
-import { ref } from 'vue';
-import { format } from 'date-fns';
-import axios from '@/utils/axios';
-import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
-import { useRouter } from 'vue-router';
-
-const token: string | null = localStorage.getItem('token');
-const baseUrl = `${import.meta.env.VITE_API_URL}`;
-
-
-
-const deleteItem = async () => {
-  try {
-    const noticeId = props.selectedDetail.noticeId;
-    const response = await axios.delete(`${baseUrl}/login/notice/delete/${noticeId}`);
-    alert('삭제성공');
-    location.reload();
-  } catch (error) {
-    console.error(error);
-  }
-};
-// const editItem1 = () => {
-  
-//   router.push({
-//     name: 'noticeUpdate',
-//     params: {
-//       noticeTitle: props.selectedDetail.title, 
-//       noticeContent: props.selectedDetail.contents
-//     }
-//   });
-// };
-
-const props = defineProps({
-  selectedDetail: Object || Array
-});
-
-const selectedList = ref({
-  noticeId: '',
-  noticeTitle: '',
-  noticeContents: '',
-  filePath : '',
-  fileName:''
-});
-
-const editItem = () => {
-  selectedList.value.noticeId = props.selectedDetail?.noticeId;
-  selectedList.value.noticeTitle = props.selectedDetail?.noticeTitle;
-  selectedList.value.noticeContents = props.selectedDetail?.noticeContent;
-  selectedList.value.filePath = props.selectedDetail?.filePath;
-
-  router.push('/noticeUpdate')
-}
-
-const downloadFile = async (filePath: string) => {
-  try {
-    if (filePath) {
-      // 파일 다운로드
-      console.log('앙');
-      const token = localStorage.getItem('token'); // 로컬 스토리지에서 토큰을 가져옴
-      if (token) {
-        const headers = {
-          Authorization: `Bearer ${token}`
-        };
-        // 헤더에 토큰을 추가하여 요청을 보냄
-        console.log(headers);
-        await axios.post(`${baseUrl}/login/notice/download/{fileName}`, '', { headers }).then((response) => {
-          function replaceAll(str: string, searchStr: string, replaceStr: string) {
-            return str.split(searchStr).join(replaceStr);
-          }
-          const url = window.URL.createObjectURL(new Blob([response.data], { type: 'image/png' }));
-          const link = document.createElement('a');
-          link.href = url;
-          const filename = replaceAll(decodeURI(response.headers.filename), '+', ' ');
-          link.setAttribute('download', filename);
-          document.body.appendChild(link);
-          link.click();
-        });
-      }
-    }
-  } catch (error) {
-    alert(error);
-  }
-};
-
-const router = useRouter();
-
-// const editItem = () => {
-//   console.log(props.selectedDetail);
-//   console.log(props.selectedDetail?.noticeId)
-//   router.push({
-//     name: 'noticeUpdate', // 라우터 이름으로 이동
-//     params: {
-//       noticeId: props.selectedDetail?.noticeId, // URL 파라미터로 공지사항 ID 전달
-//       noticeTitle: props.selectedDetail?.title, // URL 파라미터로 제목 전달
-//       noticeContent: props.selectedDetail?.contents // URL 파라미터로 내용 전달
-//     }
-//   });
-// };
-
-
-</script>
-
 <template>
+  <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
   <v-card variant="flat">
     <v-card-item>
       <div class="d-sm-flex align-center justify-space-between">
@@ -135,21 +33,99 @@ const router = useRouter();
       <div class="d-flex flex-column justify-content-between" style="height: 100%">
         <!-- 여기에 다른 내용 추가 가능 -->
         <div class="align-self-end">
-          <v-btn color="blue darken-2" class="white--text" @click="editItem">
-            수정하기
-          </v-btn>
-          <v-btn class="delete-button" @click="deleteItem">삭제하기</v-btn>
+          <v-button class="edit-button" @click="editItem">수정하기</v-button>
+          <v-button class="delete-button" @click="deleteItem">삭제하기</v-button>
         </div>
       </div>
       <div>
         <!-- 파일명을 클릭 가능한 링크로 만듭니다 -->
-        <span style="cursor: pointer; text-decoration: underline" @click="downloadFile(selectedDetail?.filePath)">
-          {{ selectedDetail?.filePath }}
+        <span style="cursor: pointer; text-decoration: underline" @click="downloadFile(selectedDetail?.filePath.split('images/')[1])">
+          {{ decodedFileName }}
         </span>
       </div>
     </v-card-text>
   </v-card>
 </template>
+
+<script setup lang="ts">
+import { ref } from 'vue';
+import { format } from 'date-fns';
+import axios from '@/utils/axios';
+import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
+import { useRouter } from 'vue-router';
+
+const props = defineProps({
+  selectedDetail: Object || Array
+});
+
+const router = useRouter();
+const token: string | null = localStorage.getItem('token');
+const baseUrl = `${import.meta.env.VITE_API_URL}`;
+const splitUrl = ref(props.selectedDetail?.filePath.split('/'));
+const fileName = splitUrl.value.pop();
+const splitFileName = fileName.split('_');
+const finalFileName = splitFileName.slice(1).join('_');
+const decodedFileName = decodeURIComponent(finalFileName);
+
+const page = ref({ title: '공지사항' });
+const breadcrumbs = ref([
+  {
+    title: '기타',
+    disabled: false,
+    href: '/noticeList'
+  },
+  {
+    title: '공지사항',
+    disabled: true,
+    href: '#'
+  }
+]);
+
+const deleteItem = async () => {
+  try {
+    const noticeId = props.selectedDetail.noticeId;
+    const response = await axios.delete(`${baseUrl}/login/notice/delete/${noticeId}`);
+    alert('삭제성공');
+    location.reload();
+  } catch (error) {
+    console.error(error);
+  }
+};
+const editItem = () => {
+  router.push('/noticeUpdate');
+};
+
+const downloadFile = async (filePath: string) => {
+  try {
+    if (filePath) {
+      // 파일 다운로드
+      console.log('앙');
+      const token = localStorage.getItem('token'); // 로컬 스토리지에서 토큰을 가져옴
+      if (token) {
+        const headers = {
+          Authorization: `Bearer ${token}`
+        };
+        console.log(filePath);
+        // 헤더에 토큰을 추가하여 요청을 보냄
+        await axios.get(`${baseUrl}/login/notice/download/${filePath}`, { headers, responseType: 'blob' }).then((response) => {
+          function replaceAll(str: string, searchStr: string, replaceStr: string) {
+            return str.split(searchStr).join(replaceStr);
+          }
+          const url = window.URL.createObjectURL(new Blob([response.data], { type: response.data.type }));
+          const link = document.createElement('a');
+          link.href = url;
+          const filename = replaceAll(decodeURI(response.headers.filename), '+', ' ');
+          link.setAttribute('download', filename);
+          document.body.appendChild(link);
+          link.click();
+        });
+      }
+    }
+  } catch (error) {
+    alert(error);
+  }
+};
+</script>
 
 <style>
 .delete-button,

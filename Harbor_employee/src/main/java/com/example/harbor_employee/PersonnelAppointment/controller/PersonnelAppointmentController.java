@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/employee/personnel")
+@RequestMapping("/personnel")
 @Slf4j
 public class PersonnelAppointmentController {
 

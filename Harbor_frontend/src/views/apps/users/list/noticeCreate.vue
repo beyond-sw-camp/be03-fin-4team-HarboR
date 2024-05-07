@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import axios, { setClientHeaders, setContentTypeHeaders } from '@/utils/axios'; // axios import
 import { useEditor, EditorContent } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
@@ -40,10 +40,11 @@ const goBack = () => {
 };
 
 let selectedImage;
+const selectedImageName = ref('');
 function fileUpload(event) {
   selectedImage = event.target.files[0];
+  selectedImageName.value = selectedImage.name;
   const reader = new FileReader();
-  console.log(selectedImage);
   reader.onload = () => {
     profileImage.value = reader.result;
   };
@@ -62,7 +63,6 @@ async function createNotice() {
     return;
   }
   const formData = new FormData();
-  const htmlContent = editor.value.getHTML();
   const textContent = editor.value.getText();
 
   const noticeForm = {
@@ -74,12 +74,12 @@ async function createNotice() {
   if (selectedImage) {
     formData.append('file', selectedImage);
   }
-  console.log(htmlContent);
   formData.append('request', blob);
+  console.log(formData.get('file'));
+  console.log(formData.get('request'));
   try {
     setClientHeaders(token);
     setContentTypeHeaders('multipart/form-data');
-
     const response = await axios.post(`${baseUrl}/login/notice/create`, formData);
 
     console.log('Notice created successfully:', response);
@@ -119,18 +119,27 @@ async function createNotice() {
       </div>
       <!-- <EditorContent :editor="editor" /> -->
       <EditorContent :editor="editor" v-model="noticeContent" />
-      <div class="text-right mt-3">
-        <!-- '첨부파일' 버튼을 '작성하기' 버튼의 왼쪽으로 이동 -->
-        <v-btn style="margin-right: 18px; position: relative; overflow: hidden">
+      <div class="d-flex align-items-center justify-content-between mt-3">
+        <span style="background: transparent; border: none; height: 36px; line-height: 36px; padding: 0; margin-bottom: 0">
+          {{ selectedImageName }}
+        </span>
+        <v-btn class="align-items-right" style="margin-left: 10px; position: absolute; right: 135px; height: 36px">
           <input
             type="file"
-            accept="image/*"
+            accept="/*"
             @change="fileUpload"
             style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer"
           />
           <v-icon>mdi-attachment</v-icon>
         </v-btn>
-        <v-btn color="blue darken-2" class="white--text" @click="createNotice"> 작성하기 </v-btn>
+        <v-btn
+          color="blue darken-2"
+          class="white--text"
+          style="margin-left: 10px; position: absolute; right: 30px; height: 36px; line-height: 36px"
+          @click="createNotice"
+        >
+          작성하기
+        </v-btn>
       </div>
     </v-card-text>
   </v-card>

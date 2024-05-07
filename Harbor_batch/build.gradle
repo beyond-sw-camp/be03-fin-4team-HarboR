@@ -10,6 +10,9 @@ version = '0.0.1-SNAPSHOT'
 java {
     sourceCompatibility = '11'
 }
+ext {
+    set('springCloudVersion', '2021.0.8')
+}
 repositories {
     mavenCentral()
 }
@@ -34,8 +37,19 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.batch:spring-batch-test'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-client'
+    implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-client-config'
+    implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-client-loadbalancer'
+
+
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+dependencyManagement{
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }

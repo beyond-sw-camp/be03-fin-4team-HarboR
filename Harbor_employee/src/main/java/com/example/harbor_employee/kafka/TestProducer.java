@@ -3,9 +3,12 @@ package com.example.harbor_employee.kafka;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
+
+import static org.apache.poi.hssf.record.RecordFactory.createRecord;
 
 @Component
 @Slf4j

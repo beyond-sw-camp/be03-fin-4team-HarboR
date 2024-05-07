@@ -1,5 +1,7 @@
 package com.example.harbor_employee.schedule.service;
 
+import com.example.harbor_employee.Employee.domain.Employee;
+import com.example.harbor_employee.Employee.repository.EmployeeRepository;
 import com.example.harbor_employee.schedule.domain.Schedule;
 import com.example.harbor_employee.schedule.dto.ScheduleCreateReq;
 import com.example.harbor_employee.schedule.dto.ScheduleListRes;
@@ -15,12 +17,15 @@ import java.util.stream.Collectors;
 @Transactional
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
+    private final EmployeeRepository employeeRepository;
 
-    public ScheduleService(ScheduleRepository scheduleRepository) {
+    public ScheduleService(ScheduleRepository scheduleRepository, EmployeeRepository employeeRepository) {
         this.scheduleRepository = scheduleRepository;
+        this.employeeRepository = employeeRepository;
     }
 
-    public Schedule CreateSchedule(ScheduleCreateReq scheduleCreateReq) {
+    public Schedule CreateSchedule(String employeeId, ScheduleCreateReq scheduleCreateReq) {
+        Employee employee = employeeRepository.findByEmployeeId(employeeId).orElseThrow(() -> new IllegalArgumentException("없는 회원입니다"));
         Schedule schedule = Schedule.builder()
                 .scheduleStartDate(scheduleCreateReq.getScheduleStartDate())
                 .scheduleEndDate(scheduleCreateReq.getScheduleEndDate())
@@ -29,14 +34,15 @@ public class ScheduleService {
                 .scheduleTitle(scheduleCreateReq.getScheduleTitle())
                 .scheduleComment(scheduleCreateReq.getScheduleComment())
                 .scheduleColor((scheduleCreateReq.getScheduleColor()))
+                .employee(employee)
                 .build();
         System.out.println(scheduleCreateReq.getScheduleTitle());
         Schedule schedule1 = scheduleRepository.save(schedule);
         return schedule1;
     }
 
-    public List<ScheduleListRes> findAllSchedule() {
-        return scheduleRepository.findAllByDelYnIs(false)
+    public List<ScheduleListRes> findAllSchedule(String employeeId) {
+        return scheduleRepository.findAllByDelYnIsAndEmployee_EmployeeId(false, employeeId)
                 .stream()
                 .map(ScheduleListRes::mapToSchedule)
                 .collect(Collectors.toList());

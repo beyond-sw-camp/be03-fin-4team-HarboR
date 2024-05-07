@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/total/annual")
+@RequestMapping("/annual")
 public class AnnualController {
     private final AnnualService annualService;
 

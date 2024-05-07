@@ -13,7 +13,7 @@ import java.security.Principal;
 
 @Slf4j
 @RestController
-@RequestMapping("/total/commute")
+@RequestMapping("/commute")
 public class CommuteController {
 
     @Autowired

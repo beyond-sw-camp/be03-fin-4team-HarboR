@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/employee/schedule")
+@RequestMapping("/schedule")
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
@@ -24,14 +24,14 @@ public class ScheduleController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<CommonResponse> ScheduleList(ScheduleListRes scheduleListRes) {
-        List<ScheduleListRes> scheduleListRes1 = scheduleService.findAllSchedule();
+    public ResponseEntity<CommonResponse> ScheduleList(@RequestHeader("employeeId") String employeeId) {
+        List<ScheduleListRes> scheduleListRes1 = scheduleService.findAllSchedule(employeeId);
         return new ResponseEntity<>(new CommonResponse("스케줄 리스트입니다", scheduleListRes1), HttpStatus.OK);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<CommonResponse> ScheduleCreate(@RequestBody ScheduleCreateReq scheduleCreateReq) {
-        scheduleService.CreateSchedule(scheduleCreateReq);
+    public ResponseEntity<CommonResponse> ScheduleCreate(@RequestHeader("employeeId") String employeeId, @RequestBody ScheduleCreateReq scheduleCreateReq) {
+        scheduleService.CreateSchedule(employeeId, scheduleCreateReq);
         return new ResponseEntity<>(new CommonResponse("스케줄이 생성되었습니다.", "ok"), HttpStatus.CREATED);
 
     }

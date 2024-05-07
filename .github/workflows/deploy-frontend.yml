@@ -1,0 +1,37 @@
+name: deploy harbor-Frontend
+on:
+  push:
+    branches:
+      - harbor-frontend
+
+jobs:
+  # 작업의 이름 지정
+  build-and-deploy:
+    runs-on: ubuntu-latest # 가상 작업 공간에 ubuntu 설치
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: setup node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+
+      - name: npm install
+        working-directory: ./Harbor_frontend
+        run: npm install
+
+      - name: npm build
+        working-directory: ./Harbor_frontend
+
+        run: npm run build
+
+      - name: setup aws cli # aws user 세팅
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{secrets.AWS_S3_ACCESS_KEY}}
+          aws-secret-access-key: ${{secrets.AWS_S3_SECRET_KEY}}
+          aws-region: "ap-northeast-2"
+
+      - name: deploy to s3 # dist내용 s3 버킷에 복사 // recursive 파일체계
+        run: |
+          aws s3 cp ./Harbor_frontend/dist s3://harbor-front/ --recursive
