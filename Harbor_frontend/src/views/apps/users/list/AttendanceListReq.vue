@@ -215,7 +215,7 @@ async function attendanceDelete(annualId: number) {
           <AttendanceListDetail @toggleDetail="details = false" :selectedDetail="selectAttendance" />
           <v-row class="justify-end mr-10 my-3">
             <div class="align-self-end mt-3">
-              <!-- <v-button class="delete-button" @click="attendanceDelete(selectAttendance.annualId)">삭제하기</v-button> -->
+              <v-button class="delete-button" @click="attendanceDelete(selectAttendance.annualId)">삭제하기</v-button>
             </div>
           </v-row>
         </div>

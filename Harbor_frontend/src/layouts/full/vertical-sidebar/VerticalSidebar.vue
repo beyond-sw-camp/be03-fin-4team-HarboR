@@ -19,7 +19,9 @@ const sidebarMenu = shallowRef(sidebarItems);
 
     <div class="pa-5" style="display: flex; align-items: center;">
       <!-- <Logo /> -->
-      <img src="@/assets/images/logos/harborlogo.png" style="height: 58px;">
+      <router-link to="/dashboard/default">
+        <img src="@/assets/images/logos/harborlogo.png" style="height: 58px;">
+      </router-link>
       <h3 style="margin-left: 10px;">HarboR</h3>
     </div>
     <!-- ---------------------------------------------- -->
