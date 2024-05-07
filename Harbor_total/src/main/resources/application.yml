@@ -29,5 +29,9 @@ logging:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 jwt:
-  expiration: 30
   secretKey: ${JWT_SECRETKEY}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

@@ -23,5 +23,8 @@ logging:
     com.example.harbor_login.client: DEBUG
 jwt:
   secretKey: ${JWT_SECRETKEY}
-
-url: "http://localhost:8000"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

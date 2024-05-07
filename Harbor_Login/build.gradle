@@ -45,7 +45,7 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-client'
     implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-client-all'
     implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-client-loadbalancer'
-
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     // AWS S3
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.1.RELEASE'
 
