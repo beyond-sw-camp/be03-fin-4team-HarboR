@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed,shallowRef } from 'vue';
 import { useUserCardStore } from '@/stores/apps/UserCard';
 // common components
 import type { Header, ServerOptions } from 'vue3-easy-data-table';
@@ -34,8 +34,7 @@ const listCards = computed<ListItem[]>(() => {
   return store.list;
 });
 console.log(listCards.value);
-const searchField = ref('name');
-const searchValue = ref('');
+
 
 const headers: Header[] = [
   { text: '사원 정보', value: 'name', sortable: true },
@@ -50,31 +49,61 @@ const showRow = (item: ListItem) => {
   location.href = `/app/user/${item.employeeId}/profile`;
 };
 //pageable 위한 함수
-const currentPage = ref(1);
+const currentPage = ref(0);
 const changePage = (newPage) => {
   currentPage.value = newPage;
-  store.fetchlistCards(token, newPage); // 새 페이지 번호로 데이터 불러오기
+   const type = searchField.value;
+  const value = searchValue.value;
+  store.fetchlistCards(token, newPage, type, value);
 };
+// 검색 함수
+function changeSearch() {
+  const type = searchField.value;
+  const value = searchValue.value;
+  const page = currentPage.value;
+  store.fetchlistCards(token, page, type, value);
+}
+const searchField = ref('name');
+const searchValue = ref('');
 
+const searchList = shallowRef([
+  { name: '이름', value: 'name' },
+  { name: '사원아이디', value: 'employeeId' },
+]);
 </script>
 <template>
   <v-row>
     <v-col cols="12" md="12">
       <UiParentCard title="Customer List">
         <v-row justify="space-between" class="align-center mb-3">
-          <v-col cols="12" md="3">
-            <v-text-field type="text" variant="outlined" persistent-placeholder placeholder="검색하기" v-model="searchValue"
-              density="compact" hide-details prepend-inner-icon="mdi-magnify" />
+          <v-col cols="12" md="3" class="d-flex align-center">
+              <v-text-field
+              type="text"
+              variant="outlined"
+              persistent-placeholder
+              placeholder="검색하기"
+              v-model="searchValue"
+              density="compact"
+              hide-details
+              prepend-inner-icon="mdi-magnify"
+              class="mr-2"
+              />
+              <v-btn @click="changeSearch()">검색하기</v-btn>
           </v-col>
           <v-col cols="12" md="3">
-            <v-select label="Select" v-model="searchField" variant="outlined" @update:model-value="searchByName"
-              :items="['', 'name', 'position', 'department']"></v-select>
+            <!-- <v-select label="Select" v-model="searchField" variant="outlined" @update:model-value="searchByName"
+              :items="['', 'name', 'position', 'department']"></v-select> -->
+              <select v-model="searchField" style="text-align: center; width: 100px; height: 30px; border: 1px solid black; border-radius: 5px; background-color: #f5f5f5;">
+  <option v-for="(work, index) in searchList" :value="work.value" v-bind:key="index">
+    {{ work.name }}
+  </option>
+</select>
+
           </v-col>
         </v-row>
         <div class="overflow-auto">
           <EasyDataTable :headers="headers" :items="items" table-class-name="customize-table action-position"
-            @click-row="showRow" :theme-color="themeColor" :search-field="searchField" :search-value="searchValue"
-            :rows-per-page="20" hide-footer>
+            @click-row="showRow" :theme-color="themeColor" :rows-per-page="20" hide-footer>
             <template #item-name="{ name, email, profileImagePath, verify, employeeId }">
               <div class="d-flex align-center ga-4">
                 <img :src="profileImagePath" alt="avatar" width="40" />
@@ -127,8 +156,8 @@ const changePage = (newPage) => {
             </template>
           </EasyDataTable>
           <div class="my-3 mr-5  itme-right">
-            <v-btn @click="changePage(currentPage - 1)" :disabled="currentPage <= 1">이전</v-btn>
-            <span class="mx-6">{{ currentPage }}</span>
+            <v-btn @click="changePage(currentPage - 1)" :disabled="currentPage == 0">이전</v-btn>
+            <span class="mx-6">{{ currentPage+1 }}</span>
             <v-btn @click="changePage(currentPage + 1)">다음</v-btn>
           </div>
         </div>

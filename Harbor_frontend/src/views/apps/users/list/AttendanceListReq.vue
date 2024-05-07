@@ -168,10 +168,10 @@ async function attendanceDelete(annualId: number) {
           <EasyDataTable @click-row="showRow" :headers="headers" :items="items"
             table-class-name="customize-table action-position" :rows-per-page="8" v-if="!details">
             <!-- 휴가 종류 -->
-            <template #item-payStatusCode="{ payStatusCode }">
+            <template #item-payStatusCode="{ payStatusCode,firstApprovalDate }">
               <div class="d-flex align-center ga-4">
                 <div>
-                  <h5 class="text-h5">
+                  <h5 class="text-h5"  v-if="firstApprovalDate">
                     {{ getStatusCode(payStatusCode) }}
                   </h5>
                 </div>
