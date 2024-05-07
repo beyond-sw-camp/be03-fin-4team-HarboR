@@ -24,7 +24,6 @@ const departmentName = ref([]);
 const teamName = ref([]);
 // vue-router의 useRoute를 사용하여 현재 라우트 정보에 접근
 const route = useRoute();
-const token: string | null = localStorage.getItem('token');
 const getEmployeeId : string | null = localStorage.getItem('employeeId');
 const routeEmployeeId = route.params.employeeId;
 
@@ -33,7 +32,7 @@ onMounted(async () => {
   const employeeId = route.params.employeeId;
   try {
     const codeStore = useCodeStore();
-    setClientHeaders(token);
+    setClientHeaders();
     const response = await axios.get(`${baseUrl}/employee/get/${employeeId}/detail`);
     employeeDetails.value = response.data.result;
     positionName.value = codeStore.getPositionNameByCode(employeeDetails.value.position);

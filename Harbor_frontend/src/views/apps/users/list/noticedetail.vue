@@ -63,7 +63,6 @@ const props = defineProps({
 });
 
 const router = useRouter();
-const token: string | null = localStorage.getItem('token');
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 const splitUrl = ref(props.selectedDetail?.filePath.split('/'));
 const fileName = splitUrl.value.pop();

@@ -11,7 +11,6 @@ const profileImage = ref('');
 const show1 = ref(false);
 const show2 = ref(false);
 let selectedImage;
-const token: string | null = localStorage.getItem('token');
 const role: string | null  = localStorage.getItem('role');
 const getEmployeeId : string | null = localStorage.getItem('employeeId');
 const routeEmployeeId = route.params.employeeId;
@@ -28,7 +27,7 @@ onMounted(async () => {
   // 라우트 파라미터에서 사원번호(employeeId)를 추출
   
   try {
-    setClientHeaders(token);
+    setClientHeaders();
     const response = await axios.get(`${baseUrl}/employee/get/${routeEmployeeId}/detail`);
     employeeDetails.value = response.data.result;
     profileImage.value = employeeDetails.value.profileImagePath;

@@ -11,18 +11,18 @@ export const useUserCardStore = defineStore({
   }),
   getters: {},
   actions: {
-    async noticeCards(token: string | null) {
+    async noticeCards() {
       try {
-        setClientHeaders(token);
+        setClientHeaders();
         const response = await axios.get(`${baseUrl}/login/notice/list`);
         this.noticelist = response.data.result.content;
       } catch (error) {
         alert(error);
       }
     },
-    async noticedetailCards(noticeId: string, token: string | null) {
+    async noticedetailCards(noticeId: string) {
       try {
-        setClientHeaders(token);
+        setClientHeaders();
         const response = await axios.get(`${baseUrl}/login/notice/detail/${noticeId}`);
         this.noticedetail = response.data.result.content;
       } catch (error) {

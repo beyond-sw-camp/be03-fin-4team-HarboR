@@ -10,9 +10,8 @@ const store = useUserCardStore();
 const router = useRouter();
 
 const searchValue = ref('');
-const token: string | null = localStorage.getItem('token');
 onMounted(() => {
-  store.noticeCards(token);
+  store.noticeCards();
 });
 
 type ListItem = {

@@ -2,7 +2,6 @@
 import { format } from 'date-fns'
 import { useCodeStore } from '@/stores/codetrans';
 
-const token: string | null = localStorage.getItem('token');
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 // const router = useRouter();
 

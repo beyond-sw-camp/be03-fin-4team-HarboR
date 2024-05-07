@@ -3,17 +3,11 @@
  */
 
 import axios from 'axios';
-const token = localStorage.getItem('token');
 
-const axiosServices = axios.create({
-  baseURL: 'https://www.songboseok.shop',
-  headers: {
-    Authorization: `Bearer ${token}`,
-    'Content-Type': 'application/json'
-  }
-});
+const axiosServices = axios.create();
 
-export const setClientHeaders = (token: string | null) => {
+export const setClientHeaders = () => {
+  const token = localStorage.getItem('token');
   axiosServices.interceptors.request.use(function (config) {
     config.headers.Authorization = `Bearer ${token}`;
     return config;
