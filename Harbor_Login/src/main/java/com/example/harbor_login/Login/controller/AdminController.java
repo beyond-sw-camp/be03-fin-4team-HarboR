@@ -35,7 +35,7 @@ public class AdminController {
 
     @DeleteMapping("/delete/{email}")
     public ResponseEntity<CommonResponse> deleteUser(@PathVariable(value = "email") String email) {
-
+        System.out.println("email = " + email);
         return new ResponseEntity<>(new CommonResponse<>("Employee delete successfully", loginService.delete(email)), HttpStatus.OK);
     }
 

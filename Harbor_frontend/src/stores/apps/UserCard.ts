@@ -33,10 +33,10 @@ export const useUserCardStore = defineStore({
       }
     },
     // Fetch cards from action
-    async fetchlistCards(token: string | null) {
+    async fetchlistCards(token: string | null , page: number) {
       try {
         setClientHeaders(token);
-        const response = await axios.get(`${baseUrl}/employee/get/list`);
+        const response = await axios.get(`${baseUrl}/employee/get/list?page=${page}`);
         this.list = response.data.result;
       } catch (error) {
         alert(error);

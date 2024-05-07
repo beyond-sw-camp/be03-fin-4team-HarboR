@@ -4,9 +4,13 @@ import ProfileTab from './ProfileTab.vue';
 import ProfileUpdate from './ProfileUpdate.vue';
 import { UserCircleIcon, UserEditIcon } from 'vue-tabler-icons';
 import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
+import { useRoute } from 'vue-router';
 
 const page = ref({ title: '사원 정보' });
-
+const role = localStorage.getItem('role');
+const getEmployeeId = localStorage.getItem('employeeId');
+const route = useRoute();
+const routeEmployeeId = route.params.employeeId;
 const breadcrumbs = ref([
   { title: 'Users', disabled: false, href: '#' },
   { title: 'Account', disabled: false, href: '#' },
@@ -27,7 +31,7 @@ const tab = ref('tab-profile'); // 초기 탭 설정
             <v-tab variant="plain" value="tab-profile">
               <UserCircleIcon class="v-icon--start" width="20" stroke-width="1.5" /> Profile
             </v-tab>
-            <v-tab variant="plain" value="tab-update">
+            <v-tab variant="plain" value="tab-update" v-if="getEmployeeId === routeEmployeeId || role === 'ADMIN'" >
               <UserEditIcon class="v-icon--start" width="20" stroke-width="1.5" /> 수정
             </v-tab>
           </v-tabs>

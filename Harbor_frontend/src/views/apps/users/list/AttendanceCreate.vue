@@ -120,7 +120,7 @@ async function attendanceReq() {
     });
     // 회원가입이 성공하면 사용자에게 알림을 표시하거나 다른 작업을 수행할 수 있습니다.
     alert('전자결재완료');
-    router.push('/');
+    location.href = '/attendance/list/req'; 
   } catch (error) {
     console.error('전자결재:', error);
     alert('전자결재 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
@@ -255,7 +255,7 @@ async function attendanceReq() {
   <div>
     <v-dialog v-model="modalVisible" style="width: auto">
       <v-card>
-        <v-card-title>Select Country</v-card-title>
+        <v-card-title>승인 목록</v-card-title>
         <v-tabs v-model="tab" color="primary" class="my-2 border-bottom">
           <v-tab value="one">1차승인</v-tab>
           <v-tab value="two">2차승인</v-tab>

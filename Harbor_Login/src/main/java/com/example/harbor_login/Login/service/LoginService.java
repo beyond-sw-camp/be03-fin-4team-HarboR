@@ -97,7 +97,6 @@ public class LoginService {
 
     public String delete(String email) {
         Login login = loginRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("없는 회원입니다."));
-
         loginRepository.delete(login);
         return login.getEmployeeId();
     }
