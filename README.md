@@ -1,12 +1,20 @@
-
+<div align="center">
+    
 ![header](https://capsule-render.vercel.app/api?type=waving&height=300&color=0074D9&text=🚢HarboR&fontColor=FFFF&desc=Human%20Resource&descAlign=66)
 
-> **[플레이 데이터] 한화시스템 BEYOND SW캠 ⚓ Team : HarboR ⚓**
+ **[플레이 데이터] 한화시스템 BEYOND SW캠 ⚓ Team : HarboR ⚓**
+
+
+</div>
+
+
 
 <br>
 
-
+<div align="center">
+    
 ### 🧑‍🤝‍🧑 팀원 소개
+</div>
 
 <div align="center"> 
 <table>
