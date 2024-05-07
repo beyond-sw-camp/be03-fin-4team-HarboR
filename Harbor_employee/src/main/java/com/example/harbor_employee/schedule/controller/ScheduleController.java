@@ -4,6 +4,7 @@ import com.example.harbor_employee.global.common.CommonResponse;
 import com.example.harbor_employee.schedule.domain.Schedule;
 import com.example.harbor_employee.schedule.dto.ScheduleCreateReq;
 import com.example.harbor_employee.schedule.dto.ScheduleListRes;
+import com.example.harbor_employee.schedule.dto.ScheduleTeamListRes;
 import com.example.harbor_employee.schedule.dto.ScheduleUpdateReq;
 import com.example.harbor_employee.schedule.service.ScheduleService;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,12 @@ public class ScheduleController {
     @GetMapping("/list")
     public ResponseEntity<CommonResponse> ScheduleList(@RequestHeader("employeeId") String employeeId) {
         List<ScheduleListRes> scheduleListRes1 = scheduleService.findAllSchedule(employeeId);
+        return new ResponseEntity<>(new CommonResponse("스케줄 리스트입니다", scheduleListRes1), HttpStatus.OK);
+    }
+
+    @GetMapping("/team/list")
+    public ResponseEntity<CommonResponse> TeamScheduleList(@RequestHeader("employeeId") String employeeId) {
+        List<ScheduleTeamListRes> scheduleListRes1 = scheduleService.findAllTeamSchedule(employeeId);
         return new ResponseEntity<>(new CommonResponse("스케줄 리스트입니다", scheduleListRes1), HttpStatus.OK);
     }
 
