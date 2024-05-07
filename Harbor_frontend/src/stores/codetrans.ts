@@ -14,7 +14,6 @@ export const useCodeStore = defineStore({
       if (!position) {
         return 'Unknown';
       }
-      
       const code = parseInt(position.slice(1), 10);
       if (code >= 11 && code <= 15) {
         return '사원';
