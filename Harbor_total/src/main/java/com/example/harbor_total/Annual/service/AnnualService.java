@@ -98,7 +98,7 @@ public class AnnualService {
         } else if(annual.getFirstApprovalDate() == null) {
             List<Attendance> attendanceList = attendanceRepository.findAllByWorkStartTimeBetweenAndEmployeeEmployeeIdOrderByWorkStartTimeDesc(startDate, endDate, annual.getFirstSignId());
             for(Attendance attendance : attendanceList){
-                if(attendance.getWorkPolicy().equals("E07")) return annual;
+                if(attendance.getWorkPolicy().equals("O04")) return annual;
             }
         }
         if(annual.getFirstApprovalDate() != null && annual.getSecondApprovalDate() != null && annual.getThirdSignId().equals(employeeId)){
@@ -106,7 +106,7 @@ public class AnnualService {
         } else if(annual.getFirstApprovalDate() == null || annual.getSecondApprovalDate() == null) {
             List<Attendance> attendanceList = attendanceRepository.findAllByWorkStartTimeBetweenAndEmployeeEmployeeIdOrderByWorkStartTimeDesc(startDate, endDate, annual.getFirstSignId());
             for(Attendance attendance : attendanceList){
-                if(attendance.getWorkPolicy().equals("E07")) return annual;
+                if(attendance.getWorkPolicy().equals("O04")) return annual;
             }
         }
         return null;

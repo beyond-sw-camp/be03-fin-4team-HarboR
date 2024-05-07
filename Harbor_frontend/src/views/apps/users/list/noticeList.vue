@@ -60,6 +60,7 @@ defineEmits(['sToggle']);
 
 
 </script>
+
 <template>
   <!-- 검색창 -->
   <div v-if="!noticeDetails">

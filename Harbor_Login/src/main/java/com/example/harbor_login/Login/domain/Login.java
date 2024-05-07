@@ -22,7 +22,7 @@ public class Login{
     @Id
     private String email;
     private String employeeId;
-    @Column(nullable = false, length = 6)
+    @Column(length = 6)
     private String name;
     private String password;
     private String birth;

@@ -25,5 +25,4 @@ public class ExceptionHandlerAdvice {
         log.error("Handler IllegalArgumentException message : " + e.getMessage());
         return ErrorResponseDto.makeMessage(HttpStatus.BAD_REQUEST, e.getMessage());
     }
-
 }
