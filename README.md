@@ -5,13 +5,63 @@
 
 <br>
 
+
 ### 🧑‍🤝‍🧑 팀원 소개
 
-
-🥴 보석: <br />
-🫠 원태: <br />
-😮 창선: <br />
-🤪 정민: <br />
+<div align="center"> 
+<table>
+    <tr>
+        <td align="center">
+            <a>
+            </a>
+                <img src="https://github.com/beyond-sw-camp/be03-fin-4team-HarboR/assets/150704738/2d85f1ce-2d2d-4dd7-a7c8-e4185f36ec90" width="100px" />
+        </td>
+        <td align="center">
+            <a>
+                <img src="https://github.com/beyond-sw-camp/be03-fin-4team-HarboR/assets/150704738/41f82c36-ddc4-4bb9-84d5-201ee5093f04" width="100px" />
+            </a>
+        </td>
+        <td align="center">
+            <a>
+                <img src="https://github.com/beyond-sw-camp/be03-fin-4team-HarboR/assets/150704738/85747a79-0bf6-480d-b4be-8b35e0a40c0a" width="100px" />
+            </a>
+        </td>
+        <td align="center">
+            <a>
+                <img src="https://github.com/beyond-sw-camp/be03-fin-4team-HarboR/assets/150704738/28e31a70-a098-4e06-8b5e-98ebb436a103" width="100px" />
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+            <b>송보석</b>
+        </td>
+        <td align="center">
+            <b>손정민</b>
+        </td>
+        <td align="center">
+            <b>이원태</b>
+        </td>
+        <td align="center">
+            <b>이창선</b>
+        </td>
+    </tr>
+    <tr>
+        <td align="center"">
+            <b>팀장</b>
+        </td>
+        <td align="center">
+            <b>팀원</b>
+        </td>
+        <td align="center">
+            <b>팀원</b>
+        </td>
+        <td align="center">
+            <b>팀원</b>
+        </td>
+    </tr>
+</table>
+</div>
 
 <br>
 
