@@ -12,6 +12,13 @@ spring:
     url: jdbc:mariadb://${DB_HOST}/harbor_employee
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+  servlet:
+    multipart:
+      enabled: true
+      location: C:/HARBOR/
+      max-file-size: 100MB
+      max-request-size: 100MB
+      file-size-threshold: 1MB
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MariaDBDialect
