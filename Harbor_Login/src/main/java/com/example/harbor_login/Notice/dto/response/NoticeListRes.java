@@ -24,7 +24,7 @@ public class NoticeListRes {
 
     public static NoticeListRes mapToNotice(Notice notice) {
         String path = "";
-        if(notice.getFilePath() != null) path = notice.getFilePath().split("images/")[1];
+        if(!notice.getFilePath().isBlank()) path = notice.getFilePath().split("images/")[1];
         return NoticeListRes.builder()
                 .noticeId(notice.getNoticeId())
                 .title(notice.getTitle())
