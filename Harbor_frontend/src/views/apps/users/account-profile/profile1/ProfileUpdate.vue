@@ -11,13 +11,14 @@ const profileImage = ref('');
 const show1 = ref(false);
 const show2 = ref(false);
 let selectedImage;
-const role: string | null  = localStorage.getItem('role');
-const getEmployeeId : string | null = localStorage.getItem('employeeId');
+const role: string | null = localStorage.getItem('role');
+const getEmployeeId: string | null = localStorage.getItem('employeeId');
 const routeEmployeeId = route.params.employeeId;
 function fileUpload(event) {
   selectedImage = event.target.files[0];
   const reader = new FileReader();
   reader.onload = () => {
+    console.log(reader.result);
     profileImage.value = reader.result;
   };
   reader.readAsDataURL(selectedImage);
