@@ -20,7 +20,7 @@ type ListItem = {
   title: string; // 제목
   createdAt: string; // 작성일자
   contents: string;
-  filePath?: string | null;
+  filePath: string;
 };
 const listCards = computed<ListItem[]>(() => {
   // noticeId 기준 내림차순 정렬
@@ -45,11 +45,14 @@ const headers = [
 const items = ref(listCards);
 
 const noticeDetails = ref(false);
-const selectNotice = ref<ListItem | null>(null);
+const selectNotice = ref<ListItem>(null);
 
 const showRow = async (item: ListItem) => {
   noticeDetails.value = true;
   selectNotice.value = item;
+  if (item.filePath == null) {
+    selectNotice.value.filePath = '1images/No files';
+  }
   store.saveSelectNotice(item);
 };
 
