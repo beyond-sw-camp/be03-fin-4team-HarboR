@@ -42,7 +42,7 @@
         <span
           style="cursor: pointer; text-decoration: underline"
           v-if="selectedDetail?.filePath"
-          @click="downloadFile(selectedDetail?.filePath.split('images/')[1])"
+          @click="downloadFile(selectedDetail?.filePath)"
         >
           {{ decodedFileName }}
         </span>

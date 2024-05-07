@@ -17,24 +17,20 @@ import java.time.LocalDate;
 public class NoticeListRes {
 
     private int noticeId;
-
     private String title;
-
     private String contents;
-
     private LocalDate createdAt;
     private String filePath;
 
-
-
-
     public static NoticeListRes mapToNotice(Notice notice) {
+        String path = "";
+        if(notice.getFilePath() != null) path = notice.getFilePath().split("index/")[1];
         return NoticeListRes.builder()
                 .noticeId(notice.getNoticeId())
                 .title(notice.getTitle())
                 .contents(notice.getContents())
                 .createdAt(LocalDate.from(notice.getCreatedAt()))
-                .filePath(notice.getFilePath())
+                .filePath(path)
                 .build();
     }
 }
