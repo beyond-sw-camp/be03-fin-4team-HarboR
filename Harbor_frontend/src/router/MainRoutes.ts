@@ -491,7 +491,7 @@ const MainRoutes = {
       name: 'TeamSchedule',
       path: '/team/schedule',
       component: () => import('@/views/apps/calendar/TeamScheduleQalendar.vue')
-    }
+    },
     {
       name: 'noticeUpdate',
       path: '/noticeUpdate',
