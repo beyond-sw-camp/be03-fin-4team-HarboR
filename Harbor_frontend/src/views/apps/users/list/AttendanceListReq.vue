@@ -8,6 +8,7 @@ import AttendanceListDetail from '@/views/apps/users/list/AttendanceListDetail.v
 const codeStore = useCodeStore();
 const list = ref<any[]>([]);
 const tab = ref(null);
+const status = ref('');
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 onMounted(() => {
   fetchStatus();
@@ -27,7 +28,7 @@ async function fetchStatus() {
         const firstApprovalName = await employeeIdByName(item.firstApprovalId);
         const secondApprovalName = await employeeIdByName(item.secondApprovalId);
         const thirdApprovalName = await employeeIdByName(item.thirdApprovalId);
-
+        status.value = getStatus(item);
         return {
           ...item,
           firstApprovalName: firstApprovalName || 'N/A',
@@ -96,6 +97,19 @@ async function attendanceDelete(annualId: number) {
     alert('삭제 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
   }
 }
+// 진행 완료 구분 함수
+function getStatus(item) {
+  const { firstApprovalDate, secondApprovalDate, thirdApprovalDate } = item;
+  if (
+    firstApprovalDate && firstApprovalDate !== 'companion' &&
+    secondApprovalDate && secondApprovalDate !== 'companion' &&
+    thirdApprovalDate && thirdApprovalDate !== 'companion'
+  ) {
+    return 'finish';
+  } else {
+    return 'ing';
+  }
+}
 </script>
 <template>
   <v-row>
@@ -129,7 +143,7 @@ async function attendanceDelete(annualId: number) {
             <!-- 1차 승인자 -->
             <template #item-firstApprovalId="{ firstApprovalName, firstApprovalDate , secondApprovalDate,thirdApprovalDate}">
               <div class="d-flex align-center ga-4">
-                <div v-if="secondApprovalDate !== 'companion'">
+                <div v-if="status === 'ing'">
                   <h5 class="text-h5" >
                     {{ firstApprovalName }}
                   </h5>
