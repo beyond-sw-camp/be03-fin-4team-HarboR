@@ -42,7 +42,7 @@ async function fetchStatus() {
       })
     );
     list.value = updatedItems;
-    console.log("test" + list);
+    console.log("test" + list.value);
   } catch (error) {
     alert('결재 목록 조회에 실패하였습니다.');
     console.log(error);
