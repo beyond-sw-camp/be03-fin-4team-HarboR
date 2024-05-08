@@ -100,6 +100,13 @@ const handleEndDateChange = (event) => {
   console.log(clickedStartDateInfo.value);
 };
 async function attendanceReq() {
+  console.log('workStartTime:', clickedStartDateInfo.value);
+  console.log('workEndTime:', clickedEndDateInfo.value);
+  console.log('workPolicy:', selectedWork.value);
+  console.log('adjustmentComment:', content.value);
+  console.log('firstSignId:', selecteFirst.value);
+  console.log('secondSignId:', selecteSecond.value);
+  console.log('thirdSignId:', selecteThird.value);
   if(selectedWork.value !== "O07"){
     if (!clickedStartDateInfo.value || !clickedEndDateInfo.value || !selectedWork ||
      !content.value || !selecteFirst.value ||
@@ -108,13 +115,7 @@ async function attendanceReq() {
     return;
   }
   }
-  console.log('workStartTime:', clickedStartDateInfo.value);
-  console.log('workEndTime:', clickedEndDateInfo.value);
-  console.log('workPolicy:', selectedWork.value);
-  console.log('adjustmentComment:', content.value);
-  console.log('firstSignId:', selecteFirst.value);
-  console.log('secondSignId:', selecteSecond.value);
-  console.log('thirdSignId:', selecteThird.value);
+  
 
   try {
     const response = await axios.post(`${baseUrl}/total/attendance/requestwork`, {
