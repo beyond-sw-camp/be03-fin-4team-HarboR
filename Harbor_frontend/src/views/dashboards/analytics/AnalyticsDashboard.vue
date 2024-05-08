@@ -5,15 +5,17 @@ import { ApproveStore } from '@/stores/apps/approveUser.ts';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
+const isLoading = ref(false);
 
 const goToAttendanceDetailPage = () => {
   router.push('/dashboard/analytics/attendancedetail');
 };
 
 const store = ApproveStore();
+const token: string | null = localStorage.getItem('token');
 onMounted(() => {
-  store.fetchlistCards();
-  store.getCountAll();
+  store.fetchlistCards(token);
+  store.getCountAll(token);
 });
 const num1 = computed(() => {
   return store.card_len_false;
@@ -22,16 +24,24 @@ const num2 = computed(() => {
   return store.card_len_all;
 });
 
-const personnelFileInput = ref(null);
 const newMemberFileInput = ref(null);
 
 const uploadFileNewMember = () => {
   newMemberFileInput.value.click();
 };
-
-const handleFileUploadNewMember = (event) => {
+const handleFileUploadNewMember = async (event) => {
+  isLoading.value = true; // 로딩 시작
+  console.log('로딩시작');
   const file = event.target.files[0];
-  store.uploadNewMemberFile(file);
+  try {
+    const result = await store.uploadNewMemberFile(token, file); // await 키워드 추가
+    alert('성공');
+    location.reload();
+  } catch (error) {
+    console.log(error);
+  } finally {
+    isLoading.value = false; // 로딩 종료
+  }
 };
 </script>
 
@@ -108,4 +118,7 @@ const handleFileUploadNewMember = (event) => {
       </v-card>
     </v-col>
   </v-row>
+  <v-dialog v-model="isLoading" persistent max-width="140px">
+    <img src="@/assets/images/harbor.png" alt="로딩 중" width="140" height="140" />
+  </v-dialog>
 </template>
