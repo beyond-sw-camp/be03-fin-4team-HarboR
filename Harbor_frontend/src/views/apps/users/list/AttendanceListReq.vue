@@ -7,7 +7,6 @@ import axios, { setClientHeaders } from '@/utils/axios';
 import AttendanceListDetail from '@/views/apps/users/list/AttendanceListDetail.vue';
 const codeStore = useCodeStore();
 const list = ref<any[]>([]);
-const tab = ref(null);
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 onMounted(() => {
   fetchStatus();
@@ -116,10 +115,6 @@ function calculateStatus(item: ListItem): string {
   <v-row>
     <v-col cols="12" md="12">
       <UiParentCard title="전자 결재">
-        <v-tabs v-model="tab" color="primary" class="my-2 border-bottom" v-if="!details">
-          <v-tab value="ing">진행중</v-tab>
-          <v-tab value="finish">완료</v-tab>
-        </v-tabs>
         <v-divider></v-divider>
         <!-- 진행중일경우 -->
         <div class="overflow-auto mt-2" v-if="tab === 'ing'">
@@ -186,59 +181,6 @@ function calculateStatus(item: ListItem): string {
                 <div>
                   <v-chip color="success" v-if="status === '완료'" size="small">완료</v-chip>
                   <v-chip color="warning" v-else-if="status === '진행중'" size="small">진행중</v-chip>
-                </div>
-              </div>
-            </template>
-          </EasyDataTable>
-        </div>
-        <!-- 완료일경우 -->
-        <div class="overflow-auto mt-2" v-if="tab === 'finish'">
-          <EasyDataTable
-            @click-row="showRow"
-            :headers="headers"
-            :items="items"
-            table-class-name="customize-table action-position"
-            :rows-per-page="8"
-            v-if="!details"
-          >
-            <!-- 휴가 종류 -->
-            <template #item-payStatusCode="{ payStatusCode, firstApprovalDate, status }">
-              <div class="d-flex align-center ga-4">
-                <div v-if="!status">
-                  <h5 class="text-h5" v-if="firstApprovalDate">
-                    {{ getStatusCode(payStatusCode) }}
-                  </h5>
-                </div>
-              </div>
-            </template>
-            <!-- 1차 승인자 -->
-            <template #item-firstApprovalId="{ firstApprovalName, firstApprovalDate,thirdApprovalDate ,secondApprovalDate, status}">
-              <div class="d-flex align-center ga-4">
-                <div v-if="!status">
-                  <h5 class="text-h5" v-if="thirdApprovalDate || firstApprovalDate === 'companion' ||  secondApprovalDate === 'companion'">
-                    {{ firstApprovalName }}
-                  </h5>
-                  <small v-if="firstApprovalDate" class="text-subtitle text-center" style="color: green">{{ firstApprovalDate }} </small>
-                </div>
-              </div>
-            </template>
-            <template #item-secondApprovalId="{ secondApprovalName, secondApprovalDate,thirdApprovalDate, status}">
-              <div class="d-flex align-center ga-4">
-                <div v-if="!status">
-                  <h5 class="text-h5" v-if="thirdApprovalDate || secondApprovalDate === 'companion'">
-                    {{ secondApprovalName }}
-                  </h5>
-                  <small v-if="secondApprovalDate" class="text-subtitle text-center">{{ secondApprovalDate }} </small>
-                </div>
-              </div>
-            </template>
-            <template #item-thirdApprovalId="{ thirdApprovalName, thirdApprovalDate ,secondApprovalDate,firstApprovalDate, status}">
-              <div class="d-flex align-center ga-4">
-                <div v-if="!status">
-                  <h5 class="text-h5" v-if="thirdApprovalDate || secondApprovalDate === 'companion' || firstApprovalDate === 'companion' ">
-                    {{ thirdApprovalName }}
-                  </h5>
-                  <small v-if="thirdApprovalDate" class="text-subtitle text-center">{{ thirdApprovalDate }} </small>
                 </div>
               </div>
             </template>
