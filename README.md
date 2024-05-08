@@ -251,16 +251,13 @@ Route53은 사용자의 DNS 요청을 CloudFront로 라우팅하여 사용자에
 )
 
 <br></br>
-<p><b>➡️ 회원이 이름 ,이메일 ,비밀번호 ,생년월일을 기입한다, 비밀번호는 문자 숫자 특수문자를 모두사용해야한다.</b></p><br>
-
-[frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/3d655e59-1200-4d30-980b-722d1e2e3f98
-)
-
-<br></br>
+<p><b>➡️ 가입시 입력한 이메일을 입력하면 임시 비밀번호를 발급할 수 있다.</b></p><br>
 
 [frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/f079e48b-d4a7-449f-889c-edfc383e8e81)
 
 <br></br>
+<p><b>➡️ 임시번호 발급후 비밀번호를 다시 변경할 수 있다. 변경은 마이페이지에서 가능하다.</b></p><br>
+
 
 [frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/e2090dd4-6d9d-4e0d-bfa4-6a0d49067940
 )
@@ -268,6 +265,10 @@ Route53은 사용자의 DNS 요청을 CloudFront로 라우팅하여 사용자에
 
 <details>
 <summary>출근 퇴근 관리</summary>
+<br></br>
+<p><b>➡️ 출근과 퇴근을 로그인후 찍을 수 있는데 사원번호가 발급된 상태에서 관리자가 신입사원 정보를 엑셀파일로 등록을 하면 사원정보가 완전히 생성이된다
+    그후에 출근 퇴근을 찍을 수 있으며 찍은후에는 메인화면의 근태관리 테이블에 출근과 퇴근 데이터가 생성되고 근무상태가 생성되며 업무시간을 충족하지않을시
+    다른상태로 처리된다.</b></p><br>
 
 [frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/8ac3459a-e188-40f6-9cbe-9ed8e84fa687
 )
