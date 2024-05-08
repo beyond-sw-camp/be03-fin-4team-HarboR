@@ -127,9 +127,9 @@ async function attendanceDelete(annualId: number) {
               </div>
             </template>
             <!-- 1차 승인자 -->
-            <template #item-firstApprovalId="{ firstApprovalName, firstApprovalDate}">
+            <template #item-firstApprovalId="{ firstApprovalName, firstApprovalDate , secondApprovalDate,thirdApprovalDate}">
               <div class="d-flex align-center ga-4">
-                <div v-if="firstApprovalDate !== 'companion'">
+                <div v-if="!(firstApprovalDate === 'companion' || secondApprovalDate === 'companion' || thirdApprovalDate === 'companion')">
                   <h5 class="text-h5" >
                     {{ firstApprovalName }}
                   </h5>
