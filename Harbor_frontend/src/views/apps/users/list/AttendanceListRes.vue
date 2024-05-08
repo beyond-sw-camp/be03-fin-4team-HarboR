@@ -72,11 +72,17 @@ const listCards = computed<ListItem[]>(() => {
   return list.value;
 });
 const details = ref(false);
+const detailsFinish = ref(false);
 const selectAttendance = ref<ListItem | null>(null);
 const items = ref(listCards);
 const showRow = (item: ListItem) => {
   details.value = true;
   selectAttendance.value = item;
+  if (tab.value === 'ing') {
+    detailsFinish.value = true;
+  } else if (tab.value === 'finish') {
+    detailsFinish.value = false;
+  }
 };
 
 // 사원 번호로 이름 변경
@@ -263,7 +269,7 @@ function calculateStatus(item: ListItem): boolean {
         <div v-if="details && selectAttendance" class="pa-5">
           <AttendanceListDetail @toggleDetail="details = false" :selectedDetail="selectAttendance" />
           <v-row class="justify-end mr-10 my-3">
-            <div class="align-self-end mt-3" v-if="tab === 'ing' ">
+            <div class="align-self-end mt-3" v-if="detailsFinish">
               <v-button class="edit-button" @click="approval(selectAttendance.annualId, true)">승인하기</v-button>
               <v-button class="delete-button" @click="approval(selectAttendance.annualId, false)">반려하기</v-button>
             </div>
