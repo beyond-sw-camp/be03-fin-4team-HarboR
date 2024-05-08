@@ -8,7 +8,6 @@ import AttendanceListDetail from '@/views/apps/users/list/AttendanceListDetail.v
 const codeStore = useCodeStore();
 const list = ref<any[]>([]);
 const tab = ref(null);
-const status = ref('');
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 onMounted(() => {
   fetchStatus();
@@ -29,9 +28,7 @@ async function fetchStatus() {
         const firstApprovalName = await employeeIdByName(item.firstApprovalId);
         const secondApprovalName = await employeeIdByName(item.secondApprovalId);
         const thirdApprovalName = await employeeIdByName(item.thirdApprovalId);
-        status.value = getStatus(item);
-        console.log("1"+status);
-        console.log("2"+status.value);
+
         return {
           ...item,
           requestName: requestName || 'N/A',
@@ -108,21 +105,9 @@ async function approval(annualId: number, approvalStatus: boolean) {
     alert('전자 결재 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
   }
 }
-// 진행 완료 구분 함수
-function getStatus(item) {
-  const { firstApprovalDate, secondApprovalDate, thirdApprovalDate } = item;
-  if (
-    firstApprovalDate && firstApprovalDate !== 'companion' &&
-    secondApprovalDate && secondApprovalDate !== 'companion' &&
-    thirdApprovalDate && thirdApprovalDate !== 'companion'
-  ) {
-    return 'finish';
-  } else {
-    return 'ing';
-  }
-}
 </script>
 <template>
+  
   <v-row>
     <v-col cols="12" md="12">
       <UiParentCard title="전자 결재">
@@ -171,7 +156,11 @@ function getStatus(item) {
                 </div>
               </div>
             </template>
-            <template #item-secondApprovalId="{ secondApprovalName, secondApprovalDate, firstApprovalDate }">
+            <template #item-secondApprovalId="{ secondApprovalName, secondApprovalDate, firstApprovalDate,thirdApprovalDate }">
+              <h3 class="text-subtitle text-center" v-if="!(firstApprovalDate === 'companion' || secondApprovalDate === 'companion' || thirdApprovalDate === 'companion')" style="color: green">
+        진행
+      </h3>
+      <h5 class="text-subtitle text-center" v-if="firstApprovalDate === 'companion' || secondApprovalDate === 'companion' || thirdApprovalDate === 'companion'" style="color: green"></h5>
               <div class="d-flex align-center ga-4">
                 <div>
                   <h5 class="text-h5">
@@ -222,7 +211,6 @@ function getStatus(item) {
               </div>
             </template>
             <!-- 상신자 -->
-            <!-- test1 -->
             <template #item-reqEmployeeId="{ requestName,firstApprovalDate }">
               <div class="d-flex align-center ga-4">
                 <h5 class="text-h5" v-if="firstApprovalDate">
@@ -248,7 +236,7 @@ function getStatus(item) {
                     {{ secondApprovalName }}
                   </h5>
                   <small v-if="secondApprovalDate" class="text-subtitle text-center">{{ secondApprovalDate }} </small>
-                  <small v-if="!firstApprovalDate && secondApprovalDate" class="text-subtitle text-center"> </small>
+                  <small v-if="!firstApprovalDate && !secondApprovalDate" class="text-subtitle text-center"> </small>
                 </div>
               </div>
             </template>
