@@ -34,7 +34,8 @@ async function fetchStatus() {
           requestName: requestName || 'N/A',
           firstApprovalName: firstApprovalName || 'N/A',
           secondApprovalName: secondApprovalName || 'N/A',
-          thirdApprovalName: thirdApprovalName || 'N/A'
+          thirdApprovalName: thirdApprovalName || 'N/A',
+          status: status || 'N/A'
         };
       })
     );
@@ -79,11 +80,6 @@ const items = ref(listCards);
 const showRow = (item: ListItem) => {
   details.value = true;
   selectAttendance.value = item;
-  if (tab.value === 'ing') {
-    detailsFinish.value = true;
-  } else if (tab.value === 'finish') {
-    detailsFinish.value = false;
-  }
 };
 
 // 사원 번호로 이름 변경
@@ -197,13 +193,21 @@ function calculateStatus(item: ListItem): string {
                 </div>
               </div>
             </template>
+            <template #item-status="{ status }">
+              <div class="d-flex align-center ga-4">
+                <div>
+                  <v-chip color="success" v-if="status === '완료'" size="small">완료</v-chip>
+                  <v-chip color="warning" v-else-if="status === '진행중'" size="small">진행중</v-chip>
+                </div>
+              </div>
+            </template>
           </EasyDataTable>
         </div>
         <!-- 상세보기 -->
         <div v-if="details && selectAttendance" class="pa-5">
           <AttendanceListDetail @toggleDetail="details = false" :selectedDetail="selectAttendance" />
           <v-row class="justify-end mr-10 my-3">
-            <div class="align-self-end mt-3" v-if="detailsFinish">
+            <div class="align-self-end mt-3">
               <v-button class="edit-button" @click="approval(selectAttendance.annualId, true)">승인하기</v-button>
               <v-button class="delete-button" @click="approval(selectAttendance.annualId, false)">반려하기</v-button>
             </div>
