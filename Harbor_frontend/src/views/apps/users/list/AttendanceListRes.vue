@@ -8,6 +8,7 @@ import AttendanceListDetail from '@/views/apps/users/list/AttendanceListDetail.v
 const codeStore = useCodeStore();
 const list = ref<any[]>([]);
 const tab = ref(null);
+const status = ref('');
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 onMounted(() => {
   fetchStatus();
@@ -28,7 +29,9 @@ async function fetchStatus() {
         const firstApprovalName = await employeeIdByName(item.firstApprovalId);
         const secondApprovalName = await employeeIdByName(item.secondApprovalId);
         const thirdApprovalName = await employeeIdByName(item.thirdApprovalId);
-
+        status.value = getStatus(item);
+        console.log("1"+status);
+        console.log("2"+status.value);
         return {
           ...item,
           requestName: requestName || 'N/A',
@@ -103,6 +106,19 @@ async function approval(annualId: number, approvalStatus: boolean) {
   } catch (error) {
     console.error('결재 중 오류 발생:', error);
     alert('전자 결재 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+  }
+}
+// 진행 완료 구분 함수
+function getStatus(item) {
+  const { firstApprovalDate, secondApprovalDate, thirdApprovalDate } = item;
+  if (
+    firstApprovalDate && firstApprovalDate !== 'companion' &&
+    secondApprovalDate && secondApprovalDate !== 'companion' &&
+    thirdApprovalDate && thirdApprovalDate !== 'companion'
+  ) {
+    return 'finish';
+  } else {
+    return 'ing';
   }
 }
 </script>
@@ -232,7 +248,7 @@ async function approval(annualId: number, approvalStatus: boolean) {
                     {{ secondApprovalName }}
                   </h5>
                   <small v-if="secondApprovalDate" class="text-subtitle text-center">{{ secondApprovalDate }} </small>
-                  <small v-if="!firstApprovalDate && !secondApprovalDate" class="text-subtitle text-center"> </small>
+                  <small v-if="!firstApprovalDate && secondApprovalDate" class="text-subtitle text-center"> </small>
                 </div>
               </div>
             </template>
