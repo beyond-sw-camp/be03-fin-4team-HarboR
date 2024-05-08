@@ -29,11 +29,7 @@ const vacation = ref('');
 async function annualremain() {
   try {
     setClientHeaders();
-    const response = await axios.get(`${baseUrl}/total/employee/annualremain`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+    const response = await axios.get(`${baseUrl}/total/employee/annualremain`);
     vacation.value = response.data.result;
   } catch (error) {
     console.log(error);
