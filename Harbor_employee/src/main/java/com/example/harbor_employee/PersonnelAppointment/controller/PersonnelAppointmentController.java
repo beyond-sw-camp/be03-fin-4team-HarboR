@@ -31,7 +31,7 @@ public class PersonnelAppointmentController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<CommonResponse> create(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<CommonResponse> create(@RequestPart("file") MultipartFile file) throws IOException {
         log.info("{excel 파일 전송 }");
         List<ExcelDataDto> excelDataDtos = paService.create(file);
         return new ResponseEntity<>(new CommonResponse("요청이 정상적으로 실행되었습니다.", excelDataDtos), HttpStatus.OK);
