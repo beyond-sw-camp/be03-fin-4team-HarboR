@@ -228,7 +228,7 @@ function calculateStatus(item: ListItem): boolean {
             <template #item-firstApprovalId="{ firstApprovalName, firstApprovalDate , status}">
               <div class="d-flex align-center ga-4">
                 <div v-if="!status">
-                  <h5 class="text-h5" v-if="firstApprovalDate">
+                  <h5 class="text-h5">
                     {{ firstApprovalName }}
                   </h5>
                   <small v-if="firstApprovalDate" class="text-subtitle text-center" style="color: green">{{ firstApprovalDate }} </small>
@@ -238,7 +238,7 @@ function calculateStatus(item: ListItem): boolean {
             <template #item-secondApprovalId="{ secondApprovalName, secondApprovalDate, firstApprovalDate , status }">
               <div class="d-flex align-center ga-4">
                 <div v-if="!status">
-                  <h5 class="text-h5" v-if="secondApprovalDate">
+                  <h5 class="text-h5">
                     {{ secondApprovalName }}
                   </h5>
                   <small v-if="secondApprovalDate" class="text-subtitle text-center">{{ secondApprovalDate }} </small>
