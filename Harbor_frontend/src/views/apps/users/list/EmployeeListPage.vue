@@ -9,7 +9,10 @@ import { useCodeStore } from '@/stores/codetrans';
 const store = useUserCardStore();
 const codeStore = useCodeStore();
 onMounted(() => {
-  store.fetchCards();
+  const initialPage = 0;
+  const initialSearchField = 'name';
+  const initialSearchValue = '';
+  store.fetchlistCards(initialPage, initialSearchField, initialSearchValue); // 수정된 부분
 });
 const getPositionName = (position) => {
   return codeStore.getPositionNameByCode(position);

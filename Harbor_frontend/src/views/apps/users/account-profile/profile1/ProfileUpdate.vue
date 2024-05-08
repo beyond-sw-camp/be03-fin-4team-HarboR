@@ -111,7 +111,7 @@ async function pwUpdate() {
                 @change="fileUpload"
                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer"
               />
-              사진변경 (test)
+              사진변경
             </v-btn>
           </v-card-text>
         </v-card>
