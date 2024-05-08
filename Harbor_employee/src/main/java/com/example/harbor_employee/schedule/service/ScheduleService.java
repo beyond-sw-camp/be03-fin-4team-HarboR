@@ -80,7 +80,7 @@ public class ScheduleService {
         Optional<Schedule> optionalSchedule = scheduleRepository.findByScheduleId(scheduleId);
         return optionalSchedule
                 .map(s -> ScheduleTeamListRes.mapToSchedule(s, s.getEmployee().getName()))
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스케줄 입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스케줄 입니다"));
     }
 }
 
