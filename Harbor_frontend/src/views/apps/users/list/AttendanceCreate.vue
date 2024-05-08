@@ -57,11 +57,7 @@ const openModal = () => {
 async function authlist() {
   try {
     setClientHeaders();
-    const response = await axios.get(`${baseUrl}/total/annual/read/authlist`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+    const response = await axios.get(`${baseUrl}/total/annual/read/authlist`);
     auths.value = response.data.result;
   } catch (error) {
     console.log(error);
