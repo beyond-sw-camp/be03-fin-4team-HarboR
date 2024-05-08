@@ -276,12 +276,16 @@ Route53은 사용자의 DNS 요청을 CloudFront로 라우팅하여 사용자에
 
 <details>
 <summary>인사 관리</summary>
+<br></br>
+<p><b>➡️사원목록을 조회 할 수 있으며, 검색필터를 통해 이름 혹은 사원아이디를 검색하여 사원을 찾을 수 있다.</b></p><br>
 
 
 [frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/17a3e906-66f0-4f9f-ac1b-dc42dd1cfe03
 )
 
 <br></br>
+<p><b>➡️사원 상세페이지로 들어가면 사원정보를 수정 할 수 있고 사원정보 수정은 로그인한 아이디 이외의 다른아이디는 수정이 불가능하다 </b></p><br>
+
 
 [frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/0f741dba-4b30-455e-9e06-6d32c0b847da
 )
@@ -290,16 +294,20 @@ Route53은 사용자의 DNS 요청을 CloudFront로 라우팅하여 사용자에
 
 <details>
 <summary>근태 관리</summary>
+<br></br>
+<p><b>➡️날짜 및 시간을 선택에서 타임테이블을 만들어 스케쥴에 표시 할 수 있다, 타임테이블의 색상을 지정할 수있고 제목으로 스케쥴에 표시가된다
+생성을하면 생성자를 볼 수 있고 day week에 모두 적용이된다.</b></p><br>
 
 [frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/4f04ee92-7674-48af-902f-143ddf740b91
 )
 
 <br></br>
+<p><b>➡️수정도 마찬가지로 month에서 수정을하면 day week에 모두 적용되고 month가아닌 day week에서도 모두 수정이가능하다 생성할때 적용한 정보를 모두 수정할 수 있다. 타임테이블을 잡고 다른 날짜로 이동 시키면 수정이된다.</b></p><br>
 
-[frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/3f2abaa2-59c7-45cb-b74d-fad4dd916625
-)
+[frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/3f2abaa2-59c7-45cb-b74d-fad4dd916625)
 
 <br></br>
+<p><b>➡️월별일정관리는 팀원들 끼리 스케쥴을 공유할 수 있는 공간이다. 팀원들 간의 스케쥴이 모두 캘린더에 표시되고 팀원들의 스케쥴은 수정되지않는다.</b></p><br>  
 
 [frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/93b0834f-d2f2-4998-bf6d-e3b590c89d24
 )
