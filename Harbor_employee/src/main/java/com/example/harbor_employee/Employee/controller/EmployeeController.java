@@ -86,7 +86,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/create/basic")
-    public ResponseEntity<CommonResponse> create(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<CommonResponse> create(@RequestParam(value = "file") MultipartFile file) throws IOException {
         List<ExcelEmployeeDto> excelDataDtos = employeeService.create(file);
         return new ResponseEntity<>(new CommonResponse("요청이 정상적으로 실행되었습니다.", excelDataDtos), HttpStatus.OK);
     }
