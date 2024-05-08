@@ -168,7 +168,7 @@
 <br>
 
 ## 💻AWS 아키텍처
-<img width="727" alt="스크린샷 2024-03-18 오후 4 08 06" src="https://github.com/beyond-sw-camp/be03-fin-HarboR/assets/90543205/5b77d6bf-d5d2-40ab-aad6-509583b58068">
+<img width="727" alt="스크린샷 2024-03-18 오후 4 08 06" src="https://github.com/beyond-sw-camp/be03-fin-4team-HarboR/assets/150704738/930678e2-fc63-49a8-b3d1-5feb4f797af5">
 
 ## 💻CI CD 계획서
 

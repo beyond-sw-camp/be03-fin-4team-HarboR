@@ -16,6 +16,7 @@ export const useUserCardStore = defineStore({
     async fetchCards() {
       try {
         // const response = await axios.get('/api/details-card/list');
+        setClientHeaders();
         const response = await axios.get(`${baseUrl}/employee/get/list`);
         this.cards = response.data;
       } catch (error) {

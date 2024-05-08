@@ -108,6 +108,22 @@ const handleEndDateChange = (event) => {
   console.log(clickedStartDateInfo.value);
 };
 async function attendanceReq() {
+  if(selectedWork.value !== "O07"){
+    if (!clickedStartDateInfo.value || !clickedEndDateInfo.value || !selectedWork ||
+     !content.value || !selecteFirst.value ||
+      !selecteSecond.value || !selecteThird.value) {
+    alert('모든 전자 결재 정보를 입력해주세요.');
+    return;
+  }
+  }
+  console.log('workStartTime:', clickedStartDateInfo.value);
+  console.log('workEndTime:', clickedEndDateInfo.value);
+  console.log('workPolicy:', selectedWork.value);
+  console.log('adjustmentComment:', content.value);
+  console.log('firstSignId:', selecteFirst.value);
+  console.log('secondSignId:', selecteSecond.value);
+  console.log('thirdSignId:', selecteThird.value);
+
   try {
     const response = await axios.post(`${baseUrl}/total/attendance/requestwork`, {
       workStartTime: clickedStartDateInfo.value,

@@ -9,7 +9,10 @@ import { useCodeStore } from '@/stores/codetrans';
 const store = useUserCardStore();
 const codeStore = useCodeStore();
 onMounted(() => {
-  store.fetchCards();
+  const initialPage = 0;
+  const initialSearchField = 'name';
+  const initialSearchValue = '';
+  store.fetchlistCards(initialPage, initialSearchField, initialSearchValue); // 수정된 부분
 });
 const getPositionName = (position) => {
   return codeStore.getPositionNameByCode(position);
@@ -86,7 +89,7 @@ const searchList = shallowRef([
               prepend-inner-icon="mdi-magnify"
               class="mr-2"
             />
-            <v-btn @click="changeSearch()">검색하기</v-btn>
+            <v-btn @click="changeSearch()" @keyup.enter="changeSearch()">검색하기</v-btn>
           </v-col>
           <v-col cols="12" md="3">
             <!-- <v-select label="Select" v-model="searchField" variant="outlined" @update:model-value="searchByName"

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -75,9 +76,11 @@ public class ScheduleService {
         schedule.deleteSchedule();
     }
 
-    public Schedule scheduleDetail(Long scheduleId) {
-        return scheduleRepository.findByScheduleId(scheduleId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스케줄 입니다"));
+    public ScheduleTeamListRes scheduleDetail(Long scheduleId) {
+        Optional<Schedule> optionalSchedule = scheduleRepository.findByScheduleId(scheduleId);
+        return optionalSchedule
+                .map(s -> ScheduleTeamListRes.mapToSchedule(s, s.getEmployee().getName()))
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스케줄 입니다."));
     }
 }
 
