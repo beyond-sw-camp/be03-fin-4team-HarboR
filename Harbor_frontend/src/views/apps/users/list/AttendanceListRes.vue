@@ -206,9 +206,9 @@ async function approval(annualId: number, approvalStatus: boolean) {
               </div>
             </template>
             <!-- 상신자 -->
-            <template #item-reqEmployeeId="{ requestName }">
+            <template #item-reqEmployeeId="{ requestName,firstApprovalDate }">
               <div class="d-flex align-center ga-4">
-                <h5 class="text-h5">
+                <h5 class="text-h5" v-if="firstApprovalDate">
                   {{ requestName }}
                 </h5>
               </div>
@@ -221,7 +221,6 @@ async function approval(annualId: number, approvalStatus: boolean) {
                     {{ firstApprovalName }}
                   </h5>
                   <small v-if="firstApprovalDate" class="text-subtitle text-center" style="color: green">{{ firstApprovalDate }} </small>
-                  <small v-if="!firstApprovalDate" class="text-subtitle text-center" style="color: blue"> 진행중 </small>
                 </div>
               </div>
             </template>
@@ -232,9 +231,6 @@ async function approval(annualId: number, approvalStatus: boolean) {
                     {{ secondApprovalName }}
                   </h5>
                   <small v-if="secondApprovalDate" class="text-subtitle text-center">{{ secondApprovalDate }} </small>
-                  <small v-if="firstApprovalDate && !secondApprovalDate" class="text-subtitle text-center" style="color: blue">
-                    진행중
-                  </small>
                   <small v-if="!firstApprovalDate && !secondApprovalDate" class="text-subtitle text-center"> </small>
                 </div>
               </div>
@@ -246,9 +242,6 @@ async function approval(annualId: number, approvalStatus: boolean) {
                     {{ thirdApprovalName }}
                   </h5>
                   <small v-if="thirdApprovalDate" class="text-subtitle text-center">{{ thirdApprovalDate }} </small>
-                  <small v-if="!thirdApprovalDate && secondApprovalDate" class="text-subtitle text-center" style="color: blue">
-                    진행중
-                  </small>
                   <small v-if="!thirdApprovalDate && !secondApprovalDate" class="text-subtitle text-center"> </small>
                 </div>
               </div>
