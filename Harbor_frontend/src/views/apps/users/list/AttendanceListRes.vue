@@ -82,10 +82,6 @@ const showRow = (item: ListItem) => {
 async function employeeIdByName(employeeId) {
   try {
     setClientHeaders();
-    if (!token) {
-      console.error('토큰이 존재하지 않습니다.');
-      return;
-    }
     const response = await axios.get(`${baseUrl}/total/employee/name/${employeeId}`);
     return response.data.result;
   } catch (error) {
