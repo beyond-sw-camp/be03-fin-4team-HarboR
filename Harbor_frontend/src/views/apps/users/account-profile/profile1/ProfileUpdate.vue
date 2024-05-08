@@ -156,7 +156,7 @@ async function pwUpdate() {
                 class="pwdInput">
               </v-text-field>
               </v-col>
-              <v-col cols="12" lg="2">
+              <v-col cols="12" lg="2" v-if="getEmployeeId === routeEmployeeId">
                 <v-btn color="primary"  @click="pwUpdate()">비밀번호 수정</v-btn>
               </v-col>
               <v-col cols="12" v-if="getEmployeeId === routeEmployeeId">

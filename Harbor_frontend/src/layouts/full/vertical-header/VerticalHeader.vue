@@ -113,7 +113,7 @@ const reissueToken = async () => {
     <v-menu :close-on-content-click="false">
       <template v-slot:activator="{ props }">
         <p class="text-h4">{{ minute }} : {{ second }}</p>
-        <v-btn icon class="text-primary mx-3" color="lightprimary" rounded="sm" size="small" variant="flat" @click="reissueToken">
+        <v-btn icon class="text-primary mx-2" color="lightprimary" rounded="sm" size="small" variant="flat" @click="reissueToken">
           <RotateClockwiseIcon stroke-width="1.5" size="22" />
         </v-btn>
       </template>
@@ -124,7 +124,7 @@ const reissueToken = async () => {
     <!-- ---------------------------------------------- -->
     <!-- Messages -->
     <!-- ---------------------------------------------- -->
-    <v-menu :close-on-content-click="false">
+    <!-- <v-menu :close-on-content-click="false">
       <template v-slot:activator="{ props }">
         <v-btn
           icon
@@ -141,10 +141,10 @@ const reissueToken = async () => {
       <v-sheet width="900" height="395" elevation="12" rounded="md" class="pa-4">
         <MegaMenuDD />
       </v-sheet>
-    </v-menu>
+    </v-menu> -->
     <!-- ---------------------------------------------- -->
     <!-- translate -->
-    <!-- ---------------------------------------------- -->
+    <!-- ----------------------------------------------
     <v-menu :close-on-content-click="false" location="bottom">
       <template v-slot:activator="{ props }">
         <v-btn icon class="text-primary ml-3" color="lightprimary" rounded="sm" size="small" variant="flat" v-bind="props">
@@ -154,14 +154,14 @@ const reissueToken = async () => {
       <v-sheet rounded="md" width="200" elevation="12">
         <LanguageDD />
       </v-sheet>
-    </v-menu>
+    </v-menu> -->
 
     <!-- ---------------------------------------------- -->
     <!-- Notification -->
     <!-- ---------------------------------------------- -->
     <v-menu :close-on-content-click="false">
       <template v-slot:activator="{ props }">
-        <v-btn icon class="text-secondary mx-3" color="lightsecondary" rounded="sm" size="small" variant="flat" v-bind="props">
+        <v-btn icon class="text-secondary mx-2" color="lightsecondary" rounded="sm" size="small" variant="flat" v-bind="props">
           <BellIcon stroke-width="1.5" size="22" />
         </v-btn>
       </template>

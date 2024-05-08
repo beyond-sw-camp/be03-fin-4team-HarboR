@@ -48,7 +48,7 @@ export const useAuthStore = defineStore({
           localStorage.setItem("employeeId", decoded.sub);
           localStorage.setItem("myEmail", decoded.myEmail);
           localStorage.setItem("role", decoded.role);
-          router.push('/dashboard/default');
+          location.href='/dashboard/default';
         } else {
           console.log("200 ok but no token");
           alert("Login Failed");

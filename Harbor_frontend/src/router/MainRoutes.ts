@@ -399,7 +399,7 @@ const MainRoutes = {
     },
     {
       name: 'Mail',
-      path: '/app/mail',
+      path: '/noticeList',
       component: () => import('@/views/apps/mail/MailPage.vue')
     },
     {
@@ -433,11 +433,6 @@ const MainRoutes = {
       component: () => import('@/views/apps/eCommerce/ProductList.vue')
     },
     {
-      name: 'TestCalender',
-      path: '/testcalendar',
-      component: () => import('@/views/apps/test/TestCalendar.vue')
-    },
-    {
       name: 'TestTimeline',
       path: '/testtimeline',
       component: () => import('@/views/apps/test/GSTC.vue')
@@ -462,11 +457,11 @@ const MainRoutes = {
       path: '/attendance/list/res',
       component: () => import('@/views/apps/users/list/AttendanceListRes.vue')
     },
-    {
-      name: 'noticeList',
-      path: '/noticeList',
-      component: () => import('@/views/apps/users/list/noticeList.vue')
-    },
+    // {
+    //   name: 'noticeList',
+    //   path: '/noticeList',
+    //   component: () => import('@/views/apps/users/list/noticeList.vue')
+    // },
     {
       name: 'noticedetail',
       path: '/noticedetail/:id',
@@ -491,6 +486,16 @@ const MainRoutes = {
       name: 'ScheduleQalendar',
       path: '/schedule/qalendar',
       component: () => import('@/views/apps/calendar/ScheduleQalendar.vue')
+    },
+    {
+      name: 'TeamSchedule',
+      path: '/team/schedule',
+      component: () => import('@/views/apps/calendar/TeamScheduleQalendar.vue')
+    },
+    {
+      name: 'noticeUpdate',
+      path: '/noticeUpdate',
+      component: () => import('@/views/apps/users/list/noticeupdate.vue')
     }
   ]
 };
