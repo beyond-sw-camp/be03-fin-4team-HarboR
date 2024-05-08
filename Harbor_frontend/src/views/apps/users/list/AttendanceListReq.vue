@@ -55,7 +55,7 @@ type ListItem = {
   firstApprovalName: string;
   secondApprovalName: string;
   thirdApprovalName: string;
-  status:boolean;
+  status:string;
 };
 const headers: Header[] = [
   { text: '결재 종류', value: 'payStatusCode', sortable: true },
@@ -99,13 +99,13 @@ async function attendanceDelete(annualId: number) {
   }
 }
 // 상태 계산 함수
-function calculateStatus(item: ListItem): boolean {
+function calculateStatus(item: ListItem): string {
   if (item.firstApprovalDate && item.secondApprovalDate && item.thirdApprovalDate) {
-    return true;
+    return '완료';
   } else if (item.firstApprovalDate === 'companion' || item.secondApprovalDate === 'companion' || item.thirdApprovalDate === 'companion') {
-    return true;
+    return '완료';
   } else {
-    return false;
+    return '진행중test';
   }
 }
 
