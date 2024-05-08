@@ -89,7 +89,7 @@ const searchList = shallowRef([
               prepend-inner-icon="mdi-magnify"
               class="mr-2"
             />
-            <v-btn @click="changeSearch()">검색하기</v-btn>
+            <v-btn @click="changeSearch()" @keyup.enter="changeSearch()">검색하기</v-btn>
           </v-col>
           <v-col cols="12" md="3">
             <!-- <v-select label="Select" v-model="searchField" variant="outlined" @update:model-value="searchByName"
