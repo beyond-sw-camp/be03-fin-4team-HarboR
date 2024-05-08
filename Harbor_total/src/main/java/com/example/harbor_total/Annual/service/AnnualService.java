@@ -86,6 +86,31 @@ public class AnnualService {
         return eworksListResDtos;
     }
 
+    public List<AnnualReceiveListResDto> getReceiveList2(String employeeId) {
+        List<Annual> annualList = annualRepository.findAllByFirstSignIdOrSecondSignIdOrThirdSignIdAAndAdjustment_delYnIs(employeeId, "N");
+        List<AnnualReceiveListResDto> eworksListResDtos = new ArrayList<>();
+        for(Annual annual : annualList){
+            Attendance attendance = attendanceRepository.findByAnnuals_AnnualId(annual.getAnnualId())
+                    .orElseThrow(() -> new IllegalArgumentException("근태 정보를 조회할 수 없습니다."));
+            AnnualReceiveListResDto eworksListResDto = AnnualReceiveListResDto.create(
+                    annual.getAnnualId(),
+                    attendance.getEmployee().getEmployeeId(),
+                    attendance.getWorkPolicy(),
+                    annual.getFirstSignId(),
+                    annual.getFirstApprovalDate(),
+                    annual.getSecondSignId(),
+                    annual.getSecondApprovalDate(),
+                    annual.getThirdSignId(),
+                    annual.getThirdApprovalDate(),
+                    annual.getAdjustmentDate(),
+                    annual.getAdjustmentEndDate(),
+                    annual.getAdjustmentComment()
+            );
+            eworksListResDtos.add(eworksListResDto);
+        }
+        return eworksListResDtos;
+    }
+
     //Todo: 후결재 처리
     private Annual checkApproval(Annual annual, String employeeId) {
         LocalDateTime startDate = LocalDate.now().atStartOfDay();
