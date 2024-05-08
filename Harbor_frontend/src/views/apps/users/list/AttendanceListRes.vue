@@ -147,17 +147,17 @@ function calculateStatus(item: ListItem): boolean {
               </div>
             </template>
             <!-- 상신자 -->
-            <template #item-reqEmployeeId="{ requestName }">
-              <div class="d-flex align-center ga-4" v>
-                <h5 class="text-h5">
+            <template #item-reqEmployeeId="{ requestName , status }">
+              <div class="d-flex align-center ga-4" >
+                <h5 class="text-h5" v-if="status">
                   {{ requestName }}
                 </h5>
               </div>
             </template>
             <!-- 1차 승인자 -->
-            <template #item-firstApprovalId="{ firstApprovalName, firstApprovalDate }">
+            <template #item-firstApprovalId="{ firstApprovalName, firstApprovalDate , status}">
               <div class="d-flex align-center ga-4">
-                <div>
+                <div v-if="status">
                   <h5 class="text-h5">
                     {{ firstApprovalName }}
                   </h5>
@@ -166,9 +166,9 @@ function calculateStatus(item: ListItem): boolean {
                 </div>
               </div>
             </template>
-            <template #item-secondApprovalId="{ secondApprovalName, secondApprovalDate, firstApprovalDate }">
+            <template #item-secondApprovalId="{ secondApprovalName, secondApprovalDate, firstApprovalDate , status }">
               <div class="d-flex align-center ga-4">
-                <div>
+                <div v-if="status">
                   <h5 class="text-h5">
                     {{ secondApprovalName }}
                   </h5>
@@ -180,9 +180,9 @@ function calculateStatus(item: ListItem): boolean {
                 </div>
               </div>
             </template>
-            <template #item-thirdApprovalId="{ thirdApprovalName, thirdApprovalDate, secondApprovalDate }">
+            <template #item-thirdApprovalId="{ thirdApprovalName, thirdApprovalDate, secondApprovalDate , status }">
               <div class="d-flex align-center ga-4">
-                <div>
+                <div v-if="status">
                   <h5 class="text-h5">
                     {{ thirdApprovalName }}
                   </h5>
@@ -207,9 +207,9 @@ function calculateStatus(item: ListItem): boolean {
             v-if="!details"
           >
             <!-- 휴가 종류 -->
-            <template #item-payStatusCode="{ payStatusCode,firstApprovalDate }">
+            <template #item-payStatusCode="{ payStatusCode,firstApprovalDate , status }">
               <div class="d-flex align-center ga-4">
-                <div>
+                <div v-if="!status">
                   <h5 class="text-h5"  v-if="firstApprovalDate">
                     {{ getStatusCode(payStatusCode) }}
                   </h5>
@@ -219,15 +219,15 @@ function calculateStatus(item: ListItem): boolean {
             <!-- 상신자 -->
             <template #item-reqEmployeeId="{ requestName ,status}">
               <div class="d-flex align-center ga-4">
-                <h5 class="text-h5" v-if="status">
+                <h5 class="text-h5" v-if="!status">
                   {{ requestName }}
                 </h5>
               </div>
             </template>
             <!-- 1차 승인자 -->
-            <template #item-firstApprovalId="{ firstApprovalName, firstApprovalDate }">
+            <template #item-firstApprovalId="{ firstApprovalName, firstApprovalDate , status}">
               <div class="d-flex align-center ga-4">
-                <div>
+                <div v-if="!status">
                   <h5 class="text-h5" v-if="firstApprovalDate">
                     {{ firstApprovalName }}
                   </h5>
@@ -235,9 +235,9 @@ function calculateStatus(item: ListItem): boolean {
                 </div>
               </div>
             </template>
-            <template #item-secondApprovalId="{ secondApprovalName, secondApprovalDate, firstApprovalDate }">
+            <template #item-secondApprovalId="{ secondApprovalName, secondApprovalDate, firstApprovalDate , status }">
               <div class="d-flex align-center ga-4">
-                <div>
+                <div v-if="!status">
                   <h5 class="text-h5" v-if="secondApprovalDate">
                     {{ secondApprovalName }}
                   </h5>
@@ -246,9 +246,9 @@ function calculateStatus(item: ListItem): boolean {
                 </div>
               </div>
             </template>
-            <template #item-thirdApprovalId="{ thirdApprovalName, thirdApprovalDate, secondApprovalDate }">
+            <template #item-thirdApprovalId="{ thirdApprovalName, thirdApprovalDate, secondApprovalDate , status }">
               <div class="d-flex align-center ga-4">
-                <div>
+                <div v-if="!status">
                   <h5 class="text-h5" v-if="thirdApprovalDate">
                     {{ thirdApprovalName }}
                   </h5>
