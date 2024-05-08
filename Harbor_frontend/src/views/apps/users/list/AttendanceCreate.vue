@@ -125,7 +125,8 @@ async function attendanceReq() {
       adjustmentComment: content.value,
       firstSignId: selecteFirst.value,
       secondSignId: selecteSecond.value,
-      thirdSignId: selecteThird.value
+      thirdSignId: selecteThird.value,
+      adjustment_delYn: 'N'
     });
     // 회원가입이 성공하면 사용자에게 알림을 표시하거나 다른 작업을 수행할 수 있습니다.
     alert('전자결재완료');
