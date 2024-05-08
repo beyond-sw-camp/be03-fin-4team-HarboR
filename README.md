@@ -126,7 +126,7 @@
 
 ## TOOLS
 <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"> <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/slack-purple?style=for-the-badge&logo=slack&logoColor=white"> <img src="https://img.shields.io/badge/trello-0052CC?style=for-the-badge&logo=trello&logoColor=white"> <img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white">
-## 📜 프로젝트 관련 문서
+## 🗎 프로젝트 관련 문서
 
 <br>
 
@@ -146,14 +146,14 @@
 [UI UX 단위테스트 결과서.pptx](https://github.com/beyond-sw-camp/be03-fin-4team-HarboR/files/15090562/UI.UX.pptx)
 
 
-## 📄 단위테스트체크리스트
+## 📜 단위테스트체크리스트
 [단위테스트체크리스트.pdf](https://github.com/fa7271/be03-fin-4team-HarboR/files/14882361/default.pdf)
 
-## 📄 배포결과 테스트
+## 📜 배포결과 테스트
 [배포결과테스트.pptx](https://github.com/keepself/be03-fin-HarboR/files/15228791/default.pptx)
 
 
-## 📄WBS
+## 📜WBS
 <a href= "https://docs.google.com/spreadsheets/d/1VWcKfrer7uPG9SLIzj5LipWOVl53_diq0vEJ3clBmNU/edit#gid=176614884">WBS 바로가기</a>
 
 </details>
@@ -168,7 +168,7 @@
 <br>
 
 ## 💻AWS 아키텍처
-<img width="727" alt="스크린샷 2024-03-18 오후 4 08 06" src="https://github.com/beyond-sw-camp/be03-fin-4team-HarboR/assets/150704738/930678e2-fc63-49a8-b3d1-5feb4f797af5">
+<img width="727" alt="스크린샷 2024-03-18 오후 4 08 06" src="https://github.com/beyond-sw-camp/be03-fin-HarboR/assets/90543205/5b77d6bf-d5d2-40ab-aad6-509583b58068">
 
 ## 💻CI CD 계획서
 
@@ -210,6 +210,139 @@ Route53은 사용자의 DNS 요청을 CloudFront로 라우팅하여 사용자에
 #### ➡ 문서화: GitHub Readme 작성
 
 </details>
+
+## 📹 프로젝트 시연 영상
+
+
+<details>
+<summary><b>상세 설명</b></summary>
+
+<br></br>
+    
+<details>
+<summary>회원가입 및 로그인</summary>
+<br></br>
+<p><b>➡️ 회원이 이름 이메일 비밀번호 생년월일을 기입한다, 비밀번호는 문자 숫자 특수문자를 모두사용해야한다.</b></p><br>
+
+[frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/fa315eb9-76a7-460d-b12f-b4a54c05d6cf
+)
+
+<br></br>
+<p><b>➡️ 회 .</b></p><br>
+
+[frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/22cba818-8971-4276-af87-c80d272c4c81)
+
+<br></br>
+
+[frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/34048401-1c27-46c6-92ed-f6c39d36d03d
+)
+
+
+</details>
+
+<details>
+<summary>사원번호 찾기 및 비밀번호 변경/수정</summary>
+
+
+[frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/e8d9a6b3-ab96-4e57-8730-36f20f4aa3b7
+)
+
+<br></br>
+
+[frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/3d655e59-1200-4d30-980b-722d1e2e3f98
+)
+
+<br></br>
+
+[frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/f079e48b-d4a7-449f-889c-edfc383e8e81)
+
+<br></br>
+
+[frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/e2090dd4-6d9d-4e0d-bfa4-6a0d49067940
+)
+</details>
+
+<details>
+<summary>출근 퇴근 관리</summary>
+
+[frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/8ac3459a-e188-40f6-9cbe-9ed8e84fa687
+)
+</details>
+
+<details>
+<summary>인사 관리</summary>
+
+
+[frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/17a3e906-66f0-4f9f-ac1b-dc42dd1cfe03
+)
+
+<br></br>
+
+[frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/0f741dba-4b30-455e-9e06-6d32c0b847da
+)
+
+</details>
+
+<details>
+<summary>근태 관리</summary>
+
+[frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/4f04ee92-7674-48af-902f-143ddf740b91
+)
+
+<br></br>
+
+[frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/3f2abaa2-59c7-45cb-b74d-fad4dd916625
+)
+
+<br></br>
+
+[frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/93b0834f-d2f2-4998-bf6d-e3b590c89d24
+)
+
+</details>
+
+<details>
+<summary>공지 사항</summary>
+
+
+[frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/e25bd463-580a-4a02-8a2c-0c6ac54e6e6d
+)
+
+<br></br>
+
+[frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/7e1e75d7-8fca-4601-b2ca-e55c6edd21b2)
+
+</detail>
+
+
+
+
+
+
+.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
