@@ -131,7 +131,7 @@ function calculateStatus(item: ListItem): boolean {
             <!-- 휴가 종류 -->
             <template #item-payStatusCode="{ payStatusCode , status}">
               <div class="d-flex align-center ga-4">
-                <div v-if="status">
+                <div v-show="status">
                   <h5 class="text-h5">
                     {{ getStatusCode(payStatusCode) }}
                   </h5>
@@ -141,7 +141,7 @@ function calculateStatus(item: ListItem): boolean {
             <!-- 1차 승인자 -->
             <template #item-firstApprovalId="{ firstApprovalName, firstApprovalDate , status}">
               <div class="d-flex align-center ga-4">
-                <div v-if="status">
+                <div v-show="status">
                   <h5 class="text-h5" >
                     {{ firstApprovalName }}
                   </h5>
@@ -152,7 +152,7 @@ function calculateStatus(item: ListItem): boolean {
             </template>
             <template #item-secondApprovalId="{ secondApprovalName, secondApprovalDate, firstApprovalDate , status}">
               <div class="d-flex align-center ga-4">
-                <div v-if="status">
+                <div v-show="status">
                   <h5 class="text-h5">
                     {{ secondApprovalName }}
                   </h5>
@@ -166,7 +166,7 @@ function calculateStatus(item: ListItem): boolean {
             </template>
             <template #item-thirdApprovalId="{ thirdApprovalName, thirdApprovalDate, secondApprovalDate, status}">
               <div class="d-flex align-center ga-4">
-                <div v-if="status">
+                <div v-show="status">
                   <h5 class="text-h5">
                     {{ thirdApprovalName }}
                   </h5>
