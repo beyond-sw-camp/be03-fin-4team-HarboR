@@ -21,7 +21,7 @@ async function fetchStatus() {
     const tempItems = response.data.result;
 
     // 모든 결재자의 이름을 조회합니다.
-    const updatedItems = await Promise.allSettled(
+    const updatedItems = await Promise.all(
       tempItems.map(async (item) => {
         const requestName = await employeeIdByName(item.reqEmployeeId);
         const firstApprovalName = await employeeIdByName(item.firstApprovalId);
