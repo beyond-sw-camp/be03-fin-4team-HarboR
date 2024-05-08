@@ -127,9 +127,9 @@ async function attendanceDelete(annualId: number) {
               </div>
             </template>
             <!-- 1차 승인자 -->
-            <template #item-firstApprovalId="{ firstApprovalName, firstApprovalDate , secondApprovalDate , thirdApprovalDate}">
+            <template #item-firstApprovalId="{ firstApprovalName, firstApprovalDate}">
               <div class="d-flex align-center ga-4">
-                <div v-if="firstApprovalDate !== 'companion' || secondApprovalDate !== 'companion' ||  thirdApprovalDate !== 'companion'">
+                <div v-if="firstApprovalDate !== 'companion'">
                   <h5 class="text-h5" >
                     {{ firstApprovalName }}
                   </h5>
@@ -140,7 +140,7 @@ async function attendanceDelete(annualId: number) {
             </template>
             <template #item-secondApprovalId="{ secondApprovalName, secondApprovalDate, firstApprovalDate ,thirdApprovalDate}">
               <div class="d-flex align-center ga-4">
-                <div v-if="firstApprovalDate !== 'companion' || secondApprovalDate !== 'companion' ||  thirdApprovalDate !== 'companion'">
+                <div v-if=" firstApprovalDate && firstApprovalDate !== 'companion' || secondApprovalDate !== 'companion'">
                   <h5 class="text-h5">
                     {{ secondApprovalName }}
                   </h5>
@@ -152,9 +152,9 @@ async function attendanceDelete(annualId: number) {
                 </div>
               </div>
             </template>
-            <template #item-thirdApprovalId="{ thirdApprovalName, thirdApprovalDate, secondApprovalDate, firstApprovalDate}">
+            <template #item-thirdApprovalId="{ thirdApprovalName, thirdApprovalDate, secondApprovalDate}">
               <div class="d-flex align-center ga-4">
-                <div v-if="firstApprovalDate !== 'companion' || secondApprovalDate !== 'companion' ||  thirdApprovalDate !== 'companion'">
+                <div v-if="secondApprovalDate && secondApprovalDate !== 'companion' ||  thirdApprovalDate !== 'companion'">
                   <h5 class="text-h5">
                     {{ thirdApprovalName }}
                   </h5>
