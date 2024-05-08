@@ -59,7 +59,7 @@ type ListItem = {
   firstApprovalName: string;
   secondApprovalName: string;
   thirdApprovalName: string;
-  status:boolean;
+  status: boolean;
 };
 const headers: Header[] = [
   { text: '결재 종류', value: 'payStatusCode', sortable: true },
@@ -134,89 +134,91 @@ function calculateStatus(item: ListItem): boolean {
         <v-divider></v-divider>
         <!-- 진행중 -->
         <div class="overflow-auto" v-if="tab === 'ing'">
-          <EasyDataTable
-            @click-row="showRow"
-            :headers="headers"
-            :items="items"
-            table-class-name="customize-table action-position"
-            :rows-per-page="8"
-            v-if="!details"
-          >
-            <!-- 휴가 종류 -->
-            <template #item-payStatusCode="{ payStatusCode ,status}">
-              <div class="d-flex align-center ga-4">
-                <div v-if="status">
-                  <h5 class="text-h5">
-                    {{ getStatusCode(payStatusCode) }}
-                  </h5>
-                </div>
-              </div>
+          <EasyDataTable @click-row="showRow" :headers="headers" :items="items"
+            table-class-name="customize-table action-position" :rows-per-page="8" v-if="!details">
+            <!-- 행 렌더링 -->
+            <template #default="{ item }">
+              <tr v-if="calculateStatus(item)">
+                <!-- 휴가 종류 -->
+                <template #item-payStatusCode="{ payStatusCode ,status}">
+                  <div class="d-flex align-center ga-4">
+                    <div v-if="status">
+                      <h5 class="text-h5">
+                        {{ getStatusCode(payStatusCode) }}
+                      </h5>
+                    </div>
+                  </div>
+                </template>
+                <!-- 상신자 -->
+                <template #item-reqEmployeeId="{ requestName , status }">
+                  <div class="d-flex align-center ga-4">
+                    <h5 class="text-h5" v-if="status">
+                      {{ requestName }}
+                    </h5>
+                  </div>
+                </template>
+                <!-- 1차 승인자 -->
+                <template #item-firstApprovalId="{ firstApprovalName, firstApprovalDate , status}">
+                  <div class="d-flex align-center ga-4">
+                    <div v-if="status">
+                      <h5 class="text-h5">
+                        {{ firstApprovalName }}
+                      </h5>
+                      <small v-if="firstApprovalDate" class="text-subtitle text-center" style="color: green">{{
+                        firstApprovalDate }} </small>
+                      <small v-if="!firstApprovalDate" class="text-subtitle text-center" style="color: blue"> 진행중
+                      </small>
+                    </div>
+                  </div>
+                </template>
+                <template
+                  #item-secondApprovalId="{ secondApprovalName, secondApprovalDate, firstApprovalDate , status }">
+                  <div class="d-flex align-center ga-4">
+                    <div v-if="status">
+                      <h5 class="text-h5">
+                        {{ secondApprovalName }}
+                      </h5>
+                      <small v-if="secondApprovalDate" class="text-subtitle text-center">{{ secondApprovalDate }}
+                      </small>
+                      <small v-if="firstApprovalDate && !secondApprovalDate" class="text-subtitle text-center"
+                        style="color: blue">
+                        진행중
+                      </small>
+                      <small v-if="!firstApprovalDate && !secondApprovalDate" class="text-subtitle text-center">
+                      </small>
+                    </div>
+                  </div>
+                </template>
+                <template #item-thirdApprovalId="{ thirdApprovalName, thirdApprovalDate, secondApprovalDate , status }">
+                  <div class="d-flex align-center ga-4">
+                    <div v-if="status">
+                      <h5 class="text-h5">
+                        {{ thirdApprovalName }}
+                      </h5>
+                      <small v-if="thirdApprovalDate" class="text-subtitle text-center">{{ thirdApprovalDate }} </small>
+                      <small v-if="!thirdApprovalDate && secondApprovalDate" class="text-subtitle text-center"
+                        style="color: blue">
+                        진행중
+                      </small>
+                      <small v-if="!thirdApprovalDate && !secondApprovalDate" class="text-subtitle text-center">
+                      </small>
+                    </div>
+                  </div>
+                </template>
+              </tr>
             </template>
-            <!-- 상신자 -->
-            <template #item-reqEmployeeId="{ requestName , status }">
-              <div class="d-flex align-center ga-4" >
-                <h5 class="text-h5" v-if="status">
-                  {{ requestName }}
-                </h5>
-              </div>
-            </template>
-            <!-- 1차 승인자 -->
-            <template #item-firstApprovalId="{ firstApprovalName, firstApprovalDate , status}">
-              <div class="d-flex align-center ga-4">
-                <div v-if="status">
-                  <h5 class="text-h5">
-                    {{ firstApprovalName }}
-                  </h5>
-                  <small v-if="firstApprovalDate" class="text-subtitle text-center" style="color: green">{{ firstApprovalDate }} </small>
-                  <small v-if="!firstApprovalDate" class="text-subtitle text-center" style="color: blue"> 진행중 </small>
-                </div>
-              </div>
-            </template>
-            <template #item-secondApprovalId="{ secondApprovalName, secondApprovalDate, firstApprovalDate , status }">
-              <div class="d-flex align-center ga-4">
-                <div v-if="status">
-                  <h5 class="text-h5">
-                    {{ secondApprovalName }}
-                  </h5>
-                  <small v-if="secondApprovalDate" class="text-subtitle text-center">{{ secondApprovalDate }} </small>
-                  <small v-if="firstApprovalDate && !secondApprovalDate" class="text-subtitle text-center" style="color: blue">
-                    진행중
-                  </small>
-                  <small v-if="!firstApprovalDate && !secondApprovalDate" class="text-subtitle text-center"> </small>
-                </div>
-              </div>
-            </template>
-            <template #item-thirdApprovalId="{ thirdApprovalName, thirdApprovalDate, secondApprovalDate , status }">
-              <div class="d-flex align-center ga-4">
-                <div v-if="status">
-                  <h5 class="text-h5">
-                    {{ thirdApprovalName }}
-                  </h5>
-                  <small v-if="thirdApprovalDate" class="text-subtitle text-center">{{ thirdApprovalDate }} </small>
-                  <small v-if="!thirdApprovalDate && secondApprovalDate" class="text-subtitle text-center" style="color: blue">
-                    진행중
-                  </small>
-                  <small v-if="!thirdApprovalDate && !secondApprovalDate" class="text-subtitle text-center"> </small>
-                </div>
-              </div>
-            </template>
+
           </EasyDataTable>
         </div>
         <!-- 승인완료 -->
         <div class="overflow-auto" v-if="tab === 'finish'">
-          <EasyDataTable
-            @click-row="showRow"
-            :headers="headers"
-            :items="items"
-            table-class-name="customize-table action-position"
-            :rows-per-page="8"
-            v-if="!details"
-          >
+          <EasyDataTable @click-row="showRow" :headers="headers" :items="items"
+            table-class-name="customize-table action-position" :rows-per-page="8" v-if="!details">
             <!-- 휴가 종류 -->
             <template #item-payStatusCode="{ payStatusCode,firstApprovalDate , status }">
               <div class="d-flex align-center ga-4">
                 <div v-if="!status">
-                  <h5 class="text-h5"  v-if="firstApprovalDate">
+                  <h5 class="text-h5" v-if="firstApprovalDate">
                     {{ getStatusCode(payStatusCode) }}
                   </h5>
                 </div>
@@ -237,7 +239,8 @@ function calculateStatus(item: ListItem): boolean {
                   <h5 class="text-h5">
                     {{ firstApprovalName }}
                   </h5>
-                  <small v-if="firstApprovalDate" class="text-subtitle text-center" style="color: green">{{ firstApprovalDate }} </small>
+                  <small v-if="firstApprovalDate" class="text-subtitle text-center" style="color: green">{{
+                    firstApprovalDate }} </small>
                 </div>
               </div>
             </template>
