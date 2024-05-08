@@ -302,7 +302,7 @@ Route53은 사용자의 DNS 요청을 CloudFront로 라우팅하여 사용자에
 )
 
 <br></br>
-<p><b>➡️수정도 마찬가지로 month에서 수정을하면 day week에 모두 적용되고 month가아닌 day week에서도 모두 수정이가능하다 생성할때 적용한 정보를 모두 수정할 수 있다. 타임테이블을 잡고 다른 날짜로 이동 시키면 수정이된다.</b></p><br>
+<p><b>➡️수정도 마찬가지로 month에서 수정을하면 day week에 모두 적용되고 month가아닌 day week에서도 모두 수정이가능하다 생성할때 적용한 정보를 모두 수정할 수 있다. 타임테이블을 잡고 다른 날짜로 이동 시키면 수정이된다 쓰래기통 버튼을 누르면 삭제된다.</b></p><br>
 
 [frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/3f2abaa2-59c7-45cb-b74d-fad4dd916625)
 
@@ -316,12 +316,15 @@ Route53은 사용자의 DNS 요청을 CloudFront로 라우팅하여 사용자에
 
 <details>
 <summary>공지 사항</summary>
+<br></br>
+<p><b>➡️공지사항을 메인페이지를 통해 이동할 수 있으며 메인페이지의 공지사항은 최근에 생성된 3개의 공지사항이 표시된다, 공지사항을 생성 할 때 에디터를 이용해 내용을 입력 할 수 있으며 파일을 첨부 할 수 있다. 관리자만 공지사항을 생성할 수 있다.</b></p><br>  
 
 
 [frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/e25bd463-580a-4a02-8a2c-0c6ac54e6e6d
 )
 
 <br></br>
+<p><b>➡️공지사항을 수정할 수 있으며 첨부된사진부터 제목 내용 모두 수정가능하다. 또 삭제도 가능하다.</b></p><br>  
 
 [frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/7e1e75d7-8fca-4601-b2ca-e55c6edd21b2)
 
