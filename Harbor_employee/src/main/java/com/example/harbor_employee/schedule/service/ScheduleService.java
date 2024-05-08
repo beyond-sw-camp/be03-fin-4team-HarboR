@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -55,8 +56,6 @@ public class ScheduleService {
         return scheduleList.stream()
                 .map(schedule -> ScheduleTeamListRes.mapToSchedule(schedule, schedule.getEmployee().getName()))
                 .collect(Collectors.toList());
-
-
     }
 
     public void scheduleUpdate(Long scheduleId, ScheduleUpdateReq scheduleUpdateReq) {
@@ -77,14 +76,11 @@ public class ScheduleService {
         schedule.deleteSchedule();
     }
 
-    public Schedule scheduleDetail(Long scheduleId) {
-        Schedule schedule = scheduleRepository.findByScheduleId(scheduleId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스케줄 입니다"));
-        if (schedule.isDelYn()) {
-            return null; // 또는 원하는 처리를 하세요.
-        } else {
-            return schedule;
-        }
+    public ScheduleTeamListRes scheduleDetail(Long scheduleId) {
+        Optional<Schedule> optionalSchedule = scheduleRepository.findByScheduleId(scheduleId);
+        return optionalSchedule
+                .map(s -> ScheduleTeamListRes.mapToSchedule(s, s.getEmployee().getName()))
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스케줄 입니다."));
     }
 }
 
