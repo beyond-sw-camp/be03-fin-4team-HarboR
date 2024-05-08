@@ -263,7 +263,7 @@ function calculateStatus(item: ListItem): boolean {
         <div v-if="details && selectAttendance" class="pa-5">
           <AttendanceListDetail @toggleDetail="details = false" :selectedDetail="selectAttendance" />
           <v-row class="justify-end mr-10 my-3">
-            <div class="align-self-end mt-3" v-if="tab === 'ing'">
+            <div class="align-self-end mt-3" v-if="tab === 'ing' ">
               <v-button class="edit-button" @click="approval(selectAttendance.annualId, true)">승인하기</v-button>
               <v-button class="delete-button" @click="approval(selectAttendance.annualId, false)">반려하기</v-button>
             </div>
