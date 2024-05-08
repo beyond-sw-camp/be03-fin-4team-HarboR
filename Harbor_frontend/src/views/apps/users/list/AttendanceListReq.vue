@@ -189,7 +189,7 @@ async function attendanceDelete(annualId: number) {
               </div>
             </template>
             <!-- 1차 승인자 -->
-            <template #item-firstApprovalId="{ firstApprovalName, firstApprovalDate,thirdApprovalDate }">
+            <template #item-firstApprovalId="{ firstApprovalName, firstApprovalDate,thirdApprovalDate ,secondApprovalDate}">
               <div class="d-flex align-center ga-4">
                 <div>
                   <h5 class="text-h5" v-if="thirdApprovalDate || firstApprovalDate === 'companion' ||  secondApprovalDate === 'companion'">
@@ -209,10 +209,10 @@ async function attendanceDelete(annualId: number) {
                 </div>
               </div>
             </template>
-            <template #item-thirdApprovalId="{ thirdApprovalName, thirdApprovalDate }">
+            <template #item-thirdApprovalId="{ thirdApprovalName, thirdApprovalDate ,secondApprovalDate,firstApprovalDate}">
               <div class="d-flex align-center ga-4">
                 <div>
-                  <h5 class="text-h5" v-if="thirdApprovalDate">
+                  <h5 class="text-h5" v-if="thirdApprovalDate || secondApprovalDate === 'companion' || firstApprovalDate === 'companion' ">
                     {{ thirdApprovalName }}
                   </h5>
                   <small v-if="thirdApprovalDate" class="text-subtitle text-center">{{ thirdApprovalDate }} </small>
