@@ -8,7 +8,6 @@ import AttendanceListDetail from '@/views/apps/users/list/AttendanceListDetail.v
 const codeStore = useCodeStore();
 const list = ref<any[]>([]);
 const tab = ref(null);
-const status = ref('');
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 onMounted(() => {
   fetchStatus();
@@ -28,7 +27,7 @@ async function fetchStatus() {
         const firstApprovalName = await employeeIdByName(item.firstApprovalId);
         const secondApprovalName = await employeeIdByName(item.secondApprovalId);
         const thirdApprovalName = await employeeIdByName(item.thirdApprovalId);
-        status.value = getStatus(item);
+        const status = calculateStatus(item);
         console.log("1"+status);
         console.log("2"+status.value);
         return {
@@ -58,6 +57,7 @@ type ListItem = {
   firstApprovalName: string;
   secondApprovalName: string;
   thirdApprovalName: string;
+  status:boolean;
 };
 const headers: Header[] = [
   { text: '결재 종류', value: 'payStatusCode', sortable: true },
@@ -99,19 +99,17 @@ async function attendanceDelete(annualId: number) {
     alert('삭제 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
   }
 }
-// 진행 완료 구분 함수
-function getStatus(item) {
-  const { firstApprovalDate, secondApprovalDate, thirdApprovalDate } = item;
-  if (
-    firstApprovalDate && firstApprovalDate !== 'companion' &&
-    secondApprovalDate && secondApprovalDate !== 'companion' &&
-    thirdApprovalDate && thirdApprovalDate !== 'companion'
-  ) {
-    return 'finish';
+// 상태 계산 함수
+function calculateStatus(item: ListItem): boolean {
+  if (item.firstApprovalDate && item.secondApprovalDate && item.thirdApprovalDate) {
+    return true;
+  } else if (item.firstApprovalDate === 'companion' || item.secondApprovalDate === 'companion' || item.thirdApprovalDate === 'companion') {
+    return true;
   } else {
-    return 'ing';
+    return false;
   }
 }
+
 </script>
 <template>
   <v-row>

@@ -249,7 +249,7 @@ function calculateStatus(item: ListItem): boolean {
             <template #item-thirdApprovalId="{ thirdApprovalName, thirdApprovalDate, secondApprovalDate , status }">
               <div class="d-flex align-center ga-4">
                 <div v-if="!status">
-                  <h5 class="text-h5" v-if="thirdApprovalDate">
+                  <h5 class="text-h5">
                     {{ thirdApprovalName }}
                   </h5>
                   <small v-if="thirdApprovalDate" class="text-subtitle text-center">{{ thirdApprovalDate }} </small>
