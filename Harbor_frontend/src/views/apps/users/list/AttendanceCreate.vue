@@ -90,17 +90,17 @@ const handleStartDateChange = (event) => {
   console.log(event);
   const selectedDateTime = event.target.value;
   clickedStartDateInfo.value = selectedDateTime;
-  console.log(clickedStartDateInfo.value);
+  console.log("시작"+clickedStartDateInfo.value);
 };
 // 종료일시 세팅 함수
 const handleEndDateChange = (event) => {
   console.log(event);
   const selectedDateTime = event.target.value;
-  clickedStartDateInfo.value = selectedDateTime;
-  console.log(clickedStartDateInfo.value);
+  clickedEndDateInfo.value = selectedDateTime;
+  console.log("끝" + clickedEndDateInfo.value);
 };
 async function attendanceReq() {
-  console.log('스타트:', clickedStartDateInfo.value);
+  console.log('workStartTime:', clickedStartDateInfo.value);
   console.log('workEndTime:', clickedEndDateInfo.value);
   console.log('workPolicy:', selectedWork.value);
   console.log('adjustmentComment:', content.value);
