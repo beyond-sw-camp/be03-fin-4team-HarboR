@@ -19,7 +19,7 @@ async function fetchStatus() {
     setClientHeaders();
     const response = await axios.get(`${baseUrl}/total/annual/read/send`);
     const tempItems = response.data.result;
-    console.log("결과물" + response.data.result);
+    console.log("결과물" + tempItems);
     console.log("아이디" + tempItems.annualId);
     // 모든 결재자의 이름을 조회합니다.
     const updatedItems = await Promise.allSettled(
