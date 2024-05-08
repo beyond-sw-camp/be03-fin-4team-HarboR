@@ -12,10 +12,9 @@ const goToAttendanceDetailPage = () => {
 };
 
 const store = ApproveStore();
-const token: string | null = localStorage.getItem('token');
 onMounted(() => {
-  store.fetchlistCards(token);
-  store.getCountAll(token);
+  store.fetchlistCards();
+  store.getCountAll();
 });
 const num1 = computed(() => {
   return store.card_len_false;
@@ -34,7 +33,7 @@ const handleFileUploadNewMember = async (event) => {
   console.log('로딩시작');
   const file = event.target.files[0];
   try {
-    const result = await store.uploadNewMemberFile(token, file); // await 키워드 추가
+    const result = await store.uploadNewMemberFile(file); // await 키워드 추가
     alert('성공');
     location.reload();
   } catch (error) {

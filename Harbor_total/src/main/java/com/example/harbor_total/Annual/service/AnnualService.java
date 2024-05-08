@@ -40,6 +40,7 @@ public class AnnualService {
         System.out.println("attendanceList = " + attendanceList);
         List<AnnualListResDto> annualListResDtoList = new ArrayList<>();
         for(Attendance attendence : attendanceList){
+            if(attendence.getAnnuals() == null) continue;
             AnnualListResDto annualListResDto = AnnualListResDto.create(
                     attendence.getAnnuals().getAnnualId(),
                     attendence.getWorkPolicy(),
