@@ -102,7 +102,7 @@ async function approval(annualId: number, approvalStatus: boolean) {
       force: false
     });
     alert('결재 완료되었습니다.');
-    location.href = '/attendance/list/res';
+    location.reload();
   } catch (error) {
     console.error('결재 중 오류 발생:', error);
     alert('전자 결재 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
