@@ -28,6 +28,7 @@ async function fetchStatus() {
         const secondApprovalName = await employeeIdByName(item.secondApprovalId);
         const thirdApprovalName = await employeeIdByName(item.thirdApprovalId);
         const status = calculateStatus(item);
+        console.log(status);
         return {
           ...item,
           firstApprovalName: firstApprovalName || 'N/A',
