@@ -222,17 +222,18 @@ Route53은 사용자의 DNS 요청을 CloudFront로 라우팅하여 사용자에
 <details>
 <summary>회원가입 및 로그인</summary>
 <br></br>
-<p><b>➡️ 회원이 이름 이메일 비밀번호 생년월일을 기입한다, 비밀번호는 문자 숫자 특수문자를 모두사용해야한다.</b></p><br>
+<p><b>➡️ 회원이 이름 ,이메일 ,비밀번호 ,생년월일을 기입한다, 비밀번호는 문자 숫자 특수문자를 모두사용해야한다.</b></p><br>
 
 [frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/fa315eb9-76a7-460d-b12f-b4a54c05d6cf
 )
 
 <br></br>
-<p><b>➡️ 회 .</b></p><br>
+<p><b>➡️ 회원가입을 했다면 관리자가 승인을 해야한다 관리자가 승인을 하면 가입한 이메일로 사원 번호를 발송한다.</b></p><br>
 
 [frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/22cba818-8971-4276-af87-c80d272c4c81)
 
 <br></br>
+<p><b>➡️ 승인이 완료되었다면 로그인은 두가지방법으로 가능하다 첫번째는 가입한 이메일로 두번째는 발급된 사원번호로 가능하다.</b></p><br>
 
 [frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/34048401-1c27-46c6-92ed-f6c39d36d03d
 )
@@ -242,12 +243,15 @@ Route53은 사용자의 DNS 요청을 CloudFront로 라우팅하여 사용자에
 
 <details>
 <summary>사원번호 찾기 및 비밀번호 변경/수정</summary>
+<br></br>
+<p><b>➡️ 가입시 입력한 이메일과 이름을 입력하면 사원번호를 찾을 수 있다.</b></p><br>
 
 
 [frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/e8d9a6b3-ab96-4e57-8730-36f20f4aa3b7
 )
 
 <br></br>
+<p><b>➡️ 회원이 이름 ,이메일 ,비밀번호 ,생년월일을 기입한다, 비밀번호는 문자 숫자 특수문자를 모두사용해야한다.</b></p><br>
 
 [frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/3d655e59-1200-4d30-980b-722d1e2e3f98
 )
