@@ -14,13 +14,14 @@ onMounted(() => {
 const getStatusCode = (payStatusCode) => {
   return codeStore.getStatusNameByCode(payStatusCode);
 };
+// 수정된 fetchStatus 함수
 async function fetchStatus() {
   try {
     setClientHeaders();
     const response = await axios.get(`${baseUrl}/total/annual/read/receive`);
     const tempItems = response.data.result;
-    console.log("수신쪽" + tempItems) 
-    // 모든 결재자의 이름을 조회합니다.
+    console.log("수신쪽" + tempItems);
+
     const updatedItems = await Promise.all(
       tempItems.map(async (item) => {
         const requestName = await employeeIdByName(item.reqEmployeeId);
@@ -41,6 +42,10 @@ async function fetchStatus() {
     );
 
     list.value = updatedItems;
+
+    // 이동 대신 데이터를 업데이트한 후에 상태를 변경합니다.
+    detailsFinish.value = true;
+
   } catch (error) {
     alert('결재 목록 조회에 실패하였습니다.');
     console.log(error);
