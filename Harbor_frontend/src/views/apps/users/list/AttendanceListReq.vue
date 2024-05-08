@@ -33,7 +33,8 @@ async function fetchStatus() {
           ...item,
           firstApprovalName: firstApprovalName || 'N/A',
           secondApprovalName: secondApprovalName || 'N/A',
-          thirdApprovalName: thirdApprovalName || 'N/A'
+          thirdApprovalName: thirdApprovalName || 'N/A',
+          status: status || 'N/A',
         };
       })
     );
