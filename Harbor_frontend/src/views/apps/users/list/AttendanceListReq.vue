@@ -85,19 +85,7 @@ async function employeeIdByName(employeeId) {
     alert('결재 목록 조회에 실패하였습니다.');
     console.log(error);
   }
-}
-// 삭제
-async function attendanceDelete(annualId: number) {
-  try {
-    setClientHeaders();
-    const response = await axios.delete(`${baseUrl}/total/annual/delete/${annualId}`);
-    alert('삭제 완료되었습니다.');
-    location.href = '/attendance/list/req';
-  } catch (error) {
-    console.error('삭제 중 오류 발생:', error);
-    alert('삭제 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
-  }
-}
+};
 // 상태 계산 함수
 function calculateStatus(item: ListItem): string {
   if (item.firstApprovalDate && item.secondApprovalDate && item.thirdApprovalDate) {
@@ -116,7 +104,7 @@ function calculateStatus(item: ListItem): string {
       <UiParentCard title="전자 결재">
         <v-divider></v-divider>
         <!-- 진행중일경우 -->
-        <div class="overflow-auto mt-2" v-if="tab === 'ing'">
+        <div class="overflow-auto mt-2">
           <EasyDataTable
             @click-row="showRow"
             :headers="headers"

@@ -126,7 +126,7 @@ function calculateStatus(item: ListItem): string {
       <UiParentCard title="전자 결재">
         <v-divider></v-divider>
         <!-- 진행중 -->
-        <div class="overflow-auto" v-if="tab === 'ing'">
+        <div class="overflow-auto">
           <EasyDataTable
             @click-row="showRow"
             :headers="headers"
