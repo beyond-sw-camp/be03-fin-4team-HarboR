@@ -189,11 +189,6 @@ function calculateStatus(item: ListItem): string {
         <!-- 상세보기 -->
         <div v-if="details && selectAttendance" class="pa-5">
           <AttendanceListDetail @toggleDetail="details = false" :selectedDetail="selectAttendance" />
-          <v-row class="justify-end mr-10 my-3">
-            <div class="align-self-end mt-3">
-              <v-button class="delete-button" @click="attendanceDelete(selectAttendance.annualId)">삭제하기</v-button>
-            </div>
-          </v-row>
         </div>
       </UiParentCard>
     </v-col>
