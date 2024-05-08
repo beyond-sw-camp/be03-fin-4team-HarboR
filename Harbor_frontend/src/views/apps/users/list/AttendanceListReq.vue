@@ -183,7 +183,7 @@ function calculateStatus(item: ListItem): string {
               <div class="d-flex align-center ga-4">
                 <div>
                   <h5 class="text-h5">
-                    {{ status }}
+                    {{ status }} test
                   </h5>
                 </div>
               </div>
