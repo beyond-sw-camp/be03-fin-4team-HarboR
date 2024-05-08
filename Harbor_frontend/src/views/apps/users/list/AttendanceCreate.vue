@@ -100,7 +100,7 @@ const handleEndDateChange = (event) => {
   console.log(clickedStartDateInfo.value);
 };
 async function attendanceReq() {
-  console.log('workStartTime:', clickedStartDateInfo.value);
+  console.log('스타트:', clickedStartDateInfo.value);
   console.log('workEndTime:', clickedEndDateInfo.value);
   console.log('workPolicy:', selectedWork.value);
   console.log('adjustmentComment:', content.value);
