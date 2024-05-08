@@ -127,9 +127,9 @@ async function approval(annualId: number, approvalStatus: boolean) {
             v-if="!details"
           >
             <!-- 휴가 종류 -->
-            <template #item-payStatusCode="{ payStatusCode, firstApprovalDate }">
+            <template #item-payStatusCode="{ payStatusCode, firstApprovalDate,secondApprovalDate ,thirdApprovalDate}">
               <div class="d-flex align-center ga-4">
-                <div>
+                <div  v-if="!(firstApprovalDate === 'companion' || secondApprovalDate === 'companion' || thirdApprovalDate === 'companion')" >
                   <h5 class="text-h5">
                     {{ getStatusCode(payStatusCode) }}
                   </h5>
@@ -137,17 +137,17 @@ async function approval(annualId: number, approvalStatus: boolean) {
               </div>
             </template>
             <!-- 상신자 -->
-            <template #item-reqEmployeeId="{ requestName }">
-              <div class="d-flex align-center ga-4">
+            <template #item-reqEmployeeId="{ requestName ,firstApprovalDate,secondApprovalDate,thirdApprovalDate}">
+              <div class="d-flex align-center ga-4"  v-if="!(firstApprovalDate === 'companion' || secondApprovalDate === 'companion' || thirdApprovalDate === 'companion')" >
                 <h5 class="text-h5">
                   {{ requestName }}
                 </h5>
               </div>
             </template>
             <!-- 1차 승인자 -->
-            <template #item-firstApprovalId="{ firstApprovalName, firstApprovalDate }">
+            <template #item-firstApprovalId="{ firstApprovalName, firstApprovalDate,secondApprovalDate,thirdApprovalDate }">
               <div class="d-flex align-center ga-4">
-                <div>
+                <div  v-if="!(firstApprovalDate === 'companion' || secondApprovalDate === 'companion' || thirdApprovalDate === 'companion')" >
                   <h5 class="text-h5">
                     {{ firstApprovalName }}
                   </h5>
@@ -159,7 +159,7 @@ async function approval(annualId: number, approvalStatus: boolean) {
             <template #item-secondApprovalId="{ secondApprovalName, secondApprovalDate, firstApprovalDate,thirdApprovalDate }">
               
               <div class="d-flex align-center ga-4">
-                <div>
+                <div  v-if="!(firstApprovalDate === 'companion' || secondApprovalDate === 'companion' || thirdApprovalDate === 'companion')" >
                   <h5 class="text-h5">
                     {{ secondApprovalName }}
                   </h5>
@@ -167,17 +167,13 @@ async function approval(annualId: number, approvalStatus: boolean) {
                   <small v-if="firstApprovalDate && !secondApprovalDate" class="text-subtitle text-center" style="color: blue">
                     진행중
                   </small>
-                  <h3 class="text-subtitle text-center" v-if="!(firstApprovalDate === 'companion' || secondApprovalDate === 'companion' || thirdApprovalDate === 'companion')" style="color: green">
-        진행123123
-      </h3>
-      <h5 class="text-subtitle text-center" v-if="firstApprovalDate === 'companion' || secondApprovalDate === 'companion' || thirdApprovalDate === 'companion'" style="color: green">완료132123123</h5>
                   <small v-if="!firstApprovalDate && !secondApprovalDate" class="text-subtitle text-center"> </small>
                 </div>
               </div>
             </template>
-            <template #item-thirdApprovalId="{ thirdApprovalName, thirdApprovalDate, secondApprovalDate }">
+            <template #item-thirdApprovalId="{ thirdApprovalName, thirdApprovalDate, secondApprovalDate,firstApprovalDate }">
               <div class="d-flex align-center ga-4">
-                <div>
+                <div  v-if="!(firstApprovalDate === 'companion' || secondApprovalDate === 'companion' || thirdApprovalDate === 'companion')" >
                   <h5 class="text-h5">
                     {{ thirdApprovalName }}
                   </h5>
