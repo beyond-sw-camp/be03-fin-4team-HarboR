@@ -179,6 +179,15 @@ function calculateStatus(item: ListItem): string {
                 </div>
               </div>
             </template>
+            <template #item-status="{ status }">
+              <div class="d-flex align-center ga-4">
+                <div>
+                  <h5 class="text-h5">
+                    {{ status }}
+                  </h5>
+                </div>
+              </div>
+            </template>
           </EasyDataTable>
         </div>
         <!-- 완료일경우 -->
