@@ -28,7 +28,6 @@ function fileUpload(event) {
 
 onMounted(async () => {
   // 라우트 파라미터에서 사원번호(employeeId)를 추출
-  
   try {
     setClientHeaders();
     const response = await axios.get(`${baseUrl}/employee/get/${routeEmployeeId}/detail`);
