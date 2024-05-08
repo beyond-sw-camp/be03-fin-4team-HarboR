@@ -21,6 +21,8 @@ async function fetchStatus() {
     const tempItems = response.data.result;
     console.log("결과물" + tempItems);
     console.log("아이디" + tempItems.annualId);
+    // 객체의 모든 속성을 문자열로 출력
+console.log("결과물1", JSON.stringify(tempItems));
     // 모든 결재자의 이름을 조회합니다.
     const updatedItems = await Promise.allSettled(
       tempItems.map(async (item) => {
