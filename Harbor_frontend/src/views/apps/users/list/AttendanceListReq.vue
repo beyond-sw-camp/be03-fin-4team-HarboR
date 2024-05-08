@@ -107,7 +107,7 @@ function calculateStatus(item: ListItem): string {
   } else if (item.firstApprovalDate === 'companion' || item.secondApprovalDate === 'companion' || item.thirdApprovalDate === 'companion') {
     return '완료';
   } else {
-    return '진행중test';
+    return '진행중';
   }
 }
 
@@ -184,9 +184,8 @@ function calculateStatus(item: ListItem): string {
             <template #item-status="{ status }">
               <div class="d-flex align-center ga-4">
                 <div>
-                  <h5 class="text-h5">
-                    {{ status }} test
-                  </h5>
+                  <v-chip color="success" v-if="status === '완료'" size="small">완료</v-chip>
+                  <v-chip color="warning" v-else-if="status === '진행중'" size="small">진행중</v-chip>
                 </div>
               </div>
             </template>
