@@ -179,8 +179,7 @@ function calculateStatus(item: ListItem): string {
             <template #item-status="{ status }">
               <div class="d-flex align-center ga-4">
                 <div>
-                  <v-chip color="success" v-if="status === '완료'" size="small">완료</v-chip>
-                  <v-chip color="warning" v-else-if="status === '진행중'" size="small">진행중</v-chip>
+                  {{ status }}
                 </div>
               </div>
             </template>
