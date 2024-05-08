@@ -150,6 +150,8 @@ public class EmployeeService {
         String filePath = "";
         employee.updateEmployee(filePath,request.getPhone(),request.getAddress());
         if(file != null) {
+            if(!file.getContentType().startsWith("image/"))
+                throw new IOException("적절하지 않은 파일 확장자입니다.");
             filePath = s3UploadUtil.upload(file, "profile");
             employee.setImage(filePath);
         }

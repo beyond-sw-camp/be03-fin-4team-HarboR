@@ -4,7 +4,7 @@ import 'vue3-easy-data-table/dist/style.css';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
 import { useCodeStore } from '@/stores/codetrans';
 import axios, { setClientHeaders } from '@/utils/axios';
-import AttendanceListDetail from '@/views/apps/users/list/AttendanceListDetail.vue'
+import AttendanceListDetail from '@/views/apps/users/list/AttendanceListDetail.vue';
 const codeStore = useCodeStore();
 const list = ref<any[]>([]);
 const tab = ref(null);
@@ -17,31 +17,32 @@ const getStatusCode = (payStatusCode) => {
 };
 async function fetchStatus() {
   try {
-    const token: string | null = localStorage.getItem('token');
-    setClientHeaders(token);
+    setClientHeaders();
     const response = await axios.get(`${baseUrl}/total/annual/read/send`);
     const tempItems = response.data.result;
 
     // 모든 결재자의 이름을 조회합니다.
-    const updatedItems = await Promise.all(tempItems.map(async (item) => {
-      const firstApprovalName = await employeeIdByName(item.firstApprovalId);
-      const secondApprovalName = await employeeIdByName(item.secondApprovalId);
-      const thirdApprovalName = await employeeIdByName(item.thirdApprovalId);
+    const updatedItems = await Promise.all(
+      tempItems.map(async (item) => {
+        const firstApprovalName = await employeeIdByName(item.firstApprovalId);
+        const secondApprovalName = await employeeIdByName(item.secondApprovalId);
+        const thirdApprovalName = await employeeIdByName(item.thirdApprovalId);
 
-      return {
-        ...item,
-        firstApprovalName: firstApprovalName || 'N/A',
-        secondApprovalName: secondApprovalName || 'N/A',
-        thirdApprovalName: thirdApprovalName || 'N/A',
-      };
-    }));
+        return {
+          ...item,
+          firstApprovalName: firstApprovalName || 'N/A',
+          secondApprovalName: secondApprovalName || 'N/A',
+          thirdApprovalName: thirdApprovalName || 'N/A'
+        };
+      })
+    );
 
     list.value = updatedItems;
   } catch (error) {
-    alert("결재 목록 조회에 실패하였습니다.");
+    alert('결재 목록 조회에 실패하였습니다.');
     console.log(error);
   }
-};
+}
 type ListItem = {
   payStatusCode: string;
   firstApprovalId: string;
@@ -59,7 +60,7 @@ const headers: Header[] = [
   { text: '결재 종류', value: 'payStatusCode', sortable: true },
   { text: '1차 결재자', value: 'firstApprovalId', sortable: true },
   { text: '2차 결재자', value: 'secondApprovalId', sortable: true },
-  { text: '3차 결재자', value: 'thirdApprovalId', sortable: true },
+  { text: '3차 결재자', value: 'thirdApprovalId', sortable: true }
 ];
 const listCards = computed<ListItem[]>(() => {
   return list.value;
@@ -75,8 +76,7 @@ const showRow = (item: ListItem) => {
 // 사원 번호로 이름 변경
 async function employeeIdByName(employeeId) {
   try {
-    const token: string | null = localStorage.getItem('token');
-    setClientHeaders(token);
+    setClientHeaders();
     if (!token) {
       console.error('토큰이 존재하지 않습니다.');
       return;
@@ -84,15 +84,14 @@ async function employeeIdByName(employeeId) {
     const response = await axios.get(`${baseUrl}/total/employee/name/${employeeId}`);
     return response.data.result;
   } catch (error) {
-    alert("결재 목록 조회에 실패하였습니다.");
+    alert('결재 목록 조회에 실패하였습니다.');
     console.log(error);
   }
-};
+}
 // 삭제
 async function attendanceDelete(annualId: number) {
   try {
-    const token: string | null = localStorage.getItem('token');
-    setClientHeaders(token);
+    setClientHeaders();
     const response = await axios.delete(`${baseUrl}/total/annual/delete/${annualId}`);
     alert('삭제 완료되었습니다.');
     location.href = '/attendance/list/req';
@@ -113,8 +112,14 @@ async function attendanceDelete(annualId: number) {
         <v-divider></v-divider>
         <!-- 진행중일경우 -->
         <div class="overflow-auto mt-2" v-if="tab === 'ing'">
-          <EasyDataTable @click-row="showRow" :headers="headers" :items="items"
-            table-class-name="customize-table action-position" :rows-per-page="8" v-if="!details">
+          <EasyDataTable
+            @click-row="showRow"
+            :headers="headers"
+            :items="items"
+            table-class-name="customize-table action-position"
+            :rows-per-page="8"
+            v-if="!details"
+          >
             <!-- 휴가 종류 -->
             <template #item-payStatusCode="{ payStatusCode }">
               <div class="d-flex align-center ga-4">
@@ -126,38 +131,42 @@ async function attendanceDelete(annualId: number) {
               </div>
             </template>
             <!-- 1차 승인자 -->
-            <template #item-firstApprovalId="{ firstApprovalName , firstApprovalDate }">
+            <template #item-firstApprovalId="{ firstApprovalName, firstApprovalDate }">
               <div class="d-flex align-center ga-4">
                 <div>
                   <h5 class="text-h5">
-                    {{ firstApprovalName  }}
+                    {{ firstApprovalName }}
                   </h5>
-                  <small  v-if="firstApprovalDate" class="text-subtitle text-center" style="color: green;">{{ firstApprovalDate }} </small>
-                  <small v-if="!firstApprovalDate" class="text-subtitle text-center" style="color: blue;"> 진행중 </small>
+                  <small v-if="firstApprovalDate" class="text-subtitle text-center" style="color: green">{{ firstApprovalDate }} </small>
+                  <small v-if="!firstApprovalDate" class="text-subtitle text-center" style="color: blue"> 진행중 </small>
                 </div>
               </div>
             </template>
-            <template #item-secondApprovalId="{ secondApprovalName, secondApprovalDate ,firstApprovalDate }">
+            <template #item-secondApprovalId="{ secondApprovalName, secondApprovalDate, firstApprovalDate }">
               <div class="d-flex align-center ga-4">
                 <div>
                   <h5 class="text-h5">
                     {{ secondApprovalName }}
                   </h5>
-                  <small v-if="secondApprovalDate" class="text-subtitle text-center">{{secondApprovalDate }} </small>
-                  <small v-if="firstApprovalDate&&!secondApprovalDate" class="text-subtitle text-center" style="color: blue;"> 진행중 </small>
-                  <small v-if="!firstApprovalDate&&!secondApprovalDate" class="text-subtitle text-center" >  </small>
+                  <small v-if="secondApprovalDate" class="text-subtitle text-center">{{ secondApprovalDate }} </small>
+                  <small v-if="firstApprovalDate && !secondApprovalDate" class="text-subtitle text-center" style="color: blue">
+                    진행중
+                  </small>
+                  <small v-if="!firstApprovalDate && !secondApprovalDate" class="text-subtitle text-center"> </small>
                 </div>
               </div>
             </template>
-            <template #item-thirdApprovalId="{ thirdApprovalName, thirdApprovalDate,secondApprovalDate }">
+            <template #item-thirdApprovalId="{ thirdApprovalName, thirdApprovalDate, secondApprovalDate }">
               <div class="d-flex align-center ga-4">
                 <div>
                   <h5 class="text-h5">
                     {{ thirdApprovalName }}
                   </h5>
                   <small v-if="thirdApprovalDate" class="text-subtitle text-center">{{ thirdApprovalDate }} </small>
-                  <small v-if="!thirdApprovalDate&&secondApprovalDate" class="text-subtitle text-center" style="color: blue;"> 진행중 </small>
-                  <small v-if="!thirdApprovalDate&&!secondApprovalDate" class="text-subtitle text-center">  </small>
+                  <small v-if="!thirdApprovalDate && secondApprovalDate" class="text-subtitle text-center" style="color: blue">
+                    진행중
+                  </small>
+                  <small v-if="!thirdApprovalDate && !secondApprovalDate" class="text-subtitle text-center"> </small>
                 </div>
               </div>
             </template>
@@ -165,26 +174,32 @@ async function attendanceDelete(annualId: number) {
         </div>
         <!-- 완료일경우 -->
         <div class="overflow-auto mt-2" v-if="tab === 'finish'">
-          <EasyDataTable @click-row="showRow" :headers="headers" :items="items"
-            table-class-name="customize-table action-position" :rows-per-page="8" v-if="!details">
+          <EasyDataTable
+            @click-row="showRow"
+            :headers="headers"
+            :items="items"
+            table-class-name="customize-table action-position"
+            :rows-per-page="8"
+            v-if="!details"
+          >
             <!-- 휴가 종류 -->
-            <template #item-payStatusCode="{ payStatusCode,firstApprovalDate }">
+            <template #item-payStatusCode="{ payStatusCode, firstApprovalDate }">
               <div class="d-flex align-center ga-4">
                 <div>
-                  <h5 class="text-h5"  v-if="firstApprovalDate">
+                  <h5 class="text-h5" v-if="firstApprovalDate">
                     {{ getStatusCode(payStatusCode) }}
                   </h5>
                 </div>
               </div>
             </template>
             <!-- 1차 승인자 -->
-            <template #item-firstApprovalId="{ firstApprovalName , firstApprovalDate }">
+            <template #item-firstApprovalId="{ firstApprovalName, firstApprovalDate }">
               <div class="d-flex align-center ga-4">
                 <div>
-                  <h5 class="text-h5" v-if="firstApprovalDate" >
-                    {{ firstApprovalName  }}
+                  <h5 class="text-h5" v-if="firstApprovalDate">
+                    {{ firstApprovalName }}
                   </h5>
-                  <small  v-if="firstApprovalDate" class="text-subtitle text-center" style="color: green;">{{ firstApprovalDate }} </small>
+                  <small v-if="firstApprovalDate" class="text-subtitle text-center" style="color: green">{{ firstApprovalDate }} </small>
                 </div>
               </div>
             </template>
@@ -194,7 +209,7 @@ async function attendanceDelete(annualId: number) {
                   <h5 class="text-h5" v-if="secondApprovalDate">
                     {{ secondApprovalName }}
                   </h5>
-                  <small v-if="secondApprovalDate" class="text-subtitle text-center">{{secondApprovalDate }} </small>
+                  <small v-if="secondApprovalDate" class="text-subtitle text-center">{{ secondApprovalDate }} </small>
                 </div>
               </div>
             </template>
@@ -222,7 +237,6 @@ async function attendanceDelete(annualId: number) {
       </UiParentCard>
     </v-col>
   </v-row>
-
 </template>
 <style lang="scss">
 .verifybtn {

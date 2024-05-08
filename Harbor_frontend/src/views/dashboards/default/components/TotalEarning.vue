@@ -5,9 +5,8 @@ import { useUserCardStore } from '@/stores/apps/UserCard';
 export default {
   setup() {
     const store = useUserCardStore();
-    const token: string | null = localStorage.getItem('token');
     onMounted(() => {
-      store.noticeCards(token);
+      store.noticeCards();
     });
 
     type ListItem = {

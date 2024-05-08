@@ -18,8 +18,8 @@ async function fetchSalary() {
     }
     const response = await axios.get(`${baseUrl}/salary/mysalarys`, {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     });
     list.value = response.data.result;
   } catch (error) {

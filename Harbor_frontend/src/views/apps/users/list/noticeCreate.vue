@@ -12,7 +12,6 @@ import { defineProps, defineEmits } from 'vue';
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 const profileImage = ref('');
 const router = useRouter();
-const token: string | null = localStorage.getItem('token');
 const noticetitle = ref('');
 const noticeContent = ref('');
 
@@ -78,7 +77,7 @@ async function createNotice() {
   console.log(formData.get('file'));
   console.log(formData.get('request'));
   try {
-    setClientHeaders(token);
+    setClientHeaders();
     setContentTypeHeaders('multipart/form-data');
     const response = await axios.post(`${baseUrl}/login/notice/create`, formData);
 
