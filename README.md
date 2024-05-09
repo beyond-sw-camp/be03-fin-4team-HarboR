@@ -331,6 +331,29 @@ Route53은 사용자의 DNS 요청을 CloudFront로 라우팅하여 사용자에
 </detail>
 
 
+<details>
+<summary>전자 결재</summary>
+<br></br>
+<p><b>➡️공지사항을 메인페이지를 통해 이동할 수 있으며 메인페이지의 공지사항은 최근에 생성된 3개의 공지사항이 표시된다, 공지사항을 생성 할 때 에디터를 이용해 내용을 입력 할 수 있으며 파일을 첨부 할 수 있다. 관리자만 공지사항을 생성할 수 있다.</b></p><br>  
+
+
+[frontend mp4](https://github.com/beyond-sw-camp/be03-fin-4team-HarboR/assets/150704738/4cc4251e-5551-4c45-97d2-529d51452917
+)
+
+<br></br>
+<p><b>➡️공지사항을 수정할 수 있으며 첨부된사진부터 제목 내용 모두 수정가능하다. 또 삭제도 가능하다.</b></p><br> 
+
+[frontend mp4](https://github.com/beyond-sw-camp/be03-fin-4team-HarboR/assets/150704738/ac914f11-c862-4dab-a755-745c5f7766cc)
+
+</details>
+
+
+
+
+
+
+
+
 
 
 
