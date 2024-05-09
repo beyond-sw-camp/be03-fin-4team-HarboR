@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 @FeignClient(name = "employee-service")
 public interface SalaryEmployeeClient {
-    @GetMapping("/employee/positionCode")
+    @GetMapping("/positionCode")
     GetEmployResponse getPositionCodeByEmployeeId(@RequestHeader("employeeId") String employeeId);
 
     @GetMapping("/employee/get/object")
