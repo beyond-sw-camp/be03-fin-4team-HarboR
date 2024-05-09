@@ -20,6 +20,7 @@ async function fetchStatus() {
     const response = await axios.get(`${baseUrl}/total/annual/read/receive`);
     const tempItems = response.data.result;
     // 모든 결재자의 이름을 조회합니다.
+    console.log("여기" + tempItems);
     const updatedItems = await Promise.all(
       tempItems.map(async (item) => {
         const requestName = await employeeIdByName(item.reqEmployeeId);
