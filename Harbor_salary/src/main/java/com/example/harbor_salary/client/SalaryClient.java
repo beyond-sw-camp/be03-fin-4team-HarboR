@@ -6,8 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-@FeignClient(name = "Login")
+@FeignClient(name = "login-service")
 public interface SalaryClient {
-    @GetMapping("/login/account/detail")
+    @GetMapping("/account/detail")
     GetUsersResponse getUsers(@RequestHeader("employeeId") String employeeId);
 }
+
