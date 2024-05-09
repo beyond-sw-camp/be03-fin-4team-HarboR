@@ -6,7 +6,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-@FeignClient(name = "Employee" ,url = "http://localhost:8004")
+@FeignClient(name = "Employee")
 public interface SalaryEmployeeClient {
     @GetMapping("/employee/positionCode")
     GetEmployResponse getPositionCodeByEmployeeId(@RequestHeader("employeeId") String employeeId);
