@@ -11,7 +11,7 @@ public interface SalaryEmployeeClient {
     @GetMapping("/positionCode")
     GetEmployResponse getPositionCodeByEmployeeId(@RequestHeader("employeeId") String employeeId);
 
-    @GetMapping("/employee/get/object")
+    @GetMapping("/get/object")
     NameBirthDto getNameBirth(@RequestHeader("employeeId") String employeeId);
 //    test
 }
