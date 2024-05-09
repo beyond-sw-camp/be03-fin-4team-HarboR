@@ -75,7 +75,7 @@ const searchList = shallowRef([
 <template>
   <v-row>
     <v-col cols="12" md="12">
-      <UiParentCard title="Customer List">
+      <UiParentCard title="사원목록 조회">
         <v-row justify="space-between" class="align-center mb-3">
           <v-col cols="12" md="3" class="d-flex align-center">
             <v-text-field

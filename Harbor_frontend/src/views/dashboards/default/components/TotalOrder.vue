@@ -40,7 +40,7 @@ const chartOptions1 = computed(() => {
       },
       y: {
         title: {
-          formatter: () => 'Total Order'
+          formatter: () => '한화시스템 주식'
         }
       },
       marker: {

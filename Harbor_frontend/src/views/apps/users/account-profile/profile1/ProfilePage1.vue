@@ -12,9 +12,9 @@ const getEmployeeId = localStorage.getItem('employeeId');
 const route = useRoute();
 const routeEmployeeId = route.params.employeeId;
 const breadcrumbs = ref([
-  { title: 'Users', disabled: false, href: '#' },
-  { title: 'Account', disabled: false, href: '#' },
-  { title: 'Profile', disabled: true, href: '#' }
+  { title: '인사관리', disabled: false, href: '#' },
+  { title: '사원목록', disabled: false, href: '#' },
+  { title: '조회', disabled: true, href: '#' }
 ]);
 
 const tab = ref('tab-profile'); // 초기 탭 설정
@@ -29,7 +29,7 @@ const tab = ref('tab-profile'); // 초기 탭 설정
         <v-card-text>
           <v-tabs v-model="tab" color="primary">
             <v-tab variant="plain" value="tab-profile">
-              <UserCircleIcon class="v-icon--start" width="20" stroke-width="1.5" /> Profile
+              <UserCircleIcon class="v-icon--start" width="20" stroke-width="1.5" /> 상세조회
             </v-tab>
             <v-tab variant="plain" value="tab-update" v-if="getEmployeeId === routeEmployeeId || role === 'ADMIN'" >
               <UserEditIcon class="v-icon--start" width="20" stroke-width="1.5" /> 수정
