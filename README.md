@@ -328,24 +328,40 @@ Route53은 사용자의 DNS 요청을 CloudFront로 라우팅하여 사용자에
 
 [frontend mp4](https://github.com/keepself/be03-fin-HarboR/assets/150704738/7e1e75d7-8fca-4601-b2ca-e55c6edd21b2)
 
-</detail>
+</details>
 
 
 <details>
 <summary>전자 결재</summary>
 <br></br>
-<p><b>➡️공지사항을 메인페이지를 통해 이동할 수 있으며 메인페이지의 공지사항은 최근에 생성된 3개의 공지사항이 표시된다, 공지사항을 생성 할 때 에디터를 이용해 내용을 입력 할 수 있으며 파일을 첨부 할 수 있다. 관리자만 공지사항을 생성할 수 있다.</b></p><br>  
+<p><b>➡️전자 결재를 통해 휴가 출장 및 여러가지 이슈들에 대한 승인을 요청할 수 있다. 요청내용을 셀렉트후 날짜와 내용을 정하고 신청할 수 있다.</b></p><br>  
 
 
 [frontend mp4](https://github.com/beyond-sw-camp/be03-fin-4team-HarboR/assets/150704738/4cc4251e-5551-4c45-97d2-529d51452917
 )
 
 <br></br>
-<p><b>➡️공지사항을 수정할 수 있으며 첨부된사진부터 제목 내용 모두 수정가능하다. 또 삭제도 가능하다.</b></p><br> 
+<p><b>➡️승인권자는 결재를 요청한 사람에게 승인에대한 여부를 결정할 수 있으며 1차승인권자 부터 3차 승인권자 까지 모두 승인을 받아야 결재완료가 나올수 있지만 1차 승인권자가 승인을 했지만 2차 승인권자가
+반려를 하면 결재요청이 허가되지 않은것이기 때문에 거절된채로 완료가 된다.</b></p><br> 
 
 [frontend mp4](https://github.com/beyond-sw-camp/be03-fin-4team-HarboR/assets/150704738/ac914f11-c862-4dab-a755-745c5f7766cc)
 
 </details>
+
+<details>
+<summary>급여 관리</summary>
+<br></br>
+<p><b>➡️로그인한 사원의 아이디로 자신이 지급받은 급여목록을 볼 수 있다. 급여에 대한 상세정보를 볼 수 있고 어떤식으로 계산이되는지 볼 수 있다. 또 퇴직금은 1년이상 근무라는 조건을 충족 하여야 계산이 될 수있다</b></p><br> 
+
+[frontend mp4](https://github.com/beyond-sw-camp/be03-fin-4team-HarboR/assets/150704738/b77ef427-4ab5-489c-9a87-ba4e385c1a5e
+)
+
+</details>
+
+
+
+
+
 
 
 
