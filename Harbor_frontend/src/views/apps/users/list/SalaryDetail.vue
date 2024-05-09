@@ -13,11 +13,7 @@ async function fetchSalary() {
   const salaryId = route.params.salaryId;
   try {
     setClientHeaders();
-    const response = await axios.get(`${baseUrl}/salary/mysalary/${salaryId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.get(`${baseUrl}/salary/mysalary/${salaryId}`);
     salary.value = response.data.result;
   } catch (error) {
     console.log(error);
