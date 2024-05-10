@@ -1,0 +1,158 @@
+<html>
+<head>
+<title>harbor-backend-deploy.yml</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #abb2bf;}
+.s1 { color: #e06c75;}
+.s2 { color: #98c379;}
+.s3 { color: #5c6370; font-style: italic;}
+</style>
+</head>
+<body bgcolor="#282c34">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+harbor-backend-deploy.yml</font>
+</center></td></tr></table>
+<pre>
+<span class="s1">name</span><span class="s0">: </span><span class="s2">harbor SOM-Backend</span>
+<span class="s1">on</span><span class="s0">:</span>
+  <span class="s1">push</span><span class="s0">:</span>
+    <span class="s1">branches</span><span class="s0">:</span>
+      <span class="s0">- </span><span class="s2">feature/0430</span>
+<span class="s1">jobs</span><span class="s0">:</span>
+  <span class="s1">build-and-deploy</span><span class="s0">:</span>
+    <span class="s1">runs-on</span><span class="s0">: </span><span class="s2">ubuntu-latest</span>
+    <span class="s1">steps</span><span class="s0">:</span>
+      <span class="s0">- </span><span class="s1">name</span><span class="s0">: </span><span class="s2">checkout github</span>
+        <span class="s1">uses</span><span class="s0">: </span><span class="s2">actions/checkout@v2</span>
+
+      <span class="s0">- </span><span class="s1">name</span><span class="s0">: </span><span class="s2">install kubectl</span>
+        <span class="s1">uses</span><span class="s0">: </span><span class="s2">azure/setup-kubectl@v3</span>
+        <span class="s1">with</span><span class="s0">:</span>
+          <span class="s1">version</span><span class="s0">: </span><span class="s2">&quot;v1.25.9&quot;</span>
+        <span class="s1">id</span><span class="s0">: </span><span class="s2">install</span>
+
+      <span class="s0">- </span><span class="s1">name</span><span class="s0">: </span><span class="s2">configure aws</span>
+        <span class="s1">uses</span><span class="s0">: </span><span class="s2">aws-actions/configure-aws-credentials@v1</span>
+        <span class="s1">with</span><span class="s0">:</span>
+          <span class="s1">aws-access-key-id</span><span class="s0">: </span><span class="s2">${{ secrets.AWS_ACCESS_KEY_ID }}</span>
+          <span class="s1">aws-secret-access-key</span><span class="s0">: </span><span class="s2">${{ secrets.AWS_SECRET_ACCESS_KEY }}</span>
+          <span class="s1">aws-region</span><span class="s0">: </span><span class="s2">ap-northeast-2</span>
+
+      <span class="s0">- </span><span class="s1">name</span><span class="s0">: </span><span class="s2">update cluster information</span>
+        <span class="s1">run</span><span class="s0">: </span><span class="s2">aws eks update-kubeconfig --name harbor_cluster --region ap-northeast-2</span>
+
+      <span class="s0">- </span><span class="s1">name</span><span class="s0">: </span><span class="s2">Login to ECR</span>
+        <span class="s1">id</span><span class="s0">: </span><span class="s2">login-ecr</span>
+        <span class="s1">uses</span><span class="s0">: </span><span class="s2">aws-actions/amazon-ecr-login@v1</span>
+
+      <span class="s3">################ build and push #################</span>
+
+      <span class="s3">################ gateway #################</span>
+      <span class="s0">- </span><span class="s1">name</span><span class="s0">: </span><span class="s2">build and push docker image to ecr (gateway)</span>
+        <span class="s1">env</span><span class="s0">:</span>
+          <span class="s1">REGISTRY</span><span class="s0">: </span><span class="s2">533267394261.dkr.ecr.ap-northeast-2.amazonaws.com </span><span class="s3"># ECR주소</span>
+          <span class="s1">REPOSITORY</span><span class="s0">: </span><span class="s2">harbor-gateway</span>
+          <span class="s1">IMAGE_TAG</span><span class="s0">: </span><span class="s2">latest</span>
+        <span class="s1">run</span><span class="s0">: </span><span class="s2">|</span>
+          <span class="s2">docker build \</span>
+          <span class="s2">-t $REGISTRY/$REPOSITORY:$IMAGE_TAG \</span>
+          <span class="s2">-f ./Harbor_gateway/Dockerfile ./Harbor_gateway</span>
+          <span class="s2">docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG</span>
+      <span class="s3">############## batch #################</span>
+      <span class="s0">- </span><span class="s1">name</span><span class="s0">: </span><span class="s2">build and push docker image to ecr (batch)</span>
+        <span class="s1">env</span><span class="s0">:</span>
+          <span class="s1">REGISTRY</span><span class="s0">: </span><span class="s2">533267394261.dkr.ecr.ap-northeast-2.amazonaws.com</span>
+          <span class="s1">REPOSITORY</span><span class="s0">: </span><span class="s2">harbor-batch</span>
+          <span class="s1">IMAGE_TAG</span><span class="s0">: </span><span class="s2">latest</span>
+        <span class="s1">run</span><span class="s0">: </span><span class="s2">|</span>
+          <span class="s2">docker build \</span>
+          <span class="s2">-t $REGISTRY/$REPOSITORY:$IMAGE_TAG \</span>
+          <span class="s2">-f ./Harbor_batch/Dockerfile ./Harbor_batch</span>
+          <span class="s2">docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG</span>
+
+      <span class="s3">################ employee  #################</span>
+      <span class="s0">- </span><span class="s1">name</span><span class="s0">: </span><span class="s2">build and push docker image to ecr (employee)</span>
+        <span class="s1">env</span><span class="s0">:</span>
+          <span class="s1">REGISTRY</span><span class="s0">: </span><span class="s2">533267394261.dkr.ecr.ap-northeast-2.amazonaws.com</span>
+          <span class="s1">REPOSITORY</span><span class="s0">: </span><span class="s2">harbor-employee</span>
+          <span class="s1">IMAGE_TAG</span><span class="s0">: </span><span class="s2">latest</span>
+        <span class="s1">run</span><span class="s0">: </span><span class="s2">|</span>
+          <span class="s2">docker build \</span>
+          <span class="s2">-t $REGISTRY/$REPOSITORY:$IMAGE_TAG \</span>
+          <span class="s2">-f ./Harbor_employee/Dockerfile ./Harbor_employee</span>
+          <span class="s2">docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG</span>
+      <span class="s3">############### login #################</span>
+      <span class="s0">- </span><span class="s1">name</span><span class="s0">: </span><span class="s2">build and push docker image to ecr (login)</span>
+        <span class="s1">env</span><span class="s0">:</span>
+          <span class="s1">REGISTRY</span><span class="s0">: </span><span class="s2">533267394261.dkr.ecr.ap-northeast-2.amazonaws.com </span><span class="s3"># ECR주소</span>
+          <span class="s1">REPOSITORY</span><span class="s0">: </span><span class="s2">harbor-login</span>
+          <span class="s1">IMAGE_TAG</span><span class="s0">: </span><span class="s2">latest</span>
+        <span class="s1">run</span><span class="s0">: </span><span class="s2">|</span>
+          <span class="s2">docker build \</span>
+          <span class="s2">-t $REGISTRY/$REPOSITORY:$IMAGE_TAG \</span>
+          <span class="s2">-f ./Harbor_Login/Dockerfile ./Harbor_Login</span>
+          <span class="s2">docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG</span>
+      <span class="s3">################ salary #################</span>
+      <span class="s0">- </span><span class="s1">name</span><span class="s0">: </span><span class="s2">build and push docker image to ecr (salary)</span>
+        <span class="s1">env</span><span class="s0">:</span>
+          <span class="s1">REGISTRY</span><span class="s0">: </span><span class="s2">533267394261.dkr.ecr.ap-northeast-2.amazonaws.com </span><span class="s3"># ECR주소</span>
+          <span class="s1">REPOSITORY</span><span class="s0">: </span><span class="s2">harbor-salary</span>
+          <span class="s1">IMAGE_TAG</span><span class="s0">: </span><span class="s2">latest</span>
+        <span class="s1">run</span><span class="s0">: </span><span class="s2">|</span>
+          <span class="s2">docker build \</span>
+          <span class="s2">-t $REGISTRY/$REPOSITORY:$IMAGE_TAG \</span>
+          <span class="s2">-f ./Harbor_salary/Dockerfile ./Harbor_salary</span>
+          <span class="s2">docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG</span>
+      <span class="s3">################ total #################</span>
+      <span class="s0">- </span><span class="s1">name</span><span class="s0">: </span><span class="s2">build and push docker image to ecr (total)</span>
+        <span class="s1">env</span><span class="s0">:</span>
+          <span class="s1">REGISTRY</span><span class="s0">: </span><span class="s2">533267394261.dkr.ecr.ap-northeast-2.amazonaws.com </span><span class="s3"># ECR주소</span>
+          <span class="s1">REPOSITORY</span><span class="s0">: </span><span class="s2">harbor-total</span>
+          <span class="s1">IMAGE_TAG</span><span class="s0">: </span><span class="s2">latest</span>
+        <span class="s1">run</span><span class="s0">: </span><span class="s2">|</span>
+          <span class="s2">docker build \</span>
+          <span class="s2">-t $REGISTRY/$REPOSITORY:$IMAGE_TAG \</span>
+          <span class="s2">-f ./Harbor_total/Dockerfile ./Harbor_total</span>
+          <span class="s2">docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG</span>
+
+
+
+      <span class="s3">################ apply ################</span>
+
+      <span class="s0">- </span><span class="s1">name</span><span class="s0">: </span><span class="s2">eks kubectl gateway apply</span>
+        <span class="s1">run</span><span class="s0">: </span><span class="s2">|</span>
+          <span class="s2">kubectl apply -f ./Harbor_gateway/k8s/harbor-gateway-depl-serv.yml</span>
+          <span class="s2">kubectl rollout restart deployment gateway-depl</span>
+
+      <span class="s0">- </span><span class="s1">name</span><span class="s0">: </span><span class="s2">eks kubectl batch apply</span>
+        <span class="s1">run</span><span class="s0">: </span><span class="s2">|</span>
+          <span class="s2">kubectl apply -f ./Harbor_batch/k8s/harbor-batch-depl-serv.yml</span>
+          <span class="s2">kubectl rollout restart deployment batch-depl</span>
+
+      <span class="s0">- </span><span class="s1">name</span><span class="s0">: </span><span class="s2">eks kubectl employee apply</span>
+        <span class="s1">run</span><span class="s0">: </span><span class="s2">|</span>
+          <span class="s2">kubectl apply -f ./Harbor_employee/k8s/harbor-employee-depl-serv.yml</span>
+          <span class="s2">kubectl rollout restart deployment employee-depl</span>
+
+      <span class="s0">- </span><span class="s1">name</span><span class="s0">: </span><span class="s2">eks kubectl login apply</span>
+        <span class="s1">run</span><span class="s0">: </span><span class="s2">|</span>
+          <span class="s2">kubectl apply -f ./Harbor_Login/k8s/harbor-login-depl-serv.yml</span>
+          <span class="s2">kubectl rollout restart deployment login-depl</span>
+
+      <span class="s0">- </span><span class="s1">name</span><span class="s0">: </span><span class="s2">eks kubectl salary apply</span>
+        <span class="s1">run</span><span class="s0">: </span><span class="s2">|</span>
+          <span class="s2">kubectl apply -f ./Harbor_salary/k8s/harbor-salary-depl-serv.yml</span>
+          <span class="s2">kubectl rollout restart deployment salary-depl</span>
+
+      <span class="s0">- </span><span class="s1">name</span><span class="s0">: </span><span class="s2">eks kubectl total apply</span>
+        <span class="s1">run</span><span class="s0">: </span><span class="s2">|</span>
+          <span class="s2">kubectl apply -f ./Harbor_total/k8s/harbor-total-depl-serv.yml</span>
+          <span class="s2">kubectl rollout restart deployment total-depl</span>
+
+      
+</pre>
+</body>
+</html>
