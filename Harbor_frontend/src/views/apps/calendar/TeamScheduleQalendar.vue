@@ -29,8 +29,25 @@ const breadcrumbs = ref([
   }
 ]);
 
+const config = {
+  month: {
+    showTrailingAndLeadingDates: false
+  },
+  week: {
+    startsOn: 'sunday',
+    nDays: 7,
+    scrollToHour: 5
+  },
+  style: {
+    fontFamily: 'Roboto'
+  },
+  defaultMode: 'week',
+  isSilent: true,
+  showCurrentTime: true,
+  issmall: true
+};
+
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
-const token: string | null = localStorage.getItem('token');
 const events: IterableIterator<Event> = ref([]);
 
 onMounted(async () => {
@@ -42,7 +59,7 @@ const extractHourMinute = (timeString: string | null) => {
   } else return '';
 };
 const reloadEvents = async (): Promise<Event[]> => {
-  setClientHeaders(token);
+  setClientHeaders();
   const response = await axios.get<ScheduleDTO[]>(`${baseUrl}/employee/schedule/team/list`);
   events.value = response.data.result.map((schedule, index) => ({
     title: schedule.scheduleTitle,
@@ -52,7 +69,7 @@ const reloadEvents = async (): Promise<Event[]> => {
       end: schedule.scheduleEndDate + extractHourMinute(schedule.scheduleEndTime)
     },
     color: schedule.scheduleColor,
-    isEditable: true,
+    isEditable: false,
     id: schedule.scheduleId,
     description: schedule.scheduleComment
   }));

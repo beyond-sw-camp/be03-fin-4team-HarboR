@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/**","/login/account/**","/login/internal/**", "/login/notice/**").permitAll()
-                .antMatchers("/actuator/**").permitAll()
+                .antMatchers("/login/actuator/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

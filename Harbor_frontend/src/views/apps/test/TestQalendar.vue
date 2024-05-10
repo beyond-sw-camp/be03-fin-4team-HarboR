@@ -149,7 +149,6 @@ const dialog_title = ref('');
 const dialog_button = ref('');
 const dialog = ref(false);
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
-const token: string | null = localStorage.getItem('token');
 const selectedColor = ref('yellow');
 const events: IterableIterator<Event> = ref([]);
 const newEvent = ref({
@@ -185,7 +184,7 @@ const extractHourMinute = (timeString: string | null) => {
   } else return '';
 };
 const reloadEvents = async (): Promise<Event[]> => {
-  setClientHeaders(token);
+  setClientHeaders();
   const response = await axios.get<ScheduleDTO[]>(`${baseUrl}/employee/schedule/list`);
   events.value = response.data.result.map((schedule, index) => ({
     title: schedule.scheduleTitle,

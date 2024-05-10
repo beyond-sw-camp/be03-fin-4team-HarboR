@@ -10,9 +10,8 @@ const store = useUserCardStore();
 const router = useRouter();
 
 const searchValue = ref('');
-const token: string | null = localStorage.getItem('token');
 onMounted(() => {
-  store.noticeCards(token);
+  store.noticeCards();
 });
 
 type ListItem = {
@@ -50,6 +49,9 @@ const selectNotice = ref<ListItem | null>(null);
 const showRow = async (item: ListItem) => {
   noticeDetails.value = true;
   selectNotice.value = item;
+  if (item.filePath == null) {
+    selectNotice.value.filePath = '1images/No files';
+  }
   store.saveSelectNotice(item);
 };
 
@@ -57,7 +59,6 @@ const toNoticeCard = () => {
   router.push({ path: '/noticecreate' });
 };
 defineEmits(['sToggle']);
-
 
 </script>
 

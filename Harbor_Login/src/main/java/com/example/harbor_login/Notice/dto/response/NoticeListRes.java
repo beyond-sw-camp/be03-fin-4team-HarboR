@@ -17,16 +17,10 @@ import java.time.LocalDate;
 public class NoticeListRes {
 
     private int noticeId;
-
     private String title;
-
     private String contents;
-
     private LocalDate createdAt;
     private String filePath;
-
-
-
 
     public static NoticeListRes mapToNotice(Notice notice) {
         return NoticeListRes.builder()

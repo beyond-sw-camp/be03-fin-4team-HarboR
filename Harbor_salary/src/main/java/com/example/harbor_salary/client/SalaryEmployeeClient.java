@@ -6,11 +6,12 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-@FeignClient(name = "Employee" ,url = "http://localhost:8004")
+@FeignClient(name = "employee-service")
 public interface SalaryEmployeeClient {
-    @GetMapping("/employee/positionCode")
+    @GetMapping("/positionCode")
     GetEmployResponse getPositionCodeByEmployeeId(@RequestHeader("employeeId") String employeeId);
 
-    @GetMapping("/employee/get/object")
+    @GetMapping("/get/object")
     NameBirthDto getNameBirth(@RequestHeader("employeeId") String employeeId);
+//    test
 }

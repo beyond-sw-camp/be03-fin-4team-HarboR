@@ -6,7 +6,6 @@ import { useCodeStore } from '@/stores/codetrans';
 const codeStore = useCodeStore();
 import 'vue3-easy-data-table/dist/style.css';
 const store = MonthStore();
-const token: string | null = localStorage.getItem('token');
 
 // 선택한 월 상태 변수
 const selectedMonth = ref<string>('');
@@ -14,10 +13,9 @@ const selectedMonth = ref<string>('');
 // 페이지 로드 시 데이터 가져오는 부분
 onMounted(async () => {
   const today = new Date().toISOString().split('.')[0]; // 오늘 날짜를 ISO 형식으로 가져옴
-  store.fetchlistCards(token, selectedMonth.value || today); // 선택한 월이 없으면 오늘 날짜를 기본값으로 사용
+  store.fetchlistCards(selectedMonth.value || today); // 선택한 월이 없으면 오늘 날짜를 기본값으로 사용
 
   // 주식 가격을 가져와서 업데이트
-  console.log(1)
   const price = await fetchStockPrice();
   document.getElementById('stock-price').textContent = price;
 
@@ -27,7 +25,7 @@ onMounted(async () => {
 // 월 선택 변경 시 데이터 가져오는 부분
 const fetchData = () => {
   const today = new Date().toISOString().split('.')[0]; // 오늘 날짜를 ISO 형식으로 가져옴
-  store.fetchlistCards(token, selectedMonth.value+"-01T00:00:00" || today); // 선택한 월이 없으면 오늘 날짜를 기본값으로 사용
+  store.fetchlistCards( selectedMonth.value+"-01T00:00:00" || today); // 선택한 월이 없으면 오늘 날짜를 기본값으로 사용
 };
 
 const headers: Header[] = [

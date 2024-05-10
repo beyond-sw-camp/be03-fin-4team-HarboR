@@ -40,7 +40,7 @@ const chartOptions1 = computed(() => {
       },
       y: {
         title: {
-          formatter: () => 'Total Order'
+            formatter: () => '한화시스템 일 주가'
         }
       },
       marker: {
@@ -97,7 +97,7 @@ const chartOptions2 = computed(() => {
       },
       y: {
         title: {
-          formatter: () => 'Total Order'
+          formatter: () => '한화시스템 주 주가'
         }
       },
       marker: {
@@ -122,13 +122,10 @@ const lineChart2 = {
   <v-card elevation="0" class="bg-primary overflow-hidden bubble-shape bubble-primary-shape">
     <v-card-text>
       <div class="d-flex align-start mb-3">
-        <v-btn icon rounded="sm" color="darkprimary" variant="flat">
-          <ShoppingCartIcon stroke-width="1.5" width="20" />
-        </v-btn>
         <div class="ml-auto z-1">
           <v-tabs v-model="tab" class="theme-tab" density="compact" end>
-            <v-tab value="1" hide-slider color="transparent">Month</v-tab>
-            <v-tab value="2" hide-slider color="transparent">Year</v-tab>
+            <v-tab value="1" hide-slider color="transparent">일</v-tab>
+            <v-tab value="2" hide-slider color="transparent">주</v-tab>
           </v-tabs>
         </div>
       </div>
@@ -137,12 +134,12 @@ const lineChart2 = {
           <v-row>
             <v-col cols="6">
               <h2 class="text-h1 font-weight-medium">
-                $108
+                $160
                 <a href="#">
                   <CircleArrowDownLeftIcon stroke-width="1.5" width="28" class="text-white" />
                 </a>
               </h2>
-              <span class="text-subtitle-1 text-medium-emphasis text-white">Total Order</span>
+              <span class="text-subtitle-1 text-medium-emphasis text-white">한화시스템</span>
             </v-col>
             <v-col cols="6">
               <apexchart type="line" class="text-darkText" height="90" :options="chartOptions1" :series="lineChart1.series"> </apexchart>
@@ -158,7 +155,7 @@ const lineChart2 = {
                   <ArrowDownLeftCircleIcon stroke-width="1.5" width="28" class="text-white" />
                 </a>
               </h2>
-              <span class="text-subtitle-1 text-medium-emphasis text-white">Total Order</span>
+              <span class="text-subtitle-1 text-medium-emphasis text-white">한화시스템</span>
             </v-col>
             <v-col cols="6">
               <apexchart type="line" class="text-darkText" height="90" :options="chartOptions2" :series="lineChart2.series"> </apexchart>

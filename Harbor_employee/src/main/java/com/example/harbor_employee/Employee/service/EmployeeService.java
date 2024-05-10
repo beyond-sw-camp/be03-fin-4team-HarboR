@@ -150,6 +150,8 @@ public class EmployeeService {
         String filePath = "";
         employee.updateEmployee(filePath,request.getPhone(),request.getAddress());
         if(file != null) {
+            if(!file.getContentType().startsWith("image/"))
+                throw new IOException("적절하지 않은 파일 확장자입니다.");
             filePath = s3UploadUtil.upload(file, "profile");
             employee.setImage(filePath);
         }
@@ -159,7 +161,7 @@ public class EmployeeService {
     public List<ExcelEmployeeDto> create(MultipartFile file) throws IOException {
 
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
-
+        System.out.println("extension = " + extension);
         if (!extension.equals("xlsx") && !extension.equals("xls")) {
             throw new IllegalArgumentException("엑셀 파일만 올려주세요.");
         }
@@ -198,6 +200,7 @@ public class EmployeeService {
                         excelEmployeeDto.setDutyCode(cell4.getStringCellValue());
 
                     Cell cell5 = row.getCell(4);
+                    System.out.println("cell5 = " + cell5);
                     if (cell5 != null) {
                         excelEmployeeDto.setStatusCode(cell5.getStringCellValue());
                     }

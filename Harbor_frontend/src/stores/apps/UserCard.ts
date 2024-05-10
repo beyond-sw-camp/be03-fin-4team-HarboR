@@ -16,6 +16,7 @@ export const useUserCardStore = defineStore({
     async fetchCards() {
       try {
         // const response = await axios.get('/api/details-card/list');
+        setClientHeaders();
         const response = await axios.get(`${baseUrl}/employee/get/list`);
         this.cards = response.data;
       } catch (error) {
@@ -32,9 +33,9 @@ export const useUserCardStore = defineStore({
       }
     },
     // Fetch cards from action
-    async fetchlistCards(token: string | null , page: number , searchField: string | null, searchValue: string | null) {
+    async fetchlistCards(page: number, searchField: string | null, searchValue: string | null) {
       try {
-        setClientHeaders(token);
+        setClientHeaders();
         const response = await axios.get(`${baseUrl}/employee/get/list?page=${page}&${searchField}=${searchValue}`);
         this.list = response.data.result;
       } catch (error) {
@@ -50,9 +51,9 @@ export const useUserCardStore = defineStore({
         alert(error);
       }
     },
-    async noticeCards(token: string | null) {
+    async noticeCards() {
       try {
-        setClientHeaders(token);
+        setClientHeaders();
         const response = await axios.get(`${baseUrl}/login/notice/list`);
         this.noticelist = response.data.result.content;
       } catch (error) {

@@ -15,6 +15,6 @@ export interface ScheduleDTO {
   scheduleEndTime?: string;
   scheduleTitle: string;
   scheduleComment?: string | null;
-  scheduleId?: number;
+  scheduleId: number;
   scheduleColor: string;
 }

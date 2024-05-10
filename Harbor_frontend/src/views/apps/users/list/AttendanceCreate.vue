@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import { ref, shallowRef, onMounted } from 'vue';
 import axios, { setClientHeaders } from '@/utils/axios';
-import { router } from '@/router';
 
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
-const token: string | null = localStorage.getItem('token');
 const tab = ref(null);
 const workList = shallowRef([
   { name: '출장', value: 'O03' },
@@ -30,13 +28,8 @@ const vacation = ref('');
 // 남은 휴가 확인 api 호출
 async function annualremain() {
   try {
-    const token = localStorage.getItem('token');
-    setClientHeaders(token);
-    const response = await axios.get(`${baseUrl}/total/employee/annualremain`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+    setClientHeaders();
+    const response = await axios.get(`${baseUrl}/total/employee/annualremain`);
     vacation.value = response.data.result;
   } catch (error) {
     console.log(error);
@@ -59,13 +52,8 @@ const openModal = () => {
 };
 async function authlist() {
   try {
-    const token = localStorage.getItem('token');
-    setClientHeaders(token);
-    const response = await axios.get(`${baseUrl}/total/annual/read/authlist`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+    setClientHeaders();
+    const response = await axios.get(`${baseUrl}/total/annual/read/authlist`);
     auths.value = response.data.result;
   } catch (error) {
     console.log(error);
@@ -102,16 +90,33 @@ const handleStartDateChange = (event) => {
   console.log(event);
   const selectedDateTime = event.target.value;
   clickedStartDateInfo.value = selectedDateTime;
-  console.log(clickedStartDateInfo.value);
+  console.log("시작"+clickedStartDateInfo.value);
 };
 // 종료일시 세팅 함수
 const handleEndDateChange = (event) => {
   console.log(event);
   const selectedDateTime = event.target.value;
-  clickedStartDateInfo.value = selectedDateTime;
-  console.log(clickedStartDateInfo.value);
+  clickedEndDateInfo.value = selectedDateTime;
+  console.log("끝" + clickedEndDateInfo.value);
 };
 async function attendanceReq() {
+  console.log('workStartTime:', clickedStartDateInfo.value);
+  console.log('workEndTime:', clickedEndDateInfo.value);
+  console.log('workPolicy:', selectedWork.value);
+  console.log('adjustmentComment:', content.value);
+  console.log('firstSignId:', selecteFirst.value);
+  console.log('secondSignId:', selecteSecond.value);
+  console.log('thirdSignId:', selecteThird.value);
+  if(selectedWork.value !== "O07"){
+    if (!clickedStartDateInfo.value || !clickedEndDateInfo.value || !selectedWork ||
+     !content.value || !selecteFirst.value ||
+      !selecteSecond.value || !selecteThird.value) {
+    alert('모든 전자 결재 정보를 입력해주세요.');
+    return;
+  }
+  }
+  
+
   try {
     const response = await axios.post(`${baseUrl}/total/attendance/requestwork`, {
       workStartTime: clickedStartDateInfo.value,

@@ -40,6 +40,7 @@ public class AnnualService {
         System.out.println("attendanceList = " + attendanceList);
         List<AnnualListResDto> annualListResDtoList = new ArrayList<>();
         for(Attendance attendence : attendanceList){
+            if(attendence.getAnnuals() == null) continue;
             AnnualListResDto annualListResDto = AnnualListResDto.create(
                     attendence.getAnnuals().getAnnualId(),
                     attendence.getWorkPolicy(),
@@ -81,6 +82,31 @@ public class AnnualService {
                 );
                 eworksListResDtos.add(eworksListResDto);
             }
+        }
+        return eworksListResDtos;
+    }
+
+    public List<AnnualReceiveListResDto> getReceiveList2(String employeeId) {
+        List<Annual> annualList = annualRepository.findAllByFirstSignIdOrSecondSignIdOrThirdSignIdAAndAdjustment_delYnIs(employeeId, "N");
+        List<AnnualReceiveListResDto> eworksListResDtos = new ArrayList<>();
+        for(Annual annual : annualList){
+            Attendance attendance = attendanceRepository.findByAnnuals_AnnualId(annual.getAnnualId())
+                    .orElseThrow(() -> new IllegalArgumentException("근태 정보를 조회할 수 없습니다."));
+            AnnualReceiveListResDto eworksListResDto = AnnualReceiveListResDto.create(
+                    annual.getAnnualId(),
+                    attendance.getEmployee().getEmployeeId(),
+                    attendance.getWorkPolicy(),
+                    annual.getFirstSignId(),
+                    annual.getFirstApprovalDate(),
+                    annual.getSecondSignId(),
+                    annual.getSecondApprovalDate(),
+                    annual.getThirdSignId(),
+                    annual.getThirdApprovalDate(),
+                    annual.getAdjustmentDate(),
+                    annual.getAdjustmentEndDate(),
+                    annual.getAdjustmentComment()
+            );
+            eworksListResDtos.add(eworksListResDto);
         }
         return eworksListResDtos;
     }

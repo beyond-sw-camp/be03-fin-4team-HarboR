@@ -10,14 +10,9 @@ export default {
   },
   methods: {
     async severancePay() {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        alert('로그인이 필요합니다.');
-        return;
-      }
       const baseUrl = `${import.meta.env.VITE_API_URL}`;
       try {
-        setClientHeaders(token);
+        setClientHeaders();
         const response = await axios.get(`${baseUrl}/salary/svDetails`);
         this.severancePayResult = response.data.severancePay;
         alert("퇴직금 계산 완료");

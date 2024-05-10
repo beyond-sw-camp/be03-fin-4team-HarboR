@@ -121,11 +121,6 @@ const sidebarItem: menu[] = [
     icon: CoinOffIcon,
     to: '/severancePay'
   },
-  {
-    title: '급여 지급버튼 ',
-    icon: CoinsIcon,
-    to: '/app/user/salaryCreate'
-  },
   { header: '기타', },
   {
     title: '공지사항',

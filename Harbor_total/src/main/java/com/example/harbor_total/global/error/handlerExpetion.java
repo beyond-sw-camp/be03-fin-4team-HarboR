@@ -17,6 +17,6 @@ public class handlerExpetion {
     @ExceptionHandler({BindException.class})
     @Order(value = Ordered.HIGHEST_PRECEDENCE) // 최우선 빈 등록, 에러터지면 일빠로 옴
     public ResponseEntity<?> handlerException(BindException ex) {
-        return ErrorResponseDto.makeMessage(HttpStatus.CONFLICT,ex.getMessage());
+        return ErrorResponseDto.makeMessage(HttpStatus.CONFLICT,"데이터 입력을 다 해주세요");
     }
 }
