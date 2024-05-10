@@ -171,7 +171,7 @@ public class AttendanceService {
     public List<EmployeeStatusDto> getEmployeeStatus(List<String> employeeId) {
         LocalDateTime start = LocalDate.now().atTime(0,0,0);
         LocalDateTime end = LocalDate.now().atTime(23,59,59);
-        List<Attendance> attendances = attendanceRepository.findAttendanceByEmployee_EmployeeIdInAndCreatedAtBetweenOrderByCreatedAtDesc(employeeId, start, end);
+        List<Attendance> attendances = attendanceRepository.findAttendanceByEmployee_EmployeeIdInAndWorkStartTimeLessThanEqualAndWorkEndTimeGreaterThanEqualOrderByCreatedAtDesc(employeeId, end, start);
         List<EmployeeStatusDto> employeeStatusDtos = new ArrayList<>();
         for(Attendance attendance: attendances){
             employeeStatusDtos.add(

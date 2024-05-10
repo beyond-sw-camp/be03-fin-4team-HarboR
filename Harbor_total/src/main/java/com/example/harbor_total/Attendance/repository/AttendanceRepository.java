@@ -34,5 +34,5 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
     //    내 근무
     Optional<List<Attendance>> findAllByEmployeeAndWorkStartTimeBetween(Employee employee, LocalDateTime StartTime, LocalDateTime EndTime);
 
-    List<Attendance> findAttendanceByEmployee_EmployeeIdInAndCreatedAtBetweenOrderByCreatedAtDesc(List<String> employeeId, LocalDateTime createdAt, LocalDateTime createdAt2);
+    List<Attendance> findAttendanceByEmployee_EmployeeIdInAndWorkStartTimeLessThanEqualAndWorkEndTimeGreaterThanEqualOrderByCreatedAtDesc(List<String> employeeId, LocalDateTime createdAt, LocalDateTime createdAt2);
 }

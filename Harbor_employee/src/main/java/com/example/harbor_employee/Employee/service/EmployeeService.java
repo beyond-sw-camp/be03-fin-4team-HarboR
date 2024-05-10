@@ -161,7 +161,7 @@ public class EmployeeService {
     public List<ExcelEmployeeDto> create(MultipartFile file) throws IOException {
 
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
-
+        System.out.println("extension = " + extension);
         if (!extension.equals("xlsx") && !extension.equals("xls")) {
             throw new IllegalArgumentException("엑셀 파일만 올려주세요.");
         }
@@ -200,6 +200,7 @@ public class EmployeeService {
                         excelEmployeeDto.setDutyCode(cell4.getStringCellValue());
 
                     Cell cell5 = row.getCell(4);
+                    System.out.println("cell5 = " + cell5);
                     if (cell5 != null) {
                         excelEmployeeDto.setStatusCode(cell5.getStringCellValue());
                     }

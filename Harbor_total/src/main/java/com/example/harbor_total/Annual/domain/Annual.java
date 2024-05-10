@@ -54,6 +54,7 @@ public class Annual {
         this.firstSignId = firstSignId;
         this.secondSignId = secondSignId;
         this.thirdSignId = thirdSignId;
+        this.adjustment_delYn = "N";
     }
 
     public static Annual create(Double annualCount, AttendanceFlexibleWorkReqDto attendanceFlexibleWorkReqDto, Attendance attendance){

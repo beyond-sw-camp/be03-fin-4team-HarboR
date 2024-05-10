@@ -41,7 +41,7 @@ public class AnnualController {
      */
     @GetMapping("/read/receive")
     public ResponseEntity<CommonResponse> readReceiveEworksList(@RequestHeader("employeeId") String employeeId){
-        return new ResponseEntity<>(new CommonResponse("수신 리스트 출력 완료", annualService.getReceiveList(employeeId)), HttpStatus.OK);
+        return new ResponseEntity<>(new CommonResponse("수신 리스트 출력 완료", annualService.getReceiveList2(employeeId)), HttpStatus.OK);
     }
 
     /**
